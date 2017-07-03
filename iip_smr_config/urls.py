@@ -1,24 +1,35 @@
 # -*- coding: utf-8 -*-
 
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
+# from django.views.generic import RedirectView
+from iip_smr_web_app import views
 
 
 admin.autodiscover()
 
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'iip.views.home', name='home'),
-    # url(r'^iip/', include('iip.foo.urls')),
+urlpatterns = [
 
-    # url( r'^hello/', u'iip_search_app.views.hello', name=u'search_hello' ),
-    # url( r'^search/', u'iip_search_app.views.iip_results', name=u'search_iip_results' ),
+    url( r'^admin/', include(admin.site.urls) ),
 
-    url( r'^', include('iip_search_app.urls_app') ),
+    url( r'^login/$',  views.login, name=u'login_url' ),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url( r'^logout/$',  views.logout, name=u'logout_url' ),
 
-    # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
-)
+    url( r'^results/$',  views.results, name=u'results_url' ),
+
+    url( r'^search/$',  views.results, name=u'search_url' ),
+
+    url( r'^api/$', views.api_wrapper, name=u"api_wrapper"),
+
+    url( r'^viewinscr/(?P<inscrid>.*)/$', views.viewinscr, name='inscription_url'),
+
+    url( r'^view_xml/(?P<inscription_id>.*)/$', views.view_xml, name=u'xml_url' ),
+
+    url( r'^info/(?P<info_id>.*)/$', views.info, name=u'info_url' ),
+
+    url( r'^edit_info/$', views.edit_info, name=u'edit_info_url' ),
+
+    url( r'^$',  RedirectView.as_view(pattern_name='search_url') ),
+
+    ]
