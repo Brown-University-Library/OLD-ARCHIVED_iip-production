@@ -1,0 +1,212 @@
+tei-expan > tei-ex::before {
+    content: "(";
+}
+tei-expan > tei-ex::after {
+    content: ")";
+}
+
+tei-expan > tei-ex[cert='low']::after {
+    content: "?)";
+}
+
+.transcription tei-am {
+    display: none;
+}
+
+tei-add::before {
+    content: "<";
+}
+tei-add::after {
+    content: ">";
+}
+
+tei-add[place='above']::before {
+    content: "\\";
+}
+tei-add[place='above']::after {
+    content: "/";
+}
+
+tei-add[place='below']::before {
+    content: "//";
+}
+tei-add[place='below']::after {
+    content: "\\\\";
+}
+
+tei-add[place='above']::before {
+    content: "\\";
+}
+
+.transcription tei-choice > tei-sic {
+    display: none;
+}
+
+.diplomatic tei-choice > tei-corr {
+    display: none;
+}
+
+tei-damage {
+
+}
+/*〚
+LEFT WHITE SQUARE BRACKET
+Unicode: U+301A, UTF-8: E3 80 9A*/
+tei-del[rend='erasure']::before {
+    content: "\301a";
+}
+/*〛
+RIGHT WHITE SQUARE BRACKET
+Unicode: U+301B, UTF-8: E3 80 9B*/
+tei-del[rend='erasure']::after {
+    content: "\301b";
+}
+
+tei-del[rend='corrected'] {
+    text-decoration: line-through;
+}
+
+tei-gap::before {
+    content: "[.";
+}
+
+tei-gap[extent='unknown']::before {
+    content: "[.?";
+}
+
+tei-gap[unit='chars'][quantity]::before {
+    content: "[." attr(quantity);
+}
+
+tei-gap[unit='line'][quantity]::before {
+    content: "lost." attr(quantity) "lin"
+}
+
+tei-gap[unit='line'][extent='unknown']::before {
+    content: "lost.?lin"
+}
+
+tei-gap[unit='line'][precision='low']::before {
+    content: "[ca." attr(quantity);
+}
+
+tei-gap[unit='line'][quantity]::before {
+    content: "";
+}
+
+tei-gap::after {
+    content: "]";
+}
+
+tei-lb::before {
+    content: "\a";
+    white-space: pre;
+}
+tei-lb[break='no']::before {
+    content: "-\a";
+    white-space: pre;
+}
+
+tei-unclear {
+    text-decoration: underline;
+    /*text-decoration-style: dotted;*/
+}
+
+tei-hi[rend='superscript'] {
+    vertical-align: super;
+    font-size: smaller;
+}
+/*¯
+MACRON
+Unicode: U+00AF, UTF-8: C2 AF
+*/
+tei-hi[rend='supraline']::before, tei-hi[rend='supraline']::after {
+    content: "\00AF";
+}
+
+tei-hi[rend='subscript'] {
+    vertical-align: sub;
+    font-size: smaller;
+}
+
+tei-hi[rend='ligature'] {
+    /*TODO*/
+}
+
+tei-space::before {
+    content: "(vac.";
+}
+
+tei-space[quantity][unit='character']::after {
+    content: attr(quantity) ")";
+}
+
+tei-space[extent='unknown']::after {
+    content: "?)";
+}
+
+tei-note::before {
+    content: "/*";
+}
+
+tei-note::after {
+    content: "*/";
+}
+
+tei-supplied::before {
+    content: "[";
+}
+
+tei-supplied::after {
+    content: "]";
+}
+
+tei-supplied[cert='low']::after {
+    content: "?]";
+}
+
+tei-surplus::before {
+    content: "{";
+}
+
+tei-surplus::after {
+    content: "}";
+}
+
+.transcription tei-app > tei-lem {
+    display: none;
+}
+
+.diplomatic tei-app > tei-rdg {
+    display: none;
+}
+
+tei-gap[reason='ellipsis'] {
+    /*?*/
+}
+
+/* Hebrew */
+[lang='heb'] {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: right;
+}
+
+/* Aramaic */
+[lang='arc'] {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: right;
+}
+
+/* Latin */
+[lang='lat'] {
+    unicode-bidi: bidi-override;
+    direction: ltr;
+}
+
+/* Greek */
+[lang='grc'] {
+    unicode-bidi: bidi-override;
+    direction: ltr;
+}

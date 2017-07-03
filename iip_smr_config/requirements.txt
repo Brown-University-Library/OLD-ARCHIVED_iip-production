@@ -1,0 +1,10 @@
+django-markdown-deux==1.0.5
+Django==1.11.3
+envoy==0.0.2
+importlib==1.0.3
+mysolr==0.8
+requests==2.2.1
+shellvars-py==0.1.2
+solrpy==0.9.6
+django-crispy-forms==1.6.1
+django-pagedown==0.1.3

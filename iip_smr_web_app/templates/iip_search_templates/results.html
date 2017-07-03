@@ -1,0 +1,69 @@
+{% extends "iip_search_templates/base.html" %}
+{% load iipCustomFilters %}
+{% block queryCapture %}
+	{% autoescape off %}
+    <script type="text/javascript">
+        var qstring = '{{ qstring|escapejs }}';
+        var resultsPage = '{{ resultsPage|escapejs }}';
+    </script>
+    {% endautoescape %}
+{% endblock %}
+
+
+{% block content %}
+
+<div id="paginated_results">
+<div id="leftblock">
+{% autoescape off %}
+    <span class="search_results_header">Your search for {{dispQstring}} yielded {{pages.count}} results</span>
+    <div id="page_list">
+    {% for pg in pages.page_range %}
+        <a href='./?q={{ initial_qstring|urlencode }}&resultsPage={{pg}}' {%ifequal pg resultsPage%}style="font-size: 1.3em"{%endifequal%}>{{pg}}</a>&nbsp;
+    {% endfor %}
+    </div>
+
+<table id="search_results">
+<tr>
+    <th class="resultTitle">Inscription</th>
+    <th class="resultTitle">Transcription</th>
+    <th class="resultTitle">Translation</th>
+</tr>
+
+{% for inscription in iipResult.object_list %}
+	<tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %} short_result" id="{{inscription.inscription_id}}">
+		<td class="resultTitle descColumn">
+            <span class="short_header">
+                <a href="../viewinscr/{{inscription.inscription_id}}" target="_blank">{{inscription.inscription_id|upper}}</a> - {{inscription.short_description}}
+            </span>
+            <br/><a class="xml_url" href="{% url xml_url inscription.inscription_id %}">[xml]</a>
+        </td>
+        <td class="textColumn transcription"></td>
+        <td class="textColumn translation"></td>
+	</tr>
+{% endfor %}
+</table>
+</div>
+{% endautoescape %}
+
+{% block facets %}
+
+<div id="narrow_results">
+    <h4><a href="{% url search_url %}">New search</a></h4>
+	<h4>Narrow results</h4><span style="font-size: 0.9em"><a href="showHideAll" class="showHideFacets">show/hide</a></span>
+		<ul class="narrow_results_list">
+            {% for field,items in facets.items %}
+           <li class="facetHeaderText facetMenuClosed">{{field|underscoreToSpace|upper}}</li>
+           <ul>
+                {% for f,v in items.items|vocabSort %}
+                 {% if f and v %}
+                    <li><a class="facetLink" href="{{field}}" id="{{f}}">{{f|tax}}</a>&nbsp;({{v}})</li>
+                 {% endif %}
+                {%endfor%}
+            </ul>
+            {%endfor%}
+		</ul>
+</div>
+{% endblock %}
+</div>
+<div style="clear: both"></div>
+{% endblock %}
