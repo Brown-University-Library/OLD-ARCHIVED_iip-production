@@ -4,7 +4,7 @@ import json, logging, re
 import requests, solr
 import xml.etree.ElementTree as ET
 from django import forms
-from iip_smr_config import common, settings_app
+from iip_search_app import common, settings_app
 
 
 log = logging.getLogger(__name__)

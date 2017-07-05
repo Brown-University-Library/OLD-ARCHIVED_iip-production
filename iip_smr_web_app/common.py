@@ -4,7 +4,7 @@ import logging, pprint, random, re
 import mysolr, requests, solr
 from StringIO import StringIO
 from django.core.urlresolvers import reverse
-from iip_smr_config import settings_app
+from iip_search_app import settings_app
 
 log = logging.getLogger(__name__)
 
