@@ -11,7 +11,7 @@ SECRET_KEY = os.environ['IIP_SMR__SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = json.loads( os.environ['IIP_SMR__DEBUG_JSON'] )  # will be True or False
 
-TEMPLATE_DEBUG = DEBUG
+# TEMPLATE_DEBUG = DEBUG
 
 ADMINS = json.loads( os.environ['IIP_SMR__ADMINS_JSON'] )
 
@@ -114,42 +114,6 @@ LOGGING = {
 }
 
 
-
-
-
-
-
-SITE_ID = 1
-
-
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
-# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
-
-
-
-
-
-
-
-
-
-
-current_directory = os.path.dirname(os.path.abspath(__file__))
-site_templates = u'%s/../templates' % current_directory
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    os.path.abspath( site_templates ),
-)
-
-
 MARKDOWN_DEUX_STYLES = {
     "default": {
         "extras": {
@@ -159,4 +123,3 @@ MARKDOWN_DEUX_STYLES = {
         "safe_mode": False,
     },
 }
-
