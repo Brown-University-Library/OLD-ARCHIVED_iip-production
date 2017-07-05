@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging, pprint, random, re
-import mysolr, requests, solr
+import pysolr, requests
 from StringIO import StringIO
 from django.core.urlresolvers import reverse
 from iip_smr_web_app import settings_app
