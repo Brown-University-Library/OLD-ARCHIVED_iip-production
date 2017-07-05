@@ -1,7 +1,8 @@
 """ downloaded from djangosnippets.com[942] """
 
 from django.template.loader_tags import BlockNode, ExtendsNode
-from django.template import loader, Context, RequestContext, TextNode
+# from django.template import loader, Context, RequestContext, TextNode
+from django.template import loader, Context, RequestContext
 
 def get_template(template):
     if isinstance(template, (tuple, list)):
