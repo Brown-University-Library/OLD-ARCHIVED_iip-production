@@ -9,10 +9,10 @@ from django.contrib.auth import logout as django_logout
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, render_to_response
-from iip_search_app import common, models, settings_app
-from iip_search_app import forms
-from iip_search_app.libs.view_xml_helper import XmlPrepper
-from iip_search_app.libs import ajax_snippet
+from iip_smr_web_app import common, models, settings_app
+from iip_smr_web_app import forms
+from iip_smr_web_app.libs.view_xml_helper import XmlPrepper
+from iip_smr_web_app.libs import ajax_snippet
 
 
 log = logging.getLogger(__name__)

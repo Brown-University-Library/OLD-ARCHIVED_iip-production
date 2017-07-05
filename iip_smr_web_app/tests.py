@@ -2,7 +2,7 @@
 
 import json, logging, pprint
 import requests, solr
-from iip_search_app import common, models, settings_app
+from iip_smr_web_app import common, models, settings_app
 from django.test import TestCase
 # from models import Processor, ProcessorUtils
 # from models import ProcessorUtils

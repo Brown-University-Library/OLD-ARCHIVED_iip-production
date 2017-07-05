@@ -1,7 +1,7 @@
 from django import template
 from django.template.defaultfilters import stringfilter
 import re
-from iip_search_app import forms
+from iip_smr_web_app import forms
 import requests
 import xml.etree.ElementTree as ET
 
