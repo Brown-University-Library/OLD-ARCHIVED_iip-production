@@ -2,7 +2,7 @@
 
 import logging, pprint, random, re
 import pysolr, requests
-from StringIO import StringIO
+# from StringIO import StringIO
 from django.core.urlresolvers import reverse
 from iip_smr_web_app import settings_app
 
