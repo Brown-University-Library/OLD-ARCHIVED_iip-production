@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json, logging, re
-import requests, solr
+import pysolr, requests
 import xml.etree.ElementTree as ET
 from django import forms
 from iip_smr_web_app import common, settings_app
