@@ -18,13 +18,13 @@ ADMINS = json.loads( os.environ['IIP_SMR__ADMINS_JSON'] )
 ALLOWED_HOSTS = json.loads( os.environ.get(u'IIP_SMR__ALLOWED_HOSTS', '["127.0.0.1"]') )  # list
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
     'django.contrib.messages',
+    # 'django.contrib.sites',
     'django.contrib.staticfiles',
-    'django.contrib.admin',
     'crispy_forms',
     'markdown_deux',
     'pagedown',
@@ -84,35 +84,34 @@ LOGGING = {
     'disable_existing_loggers': True,
     'formatters': {
         'standard': {
-            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            'datefmt' : "%d/%b/%Y %H:%M:%S"
+            'format': "[%(asctime)s] %(levelname)s [%(module)s-%(funcName)s()::%(lineno)d] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
         },
     },
     'handlers': {
         'logfile': {
-            'level': os.environ['IIP_SMR__LOG_LEVEL'],
-            # 'class':'logging.handlers.RotatingFileHandler',
+            'level':'DEBUG',
             'class':'logging.FileHandler',  # note: configure server to use system's log-rotate to avoid permissions issues
             'filename': os.environ['IIP_SMR__LOG_PATH'],
-            # 'maxBytes': 1024 * 1024 * 2,
-            # 'backupCount': 1,
             'formatter': 'standard',
         },
-        'console':{
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
-            'formatter': 'standard'
-        },
+        # 'console':{
+        #     'level':'DEBUG',
+        #     'class':'logging.StreamHandler',
+        #     'formatter': 'standard'
+        # },
     },
     'loggers': {
-        'iip_search_app': {
-            # 'handlers': ['console', 'logfile'],
+        'iip_smr_web_app': {
             'handlers': ['logfile'],
             'level': 'DEBUG',
+            'propogate': True
         },
     }
 }
 
+
+## for installed-app `markdown_deux` ##
 
 MARKDOWN_DEUX_STYLES = {
     "default": {
