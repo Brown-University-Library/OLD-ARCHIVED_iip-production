@@ -94,10 +94,7 @@ def results( request ):
             }
         log.debug( u'in views._get_searchform_context(); context, %s' % context )
         return context
-    print( 'testingABC' )
     log.debug( 'starting def code' )
-    print( 'testingDEF' )
-    1/0
     log_id = common.get_log_identifier( request.session )
     log.info( u'in iip_results_z(); id, %s; starting' % log_id )
     if not u'authz_info' in request.session:

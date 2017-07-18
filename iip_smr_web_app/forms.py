@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import json, logging, re
+import json, logging, pprint, re
 # import solr, requests
 import requests
 import xml.etree.ElementTree as ET
@@ -60,18 +60,27 @@ class SearchForm( forms.Form ):
         self.vocab = ET.fromstring(self.vocab_request.content)
         self.taxonomies = self.vocab.findall('{http://www.tei-c.org/ns/1.0}taxonomy')
         #
-        self.type_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-genre'][0]
-        self.types_dict = dict([(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.type_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
+        log.debug( 'type(self.taxonomies), `%s`' % type(self.taxonomies) )
+        log.debug( 'self.taxonomies, ```%s```' % pprint.pformat(self.taxonomies) )
+        log.debug( 'self.taxonomies[0].attrib.values(), ```%s```' % self.taxonomies[0].attrib.values() )
+        # self.type_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-genre'][0]
+        self.type_tax = [tax for tax in self.taxonomies if list( tax.attrib.values() )[0] == 'IIP-genre'][0]
+        # self.types_dict = dict([(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.type_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
+        self.types_dict = dict([( list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text ) for element in self.type_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
         self.choice_types = make_vocab_list( self.types_dict, sorted( common.facetResults('type').keys()) )
         self.fields['type'] = forms.MultipleChoiceField(required=False, choices=self.choice_types, widget=forms.SelectMultiple(attrs={'size':'7'}))
         #
-        self.phys_types_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-form'][0]
-        self.physical_types_dict = dict([(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.phys_types_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
+        # self.phys_types_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-form'][0]
+        self.phys_types_tax = [tax for tax in self.taxonomies if list( tax.attrib.values() )[0] == 'IIP-form'][0]
+        # self.physical_types_dict = dict([(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.phys_types_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
+        self.physical_types_dict = dict([( list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text ) for element in self.phys_types_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
         self.physical_types = make_vocab_list(self.physical_types_dict, sorted( common.facetResults('physical_type').keys()))
         self.fields['physical_type'] = forms.MultipleChoiceField(required=False, choices=self.physical_types, widget=forms.SelectMultiple(attrs={'size':'7'}))
         #
-        self.religions_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-religion'][0]
-        self.religions = [(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.religions_tax.findall('{http://www.tei-c.org/ns/1.0}category')]
+        # self.religions_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-religion'][0]
+        self.religions_tax = [tax for tax in self.taxonomies if list( tax.attrib.values() )[0] == 'IIP-religion'][0]
+        # self.religions = [(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.religions_tax.findall('{http://www.tei-c.org/ns/1.0}category')]
+        self.religions = [( list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text ) for element in self.religions_tax.findall('{http://www.tei-c.org/ns/1.0}category')]
         self.fields['religion'] = forms.MultipleChoiceField(required=False, choices=self.religions, widget=forms.CheckboxSelectMultiple)
         #
         self.languages_dict = {
