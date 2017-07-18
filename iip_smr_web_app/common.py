@@ -145,6 +145,7 @@ def updateQstring( initial_qstring, session_authz_dict, log_id ):
         qstring = u'display_status:(approved) AND ' + initial_qstring if initial_qstring != '' else u'display_status:(approved)'
     else:
         qstring = initial_qstring
+    log.debug( 'qstring, ```%s```' % qstring )
     return { 'modified_qstring': qstring }
 
 ## eof
