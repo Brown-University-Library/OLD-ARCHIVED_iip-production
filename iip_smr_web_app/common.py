@@ -14,7 +14,6 @@ NUM_ROWS = 40
 
 def facetResults( facet ):
     """ Returns dict of { facet_value_a: count_of_facet_value_a_entries }. """
-    log.debug( 'testing123' )
     try:
         # s = solr.SolrConnection( settings_app.SOLR_URL )
         s = solr.Solr( settings_app.SOLR_URL )
