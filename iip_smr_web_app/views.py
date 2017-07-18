@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import datetime, json, logging, os, pprint, re
-import pysolr, requests
+import solr, requests
 from .models import StaticPage
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as django_login

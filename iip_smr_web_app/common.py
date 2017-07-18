@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging, pprint, random, re
-import pysolr, requests
+import solr, requests
 # from StringIO import StringIO
 from django.core.urlresolvers import reverse
 from iip_smr_web_app import settings_app
@@ -17,7 +17,7 @@ def facetResults( facet ):
     log.debug( 'testing123' )
     try:
         # s = solr.SolrConnection( settings_app.SOLR_URL )
-        s = pysolr.Solr( settings_app.SOLR_URL )
+        s = solr.Solr( settings_app.SOLR_URL )
         q = s.select( u'*:*', **{u'facet':u'true',u'facet.field':facet,u'rows':u'0',u'facet.limit':u'-1', u'facet.mincount':u'1'} )
         facet_count_dict =q.facet_counts[u'facet_fields'][facet]
         return facet_count_dict
