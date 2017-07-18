@@ -6,24 +6,30 @@ import pysolr, requests
 from django.core.urlresolvers import reverse
 from iip_smr_web_app import settings_app
 
+
 log = logging.getLogger(__name__)
+
 
 NUM_ROWS = 40
 
 def facetResults( facet ):
     """ Returns dict of { facet_value_a: count_of_facet_value_a_entries }. """
+    log.debug( 'testing123' )
     try:
-        s = solr.SolrConnection( settings_app.SOLR_URL )
+        # s = solr.SolrConnection( settings_app.SOLR_URL )
+        s = pysolr.Solr( settings_app.SOLR_URL )
         q = s.select( u'*:*', **{u'facet':u'true',u'facet.field':facet,u'rows':u'0',u'facet.limit':u'-1', u'facet.mincount':u'1'} )
         facet_count_dict =q.facet_counts[u'facet_fields'][facet]
         return facet_count_dict
     except Exception as e:
-        log.error( u'in common.facetResults(); exception, %s' % unicode(repr(e)) )
+        log.error( 'test' )
+        # raise Exception( str(e) )
+        log.error( 'in common.facetResults(); exception, %s' % str(e) )
 
 def get_log_identifier( request_session=None ):
     """ Returns a log_identifier unicode_string.
         Sets it in the request session if necessary. """
-    log_id = unicode( random.randint(1000,9999) )
+    log_id = str( random.randint(1000,9999) )
     if request_session == None:  # cron script writing to log
         pass
     else:

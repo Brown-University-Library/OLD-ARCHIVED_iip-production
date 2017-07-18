@@ -9,6 +9,7 @@ from iip_smr_web_app import common, settings_app
 
 log = logging.getLogger(__name__)
 
+
 def doDateEra(self,f,v):
     if f == u'notAfter' and v:
         if self.cleaned_data['beforeDateEra'] == 'bce':

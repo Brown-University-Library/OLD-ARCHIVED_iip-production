@@ -30,6 +30,10 @@ urlpatterns = [
 
     url( r'^edit_info/$', views.edit_info, name=u'edit_info_url' ),
 
+
+    url( r'^temp/$', views.temp, name=u'temp_url' ),
+
+
     url( r'^$',  RedirectView.as_view(pattern_name='search_url') ),
 
     ]

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import json, logging, os, pprint, re
+import datetime, json, logging, os, pprint, re
 import pysolr, requests
 from .models import StaticPage
 from django.contrib.auth import authenticate
@@ -17,6 +17,12 @@ from iip_smr_web_app.libs import ajax_snippet
 
 log = logging.getLogger(__name__)
 
+
+def temp( request ):
+    message = 'hi %s' % str( datetime.datetime.now() )
+    return HttpResponse( message )
+
+
 ## search and results ##
 
 def results( request ):
@@ -24,6 +30,8 @@ def results( request ):
     def _get_results_context( request, log_id ):
         """ Returns correct context for POST.
             Called by iip_results() """
+        print( 'hereA' )
+        1/0
         log.debug( '_get_results_context() starting' )
         request.encoding = u'utf-8'
 
@@ -83,6 +91,10 @@ def results( request ):
             }
         log.debug( u'in views._get_searchform_context(); context, %s' % context )
         return context
+    print( 'testingABC' )
+    log.debug( 'starting def code' )
+    print( 'testingDEF' )
+    1/0
     log_id = common.get_log_identifier( request.session )
     log.info( u'in iip_results_z(); id, %s; starting' % log_id )
     if not u'authz_info' in request.session:
