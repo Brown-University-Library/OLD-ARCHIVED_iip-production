@@ -33,9 +33,7 @@ def results( request ):
     def _get_results_context( request, log_id ):
         """ Returns correct context for POST.
             Called by iip_results() """
-        print( 'hereA' )
-        1/0
-        log.debug( '_get_results_context() starting' )
+        log.debug( 'starting' )
         request.encoding = u'utf-8'
 
         form = forms.SearchForm( request.POST )  # form bound to the POST data
@@ -65,7 +63,7 @@ def results( request ):
         """ Returns unicode string based on ajax update.
             Called by iip_results() """
         log_id = common.get_log_identifier(request.session)
-        log.info( u'in views._get_ajax_unistring(); id, %s; starting' % log_id )
+        log.info( 'id, `%s`; starting' % log_id )
         initial_qstring = request.GET.get( u'qstring', u'*:*' )
         updated_qstring = common.updateQstring( initial_qstring, request.session[u'authz_info'], log_id )[u'modified_qstring']
         resultsPage = int( request.GET[u'resultsPage'] )
@@ -92,11 +90,10 @@ def results( request ):
             u'settings_app': settings_app,
             u'admin_links': common.make_admin_links( session_authz_dict=request.session[u'authz_info'], url_host=request.get_host(), log_id=log_id )
             }
-        log.debug( u'in views._get_searchform_context(); context, %s' % context )
+        log.debug( 'context, ```%s```' % pprint.pformat(context) )
         return context
-    log.debug( 'starting def code' )
     log_id = common.get_log_identifier( request.session )
-    log.info( u'in iip_results_z(); id, %s; starting' % log_id )
+    log.info( 'id, `%s`; starting' % log_id )
     if not u'authz_info' in request.session:
         request.session[u'authz_info'] = { u'authorized': False }
         log.debug( 'POST, search-form was submitted by user' )
