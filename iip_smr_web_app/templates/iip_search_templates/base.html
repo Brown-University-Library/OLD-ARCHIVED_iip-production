@@ -48,20 +48,20 @@
     <div id="top">
         <img src="{% static "images/header_darker.jpg" %}" alt="Inscriptions of Israel Palestine"  width="724" height="220" usemap="#Map" />
         <map name="Map" id="Map">
-            <area shape="rect" coords="189,21,586,99" href="/cds/projects/iip/info/welcome/" alt="Inscriptions of Israel Palestine" />
+            <area shape="rect" coords="189,21,586,99" href="{% url 'info_url' 'welcome' %}" alt="Inscriptions of Israel Palestine" />
         </map>
     </div>
 
     <div id="leftcol">
     	<div id="leftcol_links">
-            <p><a href="/cds/projects/iip/info/about/" class="leftcol_link">About</a></p>
-            <p><a href="/cds/projects/iip/info/research-and-teaching/" class="leftcol_link">Research<br />&amp; Teaching</a></p>
-            <p><a href="/cds/projects/iip/info/related-sites/" class="leftcol_link">Related Sites</a></p>
-            <p><a href="/cds/projects/iip/info/bibliography/" class="leftcol_link">Bibliography</a></p>
+            <p><a href="{% url 'info_url' 'about' %}" class="leftcol_link">About</a></p>
+            <p><a href="{% url 'info_url' 'research-and-teaching' %}" class="leftcol_link">Research<br />&amp; Teaching</a></p>
+            <p><a href="{% url 'info_url' 'related-sites' %}" class="leftcol_link">Related Sites</a></p>
+            <p><a href="{% url 'info_url' 'bibliography' %}" class="leftcol_link">Bibliography</a></p>
     		<p>&nbsp;</p>
             <p><a href="{% url 'search_url' %}" class="leftcol_search">Search<br />Inscriptions</a></p>
             <div id="logos">
-        		<a href="http://library.brown.edu/cds">
+        		<a href="{% url 'search_url' %}">
                     <img src="{% static "images/cds_logo.gif" %}" alt="CDS" />
                 </a>
                 &nbsp;&nbsp;
