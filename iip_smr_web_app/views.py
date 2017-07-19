@@ -32,8 +32,9 @@ def results( request ):
     """ Handles /results/ GET, POST, and ajax-GET. """
     def _get_results_context( request, log_id ):
         """ Returns correct context for POST.
-            Called by iip_results() """
+            Called by results() """
         log.debug( 'starting' )
+        context = {}
         request.encoding = u'utf-8'
 
         form = forms.SearchForm( request.POST )  # form bound to the POST data
@@ -58,11 +59,13 @@ def results( request ):
             context[u'session_authz_info'] = request.session[u'authz_info']
             context[u'admin_links'] = common.make_admin_links( session_authz_dict=request.session[u'authz_info'], url_host=request.get_host(), log_id=log_id )
             context[u'initial_qstring'] = initial_qstring
-            return context
+        log.debug( 'context.keys(), ```%s```' % pprint.pformat(sorted(context.keys())) )
+        log.debug( 'type(context), `%s`' % type(context) )
+        return context
 
     def _get_ajax_unistring( request ):
         """ Returns unicode string based on ajax update.
-            Called by iip_results() """
+            Called by results() """
         log_id = common.get_log_identifier(request.session)
         log.info( 'id, `%s`; starting' % log_id )
         initial_qstring = request.GET.get( u'qstring', u'*:*' )
@@ -75,7 +78,7 @@ def results( request ):
 
     def _get_searchform_context( request, log_id ):
         """ Returns correct context for GET.
-            Called by iip_results() """
+            Called by results() """
         log.debug( '_get_searchform_context() starting' )
         if not u'authz_info' in request.session:
             request.session[u'authz_info'] = { u'authorized': False }
@@ -97,24 +100,28 @@ def results( request ):
     log.info( 'id, `%s`; starting' % log_id )
     if not u'authz_info' in request.session:
         request.session[u'authz_info'] = { u'authorized': False }
-        log.debug( 'POST, search-form was submitted by user' )
     if request.method == u'POST': # form has been submitted by user
+        log.debug( 'POST, search-form was submitted by user' )
         request.encoding = u'utf-8'
         form = forms.SearchForm(request.POST)
         if not form.is_valid():
-            return HttpResponseRedirect( u'%s://%s%s?q=*:*' % (request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'results_url')) )
+            log.debug( 'form not valid, redirecting')
+            redirect_url = '%s://%s%s?q=*:*' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'results_url') )
+            log.debug( 'redirect_url for non-valid form, ```%s```' % redirect_url )
+            return HttpResponseRedirect( redirect_url )
         qstring = form.generateSolrQuery()
         # e.g. http://library.brown.edu/cds/projects/iip/results?q=*:*
-        redirect_url = u'%s://%s%s?q=%s' % (request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'results_url'), qstring)
-
+        redirect_url = '%s://%s%s?q=%s' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'results_url'), qstring )
+        log.debug( 'redirect_url for valid form, ```%s```' % redirect_url )
         return HttpResponseRedirect( redirect_url )
     if request.method == u'GET' and request.GET.get(u'q', None) != None:
-        log.debug( 'GET, show search-form' )
+        log.debug( 'GET, with params, hit solr and show results' )
         return render( request, u'iip_search_templates/results.html', _get_results_context(request, log_id) )
     elif request.is_ajax():  # user has requested another page, a facet, etc.
         log.debug( 'request.is_axax() is True' )
         return HttpResponse( _get_ajax_unistring(request) )
     else:  # regular GET, no params
+        log.debug( 'GET, no params, show search form' )
         return render( request, u'iip_search_templates/search_form.html', _get_searchform_context(request, log_id) )
 
 
