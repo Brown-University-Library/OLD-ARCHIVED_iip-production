@@ -86,7 +86,7 @@ def paginateRequest( qstring, resultsPage, log_id):
         dispQstring = queryCleanup(qstring.encode('utf-8'))
         return {'pages': p, 'iipResult': pg, 'qstring':qstring, 'resultsPage': resultsPage, 'facets':f, 'dispQstring': dispQstring}
     except Exception as e:
-        log.error( u'in common.paginateRequest(); id, %s; exception, %s' % (log_id, unicode(repr(e))) )
+        log.error( 'id, %s; exception, %s' % (log_id, repr(e)) )
         return False
 
 def _run_paginator_main_query( qstring, log_id ):
