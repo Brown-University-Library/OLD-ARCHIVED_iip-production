@@ -61,6 +61,19 @@ def results( request ):
             context[u'initial_qstring'] = initial_qstring
         log.debug( 'context.keys(), ```%s```' % pprint.pformat(sorted(context.keys())) )
         log.debug( 'type(context), `%s`' % type(context) )
+
+
+
+        # results = context['iipResult']
+        # log.debug( 'type(results), `%s`' % type(results) )
+        # for (i, result) in enumerate(results.object_list):
+        #     log.debug( 'type(result), `%s`' % type(result) )
+        #     log.debug( 'result, `%s`' % result )
+        #     if i > 0:
+        #         break
+        #     1/0
+
+
         return context
 
     def _get_ajax_unistring( request ):
