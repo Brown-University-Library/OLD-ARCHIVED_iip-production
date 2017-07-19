@@ -17,7 +17,8 @@
     <script src="{% static "highslide/highslide-with-gallery.packed.js" %}" type="text/javascript" ></script>
 
     <script type="text/javascript">
-      hs.graphicsDir = "{{ STATIC_URL }}/highslide/graphics/"
+      // hs.graphicsDir = "{{ STATIC_URL }}/highslide/graphics/"
+      hs.graphicsDir = "{% static "highslide/graphics/" %}"
     </script>
 
     <script>
@@ -45,48 +46,50 @@
 
 <body>
 
-<div id="top">
-    <img src="{{ STATIC_URL }}iip_search_app/images/header_darker.jpg" alt="Inscriptions of Israel Palestine"  width="724" height="220" usemap="#Map" />
-    <map name="Map" id="Map">
-        <area shape="rect" coords="189,21,586,99" href="/cds/projects/iip/info/welcome/" alt="Inscriptions of Israel Palestine" />
-    </map>
-</div>
-
-
-<div id="leftcol">
-	<div id="leftcol_links">
-        <p><a href="/cds/projects/iip/info/about/" class="leftcol_link">About</a></p>
-        <p><a href="/cds/projects/iip/info/research-and-teaching/" class="leftcol_link">Research<br />&amp; Teaching</a></p>
-        <p><a href="/cds/projects/iip/info/related-sites/" class="leftcol_link">Related Sites</a></p>
-        <p><a href="/cds/projects/iip/info/bibliography/" class="leftcol_link">Bibliography</a></p>
-		<p>&nbsp;</p>
-    <p><a href="{% url 'search_url' %}" class="leftcol_search">Search<br />Inscriptions</a> </p>
-    <div id="logos">
-			<a href="http://library.brown.edu/cds">
-        <img src="{{ STATIC_URL }}iip_search_app/images/cds_logo.gif" alt="CDS" />
-      </a>
-      &nbsp;&nbsp;
-      <a href="http://www.brown.edu/"><img src="{{ STATIC_URL }}iip_search_app/images/brown.gif" alt="Brown University" /></a>
-		</div>
-    <div id="admin">
-      {% if session_authz_info.authorized %}
-        <p>Welcome {{ session_authz_info.firstname }}</p>
-      {% endif %}
-      {% for admin_link in admin_links %}
-      <a id="admin_link" href="{{ admin_link.url }}">{{ admin_link.text }}</a>
-      {% if not forloop.last %}<br/><br/>{% endif %}
-      {% endfor %}
+    <div id="top">
+        <img src="{% static "images/header_darker.jpg" %}" alt="Inscriptions of Israel Palestine"  width="724" height="220" usemap="#Map" />
+        <map name="Map" id="Map">
+            <area shape="rect" coords="189,21,586,99" href="/cds/projects/iip/info/welcome/" alt="Inscriptions of Israel Palestine" />
+        </map>
     </div>
-	</div>
-</div>
 
-<div id="content">
+    <div id="leftcol">
+    	<div id="leftcol_links">
+            <p><a href="/cds/projects/iip/info/about/" class="leftcol_link">About</a></p>
+            <p><a href="/cds/projects/iip/info/research-and-teaching/" class="leftcol_link">Research<br />&amp; Teaching</a></p>
+            <p><a href="/cds/projects/iip/info/related-sites/" class="leftcol_link">Related Sites</a></p>
+            <p><a href="/cds/projects/iip/info/bibliography/" class="leftcol_link">Bibliography</a></p>
+    		<p>&nbsp;</p>
+            <p><a href="{% url 'search_url' %}" class="leftcol_search">Search<br />Inscriptions</a></p>
+            <div id="logos">
+        		<a href="http://library.brown.edu/cds">
+                    <img src="{% static "images/cds_logo.gif" %}" alt="CDS" />
+                </a>
+                &nbsp;&nbsp;
+                <a href="http://www.brown.edu/">
+                    <img src="{% static "images/brown.gif" %}" alt="Brown University" />
+                </a>
+        	</div>
+            <div id="admin">
+              {% if session_authz_info.authorized %}
+                <p>Welcome {{ session_authz_info.firstname }}</p>
+              {% endif %}
+              {% for admin_link in admin_links %}
+                <a href="{{ admin_link.url }}" id="admin_link">{{ admin_link.text }}</a>
+                {% if not forloop.last %}<br/><br/>{% endif %}
+              {% endfor %}
+            </div>
+    	</div>
+    </div>
+
+    <div id="content">
         {%block viewinscr %}{%endblock%}
-				{%block SearchForm%}{%endblock%}
-				{%block content%}{%endblock%}
-</div>
+		{%block SearchForm%}{%endblock%}
+		{%block content%}{%endblock%}
+    </div>
 
     <script src="{% static "js/result_display.js" %}" type="text/javascript"></script>
 
 </body>
+
 </html>
