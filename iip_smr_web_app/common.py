@@ -59,16 +59,24 @@ def make_admin_links( session_authz_dict, url_host, log_id ):
     return admin_links
 
 
-
 def queryCleanup(qstring):
-    qstring = qstring.replace('(', '')
-    qstring = qstring.replace(')', '')
-    qstring = qstring.replace('"', '')
-    qstring = qstring.replace('_', ' ')
-    qstring = re.sub(r'notBefore\:\[(-?\d*) TO 10000\]', r'dates after \1', qstring)
-    qstring = re.sub(r'notAfter\:\[-10000 TO (-?\d*)]', r'dates before \1', qstring)
-    qstring = re.sub(r' -(\d+)', r' \1 BCE', qstring)
-    qstring = re.sub(r' (\d+)\b(?!\sBCE)', r' \1 CE', qstring)
+    """ Cleans up querystring.
+        Called by paginateRequest() """
+    try:
+        log.debug( 'initial qstring, ```%s```' % qstring )
+        qstring = qstring.replace('(', '')
+        qstring = qstring.replace(')', '')
+        qstring = qstring.replace('"', '')
+        qstring = qstring.replace('_', ' ')
+        qstring = re.sub(r'notBefore\:\[(-?\d*) TO 10000\]', r'dates after \1', qstring)
+        qstring = re.sub(r'notAfter\:\[-10000 TO (-?\d*)]', r'dates before \1', qstring)
+        qstring = re.sub(r' -(\d+)', r' \1 BCE', qstring)
+        qstring = re.sub(r' (\d+)\b(?!\sBCE)', r' \1 CE', qstring)
+        log.debug( 'qstring to return, ```%s```' % qstring )
+    except Exception as e:
+        message = 'exception cleaning querystring, ```%s```' % repr(e)
+        log.error( message )
+        raise Exception( message )
     return qstring
 
 
@@ -77,13 +85,13 @@ def queryCleanup(qstring):
 def paginateRequest( qstring, resultsPage, log_id):
     """ Executes solr query on qstring and returns solr.py paginator object, and paginator.page object for given page, and facet-count dict.
         Called by: (views.iip_results()) views._get_POST_context() and views._get_ajax_unistring(). """
-    log.debug( u'in common.paginateRequest(); qstring, %s; resultsPage, %s' % (qstring, resultsPage) )
+    log.debug( 'qstring, `%s`; resultsPage, `%s`' % (qstring, resultsPage) )
     ( s, q ) = _run_paginator_main_query( qstring, log_id )             # gets solr object and query object
     fq = _run_paginator_facet_query( s, qstring, log_id )               # gets facet-query object
     ( p, pg ) = _run_paginator_page_query( q, resultsPage, log_id )     # gets paginator object and paginator-page object
     f = _run_paginator_facet_counts( fq )                               # gets facet-counts dict
     try:
-        dispQstring = queryCleanup(qstring.encode('utf-8'))
+        dispQstring = queryCleanup( qstring )
         return {'pages': p, 'iipResult': pg, 'qstring':qstring, 'resultsPage': resultsPage, 'facets':f, 'dispQstring': dispQstring}
     except Exception as e:
         log.error( 'id, %s; exception, %s' % (log_id, repr(e)) )
@@ -96,10 +104,10 @@ def _run_paginator_main_query( qstring, log_id ):
     args = {'rows':NUM_ROWS, 'sort':'inscription_id asc'}
     try:
         q = s.query((qstring.encode('utf-8')),**args)
-        log.debug( u'in common._run_paginator_main_query(); id, %s; q created via try' % log_id )
+        log.debug( 'id, %s; q created via try' % log_id )
     except Exception as e1:
         q = s.query('*:*', **args)
-        log.debug( u'in common._run_paginator_main_query(); id, %s; exception, %s; q created via except' % (log_id, unicode(repr(e1))) )
+        log.debug( 'id, %s; exception, %s; q created via except' % (log_id, unicode(repr(e1))) )
     return ( s, q )
 
 def _run_paginator_facet_query( s, qstring, log_id ):
@@ -110,7 +118,7 @@ def _run_paginator_facet_query( s, qstring, log_id ):
         fq = s.query((qstring.encode('utf-8')),facet='true', facet_field=['region','city','type','physical_type','language','religion'],**args)
     except:
         fq = s.query('*:*',facet='true', facet_field=['region','city','type','physical_type','language','religion'],**args)
-    log.debug( u'in common._run_paginator_facet_query(); id, %s; fq is, `%s`; fq.__dict__ is, `%s`' % (log_id, fq, fq.__dict__) )
+    # log.debug( 'id, `%s`; fq is, `%s`; fq.__dict__ is, ```%s```' % (log_id, fq, pprint.pformat(fq.__dict__)) )
     return fq
 
 def _run_paginator_page_query( q, resultsPage, log_id ):
@@ -122,6 +130,7 @@ def _run_paginator_page_query( q, resultsPage, log_id ):
     except Exception as e:
         pg = ''
     ## log.debug( u'in common._run_paginator_page_query(); id, %s; pg is, `%s`; pg.__dict__ is, `%s`' % (log_id, pg, pg.__dict__) )
+    log.debug( 'returning p (SolrPaginator instance), and p.page' )
     return ( p, pg )
 
 def _run_paginator_facet_counts( fq ):
@@ -131,6 +140,7 @@ def _run_paginator_facet_counts( fq ):
         f = fq.facet_counts['facet_fields']
     except:
         f    = ''
+    log.debug( 'returning f(fq.facet_counts[\'facet_fields\'])' )
     return f
 
 def updateQstring( initial_qstring, session_authz_dict, log_id ):

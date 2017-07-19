@@ -54,6 +54,7 @@ def results( request ):
             updated_qstring = common.updateQstring(
                 initial_qstring=initial_qstring, session_authz_dict=request.session['authz_info'], log_id=common.get_log_identifier(request.session) )['modified_qstring']
             context = common.paginateRequest( qstring=updated_qstring, resultsPage=resultsPage, log_id=common.get_log_identifier(request.session) )
+            log.debug( 'context, ```%s```' % pprint.pformat(context) )
             context[u'session_authz_info'] = request.session[u'authz_info']
             context[u'admin_links'] = common.make_admin_links( session_authz_dict=request.session[u'authz_info'], url_host=request.get_host(), log_id=log_id )
             context[u'initial_qstring'] = initial_qstring
