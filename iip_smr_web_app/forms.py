@@ -129,7 +129,7 @@ class SearchForm( forms.Form ):
                     vListFirst = True
                     vlist = ''
                     for c in v:
-                        if re.search('\s', unicode(c)):
+                        if re.search( '\s', str(c) ):
                             c = u"\"%s\"" % c
                         if vListFirst:
                             vListFirst = False
