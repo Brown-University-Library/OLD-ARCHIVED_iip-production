@@ -21,6 +21,8 @@ DB_USER_PASSWORD = os.environ['IIP_SMR__DB_USER_PASSWORD']
 
 XML_DIR_PATH = os.environ['IIP_SMR__XML_DIR_PATH']
 
+IIP_SMR__XML_DIR_URL = os.environ['IIP_SMR__XML_DIR_URL']
+
 URL_SCHEME = os.environ['IIP_SMR__URL_SCHEME']  # 'http' or, on production, 'https'
 
 

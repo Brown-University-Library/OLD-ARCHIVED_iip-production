@@ -361,7 +361,8 @@ def view_xml( request, inscription_id ):
     """ Returns inscription-xml from github lookup. """
     xml_prepper = XmlPrepper()
     ## lookup xml
-    xml_url = '%s/%s.xml' % ( unicode(os.environ['IIP_SEARCH__XML_DIR_URL']), inscription_id )
+    # xml_url = '%s/%s.xml' % ( unicode(os.environ['IIP_SEARCH__XML_DIR_URL']), inscription_id )
+    xml_url = '%s/%s.xml' % ( settings_app.IIP_SMR__XML_DIR_URL, inscription_id )
     lookup_headers = xml_prepper.prep_lookup_headers( request.META )
     lookup_response = requests.get( xml_url, headers=lookup_headers )  # eventually maybe offload this to helper class for a try/except to handle github's periodic downtime
     ## prep response
