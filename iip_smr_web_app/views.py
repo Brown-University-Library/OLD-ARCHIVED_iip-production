@@ -389,5 +389,5 @@ def edit_info( request ):
         return HttpResponseForbidden( '403 / Forbidden' )
     user = authenticate( username=settings_app.DB_USER, password=settings_app.DB_USER_PASSWORD )
     django_login( request, user )
-    url = reverse( 'admin:iip_search_app_staticpage_changelist' )
+    url = reverse( 'admin:iip_smr_web_app_staticpage_changelist' )
     return HttpResponseRedirect( url )
