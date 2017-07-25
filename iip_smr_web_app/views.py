@@ -136,7 +136,7 @@ def results( request ):
         return HttpResponse( _get_ajax_unistring(request) )
     else:  # regular GET, no params
         log.debug( 'GET, no params, show search form' )
-        return render( request, u'iip_search_templates/search_form.html', _get_searchform_context(request, log_id) )
+        return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
 
 
 
@@ -521,20 +521,25 @@ def write_story(story_num):
     return context
 
 def load_layers(request):
+    print('load_layers')
+
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    json_data = os.path.join(BASE_DIR, 'iip_search_app/static/', "mapsearch/geoJSON/roman_provinces.geojson")
+
+    print(BASE_DIR)
+
+    json_data = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "mapsearch/geoJSON/roman_provinces.geojson")
     data = open(json_data, 'r') 
     roman_provinces = json.load(data)
     roman_provinces = json.dumps(roman_provinces)
     data.close()
 
-    json_data = os.path.join(BASE_DIR, 'iip_search_app/static/', "mapsearch/geoJSON/roman_roads.geojson")
+    json_data = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "mapsearch/geoJSON/roman_roads.geojson")
     data = open(json_data, 'r') 
     roman_roads = json.load(data)
     roman_roads = json.dumps(roman_roads)
     data.close()
 
-    json_data = os.path.join(BASE_DIR, 'iip_search_app/static/', "mapsearch/geoJSON/byzantine_provinces_400CE.geojson")
+    json_data = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "mapsearch/geoJSON/byzantine_provinces_400CE.geojson")
     data = open(json_data, 'r') 
     byzantine = json.load(data)
     byzantine = json.dumps(byzantine)

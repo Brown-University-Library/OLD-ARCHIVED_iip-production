@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	
+	<link href='/static/about/css/mobile-menu.css' rel='stylesheet'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	
+    <link href='/static/about/css/base.css' rel="stylesheet">	
+    <link href='/static/about/css/footer.css' rel="stylesheet">
+    <link href='/static/about/css/style.css' rel="stylesheet">
+
+    
+	
+	<link href='/static/about/css/about.css' rel="stylesheet">
+	<link href='/static/about/css/carousel-about.css' rel="stylesheet">	
+	<link href='/static/about/css/sidebar.css' rel="stylesheet">
+
+
+</head>
+<body>
+	<div id="main-wrapper">
+
+		<!-- Page Preloader -->
+		<div id="preloader">
+		    <div id="status">
+		        <div class="status-mes"></div>
+		    </div>
+		</div>
+
+
+		<div class="uc-mobile-menu-pusher">
+
+			<div class="content-wrapper">
+				<nav class="navbar m-menu navbar-default navbar-fixed-top">
+				    <div class="container">
+				        <!-- Brand and toggle get grouped for better mobile display -->
+				        <div class="navbar-header">
+				            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+				                    data-target="#navbar-collapse-1">
+				                <span class="sr-only">Toggle navigation</span>
+				                <span class="icon-bar"></span>
+				                <span class="icon-bar"></span>
+				                <span class="icon-bar"></span>
+				            </button>
+				            <a class="navbar-brand" href="/about/"><img src='/static/about/img/IIP_logo.png' alt=""></a>
+				        </div>
+
+
+				        <!-- Collect the nav links, forms, and other content for toggling -->
+				        <div class="collapse navbar-collapse" id="#navbar-collapse-1">
+
+				            <ul class="nav-cta hidden-xs">
+				                <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i
+				                        class="fa fa-search"></i></a>
+				                    <ul class="dropdown-menu">
+				                        <li>
+				                            <div class="head-search">
+				                                <form role="form">
+				                                    <!-- Input Group -->
+				                                    <div class="input-group">
+				                                        <input type="text" class="form-control" placeholder="Type Something">
+				                                            <span class="input-group-btn">
+				                                              <button type="submit" class="btn btn-primary">Search</button>
+				                                            </span>
+				                                    </div>
+				                                </form>
+				                            </div>
+				                        </li>
+				                    </ul>
+				                </li>
+				            </ul>
+				            <ul class="nav navbar-nav navbar-right main-nav">
+				                <li class="dropdown active">
+				                    <a href="/about/" class="dropdown-toggle" type="button" data-toggle="dropdown">About
+				                    <span class="caret"></span></a>
+				                    <ul class="dropdown-menu">
+				                      <li><a href="/about/#why_inscription">Why Inscriptions?</a></li>
+				                      <li><a href="/about/#project_description">Project Description</a></li>
+				                      <li><a href="/about/#documentation">Documentation</a></li>
+				                      <li><a href="/about/#api">APIs</a></li>
+				                      <li><a href="/about/#funding">Funding</a></li>
+				                      <li><a href="/about/#team">Team</a></li>
+				                      <li><a href="/about/#copyright">Copyright</a></li>
+				                    </ul>
+				                </li>
+				                <li><a href="/mapsearch/">Map Search</a></li>
+				                <li><a href="/stories/">Stories</a></li>
+				                <li class="dropdown">
+				                    <a href="/resources/" class="dropdown-toggle" data-toggle="dropdown">Resources
+				                    <span class="caret"></span></a>
+				                    <ul class="dropdown-menu">
+				                      <li><a href="/resources/#bibliography">Bibliography</a></li>
+				                      <li><a href="/resources/#timeline">Timeline</a></li>
+				                      <li><a href="/resources/#education">Education</a></li>
+				                      <li><a href="/resources/#glossary">Glossary</a></li>
+				                      <li><a href="/resources/#link">Links</a></li>
+				                    </ul>
+				                </li>
+				                <li><a href="/contact/">Contact<br></a></li>
+				            </ul>
+				        </div>
+		        <!-- .navbar-collapse -->
+		    		</div>
+		    <!-- .container -->
+				</nav>
+		<!-- .nav -->
+
+
+
+				
+<div id="wrapper">
+    <div id="sidebar-wrapper">
+        <nav id="spy">
+            <ul class="sidebar-nav nav">
+                <li>
+                    <a href="#why_inscription" data-scroll>
+                        Why Inscriptions?
+                    </a>
+                </li>
+                <li>
+                    <a href="#project_description" data-scroll>
+                        Project Description 
+                    </a>
+                </li>
+                <li>
+                    <a href="#documentation" data-scroll>
+                        Documentation
+                    </a>
+                </li>
+                <li>
+                    <a href="#api" data-scroll>
+                        APIs
+                    </a>
+                </li>
+                <li>
+                    <a href="#funding" data-scroll>
+                        Funding
+                    </a>
+                </li>
+                <li>
+                    <a href="#team" data-scroll>
+                        Team
+                    </a>
+                </li>
+                <li>
+                    <a href="#copyright" data-scroll>
+                        Copyright
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page-content-wrapper">
+        <section class="about-text ptb-100">
+            <div class="container">
+                <br>
+                <div class="row">
+                    <h2>Today's Featured Inscriptions</h2>  
+                    <br><br>
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                    <div class="item active">
+                      <div class="holder col-sm-6">
+                        <img class="img-responsive" src='/static/about/img/inscription5.jpg' alt="...">
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="carousel-caption">
+                            <h2>Pilate's Predilections</h2>
+                            <br>
+                            <p>Airport food these days can be pretty crummy. A new inscription sheds light on the airport food hankerings of our frequent-flyer friend Pilate in a bygone era of air travel.</p>
+                            <a href='gallery.html#story1'><button type="button" class="btn btn-default">Read Full Story</button></a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <div class="holder col-sm-6">
+                        <img class="img-responsive" src='/static/about/img/inscription6.jpg' alt="...">
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="carousel-caption">
+                            <h2>May he be remembered for good and for blessing...</h2>
+                            <br>
+                            <p>TIBE0006 - Lower Gaililee. Hammath Tiberias. 270 CE to 325 CE. Pink, red, and black mosaic floor. Dedication.</p>
+                            <button type="button" class="btn btn-default">Read Full Story</button>    
+                        </div>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <div class="holder col-sm-6">
+                        <img class="img-responsive" src='/static/about/img/inscription7.jpg' alt="...">
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="carousel-caption">
+                            <h2>History of the pillar...</h2>
+                            <br>
+                            <p>ABUR0001 - Bethennim (Khirbet Abu Rish). 300-700 CE. Mosaic in a square frame. Invocation. </p>
+                            <button type="button" class="btn btn-default">Read Full Story</button>         
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="controllers col-sm-8 col-xs-12">
+                    <!-- Controls -->
+                      <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                      </a>
+                      <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                      </a>
+                      <!-- Indicators -->
+                    </div>
+                    <div class='carousel-indicators-div'>
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                      </ol> 
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <br><br><br>
+            <legend id="why_inscription"></legend>
+            <br><br><br><br><br>
+                <div class="row">
+                    <h2>Why Inscriptions?</h2>
+                    <br>
+                    <img id="why_inscription_img" src='/static/about/img/about1.jpg'>
+                    <br>
+                    <p>The Inscriptions of Israel/Palestine project seeks to build an internet-accessible database of published inscriptions from Israel/Palestine that date between ca. 500 BCE and 614 CE, roughly corresponding to the Persian, Greek, and Roman periods. The purpose of this database is to provide a tool that will make accessible the approximately 15,000 relevant inscriptions published to date, and will include substantial contextual information for these inscriptions, including images and geographical information. The data is tagged according to Epidoc conventions and we are exploring ways to link the database with other projects, such as Pelagios.</p>
+                    <p>As of March 2016, there are approximately 2,5000 inscriptions in the database, with more added regularly. All are enconded using Epidoc guidelines. The inscriptions can be accessd via the "Search" button on the left.</p>
+                    <p>Inscriptions of Israel/Palestine is an ongoing project at Brown University. It has been generously supported by the Center of Digital Scholarship and the Goldhirish-Yellin Foundation. We welcome you feedback.</p>
+                </div>
+                <br><br><br>
+                <legend id="project_description"></legend>
+                <br><br><br><br><br>
+                <div class='row'>
+                    <h2>Project Description</h2>
+                    <br>
+                    <p>The Inscriptions of Israel/Palestine project seeks to build an internet-accessible database of published inscriptions from Israel/Palestine that date between ca. 500 BCE and 614 CE, roughly corresponding to the Persian, Greek, and Roman periods.  There are three primary goals for this project:
+                    </p>
+                    <p>
+                    <ol>
+                        <li>To make these inscriptions, which have been published in a variety of venues, publicly accessible in a way that would be useful for both scholars and the general public;</li>
+                        <li>To create a platform that will allow for deeper machine-automated analysis of our data;</li>
+                        <li>To contribute toward creating a wider web ecosystem (Linked Open Data) that will allow for the linking and bundling of data dealing with the ancient world.</li>
+                    </ol> 
+                    </p>
+                   <p>The project has been online at its present location since 2002 and has been among the first freely-accessible online databases of inscriptions.  Our data conforms to the Epidoc conventions and we are associated with both EAGLE Network and Pelagios Commons.</p>
+                   <br>
+                    <h4>Rationale</h4>
+                    <p>An “inscription” is defined as writing on durable material (except for coins, which come under the category of numismatics).  We presently know of some 10,000 inscriptions that correspond to the rough parameters of this database.  They are mainly in Hebrew, Aramaic, Greek, and Latin, although other languages are occasionally used as well.  They have been written by Jews, Christians, and traditional Greeks and Romans (i.e., “pagans”).  They have also never been fully collected, having been published hither and yon in small collections or even individually in journal articles.  To compound the problem, many of the actual stones and mosaics upon which the older publications were made are no longer extant, and some inscriptions that can be checked have been shown to have been misread.  More information about inscriptions and their value can be found on our page, “Inscriptions: What and Why”
+                    </p>
+                    <p>
+                        Over the past two decades a project has been underway to reedit these inscriptions and present them in print form, the Corpus Inscriptionum Iudaeae/Palaestinae (CIIP).  There is no plan at the moment to allow free access to the data of the CIIP.  We have been rebuffed repeatedly in our attempts to find areas in which we might collaborate.
+                    </p>
+                    <p>
+                        Yet while sharing some of the same data, the Inscriptions of Israel/Palestine is a fundamentally different project.  Following a long epigraphic practice that differentiates between new editions (e.g., CIIP) and collections of previously published inscriptions, we seek to create a digital collection in order not only to increase access to these important materials but also to make them more useful to scholars and the general public by the very virtue of their digital existence. 
+                    </p>
+                    <p>
+                        The CIIP editors have asked us not to use their work or provide their corpus numbers in our own database.  While we do not believe that they have the actual right to prevent this, out of a sense of scholarly collegiality we are presently honoring their requests.
+                    </p>
+
+                    <br>
+                    <h4>History</h4>
+                    <p>
+                        The project began in 1996 at the Institute for Advanced Digital Technology in the Humanities at the University of Virginia as a prototype under the name "Inscriptions of the Land of Israel", which has since been decommissioned. We originally designed a structure for a data in Standard General Markup Language (SGML).  Much of this structure underlies the present Epidoc standard (in XML) that we now use and which is shared with many other digital inscription projects.
+                    </p>
+                    <p>
+                        The project moved to Brown University in 2002, and soon went into production under the auspices of the Scholarly Technology Group, now reorganized as the Center for Digital Scholarship, a unit of the Brown Library.
+                    </p>
+
+                    <br>
+                    <h4>Data</h4>
+                    <p>
+                        The texts are extensively marked-up as part of their addition to the database. We are using the Epidoc schema and Guidelines to mark up our inscriptions. Please consult our Documentation page for more information about our data encoding and preservation.
+                    </p>
+                    <p>
+                        Our data are freely available for viewing and download.  They can be accessed directly, through our API (see our API page for more information), and found on our Github repository.
+                    </p>
+
+                    <br>
+                    <h4>Technical Information</h4>
+                    <p>
+                        Each inscription is entered as a separate XML file using standard XML editing software (mainly oXygen XML Editor). The bibliographic references currently reside in a separate database in Zotero (each with its own unique ID) referenced by the inscription XML files.  The search platform is Apache Solr; our front end uses Django.  All our code is available for free download on Github.
+                    </p>
+                    <p>
+                        More information can be found on our Documentation page.
+                    </p>
+                </div>
+                <br><br><br>
+                <legend id="documentation"></legend>
+                <br><br><br><br><br>
+                <div class="row">
+                    <h2>Documentation</h2>
+                    <p>For those interested in more of the nitty-gritty of this project, this page provides relevant information, links, and files.</p>
+                    <br>
+                    <h4>Encoding Conventions</h4>
+                    <p>
+                        Each inscription receives its own XML file which has the same name as the inscription ID.  Our encoding follows the Epidoc Guidelines.  The full guidelines can be found at http://www.stoa.org/epidoc/gl/latest.
+                    </p>
+
+                    <p>
+                        Following these guidelines, each inscription file has four major parts:
+                        <ul>
+                            <li>Header: This section contains all the metadata, or information about this inscription.  This includes, when available, the description about the inscription; the object and material on which it is written and how it is written; its date; place of discovery and its present location; its genre and “religion”; dimensions; and encoding information and links to images.</li>
+                            <li>Diplomatic transcription:  This section contains the literal transcription of the writing.  Greek and Latin inscriptions were written entirely in uppercase letters and frequently do not have breaks between words.  This is a simple copy of what is on the stone, with all of its gaps, damage, etc., indicated.</li>
+                            <li>Edited transcription:  This is where the editor reconstructs and restores the inscription, as necessary, in its original language.  Breaks between words are provided and corrections (to, for example, misspelled words) are made.
+                            </li>
+                            <li>English translation:  We try to provide a translation into English for all inscriptions.</li>
+                        </ul>
+                    </p>
+
+                    <p>
+                        Given the complexity of the data and the different languages (with Hebrew being read right-to-left), we have created a guide for data entry (to be used with our oXygenXML framework - see below) located here. 
+                    </p>
+                    <p>
+                        The transcriptions of the inscriptions in their original languages follow the Leiden convention.  This convention standardizes the symbols and punctuation used to represent the text.  For example, text inside of brackets always means that this is text that and editor assumes was on the stone.  Text inside of parenthesis are editorial additions, such as the expansion of an abbreviation.  The list of Leiden conventions, with their equivalent encoding (which is derived from the TEI, or Textual Encoding Initiative), can be found here.
+                    </p>
+                    <br>
+                    <h4>Vocabularies and Linked Data</h4>
+                    <p>
+                        In order to facilitate searching, we have standardized some of the vocabularies.  In particular, the entries for language; type of inscription; physical type; and religion have controlled vocabularies.  We are working on standardizing the “figures” as well.
+                    </p>
+                    <p>
+                        A note on the use of a category called “religion”.  Inscriptions, of course, do not have “religions,” although those who commission them, those who are mentioned in them, and those who carved them might.  Moreover, we have a problem labeling those who are sometimes referred to as “pagan”; this is a pejorative term used by Jews and Christians that lumps together a large set of diverse beliefs and devotional practices.  We use the category of “religion” with ambivalence because it is familiar to many and can be useful to scholars, and apply it to inscriptions that have familiar religious symbols or other indications of belonging to such a community.  Instead of attempting to create a taxonomy of different Greek and Roman religious groups we lump those together as “Other.”  This is an imperfect solution and we would welcome other ideas for categorization.
+                    </p>
+                    <p>
+                        Our data contain information that facilitates linking.  Primarily:
+                        <ul>
+                            <li>Geographical linking through the Pleiades project.  All inscriptions have Pleiades ids for their location, allowing them to be to all other data that share these ids.</li>
+                            <li>Object linking through the Getty Art and Architecture Thesaurus.  All objects, such as an altar or a mosaic, contain a unique identifier.  This too allows for links across the web to similarly tagged objects.</li>
+                            <li>Period linking through PeriodO.  We are in the process of contributing the periodizations to this project and will soon add the resulting identifers to our data.  This will allow consolidation of all data from across the web based on chronological period.</li>
+                        </ul>
+                    </p>
+                    <br>
+                    <h4>Entering Data</h4>
+                    <p>
+                        Our encoders use the program oXygen XML for data entry.  Note that at this time we prefer version 16 due to its ability to handle the Hebrew and Aramaic.  After installing the program on their own machines, they configure it to work with our own custom designed framework.  Instructions for their installation can be found here. 
+                    </p>
+                    <p>The guide for the entry of inscriptions is here.  Since we have had quite a bit of experience entering and encoding Hebrew and Aramaic (which present a distinct set of challenges) those sections might be of particular interest.
+                    </p>
+                    <br>
+                    <h4>Bibliography</h4>
+                    <p>
+                        Following practices described in the Epidoc Guidelines, IIP has been maintaining bibliographic entries in a master bibliography, and referring to these from individually encoded inscriptions. Since IIP has always employed student encoders, following Banski et al. we feel that bibliographic data entry and editing has to be collaborative, web based and unambiguous. In an earlier stage of the project, the bibliography was handled in a customized SQL database which provided useful features such as controlled lists of journal abbreviations. When the project was upgraded in 2013, we decided to replace the custom bibliographic database with Zotero, which did not require maintenance on our part and had a versatile API which allowed us to access citations directly when displaying an inscription in our interface.  IIP assigns ID numbers to bibliographic entries, following the form [IIP-000], and uses the ID to reference a citation. Zotero also assigns ID numbers to bibliographic entries. However, these are automatic and function as database keys, so they are essentially not part of the citation data.  We thus decided to store the IIP id in the Zotero "Loc in Archive" field, on the premise that it is our project catalog number.  In order for the Zotero API to retrieve a particular citation, we also save it as a Zotero tag for the entry, since the Zotero API can only access tags and a restricted number of bibliographic fields. We do not convert our bibliography to TEI in order to integrate it into our inscription files. It was enough that the Zotero API, using the Citation Style Language (CSL) an open language used by a variety of citation managers, could provide formatted citations for our display.
+                    </p>
+                    <p>
+                        We feel that our choice of an external database, particularly Zotero, which is widely used, allows collaboration and can act as a re-useable, standalone bibliography of sources for inscriptions from Israel/Palestine, is an efficient choice that allows us to work with different types of material using the tools most appropriate for each. In the future, when the IIP corpus is substantially complete, it would be important to incorporate full bibliographic entries as "<"bibl">"s into each encoded inscription for archival purposes.
+                    </p>
+                    <br>
+                    <h4>Data Preservation</h4>
+                    <p>
+                        There are two main repositories of our data.  One lives on the production machine, a server maintained by the Brown University Library.  This is the “working” repository that is accessed through our website.  The second repository is on Github and is publicly accessible for download or use.  The two repositories are substantially the same, although new inscriptions and corrections are first added to the Github repository, which is then periodically synced to the repository on the production machine.
+                    </p>
+                    <p>
+                        The Brown University Library is committed to archiving and maintaining this data.  We will soon be adding our data to the Brown Digital Repository and design a plan to update it at regular intervals.
+                    </p>
+                    <br>
+                    <h4>Workflow and Organization</h4>
+                    <p>
+                        Encoders create their files in a shared Dropbox folder.  Each encoder has his or her personal subfolder, and within each of those is another sub-folder labeled “Finished”.  As encoders finish their files they add them to their “Finished” sub-folder.
+                    </p>
+                    <p>
+                        Periodically, the Project Manager checks the files in these folders.  When they are deemed satisfactory, they are moved to a the sub-folder (“Finished Inscriptions”).  Periodically, the Technical Director uploads these files to the Github repository.  They are then periodically synced to the repository on the production machine.
+                    </p>
+                    <p>
+                        All inscriptions are marked with a status: Approved, To Approve, or To Correct.”  Inscriptions are uploaded to the production machine with the status of To Approve.  The Project Director checks each of these files and either approves it (at which point it becomes visible to the public) or marks it To Correct if it needs modifications.
+                    </p>
+                </div>
+                <br><br><br>
+                <legend id="api"></legend>
+                <br><br><br><br><br>
+                <div class="row">
+                    <h2>APIs</h2>
+                    <br>
+                    <p>An API is an application programming interface.  It allows users to query a database in the form of a URL.  The URL request retrieves structured data that that can be processed, analyzed or displayed according to local needs. For a general introduction to APIs see the documentation provided by the Digital Public Library of America.</p>
+                    <p>
+                        The IIP API sends queries to the Solr index which powers the IIP search interface. Queries will mostly rely on IIP keywords and metadata and will return IIP metadata and IIP ids. The Solr documentation provides details on the query syntax.
+                    </p>
+                    <p>
+                        The inscription files themselves, in their XML form, can be accessed by appending the IIP id to the URL https://library.brown.edu/cds/projects/iip/view_xml/ . For example, the following URL will link to the XML file of inscription akld0012:
+                        https://library.brown.edu/cds/projects/iip/view_xml/akld0012/ 
+                    </p>
+                    <p>
+                        The IIP id takes the form aaaa1111 or aaaa1111a (where a stands for an alphabetic character and 1 stands for a number), as well as by the keywords in the IIP controlled vocabularies. Please note that although the URL path may change, the IIP id will not.
+                        API queries can return xml or json formats, depending on the value of the wt flag. wt=xml or wt=json.
+                    </p>
+                    <p>
+                    <h4>Some example queries:</h4>
+                    <ul>
+                        <li>
+                            Find the first 100 IIP inscriptions:     
+                            http://library.brown.edu/search/solr_pub/iip/?start=0&rows=100&indent=on&wt=json&q=*
+                        </li>
+                        <li>
+                            Find the first 100 inscriptions that are from the region “Coastal Plain”: http://library.brown.edu/search/solr_pub/iip/?start=0&rows=100&indent=on&wt=json&q=region%3A%22Coastal+Plain%22
+                            Note that in this query, the search string "Coastal Plain" is enclosed in double quotes "" but that the URL must be encoded as %22 
+                        </li>
+                        <li>
+                            Return all the genre attributes:
+                            http://library.brown.edu/search/solr_pub/iip/?q=*%3A*&start=0&rows=0&indent=on&facet=on&facet.field=type&wt=json
+                        </li>
+                    </ul>
+
+                    <br>
+                    <h4>Useful facets (keywords):</h4>
+                    <p>
+                        TABLE
+                    </p>
+                    <p>
+                        NOTE: We are in the process of improving our Solr index, so the API results may change. Most metadata fields will remain the same, but the results will be less verbose, and easier to use. Also, please note that bibliographic references draw their information from a Zotero database that can be found here.
+                    </p>
+                </div>
+                <br><br><br>
+                <legend id="funding"></legend>
+                <br><br><br><br><br>
+                <div class="row">
+                    <h2>Funding</h2>
+                    <br>
+                    <p>
+                        Over the years we have received generous funding from Brown University, especially through the Office of the Vice President of Research and the Program in Judaic Studies.  We also receive technical and other infrastructure support from the Center for Digital Scholarship, a division of the Brown University Library.  In the summer of 2017 the Dean of the College funded an Interdisciplinary Team Undergraduate Teaching and Research Award, which supported full-time work on the project by four undergraduate students.
+                    </p>
+                    <p>
+                        We currently receive generous funding from the Goldhirsh-Yellin Foundation.  We are tremendously grateful for their support.
+                    </p>
+                    <p>
+                        There is much that we would still like to do, including: the incorporation of more images; advanced tagging of the content of the data; programming to allow for more analysis and visualization; the development of a portal that would facilitate the presentation of all material culture from antiquity for this region; and the mounting of an international conference on the digital use of these inscriptions.  For these tasks, though, we require additional funding.  
+                    </p>
+                    <p>
+                        If you are interested in contributing to or partnering with IIP, please contact Professor Michael Satlow.
+                    </p>
+                </div>
+                <br><br><br>
+                <legend id="team"></legend>
+                <br><br><br><br><br>
+                <div class="row">
+                    <h2>Team</h2>
+                    <br>
+                    <p>
+                        Project Director:  Michael L. Satlow, Professor of Religious Studies and Judaic Studies, Brown University  [more info] [contact]
+                    </p>
+                    <p>
+                        Technical Director:  Elli Mylonas, Senior Digital Humanities Librarian, Center for Digital Scholarship, Brown University [more info] [contact]
+                    </p>
+                    <p>
+                        Project Manager:  Gaia Lembi, Visiting Assistant Professor (research), Program in Judaic Studies, Brown University.  [more info] [contact]
+                    </p>
+                    <br>
+                    <h4>
+                        Encoders
+                    </h4>
+                    <br>
+                    <h4>
+                        Interdisciplinary UTRA Team Members (Summer, 2017)
+                    </h4>
+                </div>
+                <br><br><br>
+                <legend id="copyright"></legend>
+                <br><br><br><br><br>
+                <div class="row">
+                    <h2>Copyright</h2>
+                    <br>
+                    <p>
+                        The Inscriptions of Israel/Palestine (IIP) project follows a long tradition of reprinting scholarly editions of epigraphical material with appropriate attributions. Our policy of using copyrighted material thus does not appreciably differ from that of the Supplementum Epigraphicum Graecum and other collections of inscriptions. We use other copyrighted material (e.g., images and maps) only with permissions. We further enhance the value of this data by correcting obvious mistakes; tagging the content, and reframing the inscriptions to allow them to be seen in new and shifting ways.
+                    </p>
+                    <p>
+                        This collection is compiled under the guidelines of fair use, as laid out in Section 107 of the U.S. copyright law. This section defines fair use as meeting the following criteria:
+                        <ul>
+                            <li>The purpose and character of the use, including whether such use is of commercial nature or is for nonprofit educational purposes</li>
+                            <li>The nature of the copyrighted work</li>
+                            <li>The amount and substantiality of the portion used in relation to the copyrighted work as a whole</li>
+                            <li>The effect of the use upon the potential market for, or value of, the copyrighted work</li>
+                        </ul>
+                    </p>
+                    <p>
+                        All sources are attributed, and users are urged consult these original sources and to attribute them appropriately. For a further relevant legal argument regarding the copyright of reconstructed ancient texts, see David Nimmer, "Copyright in the Dead Sea Scrolls: Authorship and Originality," Houston Law Review 38 (2001).
+                    </p>
+                    <p>
+                        The copyright for all scholarly contributions remain with the contributors, although by publishing their contribution here they assign to IIP a non-exclusive and permanent right to display these materials, as well as rights to any work IIP staff contributed unless otherwise specified.
+                    </p>
+                    <p>
+                        To cite the project, use: 
+                        Michael L. Satlow, Inscriptions of Israel/Palestine, 2002-[current year], http://www.brown.edu/iip
+                    </p>
+                    <p>
+                        To cite a single inscription, we recommend consulting and using the original source as noted in the site followed by:
+                        [=IIP [inscription id], [date]. [URN]].  For example: 
+                        Vassilios Tzaferis, “A Greek Inscription from Khirbet Abu Rish,” Atiqot 31 (1997): 147-8 [=IIP ABUR0001, July 1, 2017.  http://library.brown.edu/cds/projects/iip/viewinscr/abur0001/]
+                    </p>
+                    <p>
+                        To link to a query, ???.
+                    </p>
+                    <p>
+                        We believe that the public good is best served by keeping our data free for use and reuse.  By using the Creative Commons License below we hope to join in encouraging “the creation of a thriving commons through sharing knowledge.”
+                    </p>
+                    <p>
+                        <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+                    </p>
+                </div>
+        </section>
+    </div>
+</div>  
+
+
+
+				
+
+				
+
+
+				<footer class="footer">
+
+				    <!-- Footer Widget Section -->
+				    <div class="footer-widget-section">
+				        <div class="container text-center">
+				            <div class="row">
+				                <div class="col-sm-6 footer-block">
+				                    <div class="footer-widget widget_text">
+				                        <h3>Inscriptions of Israel/Palestine</h3>
+
+				                        <p>
+				                            blah blah blah blah blah blah blah blah blah blah blah blah <br>
+				                            blah blah blah blah blah blah blah blah blah blah blah blah <br>
+				                            blah blah blah blah blah blah blah blah blah blah blah blah <br>
+				                            blah blah blah blah blah blah blah blah blah blah blah blah <br>
+				                            blah blah blah blah blah blah blah blah blah blah blah blah <br>
+				                        </p>
+				                    </div>
+				                </div>
+				                <!-- /.col-sm-4 -->
+
+				                <div class="col-sm-6 footer-block last">
+				                    <div class="footer-widget widget_text">
+				                        <h3>Contact Us</h3>
+				                        <address>
+				                            Providence, Rhode Island 02912, USA<br>
+				                            @ 2017 Brown University <br>
+				                            Connect: <a href="mailto:#">Michael_Satlow@brown.edu</a>
+				                        </address>
+
+				                        <ul class="list-inline social-links">
+				                            <li><a href="http://library.brown.edu/cds/"></a></li>
+				                            <li><a href="http://www.brown.edu/"></a></li>
+				                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+				                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+				                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+				                        </ul>
+				                    </div>
+				                </div>
+				                <!-- /.col-sm-4 -->
+				            </div>
+				        </div>
+				    </div>
+				    <!-- /.Footer Widget Section -->
+
+				    <div class="copyright-section">
+				        <div class="container clearfix">
+				            <ul class="list-inline pull-right">
+				                <li class="active"><a href="/about/">About</a></li>
+				                <li><a href="/mapsearch/">Map Search</a></li>
+				                <li><a href="/stories/">Stories</a></li>
+				                <li><a href="/resources/">Resources<br></a></li>
+				                <li><a href="/contact/">Contact<br></a></li>
+				            </ul>
+				        </div>
+				        <!-- .container -->
+				    </div>
+				    <!-- .copyright-section -->
+				</footer>
+				<!-- .footer -->
+			</div>
+	<!-- .content-wrapper -->
+		</div>
+	<!-- .offcanvas-pusher -->
+
+		<div class="uc-mobile-menu uc-mobile-menu-effect">
+		    <button type="button" class="close" aria-hidden="true" data-toggle="offcanvas"
+		            id="uc-mobile-menu-close-btn">&times;</button>
+		    <div>
+		        <div>
+		            <ul id="menu">
+		                <li class="active"><a href="/about/">About</a></li>
+		                <li><a href="/mapsearch/">Map Search</a></li>
+		                <li><a href="/stories/">Stories</a></li>
+		                <li><a href="/resources/">Resources<br></a></li>
+		                <li><a href="/contact/">Contact<br></a></li>
+		            </ul>
+		        </div>
+		    </div>
+		</div>
+		<!-- .uc-mobile-menu -->
+	</div>
+
+	<script src='/static/about/js/jquery-2.1.4.min.js'></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+	        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+	        crossorigin="anonymous"></script>
+	<script src='/static/about/js/mobile-menu.js'></script>
+	<script src='/static/about/js/base.js'></script>
+
+	
+	
+</body>
+
+</html>
