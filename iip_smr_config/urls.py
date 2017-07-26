@@ -2,7 +2,7 @@
 
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 from iip_smr_web_app import views
 
 
@@ -15,7 +15,7 @@ urlpatterns = [
     url( r'^login/$',  views.login, name=u'login_url' ),
     url( r'^logout/$',  views.logout, name=u'logout_url' ),
 
-    url( r'^results/$',  views.results, name=u'results_url' ),
+    
 
     url( r'^search/$',  views.results, name=u'search_url' ),
 
@@ -28,6 +28,8 @@ urlpatterns = [
     url( r'^info/(?P<info_id>.*)/$', views.info, name=u'info_url' ),
     url( r'^edit_info/$', views.edit_info, name=u'edit_info_url' ),
 
+
+    url( r'^results/$',  views.results, name=u'results_url' ),
 
     ##NEW
     url(r'^about/$', views.about,  name=u'about_url' ),

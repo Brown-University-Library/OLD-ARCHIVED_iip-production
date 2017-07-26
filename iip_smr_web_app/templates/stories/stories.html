@@ -20,41 +20,41 @@ hr.style-one {
     <div class="container">
         <div class="row">
             <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/theodotos_thumbnail.jpg"  />
+                <img class="img-responsive", src='{% static "iip_search_app/images/theodotos_thumbnail.jpg" %}' />
                 <div class="img_description" style="visibility: visible;">
                     <p style='padding-left: 10px;'>Theodotos Dialogue<br>
                         <span style='font-size: 14px; font-weight: normal; font-family: serif;'>A glimpse into the role of ancient synagogues...</span>
                     </p>
-                    <a style="display: block;" class="btn btn-primary button_description story-button" data-toggle="modal" data-story="theodotos" href="{% url theodotos_url %}">Read Full Story</a>
+                    <a style="display: block;" class="btn btn-primary button_description story-button" data-toggle="modal" data-story="theodotos" href="{% url 'theodotos_url' %}">Read Full Story</a>
                 </div> 
             </div>
 
             <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/waypoint_thumbnail.jpg" ' />
+                <img class="img-responsive", src='{% static "iip_search_app/images/waypoint_thumbnail.jpg" %}' />
                 <div class="img_description" style="visibility: visible;">
                     <p style='padding-left: 10px;'>The Synagogue as a Waypoint for Travellers</br>
                         <span style='font-size: 14px; font-weight: normal;'>Ancient hostel provides safe haven...</span>
                     </p>
-                    <a style="display: block;" class="btn btn-primary button_description story-button" data-toggle="modal" data-story="synagogue_waypoint" href="{% url synagogue_waypoint_url %}">Read Full Story</a>
+                    <a style="display: block;" class="btn btn-primary button_description story-button" data-toggle="modal" data-story="synagogue_waypoint" href="{% url 'synagogue_waypoint_url' %}">Read Full Story</a>
                 </div> 
             </div>
             
             <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/heliodorus_thumbnail.png" />
+                <img class="img-responsive", src='{% static "iip_search_app/images/heliodorus_thumbnail.png" %}'/>
                 <div class="img_description" style="visibility: visible;">
                     <p style='padding-left: 10px; font-size: 16px;'>Heliodorus</br>
                         <span style='font-size: 14px; font-weight: normal;'>A raid on the Temple’s coffers incites a bloody revolt...</span>
                     </p>
-                    <a style="display: block;" class="btn btn-primary button_description story-button" data-toggle="modal" data-story="heliodorus" href="{% url heliodorus_url %}">Read Full Story</a>         
+                    <a style="display: block;" class="btn btn-primary button_description story-button" data-toggle="modal" data-story="heliodorus" href="{% url 'heliodorus_url' %}">Read Full Story</a>         
                 </div>                
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/ossuaries_thumbnail.png" />
+                <img class="img-responsive", src='{% static "iip_search_app/images/ossuaries_thumbnail.png" %}' />
                 <div class="img_description" style="visibility: visible;">
                     <p style='padding-left: 10px;'>Ossuaries</br>
                         <span style='font-size: 13px; font-weight: normal;'>Servitude in Rome’s imperial palace confers special privileges...</span>
                     </p>
-                    <a style="display: block;" class="btn btn-primary button_description story-button" data-toggle="modal" data-story="ossuaries" href="{% url ossuaries_url %}">Read Full Story</a>
+                    <a style="display: block;" class="btn btn-primary button_description story-button" data-toggle="modal" data-story="ossuaries" href="{% url 'ossuaries_url' %}">Read Full Story</a>
 
                 </div> 
             </div>
@@ -62,17 +62,17 @@ hr.style-one {
 
         <div class="row">
             <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/balf0001.jpg" ' />
+                <img class="img-responsive", src='{% static "iip_search_app/images/balf0001.jpg" %}' />
                 <div class="img_description">
                     <p style='padding-left: 10px;'>Bar Kokhba Revolt</br>
                         <span style='font-size: 14px; font-weight: normal;'></span>
                     </p>
-                    <a class="btn btn-primary button_description story-button" data-toggle="modal" data-story="kokhba" href="{% url kokhba_url %}">Read Full Story</a>
+                    <a class="btn btn-primary button_description story-button" data-toggle="modal" data-story="kokhba" href="{% url 'kokhba_url' %}">Read Full Story</a>
                 </div> 
             </div>
             
             <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/huld0001.jpg" ' />
+                <img class="img-responsive", src='{% static "iip_search_app/images/huld0001.jpg" %}' />
                 <div class="img_description">
                     <p style='padding-left: 10px;'>Pilate's Predilections</br>
                         <span style='font-size: 14px; font-weight: normal;'>Flying in the time of Jesus?!</span>
@@ -81,7 +81,7 @@ hr.style-one {
                 </div> 
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/jaff0063.jpg" ' />
+                <img class="img-responsive", src='{% static "iip_search_app/images/jaff0063.jpg" %}' />
                 <div class="img_description">
                     <p style='padding-left: 10px;'>Pilate's Predilections</br>
                         <span style='font-size: 14px; font-weight: normal;'>Flying in the time of Jesus?!</span>
@@ -90,7 +90,7 @@ hr.style-one {
                 </div> 
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/jeru0309.jpg" ' />
+                <img class="img-responsive", src='{% static "iip_search_app/images/jeru0309.jpg" %}' />
                 <div class="img_description">
                     <p style='padding-left: 10px;'>Pilate's Predilections</br>
                         <span style='font-size: 14px; font-weight: normal;'>Flying in the time of Jesus?!</span>
@@ -101,7 +101,7 @@ hr.style-one {
         </div>
         <div class="row">
             <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/caes0049.jpg" ' />
+                <img class="img-responsive", src='{% static "iip_search_app/images/caes0049.jpg" %}' />
                 <div class="img_description">
                     <p style='padding-left: 10px;'>Pilate's Predilections</br>
                         <span style='font-size: 14px; font-weight: normal;'>Flying in the time of Jesus?!</span>
@@ -110,7 +110,7 @@ hr.style-one {
                 </div> 
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/jeru0310.jpg" ' />
+                <img class="img-responsive", src='{% static "iip_search_app/images/jeru0310.jpg" %}' />
                 <div class="img_description">
                     <p style='padding-left: 10px;'>Pilate's Predilections</br>
                         <span style='font-size: 14px; font-weight: normal;'>Flying in the time of Jesus?!</span>
@@ -119,7 +119,7 @@ hr.style-one {
                 </div> 
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/yotv0001.jpg" ' />
+                <img class="img-responsive", src='{% static "iip_search_app/images/yotv0001.jpg" %} ' />
                 <div class="img_description">
                     <p style='padding-left: 10px;'>Pilate's Predilections</br>
                         <span style='font-size: 14px; font-weight: normal;'>Flying in the time of Jesus?!</span>
@@ -128,7 +128,7 @@ hr.style-one {
                 </div> 
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/beth0184.jpg" ' />
+                <img class="img-responsive", src='{% static "iip_search_app/images/beth0184.jpg" %}' />
                 <div class="img_description">
                     <p style='padding-left: 10px;'>Pilate's Predilections</br>
                         <span style='font-size: 14px; font-weight: normal;'></span>
@@ -162,12 +162,12 @@ hr.style-one {
 
         <div class="row">
             <div class="col-md-3 thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/theodotos_thumbnail.jpg" ' />
+                <img class="img-responsive", src='{% static "iip_search_app/images/theodotos_thumbnail.jpg"%} ' />
             </div>
             <div class="col-md-3">
                 <h2>Theodotos Dialgogue</h2>
                 <h4>by Margaret F.</h4>
-                <a class="btn btn-default" href="{% url theodotos_url %}">Read Full Story</a>
+                <a class="btn btn-default" href="{% url 'theodotos_url' %}">Read Full Story</a>
             </div>
             <div class="col-md-4">
                 <h4>What were the functions of synagogues prior to the destruction of the Temple of Jerusalem? A dedicatory inscription provides a tantalizing glimpse into the role of the ancient synagogue in Jewish culture. 
@@ -181,12 +181,12 @@ hr.style-one {
 
         <div class="row">
             <div class="col-md-3 thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/waypoint_thumbnail.jpg" ' />
+                <img class="img-responsive", src='{% static "iip_search_app/images/waypoint_thumbnail.jpg" %} ' />
             </div>
             <div class="col-md-3">
                 <h2>The Synagogue as a Waypoint for Travellers</h2>
                 <h4>by Lauren M.</h4>
-                <a class="btn btn-default" href="{% url synagogue_waypoint_url %}">Read Full Story</a>
+                <a class="btn btn-default" href="{% url 'synagogue_waypoint_url' %}">Read Full Story</a>
             </div>
             <div class="col-md-4">
                 <h4>Safety while travelling is a modern, often underappreciated, privilege. The so-called Theodotus inscription refers to a hostel for travellers inside a 1st century CE synagogue in Jerusalem.
@@ -199,12 +199,12 @@ hr.style-one {
         
         <div class="row">
             <div class="col-md-3 thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/heliodorus_thumbnail.png" ' />
+                <img class="img-responsive", src='{% static "iip_search_app/images/heliodorus_thumbnail.png" %}' />
             </div>
             <div class="col-md-3">
                 <h2>Heliodorus</h2>
                 <h4>by Lauren M.</h4>
-                <a class="btn btn-default" href="{% url heliodorus_url %}">Read Full Story</a>
+                <a class="btn btn-default" href="{% url 'heliodorus_url' %}">Read Full Story</a>
             </div>
             <div class="col-md-4">
                 <h4>A king’s command to raid the Holy Temple’s coffers incites a bloody revolt. Epigraphic fragments of this king’s correspondence with high officials prove his role in the Temple’s desecration.
@@ -219,12 +219,12 @@ hr.style-one {
 
         <div class="row">
             <div class="col-md-3 thumbnail_pic">
-                <img class="img-responsive", src="{{ STATIC_URL }}iip_search_app/images/ossuaries_thumbnail.png" ' />
+                <img class="img-responsive", src='{% static "iip_search_app/images/ossuaries_thumbnail.png"%} ' />
             </div>
             <div class="col-md-3">
                 <h2>Ossuaries</h2>
                 <h4>by Lauren M.</h4>
-                <a class="btn btn-default" href="{% url ossuaries_url %}">Read Full Story</a>
+                <a class="btn btn-default" href="{% url 'ossuaries_url' %}">Read Full Story</a>
             </div>
             <div class="col-md-4">
                 <h4>In what scenario might former slave status be a badge of honor? An epitaph of a middle-aged man from a prominent Jewish family near Jericho suggests that a slave’s service in Rome’s imperial palace may have conferred special honors following his manumission and return to Judea.

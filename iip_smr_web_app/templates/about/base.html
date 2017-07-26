@@ -4,15 +4,14 @@
 	<title></title>
 
 	{% load staticfiles %}
-	<link href='{% static 'about/css/mobile-menu.css' %}' rel='stylesheet'>
+	<link href='{% static "about/css/mobile-menu.css" %}' rel='stylesheet'>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
           integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	{%block queryCapture %}{%endblock%}
 	<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
-  rel="stylesheet" type='text/css'>
-    <link href='{% static 'about/css/base.css' %}' rel="stylesheet">	
-    <link href='{% static 'about/css/footer.css' %}' rel="stylesheet">
-    <link href='{% static 'about/css/style.css' %}' rel="stylesheet">
+  rel="stylesheet" type='text/css'>	
+    <link href='{% static "about/css/footer.css" %}' rel="stylesheet">
+    <link href='{% static "about/css/style.css" %}' rel="stylesheet">
     
 
     {% block extra_css %}
@@ -35,7 +34,7 @@
 			<div class="content-wrapper">
 				<nav class="navbar m-menu navbar-default navbar-fixed-top">
 				    <div class="container">
-				        <!-- Brand and toggle get grouped for better mobile display -->
+				        
 				        <div class="navbar-header">
 				            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
 				                    data-target="#navbar-collapse-1">
@@ -44,7 +43,7 @@
 				                <span class="icon-bar"></span>
 				                <span class="icon-bar"></span>
 				            </button>
-				            <a class="navbar-brand" href="{% url 'about_url' %}"><img src="../static/iip_search_app/images/logo3.png" alt="" style="height:65px; padding-bottom: 20px;"></a>
+				            <a class="navbar-brand" href="{% url 'about_url' %}"><img src='{% static "iip_search_app/images/logo3.png" %}' alt="" style="height:65px; padding-bottom: 20px;"></a>
 				        </div>
 
 

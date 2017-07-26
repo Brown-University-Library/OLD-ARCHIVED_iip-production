@@ -14,7 +14,8 @@ from iip_smr_web_app import forms
 from iip_smr_web_app.libs.view_xml_helper import XmlPrepper
 from iip_smr_web_app.libs import ajax_snippet
 import csv
-import urllib, json
+import json
+import urllib.request
 
 log = logging.getLogger(__name__)
 
@@ -74,6 +75,7 @@ def results( request ):
         #         break
         #     1/0
 
+        print("get_results_context: ", context)
 
         return context
 
@@ -110,31 +112,49 @@ def results( request ):
             }
         log.debug( 'context, ```%s```' % pprint.pformat(context) )
         return context
+
+
+        
     log_id = common.get_log_identifier( request.session )
     log.info( 'id, `%s`; starting' % log_id )
     if not u'authz_info' in request.session:
         request.session[u'authz_info'] = { u'authorized': False }
     if request.method == u'POST': # form has been submitted by user
+        print("POST!!!!!!!!!!!!")
         log.debug( 'POST, search-form was submitted by user' )
         request.encoding = u'utf-8'
         form = forms.SearchForm(request.POST)
         if not form.is_valid():
             log.debug( 'form not valid, redirecting')
-            redirect_url = '%s://%s%s?q=*:*' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'results_url') )
+            redirect_url = '%s://%s%s?q=*:*' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse('results_url') )
             log.debug( 'redirect_url for non-valid form, ```%s```' % redirect_url )
             return HttpResponseRedirect( redirect_url )
         qstring = form.generateSolrQuery()
         # e.g. http://library.brown.edu/cds/projects/iip/results?q=*:*
-        redirect_url = '%s://%s%s?q=%s' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'results_url'), qstring )
+        redirect_url = '%s://%s%s?q=%s' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse('results_url'), qstring )
         log.debug( 'redirect_url for valid form, ```%s```' % redirect_url )
         return HttpResponseRedirect( redirect_url )
+
+
+
+
     if request.method == u'GET' and request.GET.get(u'q', None) != None:
         log.debug( 'GET, with params, hit solr and show results' )
+        # print('hey')
+        print("request: ", request)
         return render( request, u'iip_search_templates/results.html', _get_results_context(request, log_id) )
+
+
+
+
+
+
+        
     elif request.is_ajax():  # user has requested another page, a facet, etc.
         log.debug( 'request.is_axax() is True' )
         return HttpResponse( _get_ajax_unistring(request) )
     else:  # regular GET, no params
+        print("MAP SEARCH PAGE")
         log.debug( 'GET, no params, show search form' )
         return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
 
@@ -446,7 +466,7 @@ def synagogue_waypoint(request):
 
 def write_story(story_num):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    url = os.path.join(BASE_DIR, 'iip_search_app/static/', "stories/csv/stories.csv")
+    url = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "stories/csv/stories.csv")
     title = []
     author = []
     published_date = []
@@ -464,7 +484,7 @@ def write_story(story_num):
     dimension = []
     num_relevantInscriptions = 0
 
-    with open(url, 'rb') as csvfile:
+    with open(url, 'r') as csvfile:
         csv_reader = csv.reader(csvfile)
 
         rows = [r for r in csv_reader]
@@ -481,18 +501,29 @@ def write_story(story_num):
         for i in range(num_relevantInscriptions):
             url = "http://library.brown.edu/search/solr_pub/iip/?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A%22" + relevant_inscription[i].lower() + "%22"
 
-            response = urllib.urlopen(url)
-            data = json.loads(response.read())
 
-            inscription_id.append(data["response"]["docs"][0]["inscription_id"])
-            languages.append(data["response"]["docs"][0]["language_display"])
-            date.append(data["response"]["docs"][0]["date_desc"])
-            place_found.append(data["response"]["docs"][0]["place_found"])
-            transcription.append(data["response"]["docs"][0]["transcription"])
-            translation.append(data["response"]["docs"][0]["translation"])
-            dimension.append(data["response"]["docs"][0]["dimensions"])
-            date_start.append(data["response"]["docs"][0]["notBefore"])
-            date_end.append(data["response"]["docs"][0]["notAfter"])
+
+            with urllib.request.urlopen(url) as response:
+
+                s = response.read()
+                print(s)
+
+
+                encoding = response.info().get_content_charset('utf-8')
+
+                data = json.loads(s.decode(encoding))
+            # response = urllib.urlopen(url)
+                # data = json.loads(response.read())
+
+                inscription_id.append(data["response"]["docs"][0]["inscription_id"])
+                languages.append(data["response"]["docs"][0]["language_display"])
+                date.append(data["response"]["docs"][0]["date_desc"])
+                place_found.append(data["response"]["docs"][0]["place_found"])
+                transcription.append(data["response"]["docs"][0]["transcription"])
+                translation.append(data["response"]["docs"][0]["translation"])
+                dimension.append(data["response"]["docs"][0]["dimensions"])
+                date_start.append(data["response"]["docs"][0]["notBefore"])
+                date_end.append(data["response"]["docs"][0]["notAfter"])
 
             
 
