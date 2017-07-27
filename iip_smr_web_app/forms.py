@@ -128,8 +128,8 @@ class SearchForm( forms.Form ):
     ('to_correct', 'To Correct') ]
     display_status = forms.MultipleChoiceField(required=False, choices=DISPLAY_STATUSES, widget=forms.CheckboxSelectMultiple)
     #
-    notBefore = forms.CharField(required=False, max_length=5, initial=600)
-    notAfter = forms.CharField(required=False, max_length=5, initial=650)
+    notBefore = forms.CharField(required=False, max_length=5)
+    notAfter = forms.CharField(required=False, max_length=5)
     afterDateEra = forms.ChoiceField(required=False, choices=(('bce','BCE'),('ce','CE')), widget=forms.RadioSelect)
     beforeDateEra = forms.ChoiceField(required=False, choices=(('bce','BCE'),('ce','CE')), widget=forms.RadioSelect)
 

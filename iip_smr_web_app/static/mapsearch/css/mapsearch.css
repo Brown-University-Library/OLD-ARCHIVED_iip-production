@@ -157,3 +157,7 @@
 #material-filter {
 	width: 110px;
 }
+
+.tooltip {
+	text-align: center;
+}
