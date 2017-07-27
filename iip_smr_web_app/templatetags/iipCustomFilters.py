@@ -42,3 +42,33 @@ def tax(value):
 @register.filter(name='vocabSort')
 def vocabSort(values):
     return sorted(values, key=lambda x: tax(x[0]).lower())
+
+
+@register.filter(name='indexList')
+def indexList(sequence, position):
+    return sequence[position]
+
+
+
+@register.filter(name='languageClean')
+def languageClean(language):
+    language_cleaned = [];
+    for l in language:
+        language_cleaned.append(l.encode('utf-8'))
+    return language_cleaned
+
+
+
+
+@register.filter(name='placeClean')
+def placeClean(place):
+    # place_cleaned = [];
+    # for c in place:
+    #     if c == ']':
+    #         place_cleaned.append(c);
+    #     else:
+    #         place_cleaned.append(c);
+
+    place_cleaned = place.replace('[','');
+    place = place_cleaned.replace(']','');
+    return place

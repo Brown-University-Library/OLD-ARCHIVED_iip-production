@@ -1,0 +1,136 @@
+{% extends 'about/base.html' %}
+
+{% block extra_css %}
+	{% load staticfiles %}
+	<link href='{% static 'resources/css/resources.css' %}' rel="stylesheet">
+	<link href='{% static 'about/css/sidebar.css' %}' rel="stylesheet">
+
+<style>
+
+hr.style-one {
+border: 0;
+height: 1px;
+background: #333;
+background-image: linear-gradient(to right, #ccc, #333, #ccc);
+border-top: black;
+}
+</style>
+
+{% endblock %}
+
+
+
+{% block body %}
+<div id="wrapper">
+    <div id="sidebar-wrapper">
+        <nav id="spy">
+            <ul class="sidebar-nav nav">
+                <li>
+                    <a href="#bibliography" data-scroll>
+                        Bibliography
+                    </a>
+                </li>
+                <li>
+                    <a href="#timeline" data-scroll>
+                        Timeline
+                    </a>
+                </li>
+                <li>
+                    <a href="#education" data-scroll>
+                        Education
+                    </a>
+                </li>
+                <li>
+                    <a href="#glossary" data-scroll>
+                        Glossary
+                    </a>
+                </li>
+                <li>
+                    <a href="#link" data-scroll>
+                        Links
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page-content-wrapper">
+        <section class="about-text ptb-100">
+            <hr class="style-one" id="bibliography">
+            <br><br><br><br><br>    
+                <div class="row">
+                    <h2>Bibliography</h2>
+                    <br>
+                    <div><a href='https://www.zotero.org'><img id='zotero' src='{% static 'resources/img/zotero.png' %}'></a></div>
+                    <br><br> 
+                    <div class="col-md-6">
+                        <p>The bibliography for the Inscriptions of Israel/Palestine project is stored and managed using <a href='https://www.zotero.org'>Zotero</a>. To view the whole bibliography, visit our <a href='https://www.zotero.org/iip/items/'>Zotero collection page</a>. You can search and sort through the records there using the search box in the upper-right. <br>
+                        <a href='http://cds.library.brown.edu/projects/Inscriptions/bib/enter_bib.html'>Add new bibliographic entries (IIP staff only)</a></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>Inscriptions of Israel/Palestine by <a href='index.html'>Inscriptions of Israel/Palestine</a> is licensed under a <a href='https://creativecommons.org/licenses/by-nc-nd/3.0/us/'>Creative Commons Attribution- Noncommercial-No Derivative Works 3.0 United States License.</a> <br>
+                        <a href="mailto:Michael_Satlow@brown.edu">Contact project director.</a></p>
+                    </div>
+                </div>
+            <br><br><br>
+            <hr class="style-one" id="timeline">
+            <br><br><br><br><br>
+                <div class='row'>
+                    <h2>Timeline</h2>
+                    <br>
+                    <p>The Inscriptions of Israel/Palestine project seeks to build an internet-accessible database of published inscriptions from Israel/Palestine that date between ca. 500 BCE and 614 CE, roughly corresponding to the Persian, Greek, and Roman periods. The purpose of this database is to provide a tool that will make accessible the approximately 15,000 relevant inscriptions published to date, and will include substantial contextual information for these inscriptions, including images and geographical information. The data is tagged according to Epidoc conventions and we are exploring ways to link the database with other projects, such as Pelagios.</p>
+                </div>
+            <br><br><br>
+            <hr class="style-one" id="education">
+            <br><br><br><br><br>
+                <div class="row">
+                    <h2>Education</h2>
+                    <br>
+                    <p>These inscriptions are an invaluable resource for historical investigation, for they provide information that is frequently not available in the extant literary texts. Recently, for example, scholars have used these inscriptions to:</p>
+                    <p>
+                        <ul>
+                            <li>Reconstruct the ancient Roman road system throughout Israel/Palestine, thus revising our understanding of trade routes and the economy;</li>
+                            <li>Investigate the involvement of the Roman government in municipal building projects;</li>
+                            <li>Revise our understanding of the Bar-Kokhba Revolt, suggesting that the revolt was far more serious than we previously thought;</li>
+                            <li>Recover the role (and perhaps even voices) of women in Jewish and Christian communities - voices that otherwise are silent in the literary record.</li>
+                        </ul>
+                    </p>
+                </div>
+            <br><br><br>
+            <hr class="style-one" id="glossary">
+            <br><br><br><br><br>
+                <div class="row">
+                    <h2>Glossary</h2>
+                    <br>
+                    <p>These inscriptions are an invaluable resource for historical investigation, for they provide information that is frequently not available in the extant literary texts. Recently, for example, scholars have used these inscriptions to:</p>
+                    <p>
+                        <ul>
+                            <li>Reconstruct the ancient Roman road system throughout Israel/Palestine, thus revising our understanding of trade routes and the economy;</li>
+                            <li>Investigate the involvement of the Roman government in municipal building projects;</li>
+                            <li>Revise our understanding of the Bar-Kokhba Revolt, suggesting that the revolt was far more serious than we previously thought;</li>
+                            <li>Recover the role (and perhaps even voices) of women in Jewish and Christian communities - voices that otherwise are silent in the literary record.</li>
+                        </ul>
+                    </p>
+                </div>
+            <br><br><br>
+            <hr class="style-one" id="link">
+            <br><br><br><br><br>
+                <div class="row">
+                    <h2>Links</h2>
+                    <br>
+                    <p>These inscriptions are an invaluable resource for historical investigation, for they provide information that is frequently not available in the extant literary texts. Recently, for example, scholars have used these inscriptions to:</p>
+                    <p>
+                        <ul>
+                            <li>Reconstruct the ancient Roman road system throughout Israel/Palestine, thus revising our understanding of trade routes and the economy;</li>
+                            <li>Investigate the involvement of the Roman government in municipal building projects;</li>
+                            <li>Revise our understanding of the Bar-Kokhba Revolt, suggesting that the revolt was far more serious than we previously thought;</li>
+                            <li>Recover the role (and perhaps even voices) of women in Jewish and Christian communities - voices that otherwise are silent in the literary record.</li>
+                        </ul>
+                    </p>
+            </div>
+            <br><br><br>  
+        </section>
+    </div>
+</div>  
+
+{% endblock %}
