@@ -22,7 +22,7 @@ log = logging.getLogger(__name__)
 
 
 def temp( request ):
-    message = 'Yay!!! %s' % str( datetime.datetime.now() )
+    message = 'BLUEEEEEE!!! %s' % str( datetime.datetime.now() )
     log.debug( 'test log debug entry' )
     log.info( 'test log info entry' )
     log.error( 'test log error entry' )
