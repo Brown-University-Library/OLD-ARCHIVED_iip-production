@@ -134,7 +134,7 @@ class SearchForm( forms.Form ):
     beforeDateEra = forms.ChoiceField(required=False, choices=(('bce','BCE'),('ce','CE')), widget=forms.RadioSelect)
 
     
-    select_multiple = dict.fromkeys(['type', 'physical_type', 'language', 'religion'], "on")
+    select_multiple = dict.fromkeys(['type', 'physical_type', 'language', 'religion', 'material'], "on")
 
     # url = 'http://127.0.0.1/test/dev/django_choices.json'
     # r = requests.get( url )
