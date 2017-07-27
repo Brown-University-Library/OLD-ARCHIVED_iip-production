@@ -11,6 +11,7 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbid
 from django.shortcuts import get_object_or_404, render, render_to_response
 from iip_smr_web_app import common, models, settings_app
 from iip_smr_web_app import forms
+from iip_smr_web_app import old_forms
 from iip_smr_web_app.libs.view_xml_helper import XmlPrepper
 from iip_smr_web_app.libs import ajax_snippet
 import csv
@@ -588,11 +589,7 @@ def load_layers(request):
 
 
 
-
-
-
-
-#### Old search function
+#### Old search function (needs its unique url i.e. /results/[OLD]/?q=*)
 
 def old_results( request ):
     """ Handles /results/ GET, POST, and ajax-GET. """
@@ -603,7 +600,7 @@ def old_results( request ):
         context = {}
         request.encoding = u'utf-8'
 
-        form = forms.SearchForm( request.POST )  # form bound to the POST data
+        form = old_forms.SearchForm( request.POST )  # form bound to the POST data
 
         resultsPage = 1
         qstring_provided = None
@@ -652,7 +649,7 @@ def old_results( request ):
         resultsPage = int( request.GET[u'resultsPage'] )
         context = common.paginateRequest(
             qstring=updated_qstring, resultsPage=resultsPage, log_id=log_id )
-        return_str = ajax_snippet.render_block_to_string(u'iip_search_templates/results.html', u'content', context)
+        return_str = ajax_snippet.render_block_to_string(u'iip_search_templates/old_results.html', u'content', context)
         return unicode( return_str )
 
     def _get_searchform_context( request, log_id ):
@@ -662,7 +659,7 @@ def old_results( request ):
         if not u'authz_info' in request.session:
             request.session[u'authz_info'] = { u'authorized': False }
         # form = SearchForm()  # an unbound form
-        form = forms.SearchForm()  # an unbound form
+        form = old_forms.SearchForm()  # an unbound form
         log.debug( 'form, `%s`' % repr(form) )
         # place_field_object = form.fields['place']
         # place_field_object.choices = [(item, item) for item in sorted( common.facetResults('placeMenu').keys()) if item]
@@ -682,7 +679,7 @@ def old_results( request ):
     if request.method == u'POST': # form has been submitted by user
         log.debug( 'POST, search-form was submitted by user' )
         request.encoding = u'utf-8'
-        form = forms.SearchForm(request.POST)
+        form = old_forms.SearchForm(request.POST)
         if not form.is_valid():
             log.debug( 'form not valid, redirecting')
             redirect_url = '%s://%s%s?q=*:*' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'results_url') )
@@ -695,7 +692,7 @@ def old_results( request ):
         return HttpResponseRedirect( redirect_url )
     if request.method == u'GET' and request.GET.get(u'q', None) != None:
         log.debug( 'GET, with params, hit solr and show results' )
-        return render( request, u'iip_search_templates/results.html', _get_results_context(request, log_id) )
+        return render( request, u'iip_search_templates/old_results.html', _get_results_context(request, log_id) )
     elif request.is_ajax():  # user has requested another page, a facet, etc.
         log.debug( 'request.is_axax() is True' )
         return HttpResponse( _get_ajax_unistring(request) )
@@ -795,7 +792,7 @@ def old_viewinscr(request, inscrid):
             'biblTranslation' : specific_sources['translation'],
             'biblioFull': False,
             'view_xml_url': view_xml_url }
-        return_str = ajax_snippet.render_block_to_string( 'iip_search_templates/viewinscr.html', 'viewinscr', context )
+        return_str = ajax_snippet.render_block_to_string( 'iip_search_templates/old_viewinscr.html', 'viewinscr', context )
         return_response = HttpResponse( return_str )
         return return_response
 
@@ -818,7 +815,7 @@ def old_viewinscr(request, inscrid):
             'current_url': current_url,
             }
         # log.debug( u'in _prepare_viewinscr_plain_get_response(); context, %s' % pprint.pformat(context) )
-        return_response = render( request, u'iip_search_templates/viewinscr.html', context )
+        return_response = render( request, u'iip_search_templates/old_viewinscr.html', context )
         return return_response
 
     log_id = _setup_viewinscr( request )

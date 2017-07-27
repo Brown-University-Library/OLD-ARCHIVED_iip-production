@@ -17,7 +17,28 @@ urlpatterns = [
 
     
 
-    url( r'^search/$',  views.old_results, name=u'oldsearch_url' ),
+    url( r'^old_search/$',  views.old_results, name=u'oldsearch_url' ),
+
+
+
+
+
+
+
+
+    
+
+    url( r'^viewinscr/(?P<inscrid>.*)/$', views.old_viewinscr, name='oldinscription_url'),
+
+
+
+
+
+
+
+
+
+
 
     url( r'^api/$', views.api_wrapper, name=u"api_wrapper"),
 

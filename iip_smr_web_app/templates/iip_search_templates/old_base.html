@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>{% block head_title %}Inscriptions of Israel/Palestine | Search{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}../static/iip_search_app/css/tei_custom_elements.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}../static/iip_search_app/css/general.css" />
     {%block queryCapture %}{%endblock%}
     {% block page_css %}{% endblock %}
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js"></script>
@@ -13,7 +14,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}../static/iip_search_app/js/zotero.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}../static/iip_search_app/highslide/highslide-with-gallery.packed.js"></script>
     <script type="text/javascript">
-      hs.graphicsDir = "{{ STATIC_URL }}iip_search_app/highslide/graphics/"
+      hs.graphicsDir = "{{ STATIC_URL }}../static/iip_search_app/highslide/graphics/"
     </script>
     <script>
  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,7 +58,7 @@
         <p><a href="/cds/projects/iip/info/related-sites/" class="leftcol_link">Related Sites</a></p>
         <p><a href="/cds/projects/iip/info/bibliography/" class="leftcol_link">Bibliography</a></p>
 		<p>&nbsp;</p>
-    <p><a href="{% url 'search_url' %}" class="leftcol_search">Search<br />Inscriptions</a> </p>
+    <p><a href="{% url 'oldsearch_url' %}" class="leftcol_search">Search<br />Inscriptions</a> </p>
     <div id="logos">
 			<a href="http://library.brown.edu/cds">
         <img src="{{ STATIC_URL }}../static/iip_search_app/images/cds_logo.gif" alt="CDS" />
