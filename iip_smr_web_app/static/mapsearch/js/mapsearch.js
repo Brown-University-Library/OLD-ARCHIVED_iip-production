@@ -134,7 +134,7 @@ function createPointsLayer(url) {
             place: place,
             num_inscriptions: num_inscriptions,
             radius: Math.sqrt(num_inscriptions) + 4,
-            color: 'coral',
+            color: '#333',
             weight: 2, 
             pane: 'markerPane'
           }).bindPopup(
@@ -165,10 +165,10 @@ function createPointsLayer(url) {
               inscription['physical_type'] = doc['physical_type'][0].split(/[\s,]+/);
             }
 
-            $('#map-inscriptions-box ul').prepend('<li style="display: none;" class="inscription" id=' + doc.inscription_id + '><label>' 
-              + doc.inscription_id + '</label></li>');
-            $('#' + doc.inscription_id).append('<br>Place: ' + inscription.placeMenu + '<br>Language: ' + inscription.language 
-              + '<br>Religion: ' + inscription.religion + '<br>');
+            // $('#map-inscriptions-box ul').prepend('<li style="display: none;" class="inscription" id=' + doc.inscription_id + '><label>' 
+            //   + doc.inscription_id + '</label></li>');
+            // $('#' + doc.inscription_id).append('<br>Place: ' + inscription.placeMenu + '<br>Language: ' + inscription.language 
+            //   + '<br>Religion: ' + inscription.religion + '<br>');
           }
 
           p.options.inscriptions = inscriptions;
@@ -304,6 +304,7 @@ $('#religion-filter').change(function() {
 var roman_provinces;
 var roman_roads;
 var byzantine_provinces_400CE;
+var iip_regions;
 
 $.ajax({
   dataType: "json",
@@ -317,7 +318,10 @@ $.ajax({
     roman_roads = new L.geoJSON(roads, {style: getWeight});
 
     var byzantine = JSON.parse(data.byzantine_provinces_400CE);
-    byzantine_provinces_400CE = new L.geoJSON(byzantine);
+    byzantine_provinces_400CE = new L.geoJSON(byzantine, {color: 'gray', weight: 1});
+
+    var iip = JSON.parse(data.iip_regions);
+    iip_regions = new L.geoJSON(iip, {color: 'navy', weight: 1});
   }
 });
 
@@ -346,7 +350,7 @@ var getWeight = function(road) {
 
 // CHECKBOX MENU OPTIONS
 
-$('#roman_provinces').click(function(){
+$('#roman_provinces').click(function() {
   if (mymap.hasLayer(roman_provinces)){
         mymap.removeLayer(roman_provinces);
     console.log("roman_empire_provinces_overlay removed");
@@ -356,7 +360,7 @@ $('#roman_provinces').click(function(){
   }
 });
 
-$('#roman_roads').click(function(){
+$('#roman_roads').click(function() {
   if (mymap.hasLayer(roman_roads)){
         mymap.removeLayer(roman_roads);
     console.log("roman_roads_overlay removed");
@@ -366,7 +370,7 @@ $('#roman_roads').click(function(){
   }
 });
 
-$('#byzantine_provinces_400CE').click(function(){
+$('#byzantine_provinces_400CE').click(function() {
   if (mymap.hasLayer(byzantine_provinces_400CE)){
         mymap.removeLayer(byzantine_provinces_400CE);
     console.log("byzantine_provinces_400CE overlay removed");
@@ -375,6 +379,16 @@ $('#byzantine_provinces_400CE').click(function(){
     console.log("byzantine_provinces_400CE overlay added");
   }
 });
+
+$('#iip_regions').click(function() {
+  if (mymap.hasLayer(iip_regions)){
+        mymap.removeLayer(iip_regions);
+    console.log("iip_regions overlay removed");
+  } else {
+    mymap.addLayer(iip_regions);
+    console.log("iip_regions overlay added");
+  }
+})
 
 
 var satelite_tile = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZGs1OCIsImEiOiJjajQ4aHd2MXMwaTE0MndsYzZwaG1sdmszIn0.VFRnx3NR9gUFBKBWNhhdjw', {
@@ -435,7 +449,7 @@ function filterByDateRange() {
       }
       if ((inscr['notBefore'] >= low && inscr['notBefore'] < high)
         || (inscr['notAfter'] <= high && inscr['notAfter'] > low)) {
-        $('#' + j).css('display', 'block');
+        // $('#' + j).css('display', 'block');
         num_in_range += 1;
         promises.push(addFacetNums(inscr, facet_nums));
       }
@@ -447,10 +461,11 @@ function filterByDateRange() {
     }
     
     point['options']['num_inscriptions'] = num_in_range;
-    point.getPopup().setContent("<strong>Place: </strong>" 
+    point.bindPopup("<strong>Place: </strong>" 
         + point['options']['place'] + "<br><strong>Region: </strong>" 
         + point['options']['region'] + "<br><strong>Inscriptions: </strong>" 
         + num_in_range);
+    // point.on('click', )
   });
 
   Promise.all(promises)
