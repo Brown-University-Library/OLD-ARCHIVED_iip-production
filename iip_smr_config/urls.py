@@ -26,18 +26,6 @@ urlpatterns = [
 
 
 
-    
-
-    url( r'^viewinscr/(?P<inscrid>.*)/$', views.old_viewinscr, name='oldinscription_url'),
-
-
-
-
-
-
-
-
-
 
 
     url( r'^api/$', views.api_wrapper, name=u"api_wrapper"),
