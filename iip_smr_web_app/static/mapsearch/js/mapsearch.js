@@ -1,6 +1,6 @@
 // GLOBAL VARS
 
-var BASE_URL = 'http://library.brown.edu/cds/projects/iip/api/?start=0&rows=3278&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language_display,religion&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
+var BASE_URL = 'http://library.brown.edu/cds/projects/iip/api/?start=0&rows=3278&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language_display,religion,material&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
 var FILTERS_URL = BASE_URL.concat("&fq=");
 var LOCATIONS_URL = 'http://library.brown.edu/cds/projects/iip/api/?q=*:*&%3A*&start=0&rows=0&indent=on&facet=on&facet.field=city_pleiades&wt=json';
 var points_layer = L.layerGroup();
@@ -137,11 +137,7 @@ function createPointsLayer(url) {
             color: '#333',
             weight: 2, 
             pane: 'markerPane'
-          }).bindPopup(
-            "<strong>Place: </strong>" 
-            + place + "<br><strong>Region: </strong>" 
-            + region + "<br><strong>Inscriptions: </strong>" 
-            + num_inscriptions);
+          });
           var inscriptions = {};
           for (var i = 0; i < this['doclist']['docs'].length; i++) {
             var doc = this['doclist']['docs'][i];
@@ -318,13 +314,13 @@ $.ajax({
   success: function(data) {
 
     var provinces = JSON.parse(data.roman_provinces);
-    roman_provinces = new L.geoJSON(provinces, {color: 'olive', weight: 1, onEachFeature: onEachProvince});
+    roman_provinces = new L.geoJSON(provinces, {color: 'olive', weight: 1, onEachFeature: onEachRomanProvince});
 
     var roads = JSON.parse(data.roman_roads);
     roman_roads = new L.geoJSON(roads, {style: getWeight});
 
     var byzantine = JSON.parse(data.byzantine_provinces_400CE);
-    byzantine_provinces_400CE = new L.geoJSON(byzantine, {color: 'gray', weight: 1});
+    byzantine_provinces_400CE = new L.geoJSON(byzantine, {color: 'gray', weight: 1, onEachFeature: onEachByzantine});
 
     var iip = JSON.parse(data.iip_regions);
     iip_regions = new L.geoJSON(iip, {color: 'navy', weight: 1});
@@ -333,7 +329,7 @@ $.ajax({
 
 function highlightProvince(e) {
     var layer = e.target;
-
+    console.log(e);
     layer.setStyle({
         weight: 3,
         color: '#666',
@@ -348,13 +344,24 @@ function highlightProvince(e) {
     }
 }
 
-function onEachProvince(feature, layer) {
-  layer.bindTooltip(feature.properties.province, {sticky: true, direction: 'center'});
+function onEachRomanProvince(feature, layer) {
+  layer.bindTooltip('<strong>Roman Province</strong><br>' + feature.properties.province, {sticky: true, direction: 'center', offset: [0, 18], className: 'roman-province tooltip'});
   layer.on({
       mouseover: highlightProvince,
       mouseout: function() {
         layer.closeTooltip();
         roman_provinces.resetStyle(layer)
+      }
+  });
+}
+
+function onEachByzantine(feature, layer) {
+  layer.bindTooltip('<strong>Byzantine Province</strong><br>' + feature.properties.Name, {sticky: true, direction: 'center', offset: [0, 18], className: 'byzantine-province tooltip'});
+  layer.on({
+      mouseover: highlightProvince,
+      mouseout: function() {
+        layer.closeTooltip();
+        byzantine_provinces_400CE.resetStyle(layer)
       }
   });
 }
@@ -565,8 +572,6 @@ $(".select-multiple > a").click(function() {
     $(this).text("on");
     ops[filter] = ' OR ';
   }
-console.log($(this));
-  console.log("OPS ", ops)
 });
 
 // $('#id_notBefore').on('input', function() {

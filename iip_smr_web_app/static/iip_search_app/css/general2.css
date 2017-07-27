@@ -307,6 +307,7 @@ table.search_box, table#search_results {
 
 table.search_box {
     background-color:#d9e3d0;
+    
     color: #333333;
     border: 1px solid #333333;
 }
