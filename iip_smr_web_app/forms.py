@@ -111,6 +111,13 @@ class SearchForm( forms.Form ):
         # self.fields['language'] = forms.MultipleChoiceField(required=False, choices=self.languages, widget=forms.CheckboxSelectMultiple)
         self.fields['language'] = forms.MultipleChoiceField(required=False, choices=self.languages, widget=forms.CheckboxSelectMultiple())
 
+        # self.material_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-materials'][0]
+        self.material_tax = [tax for tax in self.taxonomies if list(tax.attrib.values())[0] == 'IIP-materials'][0]
+        # self.materials_dict = dict([(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.material_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
+        self.materials_dict = dict([(list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.material_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
+        self.materials = make_vocab_list( self.materials_dict, sorted( common.facetResults('material').keys()) )
+        self.fields['material'] = forms.MultipleChoiceField(required=False, choices=self.materials, widget=forms.CheckboxSelectMultiple())
+
     text = forms.CharField(required=False)
     metadata = forms.CharField(required=False)
     figure = forms.CharField(required=False)

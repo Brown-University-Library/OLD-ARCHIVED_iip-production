@@ -578,7 +578,13 @@ def load_layers(request):
     byzantine = json.dumps(byzantine)
     data.close()
 
-    context = {'roman_provinces':roman_provinces, 'roman_roads':roman_roads, 'byzantine_provinces_400CE': byzantine}
+    json_data = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "mapsearch/geoJSON/IIP_regions2.geojson")
+    data = open(json_data, 'r') 
+    iip = json.load(data)
+    iip = json.dumps(iip)
+    data.close()
+
+    context = {'roman_provinces':roman_provinces, 'roman_roads':roman_roads, 'byzantine_provinces_400CE': byzantine, 'iip_regions': iip}
 
     dump = json.dumps(context)
     return HttpResponse(dump, content_type='application/json')
