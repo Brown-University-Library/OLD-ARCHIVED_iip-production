@@ -52,19 +52,6 @@ table{
 	border-collapse: separate;
 }
 
-
-
-#slider-range{
-	float: bottom;
-	width: 82%;
-	height: 20px;
-}
-
-.ui-widget.ui-widget-content{
-	border: 2px solid #333333;
-	border-radius: 15px;
-}
-
 .ui-state-default, .ui-widget-content .ui-state-default{
 	background-color: #333333;
 	height: 22px;
@@ -73,15 +60,6 @@ table{
 .row{
 	margin-left: 0;
 }
-
-#mapid{
-	float: left; 
-	height:500px; 
-	width:82%; 
-	margin: 0 auto; 
-	margin-top: 100px;
-}
-
 
 /* Share Social Media */
 

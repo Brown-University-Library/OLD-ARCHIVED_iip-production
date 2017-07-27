@@ -4,7 +4,6 @@ var BASE_URL = 'http://library.brown.edu/cds/projects/iip/api/?start=0&rows=3278
 var FILTERS_URL = BASE_URL.concat("&fq=");
 var LOCATIONS_URL = 'http://library.brown.edu/cds/projects/iip/api/?q=*:*&%3A*&start=0&rows=0&indent=on&facet=on&facet.field=city_pleiades&wt=json';
 var points_layer = L.layerGroup();
-//var facet_nums = {};
 var filters = {
   place: [],
   type: [],
@@ -13,7 +12,16 @@ var filters = {
   religion: [],
   material: []
 }; 
+var ops = {
+  place: ' OR ',
+  type: ' OR ',
+  physical_type: ' OR ',
+  language: ' OR ',
+  religion: ' OR ',
+  material: ' OR ',
+}
 var locations_dict = {};
+var facet_nums = {};
 
 ////////////////////////////////////////////////////////////////////// 
 
@@ -36,18 +44,17 @@ $('#advanced_detail').click(function(){
 });
 
 $('#reset').click(function() {
-  $('#filter-menu select').each(function(){
-    $(this).multiselect('deselectAll', false);
-    $(this).multiselect('updateButtonText', true);
-  });
-
+ 
   for (var filter in filters) {
     if (filters.hasOwnProperty(filter) && filters[filter].length > 0) {
       filters[filter] = [];
     }
   }
-
-  createPointsLayer(false, BASE_URL);
+  $("#slider-range").slider('values', 0, -600);
+  handle1.text("600 BCE");
+  $("#slider-range").slider('values', 1, 650);
+  handle2.text("650 CE");
+  createPointsLayer(BASE_URL);
 })
 
 
@@ -79,40 +86,39 @@ function createLocationsDict() {
 
     $.when.apply($, promises)
     .done(function() {
-        createPointsLayer(false, BASE_URL);
+        createPointsLayer(BASE_URL);
     });
   });  
 };
 
-function createPointsLayer(url_filters, url) {
-  if (url_filters) {
-    console.log("This is the filters object: ");
-    console.log(url_filters)
-    var query = '';
-    for (var filter in url_filters) {
-      if (url_filters.hasOwnProperty(filter) && url_filters[filter].length) {
-        console.log("url_filters[filter].length: " + url_filters[filter].length)
-        console.log("This filter has been applied: ");
-        console.log(url_filters[filter]);
-        var str = '('
-        for (var i = 0; i < url_filters[filter].length; i++) {
-          str = str.concat(filter + ':"' + url_filters[filter][i] + '"' + ' OR ');
-        }
-        str = str.slice(0, -4);
-        str = encodeURIComponent(str.concat(')'));
-        console.log("This is the string for the filter: " + str);
-        query = query.concat(str + ' AND ');
+function addFiltersToUrl(url_filters, url) {
+  var query = '';
+  for (var filter in url_filters) {
+    if (url_filters.hasOwnProperty(filter) && url_filters[filter].length) {
+      console.log("url_filters[filter].length: " + url_filters[filter].length)
+      console.log("This filter has been applied: ", url_filters[filter]);
+      var op = ops[filter];
+      var str = '('
+      for (var i = 0; i < url_filters[filter].length; i++) {
+        str = str.concat(filter + ':"' + url_filters[filter][i] + '"' + op);
       }
+      str = str.slice(0, -4);
+      str = encodeURIComponent(str.concat(')'));
+      console.log("This is the string for the filter: " + str);
+      query = query.concat(str + ' AND ');
     }
-    query = query.slice(0, -4);
-    console.log("This is the final query: " + query);
-    url = FILTERS_URL.concat(query);
-  } 
-  
+  }
+  query = query.slice(0, -4);
+  console.log("This is the final query: " + query);
+  url = FILTERS_URL.concat(query);
+
+  createPointsLayer(url);
+}
+
+function createPointsLayer(url) {
   console.log(url);
-  points_layer.clearLayers()
-  var promises = [];
-  var facet_nums = {};
+  points_layer.clearLayers();
+  facet_nums = {};
   $.getJSON(url, function(data) {
     console.log(data['grouped']['city_pleiades']['matches']);
     $.each(data['grouped']['city_pleiades']['groups'], function(index, point) {
@@ -136,7 +142,6 @@ function createPointsLayer(url_filters, url) {
             + place + "<br><strong>Region: </strong>" 
             + region + "<br><strong>Inscriptions: </strong>" 
             + num_inscriptions);
-
           var inscriptions = {};
           for (var i = 0; i < this['doclist']['docs'].length; i++) {
             var doc = this['doclist']['docs'][i];
@@ -159,8 +164,11 @@ function createPointsLayer(url_filters, url) {
               
               inscription['physical_type'] = doc['physical_type'][0].split(/[\s,]+/);
             }
-            
-            promises.push(updateFacetNums(inscriptions[doc.inscription_id], facet_nums));
+
+            $('#map-inscriptions-box ul').prepend('<li style="display: none;" class="inscription" id=' + doc.inscription_id + '><label>' 
+              + doc.inscription_id + '</label></li>');
+            $('#' + doc.inscription_id).append('<br>Place: ' + inscription.placeMenu + '<br>Language: ' + inscription.language 
+              + '<br>Religion: ' + inscription.religion + '<br>');
           }
 
           p.options.inscriptions = inscriptions;
@@ -174,28 +182,13 @@ function createPointsLayer(url_filters, url) {
         console.log(docs_no_pleiades);
       }
     });
-
-    points_layer.addTo(mymap);
-
-    Promise.all(promises)
-        .then((results) => {
-          updateSelectMenus(facet_nums);
-        })
-        .catch((e) => {
-          console.log("ERROR")
-        });  
+    filterByDateRange();
+    points_layer.addTo(mymap);  
   });
   
 }
 
-function updateFacetNums(inscription, facet_nums) {
-  // facet_nums = {
-  //   type: {},
-  //   language: {},
-  //   religion: {},
-  //   physical_type: {},
-  //   material: {},
-  // };
+function addFacetNums(inscription, facet_nums) {
   $.each(inscription, function(key, value) {
     if ((key === 'language' || key === 'religion'|| key === 'type' 
       || key === 'physical_type' || key === 'placeMenu') && value) {
@@ -213,22 +206,32 @@ function updateFacetNums(inscription, facet_nums) {
 }
 
 function updateSelectMenus(facet_nums) {
-  console.log("FACET NUMS");
-  console.log(Object.keys(facet_nums).length);
-  $('.multiselect-container.dropdown-menu li').each(function(index) {
+  $('.filter-container li').each(function(index) {
     var value = $(this).find('input').val();
     if (facet_nums.hasOwnProperty(value)) {
-      console.log("children")
-      $(this).children('span').text(facet_nums[value]);
+      $(this).children('span').text('('+facet_nums[value]+')');
     } else {
-      $(this).children('span').text('0');
+      $(this).children('span').text('(0)');
     }
   });
+
+  // disableCheckboxes();
 }
 
+// function disableCheckboxes() {
+//   for (op in ops) {
+//     if (ops.hasOwnProperty(op) && ops[op] === ' AND ') {
+//       console.log("DISABLED")
+//       console.log(ops[op]);
+//       $('#' + ops[op] + '-filter input').each(function() {
+//         console.log($(this));
+//         $(this).attr('disabled', 'true');
+//       });
+//     }
+//   }
+// }
 
 function changeRadius(num_in_range) {
-  console.log(num_in_range);
   if (num_in_range > 0) {
     return Math.sqrt(num_in_range) + 4
   } else {
@@ -240,60 +243,16 @@ function hasFilters() {
   var has = true;
   for (var filter in filters) {
     if (filters.hasOwnProperty(filter) && filters[filter].length > 0) {
-      createPointsLayer(filters, FILTERS_URL);
+      addFiltersToUrl(filters, FILTERS_URL);
       return;
     }
   }
 
-  createPointsLayer(false, BASE_URL);
+  createPointsLayer(BASE_URL);
 }
 
-
-
-// SET UP FILTER MENU DISPLAY
-$('#id_place').multiselect({
-  enableClickableOptGroups: true,
-  buttonWidth: '200px',
-  maxHeight: 300,
-  // onChange: function(element, checked) {
-  //   // alert(element);
-  //   // console.log(checked);
-  //   // // if (checked === true) {
-  //   // //   filters['place'].push($(this).val());
-  //   // // } else {
-  //   // //   filters['place'] = filters['place'].filter(function(el) {
-  //   // //     return el.name !== "John";
-  //   // //   })
-  //   // // }
-  //   console.log("yo");
-  // }
-});
-
-$('#id_type').multiselect({
-  enableClickableOptGroups: true,
-  buttonWidth: '200px'
-});
-
-$('#id_physical_type').multiselect({
-  enableClickableOptGroups: true,
-  buttonWidth: '200px'
-});
-
-$('#id_language').multiselect({
-  enableClickableOptGroups: true,
-  buttonWidth: '180px'
-});
-
-$('#id_religion').multiselect({
-  enableClickableOptGroups: true,
-  buttonWidth: '180px'
-});
-
-// FUNCTIONS FOR FILTERS
-// console.log($("#id_type option"));
-
-$('#id_place').change(function() {
-  var selected = $('#id_place option:selected');
+$('#place-filter').change(function() {
+  var selected = $('#place-filter input:checked');
   console.log(selected);
   filters['place'] = [];
   selected.each(function() {
@@ -304,10 +263,8 @@ $('#id_place').change(function() {
   hasFilters();
 });
 
-$('#id_type').change(function() {
-  var selected = $('#id_type option:selected');
-  // console.log("These are the filters that are currently selected:");
-  // console.log(selected);
+$('#type-filter').change(function() {
+  var selected = $('#type-filter input:checked');
   filters['type'] = [];
   selected.each(function() {
     filters['type'].push($(this).val());
@@ -315,8 +272,8 @@ $('#id_type').change(function() {
   hasFilters();
 });
 
-$('#id_physical_type').change(function() {
-  var selected = $('#id_physical_type option:selected');
+$('#physical_type-filter').change(function() {
+  var selected = $('#physical_type-filter input:checked');
   filters['physical_type'] = [];
   selected.each(function() {
     filters['physical_type'].push($(this).val());
@@ -324,8 +281,8 @@ $('#id_physical_type').change(function() {
   hasFilters();
 });
 
-$('#id_language').change(function() {
-  var selected = $('#id_language option:selected');
+$('#language-filter').change(function() {
+  var selected = $('#language-filter input:checked');
   filters['language'] = [];
   selected.each(function() {
     filters['language'].push($(this).val());
@@ -333,8 +290,8 @@ $('#id_language').change(function() {
   hasFilters();
 });
 
-$('#id_religion').change(function() {
-  var selected = $('#id_religion option:selected');
+$('#religion-filter').change(function() {
+  var selected = $('#religion-filter input:checked');
   filters['religion'] = [];
   selected.each(function() {
     filters['religion'].push($(this).val());
@@ -352,9 +309,6 @@ $.ajax({
   dataType: "json",
   url: "load_layers",
   success: function(data) {
-
-
-    console.log('bravo');
 
     var provinces = JSON.parse(data.roman_provinces);
     roman_provinces = new L.geoJSON(provinces, {color: 'olive', weight: 1});
@@ -444,60 +398,132 @@ $('#overlay_satelite').click(function(){
 
 });
 
+function computeSliderValue(value) {
+  if (value > 0) {
+    return value + " CE";
+  } else if (value < 0) {
+    return value*(-1) + " BCE";
+  } else {
+    return value;
+  }
+}
+
+function updateDateFieldValue(slider_value, checkbox_id) {
+  if (slider_value > 0) {
+    $('#' + checkbox_id + '_1').prop('checked', true);
+    return slider_value;
+  } else {
+    $('#' + checkbox_id + '_0').prop('checked', true);
+    return slider_value * (-1);
+  }
+}
+
+function filterByDateRange() {
+  var low = $('#slider-range').slider("option", "values")[0];
+  var high = $('#slider-range').slider("option", "values")[1]
+  facet_nums = {};
+  var promises = [];
+  points_layer.eachLayer(function(point) {
+    var num_in_range = 0;
+    for (var j in point['options']['inscriptions']) {
+      var inscr =  point['options']['inscriptions'][j];
+      if(inscr['notBefore'] == null) {
+        inscr['notBefore'] = $("#slider-range").slider("option", "min")
+      } 
+      if (inscr['notAfter'] == null) {
+        inscr['notAfter'] = $("#slider-range").slider("option", "max")
+      }
+      if ((inscr['notBefore'] >= low && inscr['notBefore'] < high)
+        || (inscr['notAfter'] <= high && inscr['notAfter'] > low)) {
+        $('#' + j).css('display', 'block');
+        num_in_range += 1;
+        promises.push(addFacetNums(inscr, facet_nums));
+      }
+    }
+    if (num_in_range === 0) {
+      point.setRadius(0);
+    } else {
+      point.setRadius(Math.sqrt(num_in_range) + 4);
+    }
+    
+    point['options']['num_inscriptions'] = num_in_range;
+    point.getPopup().setContent("<strong>Place: </strong>" 
+        + point['options']['place'] + "<br><strong>Region: </strong>" 
+        + point['options']['region'] + "<br><strong>Inscriptions: </strong>" 
+        + num_in_range);
+  });
+
+  Promise.all(promises)
+    .then((results) => {
+      updateSelectMenus(facet_nums);
+    })
+    .catch((e) => {
+      console.log("ERROR")
+    });
+}
+
 
 // SLIDER
 
 var handle1 = $( "#custom-handle-low" );
-var handle2 = $( "#custom-handle-high" );
+var handle2 = $( "#custom-handle-high"  );
 $("#slider-range").slider({
     range: true,
     min: -600,
-    max: 600,
-    values: [-600, 600],
+    max: 650,
+    values: [-600, 650],
     step:1,
     create: function() {
-      handle1.text( $( this ).slider( "value" ) );
-      handle2.text( $( this ).slider( "value" ) );
+      handle1.text("600 BCE");
+      handle2.text("650 CE");
     },
     slide: function( event, ui ) {
-      handle1.text( ui.values[0]);
-      handle2.text( ui.values[1] );
-      points_layer.eachLayer(function(point) {
-        var num_in_range = 0;
-        for (var j in point['options']['inscriptions']) {
-          var inscr =  point['options']['inscriptions'][j];
-          if(inscr['notBefore'] == null) {
-            inscr['notBefore'] = $("#slider-range").slider("option", "min")
-          } 
-          if (inscr['notAfter'] == null) {
-            inscr['notAfter'] = $("#slider-range").slider("option", "max")
-          }
-          if ((inscr['notBefore'] >= handle1.text() && inscr['notBefore'] < handle2.text())
-            || (inscr['notAfter'] <= handle2.text() && inscr['notAfter'] > handle1.text())) {
-            num_in_range += 1;
-          }
-        }
-        if (num_in_range === 0) {
-          point.setRadius(0);
-        } else {
-          point.setRadius(Math.sqrt(num_in_range) + 4);
-        }
-        point['options']['num_inscriptions'] = num_in_range;
-        point.getPopup().setContent("<strong>Place: </strong>" 
-            + point['options']['place'] + "<br><strong>Region: </strong>" 
-            + point['options']['region'] + "<br><strong>Inscriptions: </strong>" 
-            + num_in_range);
-      })
+      handle1.text(computeSliderValue(ui.values[0]));
+      handle2.text(computeSliderValue(ui.values[1]));
+      $('#id_notBefore').val(updateDateFieldValue(ui.values[0], 'id_afterDateEra'));
+      $('#id_notAfter').val(updateDateFieldValue(ui.values[1], 'id_beforeDateEra'));
+      filterByDateRange(); 
     } 
 });
 
 
 createLocationsDict();
 
-$('.multiselect-container.dropdown-menu li').each(function(index) {
+$('.filter-container li').each(function(index) {
   $(this).append('<span class="facet-count"></span>');
-  console.log($(this));
 });
+
+$(".select-multiple > a").click(function() {
+  var filter = $(this).data('name');
+  if ($(this).text() === "on") {
+    $(this).text("off");
+    ops[filter] = ' AND ';
+  } else {
+    $(this).text("on");
+    ops[filter] = ' OR ';
+  }
+console.log($(this));
+  console.log("OPS ", ops)
+});
+
+// $('#id_notBefore').on('input', function() {
+//   if ($('#id_afterDateEra_0').is(':checked')) { //BCE
+//     $('#slider-range').slider('values', 0, $(this).val() * (-1));
+//   } else { //CE
+//     $('#slider-range').slider('values', 0, $(this).val());
+//   }
+//   handle1.text(computeSliderValue($('#slider-range').slider('option', 'values')[0]));
+// });
+
+$("#points_layer").click(function() {
+  if(mymap.hasLayer(points_layer)) {
+    mymap.removeLayer(points_layer);
+    $(this).text("Show Points");
+  } else {
+    mymap.addLayer(points_layer);   
+    $(this).text("Hide Points");     
+ }
+})
 
 // console.log(mymap.getZoom());
 // mymap.on('zoomend', function(e) {

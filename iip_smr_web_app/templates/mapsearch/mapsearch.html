@@ -7,16 +7,12 @@
 	integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
 	crossorigin=""/>
 	<link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css">
 
 	{% load staticfiles %}
-
-
-
-
-	<link href='../static/iip_search_app/css/general2.css' rel="stylesheet">
-	<link href='../static/iip_search_app/css/tei_custom_elements.css' %}' rel="stylesheet">
-	<link href='../static/mapsearch/css/bootstrap-multiselect.css' %}' rel="stylesheet">
-	<link href='../static/mapsearch/css/mapsearch.css' %}' rel="stylesheet">
+	<link href='{% static 'iip_search_app/css/general2.css' %}' rel="stylesheet">
+	<link href='{% static 'iip_search_app/css/tei_custom_elements.css' %}' rel="stylesheet">
+	<link href='{% static 'mapsearch/css/mapsearch.css' %}' rel="stylesheet">
 <!-- 	<link href -->
 	</style>
 {% endblock %}
@@ -25,7 +21,7 @@
 	<div class="container">
 		<div class="row">
 			<div id="mapid"></div>
-			<div style="float: right; width: 16%; height: 400px; margin: 100px auto 0px;">
+			<div style="float: right; width: 22%; height: 500px; margin: 100px auto 0px;">
 				<div class="row">
 					<center>
 						<strong>Select Overlays</strong>
@@ -46,15 +42,22 @@
 						<label><input id="overlay_satelite" type="checkbox" value="">Satelite View</label>
 					</div> 
 				</div>
+				<div class="row btn-row">
+					<button id="points_layer" type="button" class="btn btn-primary btn-sm">
+					  Hide Points
+					</button>	
+				</div>
 				<div class="row" id="map-inscriptions-box">
-					
+					<ul>
+						
+					</ul>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div id="slider-range">
-				<div id="custom-handle-low" class="ui-slider-handle"></div>
-				<div id="custom-handle-high" class="ui-slider-handle"></div>
+				<div id="custom-handle-low" class="ui-slider-handle custom-handle"></div>
+				<div id="custom-handle-high" class="ui-slider-handle custom-handle"></div>
 			</div>
 		</div>
 	</div>
@@ -67,43 +70,55 @@
 				<tr class="border_top">
 					<td class="col-md-2">				
 				    	<strong>
-                        	Location:
-                    	</strong>                       
-                        <p>
-                            {{ form.place }}
-						</p >
+                        	Location
+                    	</strong>  
+						<div id="place-filter" class="filter-container">
+							{{ form.place }}
+						</div>
 					</td>
 					<td class="col-md-2">
 						<strong>
-							Type of inscription:
-						</strong>
-						<p>
+							Type of Inscription
+						</strong>	
+						<span class="select-multiple">select multiple: 
+							<a data-name="language"> {{ form.select_multiple.type }} </a>
+						</span> 				                 
+						<div id="type-filter" class="filter-container">
 							{{ form.type.errors}} {{ form.type }}
-						</p>
+						</div>
 					</td>
 					<td class="col-md-2">
 						<strong>
-							Physical type:
+							Physical Type
 						</strong>
-						<p>
+						<span class="select-multiple">select multiple: 
+							<a data-name="language"> {{ form.select_multiple.physical_type }} </a>
+						</span> 
+						<div id="physical_type-filter" class="filter-container">
 							{{ form.physical_type.errors}} {{ form.physical_type }}
-						</p>
+						</div>
 					</td>
 					<td class="col-md-2">
 						<strong>
-							Language:
+							Language
 						</strong>
-						<p>
+						<span class="select-multiple">select multiple: 
+							<a data-name="language"> {{ form.select_multiple.language }} </a>
+						</span> 
+						<div id="language-filter" class="filter-container">
 							{{ form.language.errors}} {{ form.language }}
-						</p>
+						</div>
 					</td>
 					<td class="col-md-2">
 						<strong>
-							Religion:
+							Religion
 						</strong>
-						<p>
+						<span class="select-multiple">select multiple: 
+							<a data-name="religion"> {{ form.select_multiple.religion }} </a>
+						</span> 
+						<div id="religion-filter" class="filter-container">
 							{{ form.religion.errors}} {{ form.religion }}
-						</p>
+						</div>
 						{% if session_authz_info.authorized %}
   						<strong>
   							Display Status:
@@ -117,11 +132,11 @@
 						<strong>
 							Material:
 						</strong>
-						<p class="indent">
+						<div id="material-filter" class="filter-container">
 							{{ form.material.errors}} {{ form.material }}
-						</p>
+						</div>
 					</td>
-					<!-- <td class="col-md-2">
+					<td class="col-md-2">
 						<div style="float: left">
                         	<strong>
                             Date of inscription:
@@ -146,7 +161,7 @@
 	                            </table>
 	                        </p>
                         </div>
-					</td> -->
+					</td>
 				</tr>
 			</table>
 			<br>
@@ -259,18 +274,17 @@
 	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
 	integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
 	crossorigin=""></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
 
     {% load staticfiles %}  
-	<script src='{% static 'mapsearch/js/bootstrap-multiselect.js' %}'></script>
     <script src='{% static 'mapsearch/js/mapsearch.js' %}'></script>
     <script src='{% static 'mapsearch/js/jquery.livequery.js' %}'></script>
-    
     <script src='{% static 'mapsearch/highslide/highslide-with-gallery.packed.js' %}'></script>
     
 
 
 	<script type="text/javascript">
-	hs.graphicsDir = "../static/iip_search_app/highslide/graphics/"
+	hs.graphicsDir = "{{ STATIC_URL }}iip_search_app/highslide/graphics/"
 	</script>
 	<script>
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
