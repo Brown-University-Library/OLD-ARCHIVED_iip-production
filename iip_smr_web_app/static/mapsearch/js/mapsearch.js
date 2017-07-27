@@ -1,6 +1,6 @@
 // GLOBAL VARS
 
-var BASE_URL = 'http://library.brown.edu/cds/projects/iip/api/?start=0&rows=3278&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language,religion&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
+var BASE_URL = 'http://library.brown.edu/cds/projects/iip/api/?start=0&rows=3278&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language_display,religion&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
 var FILTERS_URL = BASE_URL.concat("&fq=");
 var LOCATIONS_URL = 'http://library.brown.edu/cds/projects/iip/api/?q=*:*&%3A*&start=0&rows=0&indent=on&facet=on&facet.field=city_pleiades&wt=json';
 var points_layer = L.layerGroup();
@@ -149,8 +149,9 @@ function createPointsLayer(url) {
               notBefore: doc['notBefore'],
               notAfter: doc['notAfter'], 
               placeMenu: doc['placeMenu'],
-              language: doc['language'], // LANGUAGE IS DELIMITED BY COMMAS SO ARRAY LENGTH >= 1
-              religion: doc['religion'] // RELIGION IS DELIMITED BY COMMAS SO ARRAY LENGTH >= 1
+              language: doc['language_display'], // LANGUAGE IS DELIMITED BY COMMAS SO ARRAY LENGTH >= 1
+              religion: doc['religion'], // RELIGION IS DELIMITED BY COMMAS SO ARRAY LENGTH >= 1
+              material: doc['material']
             };
             var inscription = inscriptions[doc.inscription_id];
 
@@ -164,11 +165,6 @@ function createPointsLayer(url) {
               
               inscription['physical_type'] = doc['physical_type'][0].split(/[\s,]+/);
             }
-
-            // $('#map-inscriptions-box ul').prepend('<li style="display: none;" class="inscription" id=' + doc.inscription_id + '><label>' 
-            //   + doc.inscription_id + '</label></li>');
-            // $('#' + doc.inscription_id).append('<br>Place: ' + inscription.placeMenu + '<br>Language: ' + inscription.language 
-            //   + '<br>Religion: ' + inscription.religion + '<br>');
           }
 
           p.options.inscriptions = inscriptions;
@@ -191,7 +187,7 @@ function createPointsLayer(url) {
 function addFacetNums(inscription, facet_nums) {
   $.each(inscription, function(key, value) {
     if ((key === 'language' || key === 'religion'|| key === 'type' 
-      || key === 'physical_type' || key === 'placeMenu') && value) {
+      || key === 'physical_type' || key === 'placeMenu' || key === 'material') && value) {
       for (var i = 0; i < value.length; i++) {
         if (facet_nums[value[i]] === undefined) {
           facet_nums[value[i]] = 1;
@@ -206,6 +202,7 @@ function addFacetNums(inscription, facet_nums) {
 }
 
 function updateSelectMenus(facet_nums) {
+  console.log("facet nums", facet_nums)
   $('.filter-container li').each(function(index) {
     var value = $(this).find('input').val();
     if (facet_nums.hasOwnProperty(value)) {
@@ -299,6 +296,15 @@ $('#religion-filter').change(function() {
   hasFilters();
 });
 
+$('#material-filter').change(function() {
+  var selected = $('#material-filter input:checked');
+  filters['material'] = [];
+  selected.each(function() {
+    filters['material'].push($(this).val());
+  });
+  hasFilters();
+});
+
 // OVERLAYS
 
 var roman_provinces;
@@ -312,7 +318,7 @@ $.ajax({
   success: function(data) {
 
     var provinces = JSON.parse(data.roman_provinces);
-    roman_provinces = new L.geoJSON(provinces, {color: 'olive', weight: 1});
+    roman_provinces = new L.geoJSON(provinces, {color: 'olive', weight: 1, onEachFeature: onEachProvince});
 
     var roads = JSON.parse(data.roman_roads);
     roman_roads = new L.geoJSON(roads, {style: getWeight});
@@ -324,6 +330,34 @@ $.ajax({
     iip_regions = new L.geoJSON(iip, {color: 'navy', weight: 1});
   }
 });
+
+function highlightProvince(e) {
+    var layer = e.target;
+
+    layer.setStyle({
+        weight: 3,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+
+    layer.openTooltip();
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+}
+
+function onEachProvince(feature, layer) {
+  layer.bindTooltip(feature.properties.province, {sticky: true, direction: 'center'});
+  layer.on({
+      mouseover: highlightProvince,
+      mouseout: function() {
+        layer.closeTooltip();
+        roman_provinces.resetStyle(layer)
+      }
+  });
+}
 
 
 // FUNCTION FOR CHANGING ROAD WEIGHTS
@@ -465,7 +499,9 @@ function filterByDateRange() {
         + point['options']['place'] + "<br><strong>Region: </strong>" 
         + point['options']['region'] + "<br><strong>Inscriptions: </strong>" 
         + num_in_range);
-    // point.on('click', )
+    point.on('click', function() {
+      return showInscriptions(point['options']['inscriptions']);
+    });
   });
 
   Promise.all(promises)
@@ -477,6 +513,18 @@ function filterByDateRange() {
     });
 }
 
+function showInscriptions(inscriptions) {
+  $('#map-inscriptions-box ul').empty();
+  for (inscription in inscriptions) {
+    if (inscriptions.hasOwnProperty(inscription)) {
+      $('#map-inscriptions-box ul').prepend('<li class="inscription" id=' + inscription + '><label>' 
+        + inscription + '</label></li>');
+      $('#' + inscription).append('<br>Type: ' + inscriptions[inscription]['type'] + '<br>Physical Type: ' + inscriptions[inscription]['physical_type']
+        + '<br>Language: ' + inscriptions[inscription]['language'] + '<br>Religion: ' 
+        + inscriptions[inscription]['religion'] + '<br>Material: ' + inscriptions[inscription]['material'] + '<br>');
+    }
+  }
+}
 
 // SLIDER
 
