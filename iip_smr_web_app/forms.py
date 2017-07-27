@@ -159,7 +159,7 @@ class SearchForm( forms.Form ):
                         vlist += u"%s" % c
                     v = u"%s" % vlist
                 else:
-                    if re.search('\s', unicode(v)):
+                    if re.search('\s', str(v)):
                         v = u"\"%s\"" % v
             if f and v:
                 if f in search_fields:
