@@ -345,7 +345,7 @@ def login( request ):
               response = HttpResponseRedirect( request.GET['next'] )
             else:
                 redirect_url = u'%s://%s%s' % (
-                    request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'search_url',) )
+                    request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'mapsearch_url',) )
             response = HttpResponseRedirect( redirect_url )
         else:
             response = HttpResponseForbidden( '403 / Forbidden; unauthorized user' )
@@ -374,7 +374,7 @@ def logout( request ):
         redirect_url = request.GET[u'next']
     else:
         redirect_url = u'%s://%s%s' % (
-            request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'search_url',) )
+            request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'mapsearch_url',) )
     return HttpResponseRedirect( redirect_url )
 
 
