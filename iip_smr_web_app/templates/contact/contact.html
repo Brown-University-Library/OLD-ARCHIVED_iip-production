@@ -1,0 +1,68 @@
+{% extends 'about/base.html' %}
+
+
+{% block extra_css %}
+
+<link href="{{ STATIC_URL }}iip_search_app/css/general2.css" media="all" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+
+
+{% block body %}
+
+<section class="contact-form ptb-100">
+    <div class="container text-center">
+        <h2>Get In Touch. How can we help you?<br>
+            Want to Contribute?
+        </h2>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group user-name">
+                                <label for="nameFive-first" class="sr-only">Name</label>
+                                <input type="text" class="form-control" required="" id="nameFive-first" placeholder="First Name">
+                            </div>
+
+                            <div class="form-group user-email">
+                                <label for="emailFive" class="sr-only">Email</label>
+                                <input type="email" class="form-control" required="" id="emailFive" placeholder="Email Address">
+                            </div>
+
+
+                            <div class="form-group user-phone">
+                                <label for="websiteOne" class="sr-only">Website</label>
+                                <input type="text" class="form-control" required="" id="websiteOne" placeholder="Phone">
+                            </div>
+                        </div><!-- /.col-md-6 -->
+                        <div class="col-md-6">
+                            <div class="form-group user-message">
+                                <label for="messageOne" class="sr-only">Message</label>
+                                <textarea class="form-control" required="" id="messageOne" placeholder="Write Message"></textarea>
+                            </div>
+                        </div><!-- /.col-md-6 -->
+                    </div><!-- /.row-->
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div><!-- /.col-md-8 -->
+        </div>  
+    </div>
+</section>
+<!-- .contact-form-->
+
+<section class="map-section">
+    <div id="googleMap"></div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    {% load staticfiles %}  
+    <script src='{% static 'contact/js/contact.js' %}'></script>
+    <script src='{% static 'contact/js/flexSlider/jquery.flexslider-min.js' %}'></script>
+    
+{% endblock %}

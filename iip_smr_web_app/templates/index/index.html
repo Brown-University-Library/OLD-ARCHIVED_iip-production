@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Inscriptions of Israel/Palestine</title>
+
+    {% load staticfiles %}
+    <link href='{% static 'index/css/bootstrap.min.css' %}' rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href='{% static 'index/css/index.css' %}' rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href='{% static 'index/css/font-awesome.min.css' %}' rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <div id="background-carousel">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <div id="slide1" class="item active"></div>
+            <div id="slide2" class="item"></div>
+            <div id="slide3" class="item"></div>  
+          </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header id="top" class="header">
+        <div class="text-vertical-center">
+
+            <h1><small><strong>Inscriptions of</strong></small><br><big>Israel/Palestine</big><br><small>600 BCE - 600 CE</small></h1>
+            <h3><span class="bracket">{</span> A fully searchable digitized collection of inscriptions from the Israel/Palestine region. <br>The IIP project hosts over 3,000 records from a wide variety of print sources and <br>aims to be the first comprehensive database of epigraphic material from this region and timespan.<span class="bracket">}</span><br><br> If you are new to this site, we recommend exploring the ABOUT page for tutorials and information.<br>To search the collection, go directly to MAP SEARCH.   </h3>
+            <br>
+            <a href="{% url 'about_url' %}" class="btn btn-dark btn-lg link" data-transition="slide" data-direction="reverse">Learn More</a>
+            <a href="{% url 'mapsearch_url' %}" class="btn btn-dark btn-lg link">Explore Data</a>
+        </div>
+    </header>
+
+    <!-- jQuery -->
+    <script src='{% static 'index/js/jquery.min.js' %}'></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src='{% static 'index/js/bootstrap.min.js' %}'></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src='{% static 'index/js/index.js' %}'></script>
+
+</body>
+
+</html>
