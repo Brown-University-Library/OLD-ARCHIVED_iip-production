@@ -1,6 +1,6 @@
 // GLOBAL VARS
 
-var BASE_URL = 'http://library.brown.edu/cds/projects/iip/api/?start=0&rows=3278&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language_display,religion,material&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
+var BASE_URL = 'http://library.brown.edu/cds/projects/iip/api/?start=0&rows=3278&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language,language_display,religion,material&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
 var FILTERS_URL = BASE_URL.concat("&fq=");
 var LOCATIONS_URL = 'http://library.brown.edu/cds/projects/iip/api/?q=*:*&%3A*&start=0&rows=0&indent=on&facet=on&facet.field=city_pleiades&wt=json';
 var points_layer = L.layerGroup();
@@ -145,7 +145,8 @@ function createPointsLayer(url) {
               notBefore: doc['notBefore'],
               notAfter: doc['notAfter'], 
               placeMenu: doc['placeMenu'],
-              language: doc['language_display'], // LANGUAGE IS DELIMITED BY COMMAS SO ARRAY LENGTH >= 1
+              language: doc['language'], // LANGUAGE IS DELIMITED BY COMMAS SO ARRAY LENGTH >= 1
+              language_display: doc['language_display'], 
               religion: doc['religion'], // RELIGION IS DELIMITED BY COMMAS SO ARRAY LENGTH >= 1
               material: doc['material']
             };
@@ -198,9 +199,12 @@ function addFacetNums(inscription, facet_nums) {
 }
 
 function updateSelectMenus(facet_nums) {
-  console.log("facet nums", facet_nums)
+  console.log('facet_nums', facet_nums)
   $('.filter-container li').each(function(index) {
     var value = $(this).find('input').val();
+    if (value === 'Greek') {
+      console.log('VALUE', value);
+    }
     if (facet_nums.hasOwnProperty(value)) {
       $(this).children('span').text('('+facet_nums[value]+')');
     } else {
@@ -490,10 +494,9 @@ function filterByDateRange() {
       }
       if ((inscr['notBefore'] >= low && inscr['notBefore'] < high)
         || (inscr['notAfter'] <= high && inscr['notAfter'] > low)) {
-        // $('#' + j).css('display', 'block');
         num_in_range += 1;
         promises.push(addFacetNums(inscr, facet_nums));
-      }
+      } 
     }
     if (num_in_range === 0) {
       point.setRadius(0);
@@ -527,7 +530,7 @@ function showInscriptions(inscriptions) {
       $('#map-inscriptions-box ul').prepend('<li class="inscription" id=' + inscription + '><label>' 
         + inscription + '</label></li>');
       $('#' + inscription).append('<br>Type: ' + inscriptions[inscription]['type'] + '<br>Physical Type: ' + inscriptions[inscription]['physical_type']
-        + '<br>Language: ' + inscriptions[inscription]['language'] + '<br>Religion: ' 
+        + '<br>Language: ' + inscriptions[inscription]['language_display'] + '<br>Religion: ' 
         + inscriptions[inscription]['religion'] + '<br>Material: ' + inscriptions[inscription]['material'] + '<br>');
     }
   }
@@ -565,11 +568,19 @@ $('.filter-container li').each(function(index) {
 
 $(".select-multiple > a").click(function() {
   var filter = $(this).data('name');
-  if ($(this).text() === "on") {
+  if ($(this).text().includes("on")) {
     $(this).text("off");
+    $('input[name='+filter+']').each(function(index, checkbox) {
+      $(this).replaceWith('<input type="radio" name="' + checkbox.name + '" value="' + checkbox.value +'" />');
+    });
+    // $(this).replaceWith('<input type="radio" name="'+$(this).attr('name')+'" value="'+$(this).attr('value')+'" />');
     ops[filter] = ' AND ';
   } else {
     $(this).text("on");
+    $('input[name='+filter+']').each(function(index, radio) {
+      $(this).replaceWith('<input type="checkbox" name="' + radio.name+'" value="'+ radio.value +'" />');
+
+    });
     ops[filter] = ' OR ';
   }
 });
