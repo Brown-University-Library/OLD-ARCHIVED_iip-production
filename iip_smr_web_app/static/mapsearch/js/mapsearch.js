@@ -535,7 +535,7 @@ function showInscriptions(inscriptions) {
 
     console.log(inscription);
     if (inscriptions.hasOwnProperty(inscription)) {
-      $('#map-inscriptions-box ul').prepend('<li class="inscription" id=' + inscription + '><label><a href="../viewinscr/' + inscription + '">' 
+      $('#map-inscriptions-box ul').prepend('<li class="inscription" id=' + inscription + '><label><a href="../viewinscr/' + inscription + '" target="_blank">' 
         + inscription + '</a>' + '</label></li>');
       $('#' + inscription).append('<br>Type: ' + inscriptions[inscription]['type'] + '<br>Physical Type: ' + inscriptions[inscription]['physical_type']
         + '<br>Language: ' + inscriptions[inscription]['language_display'] + '<br>Religion: ' 
