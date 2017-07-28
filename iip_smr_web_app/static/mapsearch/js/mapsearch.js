@@ -156,10 +156,8 @@ function createPointsLayer(url) {
             if (doc['type']) {
               inscription['type'] = doc['type'][0].split(/[\s,]+/);
             }
-
             // PHYSICAL_TYPE IS DELIMITED BY SPACES SO ARRAY LENGTH = 1 (MUST SPLIT!!!)
             if (doc['physical_type']) {
-              
               inscription['physical_type'] = doc['physical_type'][0].split(/[\s,]+/);
             }
           }
@@ -201,12 +199,19 @@ function addFacetNums(inscription, facet_nums) {
 function updateSelectMenus(facet_nums) {
   console.log('facet_nums', facet_nums)
   $('.filter-container li').each(function(index) {
-    var value = $(this).find('input').val();
-    if (value === 'Greek') {
-      console.log('VALUE', value);
-    }
+    var input = $(this).find('input');
+    // var value = $(this).find('input').val();
+    // var name = $(this).find('input').attr('name');
+    var value = input.val();
+    var name = input.attr('name');
+    // && 
     if (facet_nums.hasOwnProperty(value)) {
-      $(this).children('span').text('('+facet_nums[value]+')');
+      if (filters[name].length === 0 || $('a[data-name=' + name).text() === 'off'
+        || input.is(':checked')) {
+        $(this).children('span').text('('+facet_nums[value]+')');
+      } else {
+        return;
+      }
     } else {
       $(this).children('span').text('(0)');
     }
@@ -520,6 +525,7 @@ function filterByDateRange() {
     })
     .catch((e) => {
       console.log("ERROR")
+      console.log(e);
     });
 }
 
@@ -582,17 +588,10 @@ $(".select-multiple > a").click(function() {
 
     });
     ops[filter] = ' OR ';
+    // facet_nums[filter] = []
+    // updateSelectMenus(facet_nums);
   }
 });
-
-// $('#id_notBefore').on('input', function() {
-//   if ($('#id_afterDateEra_0').is(':checked')) { //BCE
-//     $('#slider-range').slider('values', 0, $(this).val() * (-1));
-//   } else { //CE
-//     $('#slider-range').slider('values', 0, $(this).val());
-//   }
-//   handle1.text(computeSliderValue($('#slider-range').slider('option', 'values')[0]));
-// });
 
 $("#points_layer").click(function() {
   if(mymap.hasLayer(points_layer)) {
