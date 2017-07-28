@@ -34,7 +34,6 @@
 
 .sidebar-nav {
   position: absolute;
-  top: 20px;
   width: 150px;
   list-style: none;
   margin: 0;
@@ -65,7 +64,8 @@
 
 .sidebar-nav li a:hover,
 .sidebar-nav li.active {
-  background: rgba(255,255,255,0.2);
+  /*background: rgba(255,255,255,0.2);*/
+  background: #21170C;
   text-decoration: none;
 }
 

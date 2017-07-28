@@ -10,7 +10,7 @@
 
 hr.style-one {
 border: 0;
-height: 1px;
+height: 2px;
 background: #333;
 background-image: linear-gradient(to right, #ccc, #333, #ccc);
 border-top: black;
@@ -77,40 +77,37 @@ border-top: black;
                     <div class="carousel-inner">
                     <div class="item active">
                       <div class="holder col-sm-6">
-                        <img class="img-responsive" src='{% static 'about/img/inscription5.jpg' %}' alt="...">
+                        <img class="img-responsive" src='{% static 'iip_search_app/images/theodotos_thumbnail.jpg' %}' alt="...">
                       </div>
                       <div class="col-sm-4">
                         <div class="carousel-caption">
-                            <h2>Pilate's Predilections</h2>
-                            <br>
-                            <p>Airport food these days can be pretty crummy. A new inscription sheds light on the airport food hankerings of our frequent-flyer friend Pilate in a bygone era of air travel.</p>
-                            <a href='gallery.html#story1'><button type="button" class="btn btn-default">Read Full Story</button></a>
+                            <h2>Theodotos Dialogue</h2>
+                            <p>What were the functions of synagogues prior to the destruction of the Temple of Jerusalem? A dedicatory inscription provides a tantalizing glimpse into the role of the ancient synagogue in Jewish culture. </p>
+                            <a href="{% url 'theodotos_url' %}"><button type="button" class="btn btn-default">Read Full Story</button></a>
                         </div>
                       </div>
                     </div>
                     <div class="item">
                       <div class="holder col-sm-6">
-                        <img class="img-responsive" src='{% static 'about/img/inscription6.jpg' %}' alt="...">
+                        <img class="img-responsive" src='{% static 'iip_search_app/images/waypoint_thumbnail.jpg' %}' alt="...">
                       </div>
                       <div class="col-sm-4">
                         <div class="carousel-caption">
-                            <h2>May he be remembered for good and for blessing...</h2>
-                            <br>
-                            <p>TIBE0006 - Lower Gaililee. Hammath Tiberias. 270 CE to 325 CE. Pink, red, and black mosaic floor. Dedication.</p>
-                            <button type="button" class="btn btn-default">Read Full Story</button>    
+                            <h2>The Synagogue as a Waypoint for Travellers</h2>
+                            <p>Safety while travelling is a modern, often underappreciated, privilege. The so-called Theodotus inscription refers to a hostel for travellers inside a 1st century CE synagogue in Jerusalem. </p>
+                            <a href="{% url 'synagogue_waypoint_url' %}"><button type="button" class="btn btn-default">Read Full Story</button></a>
                         </div>
                       </div>
                     </div>
                     <div class="item">
                       <div class="holder col-sm-6">
-                        <img class="img-responsive" src='{% static 'about/img/inscription7.jpg' %}' alt="...">
+                        <img class="img-responsive" src='{% static 'iip_search_app/images/heliodorus_thumbnail.png' %}' alt="...">
                       </div>
                       <div class="col-sm-4">
                         <div class="carousel-caption">
-                            <h2>History of the pillar...</h2>
-                            <br>
-                            <p>ABUR0001 - Bethennim (Khirbet Abu Rish). 300-700 CE. Mosaic in a square frame. Invocation. </p>
-                            <button type="button" class="btn btn-default">Read Full Story</button>         
+                            <h2>Heliodorus</h2>
+                            <p>A king’s command to raid the Holy Temple’s coffers incites a bloody revolt. Epigraphic fragments of this king’s correspondence with high officials prove his role in the Temple’s desecration.</p>
+                            <a href="{% url 'heliodorus_url' %}"><button type="button" class="btn btn-default">Read Full Story</button></a>      
                         </div>
                       </div>
                     </div>
@@ -134,10 +131,9 @@ border-top: black;
                     </div>
                     </div>
                 </div>
-            </div>
-            <br><br><br>
+            
             <hr class="style-one" id="why_inscription">
-            <br><br><br><br><br>
+            <br><br>
                 <div class="row">
                     <h2>Why Inscriptions?</h2>
                     <br>
@@ -414,6 +410,7 @@ border-top: black;
                         <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
                     </p>
                 </div>
+            </div>
         </section>
     </div>
 </div>  
