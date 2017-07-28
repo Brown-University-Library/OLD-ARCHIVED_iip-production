@@ -12,6 +12,7 @@
 	{% load staticfiles %}
 	<link href='{% static 'iip_search_app/css/general2.css' %}' rel="stylesheet">
 	<link href='{% static 'iip_search_app/css/tei_custom_elements.css' %}' rel="stylesheet">
+	<link href='{% static 'mapsearch/css/awesome-bootstrap-checkbox.css' %}' rel="stylesheet">
 	<link href='{% static 'mapsearch/css/mapsearch.css' %}' rel="stylesheet">
 <!-- 	<link href -->
 	</style>
@@ -33,7 +34,7 @@
 			<div style="float: right; width: 22%; height: 500px; margin: 100px auto 0px;">
 				<div class="row">
 					<center>
-						<strong>Select Overlays</strong>
+						<strong style="padding-right: 80px;">Select Overlays</strong>
 					</center>
 					<div class="checkbox" >
 						<label><input id="roman_provinces" type="checkbox" value="">Roman Empire Provinces</label>
@@ -248,7 +249,6 @@
 					</td>
 				</tr>
 			</table>
-			<br>
 			<table style="margin: 0 auto;">
 				<tr>
 					<td colspan="3" class="border_top">
