@@ -523,12 +523,20 @@ function filterByDateRange() {
     });
 }
 
+
+
+
+//<a href="../viewinscr/{{inscription.inscription_id}}" target="_blank">View this inscription</a>
+
+
 function showInscriptions(inscriptions) {
   $('#map-inscriptions-box ul').empty();
   for (inscription in inscriptions) {
+
+    console.log(inscription);
     if (inscriptions.hasOwnProperty(inscription)) {
-      $('#map-inscriptions-box ul').prepend('<li class="inscription" id=' + inscription + '><label>' 
-        + inscription + '</label></li>');
+      $('#map-inscriptions-box ul').prepend('<li class="inscription" id=' + inscription + '><label><a href="../viewinscr/' + inscription + '">' 
+        + inscription + '</a>' + '</label></li>');
       $('#' + inscription).append('<br>Type: ' + inscriptions[inscription]['type'] + '<br>Physical Type: ' + inscriptions[inscription]['physical_type']
         + '<br>Language: ' + inscriptions[inscription]['language_display'] + '<br>Religion: ' 
         + inscriptions[inscription]['religion'] + '<br>Material: ' + inscriptions[inscription]['material'] + '<br>');
