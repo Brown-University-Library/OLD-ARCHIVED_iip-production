@@ -613,8 +613,9 @@ function showInscriptions(inscriptions) {
 
     console.log(inscription);
     if (inscriptions.hasOwnProperty(inscription)) {
-      $('#map-inscriptions-box ul').prepend('<li class="inscription" id=' + inscription + '><label>' 
-        + inscription.toUpperCase().substr(0,4) + ' ' + inscription.substr(4) + '</label></li>');
+      $('#map-inscriptions-box ul').prepend('<li class="inscription" id=' + inscription + '><label><a href="../viewinscr/' 
+        + inscription + '" target="_blank">' + inscription.toUpperCase().substr(0,4) + ' ' + inscription.substr(4) + '</a>'
+        + '</label></li>');
       var inscr = inscriptions[inscription];
       if (inscr['type'] === undefined || inscr['type'][0].trim() === '') {
         $('#' + inscription).append('<br>Type: N/A');
