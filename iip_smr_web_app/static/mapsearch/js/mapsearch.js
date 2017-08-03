@@ -602,11 +602,6 @@ function filterByDateRange() {
 }
 
 
-
-
-//<a href="../viewinscr/{{inscription.inscription_id}}" target="_blank">View this inscription</a>
-
-
 function showInscriptions(inscriptions) {
   $('#map-inscriptions-box ul').empty();
   for (inscription in inscriptions) {
