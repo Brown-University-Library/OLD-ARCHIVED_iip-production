@@ -252,13 +252,17 @@ function addFacetNums(inscription, facet_nums) {
 }
 
 function updateSelectMenus(facet_nums) {
-  console.log("UPDATE SELECT MENUS")
-  console.log('facet nums', facet_nums)
   $('.checkbox-default').each(function(index, checkbox){
     var input = $(checkbox).children('input');
     var value = input.val();
     var name = input.attr('name');
-    if ($('a[data-name=' + name).text() === 'off') {
+    console.log('name', name)
+    console.log('text', $('a[data-name=' + name+']').text());
+    if ($('a[data-name=' + name+']').text() === 'off') {
+      if (name === 'religion') {
+        console.log("religion")
+        console.log(value);
+      }
       if (facet_nums.hasOwnProperty(value)) {
         $(this).find('span').text('('+facet_nums[value]+')');
       } else {
@@ -605,8 +609,6 @@ function filterByDateRange() {
 function showInscriptions(inscriptions) {
   $('#map-inscriptions-box ul').empty();
   for (inscription in inscriptions) {
-
-    console.log(inscription);
     if (inscriptions.hasOwnProperty(inscription)) {
       $('#map-inscriptions-box ul').prepend('<li class="inscription" id=' + inscription + '><label><a href="../viewinscr/' 
         + inscription + '" target="_blank">' + inscription.toUpperCase().substr(0,4) + ' ' + inscription.substr(4) + '</a>'
