@@ -10,6 +10,14 @@
 	margin-top: 100px;
 }
 
+.overlay-checkbox label {
+	font-weight: normal;
+}
+
+.overlay-checkbox input[type=checkbox]{
+	margin-right: 10px;
+}
+
 #map-inscriptions-box {
 	margin-top: 15px;
 	width: 94%;
@@ -89,12 +97,49 @@
 	border-width: 1px;
 	border-color: grey;
 	padding-left: 10px;
-	padding-top: 5px;
 }
 
 .filter-container label {
 	font-weight: normal;
 }
+
+/*.filter-container label > input {
+	display: none;
+}*/
+
+/*.filter-container input {
+	-webkit-appearance: none;
+	background-color: #fafafa;
+	border: 1px solid #cacece;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+	padding: 5px;
+	margin-top: 0px !important;
+	margin-right: 2px;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+}
+
+
+.filter-container input:active, .filter-container input:checked:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+.filter-container input:checked {
+	background-color: #e9ecee;
+	border: 1px solid #adb8c0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
+}
+
+.filter-container input:checked:after {
+	content: '\2713';
+	font-size: 13px;
+	position: absolute;
+	top: -3px;
+	left: 0px;
+	color: #333;
+}*/
 
 .filter-container::-webkit-scrollbar {
     -webkit-appearance: none;
