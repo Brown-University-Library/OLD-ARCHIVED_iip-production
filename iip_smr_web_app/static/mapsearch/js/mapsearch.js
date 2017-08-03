@@ -22,7 +22,6 @@ var ops = {
 }
 var locations_dict = {};
 var facet_nums = {};
-var coordinates_no_pleiades = {};
 
 ////////////////////////////////////////////////////////////////////// 
 
@@ -96,7 +95,6 @@ function addFiltersToUrl(url_filters, url) {
   var query = '';
   for (var filter in url_filters) {
     if (url_filters.hasOwnProperty(filter) && url_filters[filter].length) {
-      console.log("url_filters[filter].length: " + url_filters[filter].length)
       console.log("This filter has been applied: ", url_filters[filter]);
       var op = ops[filter];
       var str = '('
@@ -170,8 +168,7 @@ function createPointsLayer(url) {
         }
       } else {
         docs_no_pleiades = this['doclist']['docs'];
-        console.log("The inscriptions below have no pleiades url.")
-        console.log(docs_no_pleiades);
+        var coordinates_no_pleiades = {};
         $.each(docs_no_pleiades, function(index, doc) {
           inscription_id = doc['inscription_id']
           if (coordinates_no_pleiades.hasOwnProperty(doc['city_geo'])) {
@@ -256,8 +253,6 @@ function updateSelectMenus(facet_nums) {
     var input = $(checkbox).children('input');
     var value = input.val();
     var name = input.attr('name');
-    console.log('name', name)
-    console.log('text', $('a[data-name=' + name+']').text());
     if ($('a[data-name=' + name+']').text() === 'off') {
       if (name === 'religion') {
         console.log("religion")
@@ -308,7 +303,6 @@ function changeRadius(num_in_range) {
 }
 
 function hasFilters() {
-  console.log("HAS FILTERS")
   var has = true;
   for (var filter in filters) {
     if (filters.hasOwnProperty(filter) && filters[filter].length > 0) {
@@ -322,7 +316,6 @@ function hasFilters() {
 
 $('#place-filter').change(function() {
   var selected = $('#place-filter input:checked');
-  console.log(selected);
   filters['place'] = [];
   selected.each(function() {
     filters['place'].push($(this).val());
@@ -403,7 +396,6 @@ $.ajax({
 
 function highlightProvince(e) {
     var layer = e.target;
-    console.log(e);
     layer.setStyle({
         weight: 3,
         color: '#666',

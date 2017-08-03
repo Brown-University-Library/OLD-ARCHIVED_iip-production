@@ -578,7 +578,7 @@ def load_layers(request):
     byzantine = json.dumps(byzantine)
     data.close()
 
-    json_data = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "mapsearch/geoJSON/IIP_regions2.geojson")
+    json_data = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "mapsearch/geoJSON/IIP_regions.geojson")
     data = open(json_data, 'r') 
     iip = json.load(data)
     iip = json.dumps(iip)
