@@ -66,24 +66,11 @@ class SearchForm( forms.Form ):
         # self.type_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-genre'][0]
         self.type_tax = [tax for tax in self.taxonomies if list( tax.attrib.values() )[0] == 'IIP-genre'][0]
         # self.types_dict = dict([(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.type_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
-        
-
-
         #self.types_dict = dict([( list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text ) for element in self.type_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
-
-
         self.types_dict = dict([(list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text.lstrip('-')) for element in self.type_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
-
         self.choice_types = make_vocab_list( self.types_dict, sorted( common.facetResults('type').keys()) )
         # self.fields['type'] = forms.MultipleChoiceField(required=False, choices=self.choice_types, widget=forms.SelectMultiple(attrs={'size':'7'}))
         self.fields['type'] = forms.MultipleChoiceField(required=False, choices=self.choice_types, widget=forms.CheckboxSelectMultiple())
-
-
-
-
-
-
-
         #
         # self.phys_types_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-form'][0]
         self.phys_types_tax = [tax for tax in self.taxonomies if list( tax.attrib.values() )[0] == 'IIP-form'][0]
@@ -98,7 +85,7 @@ class SearchForm( forms.Form ):
         # self.religions = [(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.religions_tax.findall('{http://www.tei-c.org/ns/1.0}category')]
         self.religions = [( list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text ) for element in self.religions_tax.findall('{http://www.tei-c.org/ns/1.0}category')]
         # self.fields['religion'] = forms.MultipleChoiceField(required=False, choices=self.religions, widget=forms.CheckboxSelectMultiple)
-        self.fields['religion'] = forms.MultipleChoiceField(required=False, choices=self.religions, widget=forms.CheckboxSelectMultiple())
+        self.fields['religion'] = forms.MultipleChoiceField(required=False, choices=self.religions, widget=forms.CheckboxSelectMultiple(attrs={'class': 'styled'}))
         #
         self.languages_dict = {
             "he":"Hebrew",

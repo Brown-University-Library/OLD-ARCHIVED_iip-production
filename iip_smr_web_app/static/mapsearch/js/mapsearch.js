@@ -22,6 +22,7 @@ var ops = {
 }
 var locations_dict = {};
 var facet_nums = {};
+var coordinates_no_pleiades = {};
 
 ////////////////////////////////////////////////////////////////////// 
 
@@ -44,12 +45,12 @@ $('#advanced_detail').click(function(){
 });
 
 $('#reset').click(function() {
- 
   for (var filter in filters) {
     if (filters.hasOwnProperty(filter) && filters[filter].length > 0) {
       filters[filter] = [];
     }
   }
+  $('#map-inscriptions-box ul').empty();
   $("#slider-range").slider('values', 0, -600);
   handle1.text("600 BCE");
   $("#slider-range").slider('values', 1, 650);
@@ -133,7 +134,7 @@ function createPointsLayer(url) {
             region: region,
             place: place,
             num_inscriptions: num_inscriptions,
-            radius: Math.sqrt(num_inscriptions) + 4,
+            radius: Math.sqrt(num_inscriptions) + 5,
             color: '#333',
             weight: 2, 
             pane: 'markerPane'
@@ -163,14 +164,68 @@ function createPointsLayer(url) {
           }
 
           p.options.inscriptions = inscriptions;
-          points_layer.addLayer(p)
+          points_layer.addLayer(p);
         } else {
           console.log("This key has no value in locations_dict: " + this.groupValue);
         }
       } else {
-        var docs_no_pleiades = this['doclist']['docs'];
+        docs_no_pleiades = this['doclist']['docs'];
         console.log("The inscriptions below have no pleiades url.")
         console.log(docs_no_pleiades);
+        $.each(docs_no_pleiades, function(index, doc) {
+          inscription_id = doc['inscription_id']
+          if (coordinates_no_pleiades.hasOwnProperty(doc['city_geo'])) {
+            coordinates_no_pleiades[doc['city_geo']]['num_inscriptions'] += 1;
+          } else {
+            coordinates_no_pleiades[doc['city_geo']] = {
+              num_inscriptions: 1,
+              region: doc['region'],
+              place: doc['city'],
+              inscriptions: {}
+            };
+          }
+
+          coordinates_no_pleiades[doc['city_geo']]['inscriptions'][inscription_id] = {
+            notBefore: doc['notBefore'],
+            notAfter: doc['notAfter'], 
+            placeMenu: doc['placeMenu'],
+            language: doc['language'], // LANGUAGE IS DELIMITED BY COMMAS SO ARRAY LENGTH >= 1
+            language_display: doc['language_display'], 
+            religion: doc['religion'], // RELIGION IS DELIMITED BY COMMAS SO ARRAY LENGTH >= 1
+            material: doc['material']
+          };
+
+          var inscription = coordinates_no_pleiades[doc['city_geo']]['inscriptions'][inscription_id];
+
+          // TYPE IS DELIMITED BY SPACES SO ARRAY LENGTH = 1 (MUST SPLIT!!!)
+          if (doc['type']) {
+            inscription['type'] = doc['type'][0].split(/[\s,]+/);
+          }
+          // PHYSICAL_TYPE IS DELIMITED BY SPACES SO ARRAY LENGTH = 1 (MUST SPLIT!!!)
+          if (doc['physical_type']) {
+            inscription['physical_type'] = doc['physical_type'][0].split(/[\s,]+/);
+          }
+        });
+        $.each(coordinates_no_pleiades, function(key, value) {
+          if (key == 'undefined') {
+            console.log("Inscriptions no coordinates: ")
+            console.log(value)
+            return;
+          }
+          coordinates = key.split(',').map(Number);
+          var p = L.circleMarker(coordinates, {
+            region: value['region'],
+            place: value['place'],
+            num_inscriptions: value['num_inscriptions'],
+            radius: Math.sqrt(value['num_inscriptions']) + 5,
+            color: '#333',
+            weight: 2, 
+            pane: 'markerPane'
+          });
+
+          p.options.inscriptions = value['inscriptions'];
+          points_layer.addLayer(p);
+        });
       }
     });
     filterByDateRange();
@@ -197,51 +252,59 @@ function addFacetNums(inscription, facet_nums) {
 }
 
 function updateSelectMenus(facet_nums) {
-  console.log('facet_nums', facet_nums)
-  $('.filter-container li').each(function(index) {
-    var input = $(this).find('input');
-    // var value = $(this).find('input').val();
-    // var name = $(this).find('input').attr('name');
+  console.log("UPDATE SELECT MENUS")
+  console.log('facet nums', facet_nums)
+  $('.checkbox-default').each(function(index, checkbox){
+    var input = $(checkbox).children('input');
     var value = input.val();
     var name = input.attr('name');
-    // && 
-    if (facet_nums.hasOwnProperty(value)) {
-      if (filters[name].length === 0 || $('a[data-name=' + name).text() === 'off'
-        || input.is(':checked')) {
-        $(this).children('span').text('('+facet_nums[value]+')');
+    if ($('a[data-name=' + name).text() === 'off') {
+      if (facet_nums.hasOwnProperty(value)) {
+        $(this).find('span').text('('+facet_nums[value]+')');
       } else {
-        return;
+        $(this).find('span').text('(0)');
       }
     } else {
-      $(this).children('span').text('(0)');
+      if (facet_nums.hasOwnProperty(value)) {
+        if (filters[name].length === 0) { //no filter for particular field
+          $(this).find('span').text('('+facet_nums[value]+')');
+        }
+      } else {
+        if (filters[name].length === 0) {
+          $(this).find('span').text('(0)');
+        }
+      }
     }
   });
 
-  // disableCheckboxes();
+  disableEnableCheckboxes();
 }
 
-// function disableCheckboxes() {
-//   for (op in ops) {
-//     if (ops.hasOwnProperty(op) && ops[op] === ' AND ') {
-//       console.log("DISABLED")
-//       console.log(ops[op]);
-//       $('#' + ops[op] + '-filter input').each(function() {
-//         console.log($(this));
-//         $(this).attr('disabled', 'true');
-//       });
-//     }
-//   }
-// }
+function disableEnableCheckboxes() {
+  for (op in ops) {
+    if (ops.hasOwnProperty(op) && ops[op] === ' AND ') {
+      $('#' + op + '-filter input').each(function() {
+        var str = $(this).siblings('label').children('span').text().slice(1, -1);
+        if (str == '0') {
+          $(this).prop('disabled', 'true');
+        } else {
+          $(this).removeAttr('disabled');
+        }
+      });
+    }
+  }
+}
 
 function changeRadius(num_in_range) {
   if (num_in_range > 0) {
-    return Math.sqrt(num_in_range) + 4
+    return Math.sqrt(num_in_range) + 5
   } else {
     return 0;
   }
 }
 
 function hasFilters() {
+  console.log("HAS FILTERS")
   var has = true;
   for (var filter in filters) {
     if (filters.hasOwnProperty(filter) && filters[filter].length > 0) {
@@ -259,8 +322,6 @@ $('#place-filter').change(function() {
   filters['place'] = [];
   selected.each(function() {
     filters['place'].push($(this).val());
-    console.log("THIS");
-    console.log(this);
   });
   hasFilters();
 });
@@ -332,7 +393,7 @@ $.ajax({
     byzantine_provinces_400CE = new L.geoJSON(byzantine, {color: 'gray', weight: 1, onEachFeature: onEachByzantine});
 
     var iip = JSON.parse(data.iip_regions);
-    iip_regions = new L.geoJSON(iip, {color: 'navy', weight: 1});
+    iip_regions = new L.geoJSON(iip, {color: 'navy', weight: 1, onEachFeature: onEachIIP});
   }
 });
 
@@ -359,7 +420,7 @@ function onEachRomanProvince(feature, layer) {
       mouseover: highlightProvince,
       mouseout: function() {
         layer.closeTooltip();
-        roman_provinces.resetStyle(layer)
+        roman_provinces.resetStyle(layer);
       }
   });
 }
@@ -370,9 +431,20 @@ function onEachByzantine(feature, layer) {
       mouseover: highlightProvince,
       mouseout: function() {
         layer.closeTooltip();
-        byzantine_provinces_400CE.resetStyle(layer)
+        byzantine_provinces_400CE.resetStyle(layer);
       }
   });
+}
+
+function onEachIIP(feature, layer) {
+  layer.bindTooltip('<strong>IIP Region</strong><br>' + feature.properties.Name, {sticky: true, direction: 'center', offset: [0, 18], className: 'iip-region tooltip'});
+  layer.on({
+    mouseover: highlightProvince,
+    mouseout: function() {
+      layer.closeTooltip();
+      iip_regions.resetStyle(layer);
+    }
+  })
 }
 
 
@@ -506,7 +578,7 @@ function filterByDateRange() {
     if (num_in_range === 0) {
       point.setRadius(0);
     } else {
-      point.setRadius(Math.sqrt(num_in_range) + 4);
+      point.setRadius(Math.sqrt(num_in_range) + 5);
     }
     
     point['options']['num_inscriptions'] = num_in_range;
@@ -541,11 +613,41 @@ function showInscriptions(inscriptions) {
 
     console.log(inscription);
     if (inscriptions.hasOwnProperty(inscription)) {
-      $('#map-inscriptions-box ul').prepend('<li class="inscription" id=' + inscription + '><label><a href="../viewinscr/' + inscription + '" target="_blank">' 
-        + inscription + '</a>' + '</label></li>');
-      $('#' + inscription).append('<br>Type: ' + inscriptions[inscription]['type'] + '<br>Physical Type: ' + inscriptions[inscription]['physical_type']
-        + '<br>Language: ' + inscriptions[inscription]['language_display'] + '<br>Religion: ' 
-        + inscriptions[inscription]['religion'] + '<br>Material: ' + inscriptions[inscription]['material'] + '<br>');
+      $('#map-inscriptions-box ul').prepend('<li class="inscription" id=' + inscription + '><label>' 
+        + inscription.toUpperCase().substr(0,4) + ' ' + inscription.substr(4) + '</label></li>');
+      var inscr = inscriptions[inscription];
+      if (inscr['type'] === undefined || inscr['type'][0].trim() === '') {
+        $('#' + inscription).append('<br>Type: N/A');
+      } else {
+        $('#' + inscription).append('<br>Type: ' + inscr['type']);
+      }
+
+      if (inscr['physical_type'] === undefined || inscr['physical_type'][0].trim() === '') {
+        $('#' + inscription).append('<br>Physical Type: N/A');
+      } else {
+        $('#' + inscription).append('<br>Physical Type: ' + inscr['physical_type']);
+      }
+
+      if (inscr['language'] === undefined || inscr['language'][0].trim() === '') {
+        $('#' + inscription).append('<br>Language: N/A');
+      } else {
+        $('#' + inscription).append('<br>Language: ' + inscr['language_display']);
+      }
+
+      if (inscr['religion'] === undefined || inscr['religion'][0].trim() === '') {
+        $('#' + inscription).append('<br>Religion: N/A');
+      } else {
+        $('#' + inscription).append('<br>Religion: ' + inscr['religion']);
+      }
+
+      if (inscr['material'] === undefined || inscr['material'][0].trim() === '') {
+        $('#' + inscription).append('<br>Material: N/A');
+      } else {
+        $('#' + inscription).append('<br>Material: ' + inscr['material']);
+      }
+      // $('#' + inscription).append('<br>Type: ' + inscriptions[inscription]['type'] + '<br>Physical Type: ' + inscriptions[inscription]['physical_type']
+      //   + '<br>Language: ' + inscriptions[inscription]['language_display'] + '<br>Religion: ' 
+      //   + inscriptions[inscription]['religion'] + '<br>Material: ' + inscriptions[inscription]['material'] + '<br>');
     }
   }
 }
@@ -576,29 +678,25 @@ $("#slider-range").slider({
 
 createLocationsDict();
 
-$('.filter-container li').each(function(index) {
-  $(this).append('<span class="facet-count"></span>');
-});
-
 $(".select-multiple > a").click(function() {
   var filter = $(this).data('name');
   if ($(this).text().includes("on")) {
     $(this).text("off");
-    $('input[name='+filter+']').each(function(index, checkbox) {
-      $(this).replaceWith('<input type="radio" name="' + checkbox.name + '" value="' + checkbox.value +'" />');
+    $('#'+filter+'-filter > .checkbox.checkbox-default').each(function(index, checkbox) {
+      this.classList.add('checkbox-circle');
+      $(this).children('input').prop('checked', false);
     });
-    // $(this).replaceWith('<input type="radio" name="'+$(this).attr('name')+'" value="'+$(this).attr('value')+'" />');
     ops[filter] = ' AND ';
+    filters[filter] = []
   } else {
     $(this).text("on");
-    $('input[name='+filter+']').each(function(index, radio) {
-      $(this).replaceWith('<input type="checkbox" name="' + radio.name+'" value="'+ radio.value +'" />');
-
+    $('#'+filter+'-filter > .checkbox.checkbox-default').each(function(index, radio) {
+      this.classList.remove('checkbox-circle');
+      $(this).children('input').attr('disabled', false);
     });
     ops[filter] = ' OR ';
-    // facet_nums[filter] = []
-    // updateSelectMenus(facet_nums);
   }
+  hasFilters();
 });
 
 $("#points_layer").click(function() {
@@ -608,20 +706,14 @@ $("#points_layer").click(function() {
   } else {
     mymap.addLayer(points_layer);   
     $(this).text("Hide Points");     
- }
-})
+  }
+});
 
-// console.log(mymap.getZoom());
-// mymap.on('zoomend', function(e) {
-//     var currentZoom = mymap.getZoom();
-//     console.log("Current Zoom" + " " + currentZoom);
-//     console.log(points_layer._layers);
-//     // if (currentZoom <= 6) {
-//     //   damsRadius = 2;
-//     // } else {
-//     // damsRadius = 6;
-//     // }
-//     // console.log("Dams Radius" + " " + damsRadius);
-//     // timeline.setStyle(damsStyle)//add this line to change the style
-// });
+$('.checkbox-default').each(function(index, checkbox) {
+  var input = $(checkbox).find('input');
+  $(checkbox).prepend(input);
+});
 
+$('.filter-container label').each(function(index) {
+  $(this).append('<span class="facet-count"></span>');
+});

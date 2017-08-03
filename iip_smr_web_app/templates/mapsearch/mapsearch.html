@@ -12,8 +12,7 @@
 	{% load staticfiles %}
 	<link href='{% static 'iip_search_app/css/general2.css' %}' rel="stylesheet">
 	<link href='{% static 'iip_search_app/css/tei_custom_elements.css' %}' rel="stylesheet">
-
-	<!-- <link href='{% static 'mapsearch/css/awesome-bootstrap-checkbox.css' %}' rel="stylesheet"> -->
+	<link href='{% static 'mapsearch/css/awesome-bootstrap-checkbox.css' %}' rel="stylesheet">
 	<link href='{% static 'mapsearch/css/mapsearch.css' %}' rel="stylesheet">
 <!-- 	<link href -->
 	</style>
@@ -37,19 +36,19 @@
 					<center>
 						<strong style="padding-right: 80px;">Select Overlays</strong>
 					</center>
-					<div class="checkbox" >
-						<label><input id="roman_provinces" type="checkbox" value="">Roman Empire Provinces</label>
+					<div class="overlay-checkbox" >
+						<label><input id="roman_provinces" type="checkbox" value="">Roman Empire Provinces 200CE</label>
 					</div> 
-					<div class="checkbox">
+					<div class="overlay-checkbox">
 						<label><input id="roman_roads" type="checkbox" value="">Roman Roads</label>
 					</div>
-					<div class="checkbox">
+					<div class="overlay-checkbox">
 						<label><input id="byzantine_provinces_400CE" type="checkbox" value="">Byzantine Provinces 400CE</label>
 					</div>
-					<div class="checkbox">
+					<div class="overlay-checkbox">
 						<label><input id="iip_regions" type="checkbox" value="">IIP Regions</label>
 					</div> 
-					<div class="checkbox">
+					<div class="overlay-checkbox">
 						<label><input id="overlay_satelite" type="checkbox" value="">Satelite View</label>
 					</div> 
 				</div>
@@ -86,7 +85,12 @@
                     	<span class="select-multiple">select multiple: disabled
 						</span> 
 						<div id="place-filter" class="filter-container">
-							{{ form.place }}
+							{% for field in form.place %}
+								<div class="checkbox checkbox-default">
+									{{field}}
+								</div>
+							{% endfor %}
+							<!-- {{ form.place }} -->
 						</div>
 					</td>
 					<td class="col-md-2">
@@ -97,7 +101,12 @@
 							<a data-name="type"> {{ form.select_multiple.type }} </a>
 						</span> 				                 
 						<div id="type-filter" class="filter-container">
-							{{ form.type.errors}} {{ form.type }}
+							{% for field in form.type %}
+								<div class="checkbox checkbox-default">
+									{{field}}
+								</div>
+							{% endfor %}
+							<!-- {{ form.type.errors}} {{ form.type }} -->
 						</div>
 					</td>
 					<td class="col-md-2">
@@ -108,7 +117,12 @@
 							<a data-name="physical_type"> {{ form.select_multiple.physical_type }} </a>
 						</span> 
 						<div id="physical_type-filter" class="filter-container">
-							{{ form.physical_type.errors}} {{ form.physical_type }}
+							{% for field in form.physical_type %}
+								<div class="checkbox checkbox-default">
+									{{field}}
+								</div>
+							{% endfor %}
+							<!-- {{ form.physical_type.errors}} {{ form.physical_type }} -->
 						</div>
 					</td>
 					<td class="col-md-2">
@@ -119,7 +133,12 @@
 							<a data-name="language"> {{ form.select_multiple.language }} </a>
 						</span> 
 						<div id="language-filter" class="filter-container">
-							{{ form.language.errors}} {{ form.language }}
+							{% for field in form.language %}
+								<div class="checkbox checkbox-default">
+									{{field}}
+								</div>
+							{% endfor %}
+							<!-- {{ form.language.errors}} {{ form.language }} -->
 						</div>
 					</td>
 					<td class="col-md-2">
@@ -130,7 +149,12 @@
 							<a data-name="religion"> {{ form.select_multiple.religion }} </a>
 						</span> 
 						<div id="religion-filter" class="filter-container">
-							{{ form.religion.errors}} {{ form.religion }}
+							{% for field in form.religion %}
+								<div class="checkbox checkbox-default">
+									{{field}}
+								</div>
+							{% endfor %}
+							<!-- {{ form.religion.errors}} {{ form.religion }} -->
 						</div>
 						{% if session_authz_info.authorized %}
   						<strong>
@@ -149,7 +173,12 @@
 							<a data-name="religion"> {{ form.select_multiple.material }} </a>
 						</span> 
 						<div id="material-filter" class="filter-container">
-							{{ form.material.errors}} {{ form.material }}
+							{% for field in form.material %}
+								<div class="checkbox checkbox-default">
+									{{field}}
+								</div>
+							{% endfor %}
+							<!-- {{ form.material.errors}} {{ form.material }} -->
 						</div>
 					</td>
 					<td class="col-md-2">
