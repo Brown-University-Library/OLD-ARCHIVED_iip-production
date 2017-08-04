@@ -204,11 +204,12 @@
 }
 
 #material-filter {
-	width: 140px;
+	width: 150px;
+	overflow-x: auto !important;
 }
 
 #material-filter label {
-	width: 80px;
+	width: 90px;
 }
 
 .tooltip {
