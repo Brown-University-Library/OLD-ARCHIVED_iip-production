@@ -44,7 +44,7 @@ hr.style-one {
 <div class='col-md-10'>
 {% autoescape off %}
     <span class="search_results_header">Your search for {{dispQstring}} yielded {{pages.count}} results</span>
-    <div id="page_list">
+    <div class="page_list">
     {% for pg in pages.page_range %}
         <a href='./?q={{ initial_qstring|urlencode }}&resultsPage={{pg}}' {%ifequal pg resultsPage%}style="font-size: 1.3em"{%endifequal%}>{{pg}}</a>&nbsp;
     {% endfor %}
@@ -183,6 +183,11 @@ crossorigin=""></script>
 {% endfor %}
 </table>
 
+<div class="page_list">
+{% for pg in pages.page_range %}
+    <a href='./?q={{ initial_qstring|urlencode }}&resultsPage={{pg}}' {%ifequal pg resultsPage%}style="font-size: 1.3em"{%endifequal%}>{{pg}}</a>&nbsp;
+{% endfor %}
+</div>
 
 <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
 <script src='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>

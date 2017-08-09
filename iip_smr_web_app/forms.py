@@ -119,8 +119,6 @@ class SearchForm( forms.Form ):
     notAfter = forms.CharField(required=False, max_length=5)
     afterDateEra = forms.ChoiceField(required=False, choices=(('bce','BCE'),('ce','CE')), widget=forms.RadioSelect)
     beforeDateEra = forms.ChoiceField(required=False, choices=(('bce','BCE'),('ce','CE')), widget=forms.RadioSelect)
-
-    
     select_multiple = dict.fromkeys(['type', 'physical_type', 'language', 'religion', 'material'], "on")
 
     # url = 'http://127.0.0.1/test/dev/django_choices.json'
@@ -133,14 +131,14 @@ class SearchForm( forms.Form ):
         search_fields = ('text','metadata','figure','region','city','place','type','physical_type','language','religion','notBefore','notAfter', 'display_status')
         response = ''
         first = True
-        for f,v in self.cleaned_data.items():
+        for f,v in self.cleaned_data.items(): # f = facet (place, type, etc.), v = value (["altar, amphora"])
             #The following is specific to the date-encoding in the IIP & US Epigraphy projects
             #If youre using this code for other projects, you probably want to omit them
             if ((f == u'notBefore') or (f == u'notAfter')) and v:
                 v = doDateEra(self,f,v)
             # End custom blocks
             elif v:
-                if isinstance(v, list):
+                if isinstance(v, list): #if multiple values selected for a facet (e.g. v = ["altar, amphora"])
                     vListFirst = True
                     vlist = ''
                     for c in v:
@@ -149,7 +147,7 @@ class SearchForm( forms.Form ):
                         if vListFirst:
                             vListFirst = False
                         else:
-                            vlist += " OR " if not ((f == u'religion') or (f == u'language')) else " AND "
+                            vlist += (" OR " + f + ":") if not ((f == u'religion') or (f == u'language')) else (" AND " + f + ":")
                         vlist += u"%s" % c
                     v = u"%s" % vlist
                 else:

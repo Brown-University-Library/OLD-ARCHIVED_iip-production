@@ -584,7 +584,13 @@ def load_layers(request):
     iip = json.dumps(iip)
     data.close()
 
-    context = {'roman_provinces':roman_provinces, 'roman_roads':roman_roads, 'byzantine_provinces_400CE': byzantine, 'iip_regions': iip}
+    json_data = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "mapsearch/geoJSON/king_herod_boundaries_37BCE.geojson")
+    data = open(json_data, 'r') 
+    king_herod = json.load(data)
+    king_herod = json.dumps(king_herod)
+    data.close()
+
+    context = {'roman_provinces':roman_provinces, 'roman_roads':roman_roads, 'byzantine_provinces_400CE': byzantine, 'iip_regions': iip, 'king_herod': king_herod}
 
     dump = json.dumps(context)
     return HttpResponse(dump, content_type='application/json')
