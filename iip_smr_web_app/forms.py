@@ -66,24 +66,11 @@ class SearchForm( forms.Form ):
         # self.type_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-genre'][0]
         self.type_tax = [tax for tax in self.taxonomies if list( tax.attrib.values() )[0] == 'IIP-genre'][0]
         # self.types_dict = dict([(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.type_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
-        
-
-
         #self.types_dict = dict([( list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text ) for element in self.type_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
-
-
         self.types_dict = dict([(list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text.lstrip('-')) for element in self.type_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
-
         self.choice_types = make_vocab_list( self.types_dict, sorted( common.facetResults('type').keys()) )
         # self.fields['type'] = forms.MultipleChoiceField(required=False, choices=self.choice_types, widget=forms.SelectMultiple(attrs={'size':'7'}))
         self.fields['type'] = forms.MultipleChoiceField(required=False, choices=self.choice_types, widget=forms.CheckboxSelectMultiple())
-
-
-
-
-
-
-
         #
         # self.phys_types_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-form'][0]
         self.phys_types_tax = [tax for tax in self.taxonomies if list( tax.attrib.values() )[0] == 'IIP-form'][0]
@@ -98,7 +85,7 @@ class SearchForm( forms.Form ):
         # self.religions = [(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.religions_tax.findall('{http://www.tei-c.org/ns/1.0}category')]
         self.religions = [( list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text ) for element in self.religions_tax.findall('{http://www.tei-c.org/ns/1.0}category')]
         # self.fields['religion'] = forms.MultipleChoiceField(required=False, choices=self.religions, widget=forms.CheckboxSelectMultiple)
-        self.fields['religion'] = forms.MultipleChoiceField(required=False, choices=self.religions, widget=forms.CheckboxSelectMultiple())
+        self.fields['religion'] = forms.MultipleChoiceField(required=False, choices=self.religions, widget=forms.CheckboxSelectMultiple(attrs={'class': 'styled'}))
         #
         self.languages_dict = {
             "he":"Hebrew",
@@ -132,8 +119,6 @@ class SearchForm( forms.Form ):
     notAfter = forms.CharField(required=False, max_length=5)
     afterDateEra = forms.ChoiceField(required=False, choices=(('bce','BCE'),('ce','CE')), widget=forms.RadioSelect)
     beforeDateEra = forms.ChoiceField(required=False, choices=(('bce','BCE'),('ce','CE')), widget=forms.RadioSelect)
-
-    
     select_multiple = dict.fromkeys(['type', 'physical_type', 'language', 'religion', 'material'], "on")
 
     # url = 'http://127.0.0.1/test/dev/django_choices.json'
@@ -146,14 +131,14 @@ class SearchForm( forms.Form ):
         search_fields = ('text','metadata','figure','region','city','place','type','physical_type','language','religion','notBefore','notAfter', 'display_status')
         response = ''
         first = True
-        for f,v in self.cleaned_data.items():
+        for f,v in self.cleaned_data.items(): # f = facet (place, type, etc.), v = value (["altar, amphora"])
             #The following is specific to the date-encoding in the IIP & US Epigraphy projects
             #If youre using this code for other projects, you probably want to omit them
             if ((f == u'notBefore') or (f == u'notAfter')) and v:
                 v = doDateEra(self,f,v)
             # End custom blocks
             elif v:
-                if isinstance(v, list):
+                if isinstance(v, list): #if multiple values selected for a facet (e.g. v = ["altar, amphora"])
                     vListFirst = True
                     vlist = ''
                     for c in v:
@@ -162,7 +147,7 @@ class SearchForm( forms.Form ):
                         if vListFirst:
                             vListFirst = False
                         else:
-                            vlist += " OR " if not ((f == u'religion') or (f == u'language')) else " AND "
+                            vlist += (" OR " + f + ":") if not ((f == u'religion') or (f == u'language')) else (" AND " + f + ":")
                         vlist += u"%s" % c
                     v = u"%s" % vlist
                 else:

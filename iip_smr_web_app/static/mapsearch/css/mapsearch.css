@@ -10,6 +10,14 @@
 	margin-top: 100px;
 }
 
+.overlay-checkbox label {
+	font-weight: normal;
+}
+
+.overlay-checkbox input[type=checkbox]{
+	margin-right: 10px;
+}
+
 #map-inscriptions-box {
 	margin-top: 20px;
 	width: 94%;
@@ -92,7 +100,6 @@
 	border-width: 1px;
 	border-color: grey;
 	padding-left: 10px;
-	padding-top: 5px;
 	overflow-x: hidden;
 }
 
@@ -102,11 +109,12 @@
 
 .filter-container::-webkit-scrollbar {
     -webkit-appearance: none;
+    width:11px;
 }
 
-.filter-container::-webkit-scrollbar:vertical {
+/*.filter-container::-webkit-scrollbar:vertical {
     width: 11px;
-}
+}*/
 
 /*.filter-container::-webkit-scrollbar:horizontal {
     height: 11px;
@@ -159,7 +167,12 @@
 }
 
 #material-filter {
-	width: 110px;
+	width: 150px;
+	overflow-x: auto !important;
+}
+
+#material-filter label {
+	width: 90px;
 }
 
 .tooltip {

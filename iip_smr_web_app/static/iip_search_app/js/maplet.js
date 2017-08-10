@@ -6,7 +6,6 @@
 // console.log(maplet_ids);
 
 // var inscrid = window.location.href.slice(-9,-1);
-console.log(inscription_list);
 run()
 
 
@@ -34,7 +33,6 @@ run()
 
 function run(){
 	inscription_list.forEach(function(inscrid){
-		console.log(inscrid);
 		url_json = "http://library.brown.edu/cds/projects/iip/api/?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A" + inscrid;
 		$.getJSON(url_json, function(data){
 			if (data["response"]["docs"][0]["city_pleiades"]){
@@ -58,8 +56,6 @@ function run(){
 
 
 function getCoordinates(pleiades, inscrid) {
-	console.log(inscrid + ": get long lat coordinate");
-
 	if (pleiades.slice(-6) === "380758") {
 	    pleiades = "http://pleiades.stoa.org/places/678006";
 	}
@@ -77,8 +73,6 @@ function getCoordinates(pleiades, inscrid) {
 
 
 function drawMaplet(geoCoordinates, inscrid){
-	console.log(inscrid + ": draw maplet");
-
 	var maplet = L.map("maplet"+inscrid, {zoomControl:false, attributionControl:false}).setView([31.764650, 35.216377], 4)
 
 	var base_tile = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZGs1OCIsImEiOiJjajQ4aHd2MXMwaTE0MndsYzZwaG1sdmszIn0.VFRnx3NR9gUFBKBWNhhdjw', {
@@ -88,10 +82,7 @@ function drawMaplet(geoCoordinates, inscrid){
 
 	if (geoCoordinates != null){
 		L.marker([geoCoordinates[1], geoCoordinates[0]]).addTo(maplet);	
-	}
-	
-
-	console.log(inscrid + ": maplet drawn");	
+	}	
 }
 
 
