@@ -104,7 +104,6 @@ class SearchForm( forms.Form ):
         self.materials_dict = dict([(list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.material_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
         self.materials = make_vocab_list( self.materials_dict, sorted( common.facetResults('material').keys()) )
         self.fields['material'] = forms.MultipleChoiceField(required=False, choices=self.materials, widget=forms.CheckboxSelectMultiple())
-
     text = forms.CharField(required=False)
     metadata = forms.CharField(required=False)
     figure = forms.CharField(required=False)
@@ -119,7 +118,12 @@ class SearchForm( forms.Form ):
     notAfter = forms.CharField(required=False, max_length=5)
     afterDateEra = forms.ChoiceField(required=False, choices=(('bce','BCE'),('ce','CE')), widget=forms.RadioSelect)
     beforeDateEra = forms.ChoiceField(required=False, choices=(('bce','BCE'),('ce','CE')), widget=forms.RadioSelect)
-    select_multiple = dict.fromkeys(['type', 'physical_type', 'language', 'religion', 'material'], "on")
+    # select_multiple = dict.fromkeys(['type', 'physical_type', 'language', 'religion', 'material'], "on")
+    type_ = forms.ChoiceField(required=True, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}), label="select")
+    physical_type_ = forms.ChoiceField(required=True, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}))
+    language_ = forms.ChoiceField(required=True, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}))
+    religion_ = forms.ChoiceField(required=True, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}))
+    material_ = forms.ChoiceField(required=True, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}))
 
     # url = 'http://127.0.0.1/test/dev/django_choices.json'
     # r = requests.get( url )
@@ -131,6 +135,14 @@ class SearchForm( forms.Form ):
         search_fields = ('text','metadata','figure','region','city','place','type','physical_type','language','religion','notBefore','notAfter', 'display_status')
         response = ''
         first = True
+        print(self.cleaned_data.items())
+        concat_operators = {
+            'type': self.cleaned_data['type_'].upper(),
+            'physical_type': self.cleaned_data['physical_type_'].upper(),
+            'language': self.cleaned_data['language_'].upper(),
+            'religion': self.cleaned_data['religion_'].upper(),
+            'material': self.cleaned_data['material_'].upper()
+        }
         for f,v in self.cleaned_data.items(): # f = facet (place, type, etc.), v = value (["altar, amphora"])
             #The following is specific to the date-encoding in the IIP & US Epigraphy projects
             #If youre using this code for other projects, you probably want to omit them
@@ -138,6 +150,7 @@ class SearchForm( forms.Form ):
                 v = doDateEra(self,f,v)
             # End custom blocks
             elif v:
+                print(f)
                 if isinstance(v, list): #if multiple values selected for a facet (e.g. v = ["altar, amphora"])
                     vListFirst = True
                     vlist = ''
@@ -147,7 +160,7 @@ class SearchForm( forms.Form ):
                         if vListFirst:
                             vListFirst = False
                         else:
-                            vlist += (" OR " + f + ":") if not ((f == u'religion') or (f == u'language')) else (" AND " + f + ":")
+                            vlist += (' ' + concat_operators[f] + ' ' + f + ":")
                         vlist += u"%s" % c
                     v = u"%s" % vlist
                 else:

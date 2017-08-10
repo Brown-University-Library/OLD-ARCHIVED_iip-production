@@ -84,13 +84,35 @@
 
 .select-multiple {
 	display: block;
-	font-size: 0.75em;
-	line-height: 0.75em;
+	font-size: 0.7em;
+	line-height: 0.60em;
 	margin-bottom: 3px;
 }
 
-.select-multiple > a {
-	text-decoration: underline;
+.select-multiple > p {
+	display: inline;
+	float: left;
+	padding-top: 1px;
+	margin: 0px;
+	padding-right: 3px;
+/*	font-size: 1.2em;*/
+}
+
+.select-multiple-toggle {
+	display: inline;
+}
+
+.select-multiple-toggle > li {
+	float: left;
+	padding-right: 5px;
+}
+
+.select-multiple-toggle label {
+	margin-bottom: 2px;
+}
+
+input.select-multiple-toggle[type="radio"] {
+	margin: 0px;
 }
 
 .filter-container {
@@ -159,11 +181,11 @@
 }
 
 #language-filter, #religion-filter {
-	width: 135px;
+	width: 145px;
 }
 
 #language-filter label, #religion-filter label {
-	width: 75px;
+	width: 85px;
 }
 
 #material-filter {

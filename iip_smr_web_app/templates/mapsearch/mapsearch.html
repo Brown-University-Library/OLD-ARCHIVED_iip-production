@@ -100,9 +100,10 @@
 						<strong>
 							Type of Inscription
 						</strong>	
-						<span class="select-multiple">select multiple: 
-							<a data-name="type"> {{ form.select_multiple.type }} </a>
-						</span> 				                 
+						<div class="select-multiple">
+							<p>select multiple: </p>
+							{{ form.type_ }}
+						</div> 				                 
 						<div id="type-filter" class="filter-container">
 							{% for field in form.type %}
 								<div class="checkbox checkbox-default">
@@ -116,9 +117,10 @@
 						<strong>
 							Physical Type
 						</strong>
-						<span class="select-multiple">select multiple: 
-							<a data-name="physical_type"> {{ form.select_multiple.physical_type }} </a>
-						</span> 
+						<div class="select-multiple">
+							<p>select multiple: </p>
+							{{ form.physical_type_ }}
+						</div> 	
 						<div id="physical_type-filter" class="filter-container">
 							{% for field in form.physical_type %}
 								<div class="checkbox checkbox-default">
@@ -132,9 +134,10 @@
 						<strong>
 							Language
 						</strong>
-						<span class="select-multiple">select multiple: 
-							<a data-name="language"> {{ form.select_multiple.language }} </a>
-						</span> 
+						<div class="select-multiple">
+							<p>select multiple: </p>
+							{{ form.language_}}
+						</div> 	
 						<div id="language-filter" class="filter-container">
 							{% for field in form.language %}
 								<div class="checkbox checkbox-default">
@@ -148,9 +151,10 @@
 						<strong>
 							Religion
 						</strong>
-						<span class="select-multiple">select multiple: 
-							<a data-name="religion"> {{ form.select_multiple.religion }} </a>
-						</span> 
+						<div class="select-multiple">
+							<p>select multiple: </p>
+							{{ form.religion_ }}
+						</div> 	
 						<div id="religion-filter" class="filter-container">
 							{% for field in form.religion %}
 								<div class="checkbox checkbox-default">
@@ -172,16 +176,16 @@
 						<strong>
 							Material:
 						</strong>
-						<span class="select-multiple">select multiple: 
-							<a data-name="material"> {{ form.select_multiple.material }} </a>
-						</span> 
+						<div class="select-multiple">
+							<p>select multiple: </p>
+							{{ form.material_ }}
+						</div> 	 
 						<div id="material-filter" class="filter-container">
 							{% for field in form.material %}
 								<div class="checkbox checkbox-default">
 									{{field}}
 								</div>
 							{% endfor %}
-							<!-- {{ form.material.errors}} {{ form.material }} -->
 						</div>
 					</td>
 					<td class="col-md-2">

@@ -101,7 +101,7 @@ def results( request ):
             request.session[u'authz_info'] = { u'authorized': False }
         # form = SearchForm()  # an unbound form
         # form = forms.SearchForm()  # an unbound form
-        form = forms.SearchForm()  # an unbound form
+        form = forms.SearchForm({'type_':'or', 'physical_type_':'or', 'language_':'or', 'religion_':'or', 'material_':'or'})  # an unbound form
         log.debug( 'form, `%s`' % repr(form) )
         # place_field_object = form.fields['place']
         # place_field_object.choices = [(item, item) for item in sorted( common.facetResults('placeMenu').keys()) if item]
