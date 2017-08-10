@@ -550,6 +550,10 @@ function showInscriptions(inscriptions) {
   }
 }
 
+
+//{% if inscriptions[inscription]['material'] %}inscriptions[inscription]['material']{%else%}Not Available{% endif %}
+
+
 // SLIDER
 
 var handle1 = $( "#custom-handle-low" );
