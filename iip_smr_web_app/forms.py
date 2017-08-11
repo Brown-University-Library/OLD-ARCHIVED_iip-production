@@ -135,7 +135,6 @@ class SearchForm( forms.Form ):
         search_fields = ('text','metadata','figure','region','city','place','type','physical_type','language','religion','notBefore','notAfter', 'display_status')
         response = ''
         first = True
-        print(self.cleaned_data.items())
         concat_operators = {
             'type': self.cleaned_data['type_'].upper(),
             'physical_type': self.cleaned_data['physical_type_'].upper(),
@@ -150,7 +149,6 @@ class SearchForm( forms.Form ):
                 v = doDateEra(self,f,v)
             # End custom blocks
             elif v:
-                print(f)
                 if isinstance(v, list): #if multiple values selected for a facet (e.g. v = ["altar, amphora"])
                     vListFirst = True
                     vlist = ''

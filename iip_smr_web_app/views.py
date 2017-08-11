@@ -122,7 +122,6 @@ def results( request ):
     if not u'authz_info' in request.session:
         request.session[u'authz_info'] = { u'authorized': False }
     if request.method == u'POST': # form has been submitted by user
-        print("POST!!!!!!!!!!!!")
         log.debug( 'POST, search-form was submitted by user' )
         request.encoding = u'utf-8'
         form = forms.SearchForm(request.POST)
@@ -142,8 +141,6 @@ def results( request ):
 
     if request.method == u'GET' and request.GET.get(u'q', None) != None:
         log.debug( 'GET, with params, hit solr and show results' )
-        # print('hey')
-        print("request: ", request)
         return render( request, u'iip_search_templates/results.html', _get_results_context(request, log_id) )
 
 
@@ -156,7 +153,6 @@ def results( request ):
         log.debug( 'request.is_axax() is True' )
         return HttpResponse( _get_ajax_unistring(request) )
     else:  # regular GET, no params
-        print("MAP SEARCH PAGE")
         log.debug( 'GET, no params, show search form' )
         return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
 
@@ -222,6 +218,7 @@ def viewinscr(request, inscrid):
                 Returns a solrpy query-object.
             Called by _prepare_viewinscr_get_data(). """
         s = solr.SolrConnection( settings_app.SOLR_URL )
+        print(settings_app.SOLR_URL)
         qstring = u'inscription_id:%s' % inscription_id
         try:
             q = s.query(qstring)
@@ -508,8 +505,6 @@ def write_story(story_num):
             with urllib.request.urlopen(url) as response:
 
                 s = response.read()
-                print(s)
-
 
                 encoding = response.info().get_content_charset('utf-8')
 
@@ -554,8 +549,6 @@ def write_story(story_num):
     return context
 
 def load_layers(request):
-    print('load_layers')
-
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     print(BASE_DIR)

@@ -9,7 +9,6 @@ import json, os
 
 SOLR_URL = os.environ['IIP_SMR__SOLR_URL']  # main solr instance
 
-
 ## auth ##
 
 DEV_AUTH_HACK = os.environ[u'IIP_SMR__DEV_AUTH_HACK']  # 'enabled' or 'disabled' (only enabled for local non-shib development)
