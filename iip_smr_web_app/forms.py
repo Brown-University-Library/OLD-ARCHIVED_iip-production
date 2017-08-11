@@ -142,6 +142,7 @@ class SearchForm( forms.Form ):
             'religion': self.cleaned_data['religion_'].upper(),
             'material': self.cleaned_data['material_'].upper()
         }
+        print(self.cleaned_data.items())
         for f,v in self.cleaned_data.items(): # f = facet (place, type, etc.), v = value (["altar, amphora"])
             #The following is specific to the date-encoding in the IIP & US Epigraphy projects
             #If youre using this code for other projects, you probably want to omit them
@@ -166,9 +167,13 @@ class SearchForm( forms.Form ):
                         v = u"\"%s\"" % v
             if f and v:
                 if f in search_fields:
+                    print(f)
+                    print(v)
                     if first:
                         first = False
                     else:
                         if(v != ''): response += " AND "
                     if(v != ''): response += u"(%s:%s)" % (f,v)
+        print('response')
+        print(response)
         return response

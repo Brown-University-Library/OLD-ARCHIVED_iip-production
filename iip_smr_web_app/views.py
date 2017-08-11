@@ -115,8 +115,8 @@ def results( request ):
         log.debug( 'context, ```%s```' % pprint.pformat(context) )
         return context
 
-
-        
+    print("Request")
+    print(request)  
     log_id = common.get_log_identifier( request.session )
     log.info( 'id, `%s`; starting' % log_id )
     if not u'authz_info' in request.session:
@@ -131,6 +131,11 @@ def results( request ):
             log.debug( 'redirect_url for non-valid form, ```%s```' % redirect_url )
             return HttpResponseRedirect( redirect_url )
         qstring = form.generateSolrQuery()
+        # print('qstring')
+        # print(qstring)
+        if qstring == '':
+            qstring = '*'
+
         # e.g. http://library.brown.edu/cds/projects/iip/results?q=*:*
         redirect_url = '%s://%s%s?q=%s' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse('results_url'), qstring )
         log.debug( 'redirect_url for valid form, ```%s```' % redirect_url )
