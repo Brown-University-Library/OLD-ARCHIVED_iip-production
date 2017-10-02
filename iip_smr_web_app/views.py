@@ -17,6 +17,7 @@ from iip_smr_web_app.libs import ajax_snippet
 import csv
 import json
 import urllib.request
+from django.contrib.sites.models import Site
 
 log = logging.getLogger(__name__)
 
@@ -443,32 +444,32 @@ def stories(request):
 
 def heliodorus(request):
     story_num = 1
-    context = write_story(story_num)
+    context = write_story(story_num, request)
     return render(request, 'stories/individual_story.html', context)
 
 def ossuaries(request):
     story_num = 2
-    context = write_story(story_num)
+    context = write_story(story_num, request)
     return render(request, 'stories/individual_story.html', context)
 
 
 def theodotos(request):
     story_num = 3
-    context = write_story(story_num)
+    context = write_story(story_num, request)
     return render(request, 'stories/individual_story.html', context)
 
 def kokhba(request):
     story_num = 4
-    context = write_story(story_num)
+    context = write_story(story_num, request)
     return render(request, 'stories/individual_story.html', context)
 
 def synagogue_waypoint(request):
     story_num = 5
-    context = write_story(story_num)
+    context = write_story(story_num, request)
     return render(request, 'stories/individual_story.html', context)
 
 
-def write_story(story_num):
+def write_story(story_num, request):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     url = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "stories/csv/stories.csv")
     title = []
@@ -537,6 +538,8 @@ def write_story(story_num):
     "relevant_inscription": relevant_inscription,
     "summary": summary, 
     "content_url": content_url,
+    "current_url": request.build_absolute_uri,
+
 
     ##IIP database
     "inscription_id": inscription_id,

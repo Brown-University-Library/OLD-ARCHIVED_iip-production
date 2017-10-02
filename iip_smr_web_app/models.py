@@ -21,4 +21,4 @@ class StaticPage( models.Model ):
         verbose_name_plural = 'Static Pages'
 
 
-## eof
+## Creating comment model
