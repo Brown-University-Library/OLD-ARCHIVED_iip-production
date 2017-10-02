@@ -57,25 +57,30 @@ function createLocationsDict() {
           value = "http://pleiades.stoa.org/places/678006";
         } else if (value.slice(0, 7) === "Maresha") {
           console.log("Invalid pleiades urls still present.");
-          return false;
+          return false
+        } else if (value.slice(-6) === "87966/"){
+          return false
         }
 
         var promise = $.getJSON('https://pleiades.stoa.org/places/' + value.slice(-6) + '/json', function(data) {
           if (data.reprPoint) {
             locations_dict[value] = [data.reprPoint[1], data.reprPoint[0]];
+            // console.log(locations_dict[value])
           } else {
             console.log("This inscription with pleiades ID " + value.slice(-6) + " has no coordinate value.");
           }
         });
 
         promises.push(promise);
+
       }
     });
 
     $.when.apply($, promises)
-    .done(function() {
+    .always(function() {
         createPointsLayer(BASE_URL);
     });
+
   });  
 };
 
@@ -109,7 +114,7 @@ function addFiltersToUrl() {
 // url: the url to get the point data from
 function createPointsLayer(url) {
   $('input:checkbox').attr('disabled', true)
-  console.log(url);
+  console.log("url: ", url);
   points_layer.clearLayers();
   facet_nums = {};
 
