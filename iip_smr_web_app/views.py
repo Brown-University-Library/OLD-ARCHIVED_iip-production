@@ -101,7 +101,7 @@ def results( request ):
             request.session[u'authz_info'] = { u'authorized': False }
         # form = SearchForm()  # an unbound form
         # form = forms.SearchForm()  # an unbound form
-        form = forms.SearchForm()  # an unbound form
+        form = forms.SearchForm({'type_':'or', 'physical_type_':'or', 'language_':'or', 'religion_':'or', 'material_':'or'})  # an unbound form
         log.debug( 'form, `%s`' % repr(form) )
         # place_field_object = form.fields['place']
         # place_field_object.choices = [(item, item) for item in sorted( common.facetResults('placeMenu').keys()) if item]
@@ -115,14 +115,13 @@ def results( request ):
         log.debug( 'context, ```%s```' % pprint.pformat(context) )
         return context
 
-
-        
+    print("Request")
+    print(request)  
     log_id = common.get_log_identifier( request.session )
     log.info( 'id, `%s`; starting' % log_id )
     if not u'authz_info' in request.session:
         request.session[u'authz_info'] = { u'authorized': False }
     if request.method == u'POST': # form has been submitted by user
-        print("POST!!!!!!!!!!!!")
         log.debug( 'POST, search-form was submitted by user' )
         request.encoding = u'utf-8'
         form = forms.SearchForm(request.POST)
@@ -132,6 +131,11 @@ def results( request ):
             log.debug( 'redirect_url for non-valid form, ```%s```' % redirect_url )
             return HttpResponseRedirect( redirect_url )
         qstring = form.generateSolrQuery()
+        # print('qstring')
+        # print(qstring)
+        if qstring == '':
+            qstring = '*'
+
         # e.g. http://library.brown.edu/cds/projects/iip/results?q=*:*
         redirect_url = '%s://%s%s?q=%s' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse('results_url'), qstring )
         log.debug( 'redirect_url for valid form, ```%s```' % redirect_url )
@@ -142,8 +146,6 @@ def results( request ):
 
     if request.method == u'GET' and request.GET.get(u'q', None) != None:
         log.debug( 'GET, with params, hit solr and show results' )
-        # print('hey')
-        print("request: ", request)
         return render( request, u'iip_search_templates/results.html', _get_results_context(request, log_id) )
 
 
@@ -156,7 +158,6 @@ def results( request ):
         log.debug( 'request.is_axax() is True' )
         return HttpResponse( _get_ajax_unistring(request) )
     else:  # regular GET, no params
-        print("MAP SEARCH PAGE")
         log.debug( 'GET, no params, show search form' )
         return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
 
@@ -222,6 +223,7 @@ def viewinscr(request, inscrid):
                 Returns a solrpy query-object.
             Called by _prepare_viewinscr_get_data(). """
         s = solr.SolrConnection( settings_app.SOLR_URL )
+        print(settings_app.SOLR_URL)
         qstring = u'inscription_id:%s' % inscription_id
         try:
             q = s.query(qstring)
@@ -508,8 +510,6 @@ def write_story(story_num):
             with urllib.request.urlopen(url) as response:
 
                 s = response.read()
-                print(s)
-
 
                 encoding = response.info().get_content_charset('utf-8')
 
@@ -554,8 +554,6 @@ def write_story(story_num):
     return context
 
 def load_layers(request):
-    print('load_layers')
-
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     print(BASE_DIR)

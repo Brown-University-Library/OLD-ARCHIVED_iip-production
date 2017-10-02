@@ -89,7 +89,7 @@
 				                      <li><a href="{% url 'about_url' %}#copyright">Copyright</a></li>
 				                    </ul>
 				                </li>
-				                <li class="{% if url_name == mapsearch_url %}active{% endif %}"><a href="{% url 'mapsearch_url' %}">Map Search</a></li>
+				                <li class="{% if url_name == mapsearch_url %}active{% endif %}"><a href="{% url 'mapsearch_url' %}">Search</a></li>
 				                <li class="{% if url_name == about_url %}active{% endif %}"><a href="{% url 'stories_url' %}">Stories</a></li>
 				                <li class="dropdown {% if url_name == about_url %}active{% endif %}">
 				                    <a href="{% url 'resources_url' %}" class="dropdown-toggle" data-toggle="dropdown">Resources
@@ -97,9 +97,9 @@
 				                    <ul class="dropdown-menu">
 				                      <li><a href="{% url 'resources_url' %}#bibliography">Bibliography</a></li>
 				                      <li><a href="{% url 'resources_url' %}#timeline">Timeline</a></li>
-				                      <li><a href="{% url 'resources_url' %}#education">Education</a></li>
+				                      <li><a href="{% url 'resources_url' %}#guide">Guide to Searching</a></li>
 				                      <li><a href="{% url 'resources_url' %}#glossary">Glossary</a></li>
-				                      <li><a href="{% url 'resources_url' %}#link">Links</a></li>
+				                      <!-- <li><a href="{% url 'resources_url' %}#link">Links</a></li> -->
 				                    </ul>
 				                </li>
 				                <li class="{% if url_name == about_url %}active{% endif %}"><a href="{% url 'contact_url' %}">Contact<br></a></li>
@@ -172,7 +172,7 @@
 				        <div class="container clearfix">
 				            <ul class="list-inline pull-right">
 				                <li class="active"><a href="{% url 'about_url' %}">About</a></li>
-				                <li><a href="{% url 'mapsearch_url' %}">Map Search</a></li>
+				                <li><a href="{% url 'mapsearch_url' %}">Search</a></li>
 				                <li><a href="{% url 'stories_url' %}">Stories</a></li>
 				                <li><a href="{% url 'resources_url' %}">Resources<br></a></li>
 				                <li><a href="{% url 'contact_url' %}">Contact<br></a></li>

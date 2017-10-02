@@ -17,7 +17,7 @@ var filters = {
   religion: [],
   material: []
 }; 
-// map of concatenators for multiple filters. default is 'OR' unless select multiple is OFF
+// map of concatenators for multiple filters. default is 'OR' unless set to AND
 var ops = {
   place: ' OR ',
   type: ' OR ',
@@ -57,25 +57,30 @@ function createLocationsDict() {
           value = "http://pleiades.stoa.org/places/678006";
         } else if (value.slice(0, 7) === "Maresha") {
           console.log("Invalid pleiades urls still present.");
-          return false;
+          return false
+        } else if (value.slice(-6) === "87966/"){
+          return false
         }
 
         var promise = $.getJSON('https://pleiades.stoa.org/places/' + value.slice(-6) + '/json', function(data) {
           if (data.reprPoint) {
             locations_dict[value] = [data.reprPoint[1], data.reprPoint[0]];
+            // console.log(locations_dict[value])
           } else {
             console.log("This inscription with pleiades ID " + value.slice(-6) + " has no coordinate value.");
           }
         });
 
         promises.push(promise);
+
       }
     });
 
     $.when.apply($, promises)
-    .done(function() {
+    .always(function() {
         createPointsLayer(BASE_URL);
     });
+
   });  
 };
 
@@ -109,7 +114,7 @@ function addFiltersToUrl() {
 // url: the url to get the point data from
 function createPointsLayer(url) {
   $('input:checkbox').attr('disabled', true)
-  console.log(url);
+  console.log("url: ", url);
   points_layer.clearLayers();
   facet_nums = {};
 
@@ -252,7 +257,7 @@ function updateSelectMenus() {
     var input = $(checkbox).children('input');
     var value = input.val();
     var name = input.attr('name');
-    if ($('a[data-name=' + name+']').text() === 'off') {
+    if ($('input[name=' + name + '_]:checked').val() === 'and') {
       if (facet_nums.hasOwnProperty(value)) {
         $(this).find('span').text('('+facet_nums[value]+')');
       } else {
@@ -264,7 +269,7 @@ function updateSelectMenus() {
           $(this).find('span').text('('+facet_nums[value]+')');
         }
       } else {
-        if (filters[name].length === 0) {
+        if (filters[name].length === 0 || input.is(':checked')) {
           $(this).find('span').text('(0)');
         }
       }
@@ -668,10 +673,10 @@ $('#material-filter').change(function() {
 
 // BUTTONS
 
-$(".select-multiple > a").click(function() {
-  var filter = $(this).data('name');
-  if ($(this).text().includes("on")) {
-    $(this).text("off");
+$("input[type='radio']").click(function() {
+  var filter = $(this).attr('name').slice(0, -1);
+  console.log("filter", filter)
+  if ($(this).val() === ("and")) {
     $('#'+filter+'-filter > .checkbox.checkbox-default').each(function(index, checkbox) {
       this.classList.add('checkbox-circle');
       $(this).children('input').prop('checked', false);
@@ -679,7 +684,6 @@ $(".select-multiple > a").click(function() {
     ops[filter] = ' AND ';
     filters[filter] = []
   } else {
-    $(this).text("on");
     $('#'+filter+'-filter > .checkbox.checkbox-default').each(function(index, radio) {
       this.classList.remove('checkbox-circle');
       $(this).children('input').attr('disabled', false);
@@ -710,6 +714,18 @@ $('#reset').click(function() {
     if (filters.hasOwnProperty(filter) && filters[filter].length > 0) {
       filters[filter] = [];
     }
+    $('#'+filter+'-filter > .checkbox.checkbox-default').each(function(index, radio) {
+      this.classList.remove('checkbox-circle');
+      $(this).children('input').attr('disabled', false);
+    });
+  }
+  ops = {
+    place: ' OR ',
+    type: ' OR ',
+    physical_type: ' OR ',
+    language: ' OR ',
+    religion: ' OR ',
+    material: ' OR ',
   }
   $('#map-inscriptions-box ul').empty();
   $("#slider-range").slider('values', 0, -600);
