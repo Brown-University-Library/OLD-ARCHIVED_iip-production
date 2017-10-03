@@ -1,0 +1,91 @@
+{% extends 'about/base.html' %}
+
+{% block extra_css %}
+	{% load staticfiles %}
+	<link href='{% static 'about/css/about.css' %}' rel="stylesheet">
+    <link href='{% static 'about/css/carousel-about.css' %}' rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+<div id="page-content-wrapper">
+    <section class="about-text ptb-100">
+        <div class="container">
+            <div class="row">
+                <h2>Featured Stories</h2>  
+                <br><br>
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                <div class="item active">
+                  <div class="holder col-sm-6">
+                    <img class="img-responsive" src='{% static 'iip_search_app/images/theodotos_thumbnail.jpg' %}' alt="...">
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="carousel-caption">
+                        <h2>Talking with Theodotos</h2>
+                        <p>What were the functions of synagogues prior to the destruction of the Temple of Jerusalem? A dedicatory inscription provides a tantalizing glimpse into the role of the ancient synagogue in Jewish culture. </p>
+                        <a href="{% url 'theodotos_url' %}"><button type="button" class="btn btn-default">Read Full Story</button></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="holder col-sm-6">
+                    <img class="img-responsive" src='{% static 'iip_search_app/images/waypoint_thumbnail.jpg' %}' alt="...">
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="carousel-caption">
+                        <h2>The Synagogue as a Waypoint for Travellers</h2>
+                        <p>Safety while travelling is a modern, often underappreciated, privilege. The so-called Theodotus inscription refers to a hostel for travellers inside a 1st century CE synagogue in Jerusalem. </p>
+                        <a href="{% url 'synagogue_waypoint_url' %}"><button type="button" class="btn btn-default">Read Full Story</button></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="holder col-sm-6">
+                    <img class="img-responsive" src='{% static 'iip_search_app/images/heliodorus_thumbnail.png' %}' alt="...">
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="carousel-caption">
+                        <h2>Temple Raid Sparks Revolt</h2>
+                        <p>A king’s command to raid the Holy Temple’s coffers incites a bloody revolt. Epigraphic fragments of this king’s correspondence with high officials prove his role in the Temple’s desecration.</p>
+                        <a href="{% url 'heliodorus_url' %}"><button type="button" class="btn btn-default">Read Full Story</button></a>      
+                    </div>
+                  </div>
+                </div>
+                </div>
+                <div class="controllers col-sm-8 col-xs-12">
+                <!-- Controls -->
+                  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                  </a>
+                  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                  </a>
+                  <!-- Indicators -->
+                </div>
+                <div class='carousel-indicators-div'>
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                  </ol> 
+                </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <h2>Why Inscriptions?</h2>
+                <br>
+                <img id="why_inscription_img" src='{% static 'about/img/about1.jpg' %}'>
+                <br>
+                
+                <p>As of March 2016, there are approximately 3,500 inscriptions in the database, with more added regularly. All are enconded using Epidoc guidelines. The inscriptions can be accessd via the "Search" button on the left.</p>
+                <p>Inscriptions of Israel/Palestine is an ongoing project at Brown University. It has been generously supported by the Center of Digital Scholarship and the Goldhirish-Yellin Foundation. We welcome you feedback.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

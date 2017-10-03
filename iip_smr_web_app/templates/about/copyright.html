@@ -1,0 +1,65 @@
+{% extends 'about/base.html' %}
+
+{% block extra_css %}
+	{% load staticfiles %}
+	<link href='{% static 'about/css/about.css' %}' rel="stylesheet">
+
+{% endblock %}
+
+{% block body %}
+
+<div id="page-content-wrapper">
+    <section class="about-text ptb-100">
+        <div class="container">
+            <div class="row">
+                <h2>Copyright</h2>
+                <br>
+                <p>
+                   The Inscriptions of Israel/Palestine (IIP) project follows a long tradition of reprinting scholarly editions of epigraphical material with appropriate attributions. Our policy of using copyrighted material does not appreciably differ from that of the Supplementum Epigraphicum Graecum and other collections of inscriptions. We use other copyrighted material (e.g., images and maps) only with permissions. We further enhance the value of epigraphical data by correcting obvious mistakes, tagging content, and allowing inscriptions to appear in new and dynamic ways.
+                </p>
+                <p>
+                    In compiling this collection, we have observed the guidelines of fair use as laid out in Section 107 of the U.S. copyright law. This section stipulates certain restrictions based on the following considerations: 
+                    >
+                        <li>The purpose and character of the use, including whether such use is of commercial nature or is for nonprofit educational purposes</li>
+                        <li>The nature of the copyrighted work</li>
+                        <li>The amount and substantiality of the portion used in relation to the copyrighted work as a whole</li>
+                        <li>The effect of the use upon the potential market for, or value of, the copyrighted work</li>
+                    </ul>
+                </p>
+                <p>
+                    All sources of inscription data are attributed, and users are urged to consult these original sources and to attribute them appropriately. For a relevant legal argument regarding the copyright of reconstructed ancient texts, see David Nimmer, "Copyright in the Dead Sea Scrolls: Authorship and Originality," Houston Law Review 38 (2001).
+                </p>
+                <p>
+                    The copyright for all scholarly contributions remain with the contributors. By publishing their contribution in our repository, however, they assign to IIP a non-exclusive and permanent right to display their materials and rights to any work IIP staff contributed unless otherwise specified.
+                </p>
+                <p>
+                    To cite the project, use: Michael L. Satlow, Inscriptions of Israel/Palestine, 2002-[current year], http://www.brown.edu/iip
+                </p>
+                <p>
+                    To cite a single inscription, we recommend consulting and using the original source as noted in the site followed by:
+                    [=IIP [inscription id], [date]. [URN]].  For example: 
+                    Vassilios Tzaferis, “A Greek Inscription from Khirbet Abu Rish,” Atiqot 31 (1997): 147-8 [=IIP ABUR0001, July 1, 2017.  http://library.brown.edu/cds/projects/iip/viewinscr/abur0001/]
+                </p>
+                <p>
+                    To link to a query, copy the query's unique URL.
+		        </p>
+	            <p>To cite a narrative from our “stories” gallery,
+                use any standard citation format to record the IIP
+                contributing author, date, title, and URL. For
+                example, (in Chicago style): Lauren Montieth, “The
+                Synagogue as a Waypoint for Travellers,”
+                Inscriptions of Israel/Palestine, last modified
+                June 28, 2017, [URL]. 
+                </p>
+                <p>
+                    We believe that the public good is best served by keeping our data free for use and reuse.  By using the Creative Commons License below we hope to join in encouraging “the creation of a thriving commons through sharing knowledge.”
+                </p>
+                <p>
+                    <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+                </p>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'about/base.html' %}
+
+{% block extra_css %}
+	{% load staticfiles %}
+	<link href='{% static 'about/css/about.css' %}' rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+<div id="page-content-wrapper">
+    <section class="about-text ptb-100">
+        <div class="container">
+            <div class="row">
+                <h2>Team</h2>
+                <br>
+                <p>
+	               <h4>Project Director:</h4>
+	            <ul> <li>Michael L. Satlow, Professor of Religious Studies and Judaic Studies, Brown University  [more info] [contact]</li></ul>
+                </p>
+                <p>
+                    <h4>Technical Director:</h4>  <ul><li>Elli Mylonas, Senior Digital Humanities Librarian, Center for Digital Scholarship, Brown University [more info] [contact]</li></ul>
+                </p>
+                <p>
+                    <h4>Project Manager:</h4>  <ul><li>Gaia Lembi, Visiting Assistant Professor (research), Program in Judaic Studies, Brown University.  [more info] [contact]</li></ul>
+                </p>
+                <br>
+                <h4>
+                    Encoders
+                </h4>
+                <br>
+                <h4>
+                    Interdisciplinary UTRA Team Members (Summer & Fall, 2017):
+	            </h4>
+	            <p>
+	            <ul>
+            	    <li>Margaret Follett, Brown University '19</li>
+            	    <li>Dae Hyun (Sam) Kim, Brown University '17.5</li>
+            	    <li>Lauren Montieth, Brown University '18</li>
+            	    <li>Wennie Zhang, Brown University '19</li>
+	           </ul>
+	           </p>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

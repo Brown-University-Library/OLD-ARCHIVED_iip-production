@@ -43,7 +43,7 @@
 				                <span class="icon-bar"></span>
 				                <span class="icon-bar"></span>
 				            </button>
-				            <a class="navbar-brand" href="{% url 'about_url' %}"><img src='{% static "iip_search_app/images/logo3.png" %}' alt="" style="height:65px; padding-bottom: 20px;"></a>
+				            <a class="navbar-brand" href="{% url 'why_inscription_url' %}"><img src='{% static "iip_search_app/images/logo3.png" %}' alt="" style="height:65px; padding-bottom: 20px;"></a>
 				        </div>
 
 
@@ -76,33 +76,32 @@
 				            
 				          
 
-				                <li class="dropdown {% if url_name == 'about_url' %}active{% endif %}">
-				                    <a href="{% url 'about_url' %}" class="dropdown-toggle" type="button" data-toggle="dropdown">About
+				                <li class="dropdown {% if url_name == 'why_inscription_url' %}active{% endif %}">
+				                    <a href="{% url 'why_inscription_url' %}" class="dropdown-toggle" type="button" data-toggle="dropdown">About
 				                    <span class="caret"></span></a>
 				                    <ul class="dropdown-menu">
-				                      <li><a href="{% url 'about_url' %}#why_inscription">Why Inscriptions?</a></li>
-				                      <li><a href="{% url 'about_url' %}#project_description">Project Description</a></li>
-				                      <li><a href="{% url 'about_url' %}#documentation">Documentation</a></li>
-				                      <li><a href="{% url 'about_url' %}#api">APIs</a></li>
-				                      <li><a href="{% url 'about_url' %}#funding">Funding</a></li>
-				                      <li><a href="{% url 'about_url' %}#team">Team</a></li>
-				                      <li><a href="{% url 'about_url' %}#copyright">Copyright</a></li>
+				                      <li><a href="{% url 'why_inscription_url' %}">Why Inscriptions?</a></li>
+				                      <li><a href="{% url 'project_description_url' %}">Project Description</a></li>
+				                      <li><a href="{% url 'documentation_url' %}">Documentation</a></li>
+				                      <li><a href="{% url 'api_url' %}">APIs</a></li>
+				                      <li><a href="{% url 'funding_url' %}">Funding</a></li>
+				                      <li><a href="{% url 'team_url' %}">Team</a></li>
+				                      <li><a href="{% url 'copyright_url' %}">Copyright</a></li>
 				                    </ul>
 				                </li>
 				                <li class="{% if url_name == mapsearch_url %}active{% endif %}"><a href="{% url 'mapsearch_url' %}">Search</a></li>
-				                <li class="{% if url_name == about_url %}active{% endif %}"><a href="{% url 'stories_url' %}">Stories</a></li>
-				                <li class="dropdown {% if url_name == about_url %}active{% endif %}">
+				                <li class="{% if url_name == why_inscription_url %}active{% endif %}"><a href="{% url 'stories_url' %}">Stories</a></li>
+				                <li class="dropdown {% if url_name == why_inscription_url %}active{% endif %}">
 				                    <a href="{% url 'resources_url' %}" class="dropdown-toggle" data-toggle="dropdown">Resources
 				                    <span class="caret"></span></a>
 				                    <ul class="dropdown-menu">
-				                      <li><a href="{% url 'resources_url' %}#bibliography">Bibliography</a></li>
-				                      <li><a href="{% url 'resources_url' %}#timeline">Timeline</a></li>
-				                      <li><a href="{% url 'resources_url' %}#guide">Guide to Searching</a></li>
-				                      <li><a href="{% url 'resources_url' %}#glossary">Glossary</a></li>
-				                      <!-- <li><a href="{% url 'resources_url' %}#link">Links</a></li> -->
+				                      <li><a href="{% url 'resources_url' %}">Bibliography</a></li>
+				                      <li><a href="{% url 'resources_url' %}">Timeline</a></li>
+				                      <li><a href="{% url 'resources_url' %}">Guide to Searching</a></li>
+				                      <li><a href="{% url 'resources_url' %}">Glossary</a></li>
 				                    </ul>
 				                </li>
-				                <li class="{% if url_name == about_url %}active{% endif %}"><a href="{% url 'contact_url' %}">Contact<br></a></li>
+				                <li class="{% if url_name == why_inscription_url %}active{% endif %}"><a href="{% url 'contact_url' %}">Contact<br></a></li>
 				                {% endwith %}
 				            </ul>
 				        </div>
@@ -171,7 +170,7 @@
 				    <div class="copyright-section">
 				        <div class="container clearfix">
 				            <ul class="list-inline pull-right">
-				                <li class="active"><a href="{% url 'about_url' %}">About</a></li>
+				                <li class="active"><a href="{% url 'why_inscription_url' %}">About</a></li>
 				                <li><a href="{% url 'mapsearch_url' %}">Search</a></li>
 				                <li><a href="{% url 'stories_url' %}">Stories</a></li>
 				                <li><a href="{% url 'resources_url' %}">Resources<br></a></li>
@@ -194,7 +193,7 @@
 		    <div>
 		        <div>
 		            <ul id="menu">
-		                <li class="active"><a href="{% url 'about_url' %}">About</a></li>
+		                <li class="active"><a href="{% url 'why_inscription_url' %}">About</a></li>
 		                <li><a href="{% url 'mapsearch_url' %}">Map Search</a></li>
 		                <li><a href="{% url 'stories_url' %}">Stories</a></li>
 		                <li><a href="{% url 'resources_url' %}">Resources<br></a></li>

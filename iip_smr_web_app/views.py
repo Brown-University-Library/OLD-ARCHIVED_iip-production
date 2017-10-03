@@ -424,6 +424,30 @@ def edit_info( request ):
 def about(request):
     return render(request, 'about/about.html')
 
+
+def why_inscription(request):
+    return render(request, 'about/why_inscription.html')
+
+def project_description(request):
+    return render(request, 'about/project_description.html')
+
+def documentation(request):
+    return render(request, 'about/documentation.html')
+
+def api(request):
+    return render(request, 'about/api.html')
+
+def funding(request):
+    return render(request, 'about/funding.html')
+
+def team(request):
+    return render(request, 'about/team.html')
+
+def copyright(request):
+    return render(request, 'about/copyright.html')
+
+
+
 def index(request):
     return render(request, 'index/index.html')
 
