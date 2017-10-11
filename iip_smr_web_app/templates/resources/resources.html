@@ -3,18 +3,6 @@
 {% block extra_css %}
 	{% load staticfiles %}
 	<link href='{% static 'resources/css/resources.css' %}' rel="stylesheet">
-	<link href='{% static 'about/css/sidebar.css' %}' rel="stylesheet">
-
-<style>
-
-hr.style-one {
-border: 0;
-height: 1px;
-background: #333;
-background-image: linear-gradient(to right, #ccc, #333, #ccc);
-border-top: black;
-}
-</style>
 
 {% endblock %}
 
@@ -22,42 +10,8 @@ border-top: black;
 
 {% block body %}
 <div id="wrapper">
-    <div id="sidebar-wrapper">
-        <nav id="spy">
-            <ul class="sidebar-nav nav">
-                <li>
-                    <a href="#bibliography" data-scroll>
-                        Bibliography
-                    </a>
-                </li>
-                <li>
-                    <a href="#timeline" data-scroll>
-                        Timeline
-                    </a>
-                </li>
-                <li>
-                    <a href="#guide" data-scroll>
-                        Guide to Searching
-                    </a>
-                </li>
-                <li>
-                    <a href="#glossary" data-scroll>
-                        Glossary
-                    </a>
-                </li>
-              <!--  <li>
-                    <a href="#link" data-scroll>
-                        Links
-                    </a>
-                </li> -->
-            </ul>
-        </nav>
-    </div>
-
     <div id="page-content-wrapper">
         <section class="about-text ptb-100">
-            <hr class="style-one" id="bibliography">
-            <br><br><br><br><br>    
                 <div class="row">
                     <h2>Bibliography</h2>
                     <br>
@@ -85,7 +39,6 @@ border-top: black;
             <br><br><br><br><br>
                 <div class="row">
                     <h2>Guide to Searching</h2>
-		  
 		  
                     <p>The inscriptions of Israel/Palestine project is
                     made up of over 3,000 records from the

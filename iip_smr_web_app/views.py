@@ -91,6 +91,8 @@ def results( request ):
         resultsPage = int( request.GET[u'resultsPage'] )
         context = common.paginateRequest(
             qstring=updated_qstring, resultsPage=resultsPage, log_id=log_id )
+
+
         return_str = ajax_snippet.render_block_to_string(u'iip_search_templates/results.html', u'content', context)
         return unicode( return_str )
 
@@ -116,8 +118,8 @@ def results( request ):
         log.debug( 'context, ```%s```' % pprint.pformat(context) )
         return context
 
-    print("Request")
-    print(request)  
+    # print("Request")
+    # print(request)  
     log_id = common.get_log_identifier( request.session )
     log.info( 'id, `%s`; starting' % log_id )
     if not u'authz_info' in request.session:
@@ -128,7 +130,7 @@ def results( request ):
         form = forms.SearchForm(request.POST)
         if not form.is_valid():
             log.debug( 'form not valid, redirecting')
-            redirect_url = '%s://%s%s?q=*:*' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse('results_url') )
+            redirect_url = '%s://%s%s?q=*:*' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse('mapsearch_url') )
             log.debug( 'redirect_url for non-valid form, ```%s```' % redirect_url )
             return HttpResponseRedirect( redirect_url )
         qstring = form.generateSolrQuery()
@@ -138,7 +140,7 @@ def results( request ):
             qstring = '*'
 
         # e.g. http://library.brown.edu/cds/projects/iip/results?q=*:*
-        redirect_url = '%s://%s%s?q=%s' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse('results_url'), qstring )
+        redirect_url = '%s://%s%s?q=%s' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse('mapsearch_url'), qstring )
         log.debug( 'redirect_url for valid form, ```%s```' % redirect_url )
         return HttpResponseRedirect( redirect_url )
 
@@ -147,6 +149,7 @@ def results( request ):
 
     if request.method == u'GET' and request.GET.get(u'q', None) != None:
         log.debug( 'GET, with params, hit solr and show results' )
+
         return render( request, u'iip_search_templates/results.html', _get_results_context(request, log_id) )
 
 
@@ -224,7 +227,7 @@ def viewinscr(request, inscrid):
                 Returns a solrpy query-object.
             Called by _prepare_viewinscr_get_data(). """
         s = solr.SolrConnection( settings_app.SOLR_URL )
-        print(settings_app.SOLR_URL)
+        # print(settings_app.SOLR_URL)
         qstring = u'inscription_id:%s' % inscription_id
         try:
             q = s.query(qstring)
@@ -421,8 +424,8 @@ def edit_info( request ):
 
 
 ###SAM
-def about(request):
-    return render(request, 'about/about.html')
+# def about(request):
+#     return render(request, 'about/about.html')
 
 
 def why_inscription(request):
@@ -457,8 +460,25 @@ def contact(request):
 def mapsearch(request):
     return render(request, 'mapsearch/mapsearch.html')
 
+
 def resources(request):
     return render(request, 'resources/resources.html')
+
+def bibliography(request):
+    return render(request, 'resources/bibliography.html')
+
+
+def timeline(request):
+    return render(request, 'resources/timeline.html')
+
+
+def guide_to_searching(request):
+    return render(request, 'resources/guide_to_searching.html')
+
+def glossary(request):
+    return render(request, 'resources/glossary.html')
+
+
 
 def stories(request):
     return render(request, 'stories/stories.html')

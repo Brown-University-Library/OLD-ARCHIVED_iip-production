@@ -1,0 +1,29 @@
+{% extends 'about/base.html' %}
+
+{% block extra_css %}
+    {% load staticfiles %}
+    <link href='{% static 'resources/css/resources.css' %}' rel="stylesheet">
+
+{% endblock %}
+
+
+
+{% block body %}
+<div id="wrapper">
+    <div id="page-content-wrapper">
+        <section class="about-text ptb-100">
+            <div class="container">
+                <div class="row">
+                    <h2>Glossary</h2>
+                    <br>
+                    <p>Viewing and interpreting an ancient inscription may seem a daunting task. “Aren’t inscriptions just big boring blocks of stone with letters carved into them?” you may ask. “What if I can’t read ancient Aramaic? What if Greek really is all Greek to me?” Never fear! This glossary has you covered -- even if you have no knowledge of ancient languages or specialized knowledge of the ancient world. </p>
+                    <p><i>
+                        The IIP glossary is currently under construction.
+                    </i></p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>  
+
+{% endblock %}

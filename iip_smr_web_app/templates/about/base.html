@@ -92,13 +92,13 @@
 				                <li class="{% if url_name == mapsearch_url %}active{% endif %}"><a href="{% url 'mapsearch_url' %}">Search</a></li>
 				                <li class="{% if url_name == why_inscription_url %}active{% endif %}"><a href="{% url 'stories_url' %}">Stories</a></li>
 				                <li class="dropdown {% if url_name == why_inscription_url %}active{% endif %}">
-				                    <a href="{% url 'resources_url' %}" class="dropdown-toggle" data-toggle="dropdown">Resources
+				                    <a href="{% url 'bibliography_url' %}" class="dropdown-toggle" data-toggle="dropdown">Resources
 				                    <span class="caret"></span></a>
 				                    <ul class="dropdown-menu">
-				                      <li><a href="{% url 'resources_url' %}">Bibliography</a></li>
-				                      <li><a href="{% url 'resources_url' %}">Timeline</a></li>
-				                      <li><a href="{% url 'resources_url' %}">Guide to Searching</a></li>
-				                      <li><a href="{% url 'resources_url' %}">Glossary</a></li>
+				                      <li><a href="{% url 'bibliography_url' %}">Bibliography</a></li>
+				                      <li><a href="{% url 'timeline_url' %}">Timeline</a></li>
+				                      <li><a href="{% url 'guide_to_searching_url' %}">Guide to Searching</a></li>
+				                      <li><a href="{% url 'glossary_url' %}">Glossary</a></li>
 				                    </ul>
 				                </li>
 				                <li class="{% if url_name == why_inscription_url %}active{% endif %}"><a href="{% url 'contact_url' %}">Contact<br></a></li>
@@ -173,7 +173,7 @@
 				                <li class="active"><a href="{% url 'why_inscription_url' %}">About</a></li>
 				                <li><a href="{% url 'mapsearch_url' %}">Search</a></li>
 				                <li><a href="{% url 'stories_url' %}">Stories</a></li>
-				                <li><a href="{% url 'resources_url' %}">Resources<br></a></li>
+				                <li><a href="{% url 'bibliography_url' %}">Resources<br></a></li>
 				                <li><a href="{% url 'contact_url' %}">Contact<br></a></li>
 				            </ul>
 				        </div>
@@ -196,7 +196,7 @@
 		                <li class="active"><a href="{% url 'why_inscription_url' %}">About</a></li>
 		                <li><a href="{% url 'mapsearch_url' %}">Map Search</a></li>
 		                <li><a href="{% url 'stories_url' %}">Stories</a></li>
-		                <li><a href="{% url 'resources_url' %}">Resources<br></a></li>
+		                <li><a href="{% url 'bibliography_url' %}">Resources<br></a></li>
 		                <li><a href="{% url 'contact_url' %}">Contact<br></a></li>
 		            </ul>
 		        </div>

@@ -45,7 +45,15 @@ urlpatterns = [
     url(r'^contact/$', views.contact, name=u'contact_url' ),
     url(r'^mapsearch/$', views.results, name=u'mapsearch_url' ),
     url(r'^mapsearch/load_layers/$', views.load_layers, name='load_layers'),
+
+
     url(r'^resources/$', views.resources, name=u'resources_url' ),
+    url(r'^resources/bibliography$', views.bibliography, name=u'bibliography_url' ),
+    url(r'^resources/timeline$', views.timeline, name=u'timeline_url' ),
+    url(r'^resources/guide_to_searching$', views.guide_to_searching, name=u'guide_to_searching_url' ),
+    url(r'^resources/glossary$', views.glossary, name=u'glossary_url' ),
+
+
     url(r'^stories/$', views.stories, name=u'stories_url' ),
 
 
