@@ -2,7 +2,7 @@ from django import forms
 from pagedown.widgets import AdminPagedownWidget
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout
-from .models import StaticPage
+from .models import StaticPage, StoryPage
 from .widgets import AddAnotherWidgetWrapper
 
 
@@ -13,3 +13,12 @@ class AdminStaticPageForm(forms.ModelForm):
     class Meta:
         model = StaticPage
         fields = ( 'slug', 'title_header', 'title', 'content' )
+
+
+class AdminStoryPageForm(forms.ModelForm):
+	content = forms.CharField( widget=AdminPagedownWidget() )
+
+	class Meta:
+		model = StoryPage
+		fields = ( 'slug', 'title_header', 'title', 'author',
+        	'date', 'short_summary', 'content', 'relevant_inscription_id' )

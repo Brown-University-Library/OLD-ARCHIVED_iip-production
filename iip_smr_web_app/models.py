@@ -18,7 +18,15 @@ class StaticPage( models.Model ):
     def __unicode__(self):
         return self.slug
     class Meta:
-        verbose_name_plural = 'Static Pages'
-
+    	verbose_name_plural = 'Static Pages'
 
 ## Creating comment model
+class StoryPage( models.Model ):
+	slug = models.SlugField(max_length=100)
+	title_header = models.CharField( blank=True, max_length=100 )
+	title = models.CharField( blank=True, max_length=100 )
+	author = models.CharField( blank=True, max_length=100 )
+	date = models.DateField()
+	short_summary = models.CharField( blank=True, max_length=100 )
+	content = models.TextField( blank=True, help_text='Markdown allowed.' )
+	relevant_inscription_id = models.CharField( blank=True, max_length=100 )
