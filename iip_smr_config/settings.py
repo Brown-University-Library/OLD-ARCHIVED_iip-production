@@ -5,6 +5,8 @@
 import json, os
 
 
+SITE_ID = 1
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['IIP_SMR__SECRET_KEY']
 
