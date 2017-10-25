@@ -1,6 +1,7 @@
 {% extends 'stories/base_stories.html' %}
 
 {% load iipCustomFilters %}
+{% load markdown_deux_tags %}
 
 {% block story_head %}
 {% load staticfiles %}
@@ -14,7 +15,9 @@
 {% endblock%}
 
 {% block story_content %}
-{{content}}
+
+{{content|markdown}}
+
 {% endblock %}
 
 {% block relevant_inscription %}
@@ -155,7 +158,6 @@ $('iframe').load( function() {
     $('iframe').contents().find("head")
       .append($("<style type='text/css'>  body{paddint-top:0px;}  </style>"));
 });
-
 
 </script>
 {% endblock %}

@@ -451,8 +451,12 @@ def copyright(request):
 
 
 
+# def index(request):
+#     return render(request, 'index/index2.html')
+
 def index(request):
-    return render(request, 'index/index.html')
+    return stories(request, index_page=True)
+
 
 def contact(request):
     return render(request, 'contact/contact.html')
@@ -679,7 +683,7 @@ def load_layers(request):
 
 
 
-def stories(request):
+def stories(request, index_page=False):
     story_page = StoryPage.objects.all()
 
     slug = []
@@ -690,6 +694,8 @@ def stories(request):
     short_summary = []
     content = []
     relevant_inscription_id = []
+    thumbnail_intro = []
+    image = []
 
     for el in story_page:
         slug.append(el.slug)
@@ -700,6 +706,10 @@ def stories(request):
         short_summary.append(el.short_summary)
         content.append(el.content)
         relevant_inscription_id.append(el.relevant_inscription_id)
+        thumbnail_intro.append(el.thumbnail_intro)
+        image.append(el.image)
+
+    print(image)
 
     context = {
         'slug': slug,
@@ -710,10 +720,15 @@ def stories(request):
         'short_summary': short_summary,
         'content': content,
         'relevant_inscription_id': relevant_inscription_id,
-        'num_stories': range(len(story_page))
+        'num_stories': range(len(story_page)),
+        'thumbnail_intro': thumbnail_intro,
+        'image': image
     }
 
-    return render(request, 'stories/stories2.html', context)
+    if index_page:
+        return render(request, 'index/index2.html', context)
+    else:
+        return render(request, 'stories/stories2.html', context)
 
 
 def individual_story(request, story_id):
@@ -729,6 +744,8 @@ def individual_story(request, story_id):
     date_start = []
     date_end = []
     num_relevantInscriptions = 0
+
+    
     for item in story_page.relevant_inscription_id.split(','):
         num_relevantInscriptions += 1
         url = "http://library.brown.edu/search/solr_pub/iip/?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A%22" + item.lower() + "%22"

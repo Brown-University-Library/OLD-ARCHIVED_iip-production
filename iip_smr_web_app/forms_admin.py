@@ -1,5 +1,5 @@
 from django import forms
-from pagedown.widgets import AdminPagedownWidget
+from pagedown.widgets import AdminPagedownWidget, PagedownWidget
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout
 from .models import StaticPage, StoryPage
@@ -15,10 +15,18 @@ class AdminStaticPageForm(forms.ModelForm):
         fields = ( 'slug', 'title_header', 'title', 'content' )
 
 
+# class AdminStoryPageForm(forms.ModelForm):
+# 	content = forms.CharField( widget=AdminPagedownWidget() )
+
+# 	class Meta:
+# 		model = StoryPage
+# 		fields = ( 'slug', 'title', 'author',
+#         	'date', 'short_summary', 'thumbnail_intro' ,'image', 'content', 'relevant_inscription_id' )
+
 class AdminStoryPageForm(forms.ModelForm):
 	content = forms.CharField( widget=AdminPagedownWidget() )
 
 	class Meta:
 		model = StoryPage
-		fields = ( 'slug', 'title_header', 'title', 'author',
-        	'date', 'short_summary', 'content', 'relevant_inscription_id' )
+		fields = ( 'slug', 'title', 'author',
+        	'date', 'short_summary', 'thumbnail_intro' ,'image', 'content', 'relevant_inscription_id' )

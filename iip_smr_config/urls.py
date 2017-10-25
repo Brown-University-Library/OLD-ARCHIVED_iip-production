@@ -104,6 +104,6 @@ urlpatterns = [
     # url( r'^temp/$', views.temp, name=u'temp_url' ),
 
 
-    url( r'^$',  RedirectView.as_view(pattern_name='mapsearch_url') ),
+    url( r'^$',  RedirectView.as_view(pattern_name='index_url') ),
 
     ]

@@ -23,12 +23,12 @@ hr.style-one {
 
         {% for story in num_stories %}
             <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
-                <img class="img-responsive", src='{% static "iip_search_app/images/theodotos_thumbnail.jpg" %}' />
+                <img class="img-responsive", src='{% static image|indexList:forloop.counter0 %}' />
                 <div class="img_description" style="visibility: visible;">
                     <p style='padding-left: 10px;'>{{title|indexList:forloop.counter0}}<br>
                         <span style='font-size: 14px; font-weight: normal; font-family: serif;'></span>
                     </p>
-                    <a style="display: block;" class="btn btn-primary button_description story-button" data-toggle="modal" data-story="theodotos" href="{% url 'test_url' slug|indexList:forloop.counter0 %}">Read Full Story</a>
+                    <a style="display: block;" class="btn btn-primary button_description story-button" data-toggle="modal" href="{% url 'test_url' slug|indexList:forloop.counter0 %}">Read Full Story</a>
                 </div> 
             </div>
         {% endfor %}
@@ -55,7 +55,7 @@ hr.style-one {
 
         <div class="row">
             <div class="col-md-3 thumbnail_pic">
-                <img class="img-responsive", src='{% static "iip_search_app/images/theodotos_thumbnail.jpg"%} ' />
+                <img class="img-responsive", src='{% static image|indexList:forloop.counter0 %}' />
             </div>
             <div class="col-md-3">
                 <h2>{{title|indexList:forloop.counter0}}</h2>
@@ -63,7 +63,7 @@ hr.style-one {
                 <a class="btn btn-default" href="{% url 'test_url' slug|indexList:forloop.counter0 %}">Read Full Story</a>
             </div>
             <div class="col-md-4">
-                <h4>{{short_summary|indexList:forloop.counter0}}
+                <h4>{{thumbnail_intro|indexList:forloop.counter0}}
                 </h4>
             </div>
         </div>
