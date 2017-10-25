@@ -1,0 +1,80 @@
+{% extends 'about/base.html' %}
+
+{% load iipCustomFilters %}
+
+{% block extra_css %}
+    {% load staticfiles %}
+    <link href='{% static 'stories/css/stories.css' %}' rel="stylesheet">
+    <style>
+
+hr.style-one {
+    border: 0;
+    height: 2px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="service-icon-style ptb-100" style="padding-bottom: 0">
+    <div class="container">
+        <div class="row">
+
+        {% for story in num_stories %}
+            <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
+                <img class="img-responsive", src='{% static "iip_search_app/images/theodotos_thumbnail.jpg" %}' />
+                <div class="img_description" style="visibility: visible;">
+                    <p style='padding-left: 10px;'>{{title|indexList:forloop.counter0}}<br>
+                        <span style='font-size: 14px; font-weight: normal; font-family: serif;'></span>
+                    </p>
+                    <a style="display: block;" class="btn btn-primary button_description story-button" data-toggle="modal" data-story="theodotos" href="{% url 'test_url' slug|indexList:forloop.counter0 %}">Read Full Story</a>
+                </div> 
+            </div>
+        {% endfor %}
+
+        </div>
+    
+        <br><br><br>
+        <div class="row">
+            <div class="col-md-3">
+                
+            </div>
+            <div class="col-md-3">
+                <h2>Featured Stories</h2>
+            </div>
+            <div class="col-md-4">
+                <h2 style="text-align: center;">Intro</h2>
+            </div>
+        </div>
+
+        {% for story in num_stories %}
+
+
+        <hr class="style-one">
+
+        <div class="row">
+            <div class="col-md-3 thumbnail_pic">
+                <img class="img-responsive", src='{% static "iip_search_app/images/theodotos_thumbnail.jpg"%} ' />
+            </div>
+            <div class="col-md-3">
+                <h2>{{title|indexList:forloop.counter0}}</h2>
+                <h4>{{author|indexList:forloop.counter0}}</h4>
+                <a class="btn btn-default" href="{% url 'test_url' slug|indexList:forloop.counter0 %}">Read Full Story</a>
+            </div>
+            <div class="col-md-4">
+                <h4>{{short_summary|indexList:forloop.counter0}}
+                </h4>
+            </div>
+        </div>
+        {% endfor %}
+
+        <hr class="style-one">
+
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}

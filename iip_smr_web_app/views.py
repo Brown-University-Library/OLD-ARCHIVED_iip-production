@@ -2,7 +2,7 @@
 
 import datetime, json, logging, os, pprint, re
 import solr, requests
-from .models import StaticPage
+from .models import StaticPage, StoryPage
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
@@ -480,125 +480,162 @@ def glossary(request):
 
 
 
-def stories(request):
-    return render(request, 'stories/stories.html')
-
-# def synagogue_waypoint2(request):
-#     return render(request, 'stories/synagogue_waypoint.html')
-
-def heliodorus(request):
-    story_num = 1
-    context = write_story(story_num, request)
-    return render(request, 'stories/individual_story.html', context)
-
-def ossuaries(request):
-    story_num = 2
-    context = write_story(story_num, request)
-    return render(request, 'stories/individual_story.html', context)
-
-
-def theodotos(request):
-    story_num = 3
-    context = write_story(story_num, request)
-    return render(request, 'stories/individual_story.html', context)
-
-def kokhba(request):
-    story_num = 4
-    context = write_story(story_num, request)
-    return render(request, 'stories/individual_story.html', context)
-
-def synagogue_waypoint(request):
-    story_num = 5
-    context = write_story(story_num, request)
-    return render(request, 'stories/individual_story.html', context)
-
-
-def write_story(story_num, request):
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    url = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "stories/csv/stories.csv")
-    title = []
-    author = []
-    published_date = []
-    relevant_inscription = []
-    summary = []
-    content_url = []
-    inscription_id = []
-    languages = []
-    date = []
-    date_start = []
-    date_end = []
-    place_found = []
-    transcription = []
-    translation = []
-    dimension = []
-    num_relevantInscriptions = 0
-
-    with open(url, 'r', encoding='utf-8') as csvfile:
-        csv_reader = csv.reader(csvfile)
-
-        rows = [r for r in csv_reader]
-        title.append(rows[story_num][0])
-        author.append(rows[story_num][1])
-        published_date.append(rows[story_num][2])
-        summary.append(rows[story_num][4])
-        content_url.append(rows[story_num][5])
-
-        for el in rows[story_num][3].split():
-            relevant_inscription.append(el)
-            num_relevantInscriptions += 1
-
-        for i in range(num_relevantInscriptions):
-            url = "http://library.brown.edu/search/solr_pub/iip/?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A%22" + relevant_inscription[i].lower() + "%22"
 
 
 
-            with urllib.request.urlopen(url) as response:
 
-                s = response.read()
 
-                encoding = response.info().get_content_charset('utf-8')
 
-                data = json.loads(s.decode(encoding))
-            # response = urllib.urlopen(url)
-                # data = json.loads(response.read())
 
-                inscription_id.append(data["response"]["docs"][0]["inscription_id"])
-                languages.append(data["response"]["docs"][0]["language_display"])
-                date.append(data["response"]["docs"][0]["date_desc"])
-                place_found.append(data["response"]["docs"][0]["place_found"])
-                transcription.append(data["response"]["docs"][0]["transcription"])
-                translation.append(data["response"]["docs"][0]["translation"])
-                dimension.append(data["response"]["docs"][0]["dimensions"])
-                date_start.append(data["response"]["docs"][0]["notBefore"])
-                date_end.append(data["response"]["docs"][0]["notAfter"])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def stories(request):
+#     return render(request, 'stories/stories.html')
+
+# # def synagogue_waypoint2(request):
+# #     return render(request, 'stories/synagogue_waypoint.html')
+
+# def heliodorus(request):
+#     story_num = 1
+#     context = write_story(story_num, request)
+#     return render(request, 'stories/individual_story.html', context)
+
+# def ossuaries(request):
+#     story_num = 2
+#     context = write_story(story_num, request)
+#     return render(request, 'stories/individual_story.html', context)
+
+
+# # def theodotos(request):
+# #     story_num = 3
+# #     context = write_story(story_num, request)
+# #     return render(request, 'stories/individual_story.html', context)
+
+
+
+# def theodotos(request):
+#     story_num = 3
+#     context = write_story(story_num, request)
+#     return render(request, 'stories/individual_story.html', context)
+
+
+
+
+
+
+
+
+
+# def kokhba(request):
+#     story_num = 4
+#     context = write_story(story_num, request)
+#     return render(request, 'stories/individual_story.html', context)
+
+# def synagogue_waypoint(request):
+#     story_num = 5
+#     context = write_story(story_num, request)
+#     return render(request, 'stories/individual_story.html', context)
+
+
+# def write_story(story_num, request):
+#     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#     url = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "stories/csv/stories.csv")
+#     title = []
+#     author = []
+#     published_date = []
+#     relevant_inscription = []
+#     summary = []
+#     content_url = []
+#     inscription_id = []
+#     languages = []
+#     date = []
+#     date_start = []
+#     date_end = []
+#     place_found = []
+#     transcription = []
+#     translation = []
+#     dimension = []
+#     num_relevantInscriptions = 0
+
+#     with open(url, 'r', encoding='utf-8') as csvfile:
+#         csv_reader = csv.reader(csvfile)
+
+#         rows = [r for r in csv_reader]
+#         title.append(rows[story_num][0])
+#         author.append(rows[story_num][1])
+#         published_date.append(rows[story_num][2])
+#         summary.append(rows[story_num][4])
+#         content_url.append(rows[story_num][5])
+
+#         for el in rows[story_num][3].split():
+#             relevant_inscription.append(el)
+#             num_relevantInscriptions += 1
+
+#         for i in range(num_relevantInscriptions):
+#             url = "http://library.brown.edu/search/solr_pub/iip/?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A%22" + relevant_inscription[i].lower() + "%22"
+
+
+
+#             with urllib.request.urlopen(url) as response:
+
+#                 s = response.read()
+
+#                 encoding = response.info().get_content_charset('utf-8')
+
+#                 data = json.loads(s.decode(encoding))
+#             # response = urllib.urlopen(url)
+#                 # data = json.loads(response.read())
+
+#                 inscription_id.append(data["response"]["docs"][0]["inscription_id"])
+#                 languages.append(data["response"]["docs"][0]["language_display"])
+#                 date.append(data["response"]["docs"][0]["date_desc"])
+#                 place_found.append(data["response"]["docs"][0]["place_found"])
+#                 transcription.append(data["response"]["docs"][0]["transcription"])
+#                 translation.append(data["response"]["docs"][0]["translation"])
+#                 dimension.append(data["response"]["docs"][0]["dimensions"])
+#                 date_start.append(data["response"]["docs"][0]["notBefore"])
+#                 date_end.append(data["response"]["docs"][0]["notAfter"])
 
             
 
-    context = {
-    ##stories.csv (Excel Spreadsheet)
-    "title": title,
-    "author": author,
-    "published_date": published_date,
-    "relevant_inscription": relevant_inscription,
-    "summary": summary, 
-    "content_url": content_url,
-    "current_url": request.build_absolute_uri,
+#     context = {
+#     ##stories.csv (Excel Spreadsheet)
+#     "title": title,
+#     "author": author,
+#     "published_date": published_date,
+#     "relevant_inscription": relevant_inscription,
+#     "summary": summary, 
+#     "content_url": content_url,
+#     "current_url": request.build_absolute_uri,
 
 
-    ##IIP database
-    "inscription_id": inscription_id,
-    "languages": languages,
-    "date": date,
-    "place_found": place_found,
-    "transcription": transcription,
-    "translation": translation,    
-    "num_relevantInscriptions": range(num_relevantInscriptions),
-    "dimension" : dimension,
-    "date_start" : date_start,
-    "date_end" : date_end
-    }
+#     ##IIP database
+#     "inscription_id": inscription_id,
+#     "languages": languages,
+#     "date": date,
+#     "place_found": place_found,
+#     "transcription": transcription,
+#     "translation": translation,    
+#     "num_relevantInscriptions": range(num_relevantInscriptions),
+#     "dimension" : dimension,
+#     "date_start" : date_start,
+#     "date_end" : date_end
+#     }
 
-    return context
+#     return context
 
 def load_layers(request):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -639,6 +676,107 @@ def load_layers(request):
 
     dump = json.dumps(context)
     return HttpResponse(dump, content_type='application/json')
+
+
+
+def stories(request):
+    story_page = StoryPage.objects.all()
+
+    slug = []
+    title_header = []
+    title = []
+    author = []
+    date = []
+    short_summary = []
+    content = []
+    relevant_inscription_id = []
+
+    for el in story_page:
+        slug.append(el.slug)
+        title_header.append(el.title_header)
+        title.append(el.title)
+        author.append(el.author)
+        date.append(el.date)
+        short_summary.append(el.short_summary)
+        content.append(el.content)
+        relevant_inscription_id.append(el.relevant_inscription_id)
+
+    context = {
+        'slug': slug,
+        'title_header': title_header,
+        'title': title,
+        'author': author,
+        'story_date': date,
+        'short_summary': short_summary,
+        'content': content,
+        'relevant_inscription_id': relevant_inscription_id,
+        'num_stories': range(len(story_page))
+    }
+
+    return render(request, 'stories/stories2.html', context)
+
+
+def individual_story(request, story_id):
+    story_page = get_object_or_404( StoryPage, slug=story_id)
+
+    inscription_id = []
+    languages = []
+    date = []
+    place_found = []
+    transcription = []
+    translation = []
+    dimension = []
+    date_start = []
+    date_end = []
+    num_relevantInscriptions = 0
+    for item in story_page.relevant_inscription_id.split(','):
+        num_relevantInscriptions += 1
+        url = "http://library.brown.edu/search/solr_pub/iip/?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A%22" + item.lower() + "%22"
+
+        with urllib.request.urlopen(url) as response:
+            s = response.read()
+            encoding = response.info().get_content_charset('utf-8')
+            data = json.loads(s.decode(encoding))
+
+            inscription_id.append(data["response"]["docs"][0]["inscription_id"])
+            languages.append(data["response"]["docs"][0]["language_display"])
+            date.append(data["response"]["docs"][0]["date_desc"])
+            place_found.append(data["response"]["docs"][0]["place_found"])
+            transcription.append(data["response"]["docs"][0]["transcription"])
+            translation.append(data["response"]["docs"][0]["translation"])
+            dimension.append(data["response"]["docs"][0]["dimensions"])
+            date_start.append(data["response"]["docs"][0]["notBefore"])
+            date_end.append(data["response"]["docs"][0]["notAfter"])
+
+
+    context = {
+        'slug': story_page.slug,
+        'title_header': story_page.title_header,
+        'title': story_page.title,
+        'author': story_page.author,
+        'story_date': story_page.date,
+        'short_summary': story_page.short_summary,
+        'content': story_page.content,
+        'relevant_inscription_id': story_page.relevant_inscription_id,
+        'current_url': request.build_absolute_uri,
+
+
+        "inscription_id": inscription_id,
+        "languages": languages,
+        "date": date,
+        "place_found": place_found,
+        "transcription": transcription,
+        "translation": translation,    
+        "dimension" : dimension,
+        "date_start" : date_start,
+        "date_end" : date_end,
+        "num_relevantInscriptions" : range(num_relevantInscriptions)
+        }
+
+
+    return render(request, 'stories/individual_story2.html', context)
+
+
 
 
 ###ENDSAM

@@ -30,3 +30,4 @@ class StoryPage( models.Model ):
 	short_summary = models.CharField( blank=True, max_length=100 )
 	content = models.TextField( blank=True, help_text='Markdown allowed.' )
 	relevant_inscription_id = models.CharField( blank=True, max_length=100 )
+	# image = models.ImageField(max_length=100)

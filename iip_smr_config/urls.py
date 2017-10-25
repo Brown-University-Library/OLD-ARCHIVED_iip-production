@@ -45,8 +45,6 @@ urlpatterns = [
     url(r'^contact/$', views.contact, name=u'contact_url' ),
     url(r'^mapsearch/$', views.results, name=u'mapsearch_url' ),
     url(r'^mapsearch/load_layers/$', views.load_layers, name='load_layers'),
-
-
     url(r'^resources/$', views.resources, name=u'resources_url' ),
     url(r'^resources/bibliography$', views.bibliography, name=u'bibliography_url' ),
     url(r'^resources/timeline$', views.timeline, name=u'timeline_url' ),
@@ -55,16 +53,27 @@ urlpatterns = [
 
 
     url(r'^stories/$', views.stories, name=u'stories_url' ),
-
+    url( r'^stories/(?P<story_id>.*)/$', views.individual_story, name=u'test_url' ),
 
     # url(r'^viewinscr/(?P<inscrid>.*)/get_maplet/$', 'iip_search_app.views.get_maplet', name='maplet_url'),
 
+    # url(r'^stories/$', views.stories, name=u'stories_url' ),
     
-    url(r'^stories/heliodorus$', views.heliodorus, name=u'heliodorus_url' ),
-    url(r'^stories/ossuaries$', views.ossuaries, name=u'ossuaries_url' ),
-    url(r'^stories/theodotos$', views.theodotos, name=u'theodotos_url' ),
-    url(r'^stories/kokhba$', views.kokhba, name=u'kokhba_url' ),
-    url(r'^stories/synagogue_waypoint$', views.synagogue_waypoint, name=u'synagogue_waypoint_url' ),
+
+
+
+    # url(r'^stories/theodotos2$', views.theodotos, name=u'theodotos_url2' ),
+    # url(r'^stories/theodotos$', views.test, name=u'theodotos_url' ),
+
+
+
+
+
+    # url(r'^stories/heliodorus$', views.heliodorus, name=u'heliodorus_url' ),
+    # url(r'^stories/ossuaries$', views.ossuaries, name=u'ossuaries_url' ),
+    
+    # url(r'^stories/kokhba$', views.kokhba, name=u'kokhba_url' ),
+    # url(r'^stories/synagogue_waypoint$', views.synagogue_waypoint, name=u'synagogue_waypoint_url' ),
 
 
 
