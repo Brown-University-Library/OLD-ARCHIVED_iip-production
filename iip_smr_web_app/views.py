@@ -257,7 +257,8 @@ def viewinscr(request, inscrid):
             'biblTranscription' : specific_sources['transcription'],
             'biblTranslation' : specific_sources['translation'],
             'biblioFull': False,
-            'view_xml_url': view_xml_url }
+            'view_xml_url': view_xml_url,
+            }
         return_str = ajax_snippet.render_block_to_string( 'iip_search_templates/viewinscr.html', 'viewinscr', context )
         return_response = HttpResponse( return_str )
         return return_response
@@ -279,6 +280,7 @@ def viewinscr(request, inscrid):
             'admin_links': common.make_admin_links( session_authz_dict=request.session[u'authz_info'], url_host=request.get_host(), log_id=log_id ),
             'view_xml_url': view_xml_url,
             'current_url': current_url,
+            'image_url':  "https://github.com/Brown-University-Library/iip-images/raw/master/" + inscrid + ".jpg"
             }
         # log.debug( u'in _prepare_viewinscr_plain_get_response(); context, %s' % pprint.pformat(context) )
         return_response = render( request, u'iip_search_templates/viewinscr.html', context )
@@ -489,23 +491,6 @@ def glossary(request):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # def stories(request):
 #     return render(request, 'stories/stories.html')
 
@@ -684,6 +669,9 @@ def load_layers(request):
 
 
 def stories(request, index_page=False):
+
+    
+
     story_page = StoryPage.objects.all()
 
     slug = []
@@ -744,6 +732,7 @@ def individual_story(request, story_id):
     date_start = []
     date_end = []
     num_relevantInscriptions = 0
+    image_url = []
 
     
     for item in story_page.relevant_inscription_id.split(','):
@@ -762,9 +751,12 @@ def individual_story(request, story_id):
             transcription.append(data["response"]["docs"][0]["transcription"])
             translation.append(data["response"]["docs"][0]["translation"])
             dimension.append(data["response"]["docs"][0]["dimensions"])
-            date_start.append(data["response"]["docs"][0]["notBefore"])
+            if "notBefore" in data["response"]["docs"][0]:
+                date_start.append(data["response"]["docs"][0]["notBefore"])
+            else:
+                date_start.append('Unknown')
             date_end.append(data["response"]["docs"][0]["notAfter"])
-
+            image_url.append("https://github.com/Brown-University-Library/iip-images/raw/master/" + str(data["response"]["docs"][0]["inscription_id"]) + ".jpg")
 
     context = {
         'slug': story_page.slug,
@@ -776,6 +768,7 @@ def individual_story(request, story_id):
         'content': story_page.content,
         'relevant_inscription_id': story_page.relevant_inscription_id,
         'current_url': request.build_absolute_uri,
+        'image_url': image_url,
 
 
         "inscription_id": inscription_id,
@@ -791,7 +784,7 @@ def individual_story(request, story_id):
         }
 
 
-    return render(request, 'stories/individual_story2.html', context)
+    return render(request, 'stories/individual_story.html', context)
 
 
 

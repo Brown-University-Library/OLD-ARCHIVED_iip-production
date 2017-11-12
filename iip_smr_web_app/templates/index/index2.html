@@ -4,7 +4,6 @@
 {% load iipCustomFilters %}
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,16 +25,10 @@
     <link href='{% static 'index/css/font-awesome.min.css' %}' rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 </head>
 
-<body>
+<body style="background-color: #333333">
    <!--  <div id="background-carousel">
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
@@ -50,14 +43,14 @@
     <header id="top" class="header">
         <div class="text-vertical-center">
 
-            <h1>A collection of ancient inscriptions <br>from Israel/Palestine</h1>
+            <h1 style="color:white">A collection of ancient inscriptions <br>from Israel/Palestine</h1>
 
             <div class="row">
 
  
                 <br>
  
-                <h2>Featured Stories</h2>  
+                <h2 style="color: white">Featured Stories</h2>  
                 <br><br>
                 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                 <!-- Wrapper for slides -->
@@ -72,9 +65,9 @@
                   </div>
                   <div class="col-sm-4">
                     <div>
-                        <h2>{{title|indexList:forloop.counter0}}</h2>
+                        <h2 style="color: white">{{title|indexList:forloop.counter0}}</h2>
                         <br>
-                        <h4 style="text-align: left; padding-left: 20px;">{{thumbnail_intro|indexList:forloop.counter0}}</h4>
+                        <h4 style="text-align: left; padding-left: 20px; color: white;">{{thumbnail_intro|indexList:forloop.counter0}}</h4>
                         <br><br>
 
                         <a style="margin-right: 100px;" href="{% url 'test_url' slug|indexList:forloop.counter0 %}">

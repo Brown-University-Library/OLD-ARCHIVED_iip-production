@@ -95,7 +95,7 @@ crossorigin=""></script>
         <div class="row">
             <td class="col-md-2" style="padding-left: 0px;">
                 <br>
-                <img src='{% static "iip_search_app/images/placeholder2.png" %}' style= "width: 150px; height: 120px;">
+                <img src="https://github.com/Brown-University-Library/iip-images/raw/master/{{inscription.inscription_id}}.jpg" style= "width: 150px; height: 120px;">
                 <br><a href="../viewinscr/{{inscription.inscription_id}}" target="_blank">View this inscription</a>
             
                 <br><a class="xml_url" href="{% url 'xml_url' inscription.inscription_id %}">[View in XML]</a>
