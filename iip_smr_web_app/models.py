@@ -28,7 +28,9 @@ class StoryPage( models.Model ):
 	author = models.CharField( blank=True, max_length=100 )
 	date = models.DateField()
 	short_summary = models.TextField( blank=True )
+	thumbnail_image_url = models.TextField( blank=True, max_length=500 )
 	thumbnail_intro = models.TextField( blank=True )
 	content = models.TextField( blank=True, help_text='Markdown allowed.' )
 	relevant_inscription_id = models.CharField( blank=True, max_length=100 )
-	image = models.ImageField(upload_to = 'iip_search_app/images/', default = 'iip_search_app/images/placeholder2.png', max_length=100)
+	# image = models.ImageField(upload_to = 'iip_search_app/images/', default = 'iip_search_app/images/placeholder2.png', max_length=100)
+

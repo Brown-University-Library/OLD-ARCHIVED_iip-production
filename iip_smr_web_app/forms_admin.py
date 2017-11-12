@@ -29,4 +29,4 @@ class AdminStoryPageForm(forms.ModelForm):
 	class Meta:
 		model = StoryPage
 		fields = ( 'slug', 'title', 'author',
-        	'date', 'short_summary', 'thumbnail_intro' ,'image', 'content', 'relevant_inscription_id' )
+        	'date', 'short_summary', 'thumbnail_intro' ,'thumbnail_image_url', 'content', 'relevant_inscription_id' )

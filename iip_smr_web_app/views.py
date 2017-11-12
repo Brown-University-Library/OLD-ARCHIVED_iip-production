@@ -452,10 +452,6 @@ def copyright(request):
     return render(request, 'about/copyright.html')
 
 
-
-# def index(request):
-#     return render(request, 'index/index2.html')
-
 def index(request):
     return stories(request, index_page=True)
 
@@ -669,9 +665,6 @@ def load_layers(request):
 
 
 def stories(request, index_page=False):
-
-    
-
     story_page = StoryPage.objects.all()
 
     slug = []
@@ -680,10 +673,12 @@ def stories(request, index_page=False):
     author = []
     date = []
     short_summary = []
+    thumbnail_intro = []
+    thumbnail_image_url = []
     content = []
     relevant_inscription_id = []
-    thumbnail_intro = []
-    image = []
+    
+    # image = []
 
     for el in story_page:
         slug.append(el.slug)
@@ -692,12 +687,13 @@ def stories(request, index_page=False):
         author.append(el.author)
         date.append(el.date)
         short_summary.append(el.short_summary)
+        thumbnail_intro.append(el.thumbnail_intro)
+        thumbnail_image_url.append(el.thumbnail_image_url)
         content.append(el.content)
         relevant_inscription_id.append(el.relevant_inscription_id)
-        thumbnail_intro.append(el.thumbnail_intro)
-        image.append(el.image)
 
-    print(image)
+        # image.append(el.image)
+
 
     context = {
         'slug': slug,
@@ -706,17 +702,19 @@ def stories(request, index_page=False):
         'author': author,
         'story_date': date,
         'short_summary': short_summary,
+        'thumbnail_intro': thumbnail_intro,
+        'thumbnail_image_url': thumbnail_image_url,
         'content': content,
         'relevant_inscription_id': relevant_inscription_id,
         'num_stories': range(len(story_page)),
-        'thumbnail_intro': thumbnail_intro,
-        'image': image
+        
+        # 'image': image
     }
 
     if index_page:
-        return render(request, 'index/index2.html', context)
+        return render(request, 'index/index.html', context)
     else:
-        return render(request, 'stories/stories2.html', context)
+        return render(request, 'stories/stories.html', context)
 
 
 def individual_story(request, story_id):
