@@ -61,7 +61,7 @@
 
                 <div class="item {% if story == 0%}active{% endif %}">
                   <div class="holder col-sm-6">
-                    <img class="img-responsive" style="height: 250px;" src='{% static image|indexList:forloop.counter0 %}' alt="...">
+                    <img class="img-responsive" style="height: 250px;" src='{{thumbnail_image_url|indexList:forloop.counter0}}' alt="...">
                   </div>
                   <div class="col-sm-4">
                     <div>
