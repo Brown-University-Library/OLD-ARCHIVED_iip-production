@@ -1,35 +1,5 @@
 
-
-
-// maplet_ids.push(maplet_id)
-
-// console.log(maplet_ids);
-
-// var inscrid = window.location.href.slice(-9,-1);
 run()
-
-
-// console.log(inscription_list);
-
-// function run(){
-// 	url_xml = "https://library.brown.edu/cds/projects/iip/view_xml/" + inscrid;
-
-// 	var x = new XMLHttpRequest();
-// 	x.open("GET", url_xml, true);
-
-// 	x.onreadystatechange = function(){
-// 	console.log("onreadystatechange");
-// 	if (x.readyState == 4 && x.status == 200){
-// 		var doc = x.responseXML;
-// 		if(doc.getElementsByTagName("settlement")[0].getAttribute("ref") != null){
-// 			var pleiades = doc.getElementsByTagName("settlement")[0].getAttribute("ref");
-// 			getCoordinates(pleiades);
-// 		}
-// 	}
-// 	};
-// 	x.send(null);
-// }
-
 
 function run(){
 	inscription_list.forEach(function(inscrid){
@@ -54,7 +24,6 @@ function run(){
 }
 
 
-
 function getCoordinates(pleiades, inscrid) {
 	if (pleiades.slice(-6) === "380758") {
 	    pleiades = "http://pleiades.stoa.org/places/678006";
@@ -71,7 +40,6 @@ function getCoordinates(pleiades, inscrid) {
 }
 
 
-
 function drawMaplet(geoCoordinates, inscrid){
 	var maplet = L.map("maplet"+inscrid, {zoomControl:false, attributionControl:false}).setView([31.764650, 35.216377], 4)
 
@@ -84,29 +52,3 @@ function drawMaplet(geoCoordinates, inscrid){
 		L.marker([geoCoordinates[1], geoCoordinates[0]]).addTo(maplet);	
 	}	
 }
-
-
-
-
-// var myIcon = L.icon({
-//     iconUrl: 'marker.png',
-//     iconSize: [38, 95],
-//     iconAnchor: [22, 94],
-//     popupAnchor: [-3, -76],
-//     shadowUrl: 'my-icon-shadow.png',
-//     shadowSize: [68, 95],
-//     shadowAnchor: [22, 94]
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-

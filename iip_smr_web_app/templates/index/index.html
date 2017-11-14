@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+{% load iipCustomFilters %}
 
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,6 +13,9 @@
     <title>Inscriptions of Israel/Palestine</title>
 
     {% load staticfiles %}
+
+    <link href='{% static 'about/css/carousel-about.css' %}' rel="stylesheet">
+
     <link href='{% static 'index/css/bootstrap.min.css' %}' rel="stylesheet">
 
     <!-- Custom CSS -->
@@ -21,17 +25,11 @@
     <link href='{% static 'index/css/font-awesome.min.css' %}' rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 </head>
 
-<body>
-    <div id="background-carousel">
+<body style="background-color: #333333">
+   <!--  <div id="background-carousel">
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <div id="slide1" class="item active"></div>
@@ -40,16 +38,94 @@
           </div>
         </div>
     </div>
-
+ -->
     <!-- Header -->
     <header id="top" class="header">
         <div class="text-vertical-center">
 
-            <h1><small><strong>Inscriptions of</strong></small><br><big>Israel/Palestine</big><br><small>600 BCE - 600 CE</small></h1>
-            <h3><span class="bracket">{</span> A fully searchable digitized collection of inscriptions from the Israel/Palestine region. <br>The IIP project hosts over 3,000 records from a wide variety of print sources and <br>aims to be the first comprehensive database of epigraphic material from this region and timespan.<span class="bracket">}</span><br><br> If you are new to this site, we recommend exploring the ABOUT page for tutorials and information.<br>To search the collection, go directly to MAP SEARCH.   </h3>
-            <br>
-            <a href="{% url 'about_url' %}" class="btn btn-dark btn-lg link" data-transition="slide" data-direction="reverse">Learn More</a>
-            <a href="{% url 'mapsearch_url' %}" class="btn btn-dark btn-lg link">Explore Data</a>
+            <h1 style="color:white">A collection of ancient inscriptions <br>from Israel/Palestine</h1>
+
+            <div class="row">
+
+ 
+                <br>
+ 
+                <h2 style="color: white">Featured Stories</h2>  
+                <br><br>
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+
+                {% for story in num_stories %}
+
+
+                <div class="item {% if story == 0%}active{% endif %}">
+                  <div class="holder col-sm-6">
+                    <img class="img-responsive" style="height: 250px;" src='{{thumbnail_image_url|indexList:forloop.counter0}}' alt="...">
+                  </div>
+                  <div class="col-sm-4">
+                    <div>
+                        <h2 style="color: white">{{title|indexList:forloop.counter0}}</h2>
+                        <br>
+                        <h4 style="text-align: left; padding-left: 20px; color: white;">{{thumbnail_intro|indexList:forloop.counter0}}</h4>
+                        <br><br>
+
+                        <a style="margin-right: 100px;" href="{% url 'test_url' slug|indexList:forloop.counter0 %}">
+                            <button type="button" class="btn btn-default">Read Full Story</button>
+                        </a>
+
+                        
+
+                    </div>
+                  </div>
+                </div>
+
+                {% endfor %}
+       
+                <!-- <div class="item">
+                  <div class="holder col-sm-6">
+                    <img class="img-responsive" src='{% static 'iip_search_app/images/waypoint_thumbnail.jpg' %}' alt="...">
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="carousel-caption">
+                        <h2>The Synagogue as a Waypoint for Travellers</h2>
+                        <p>Safety while travelling is a modern, often underappreciated, privilege. The so-called Theodotus inscription refers to a hostel for travellers inside a 1st century CE synagogue in Jerusalem. </p>
+                        <a href="{% url 'test_url' theodotus  %}"><button type="button" class="btn btn-default">Read Full Story</button></a>
+                    </div>
+                  </div>
+                </div> -->
+                <!-- <div class="item">
+                  <div class="holder col-sm-6">
+                    <img class="img-responsive" src='{% static 'iip_search_app/images/heliodorus_thumbnail.png' %}' alt="...">
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="carousel-caption">
+                        <h2>Temple Raid Sparks Revolt</h2>
+                        <p>A king’s command to raid the Holy Temple’s coffers incites a bloody revolt. Epigraphic fragments of this king’s correspondence with high officials prove his role in the Temple’s desecration.</p>
+                        <a href="{% url 'test_url' theodotus  %}"><button type="button" class="btn btn-default">Read Full Story</button></a>      
+                    </div>
+                  </div>
+                </div> -->
+                </div>
+                
+                <div class='carousel-indicators-div'>
+                    <ol class="carousel-indicators">
+
+                        {% for story in num_stories %}
+                        <li data-target="#carousel-example-generic" data-slide-to="{{story}}"" class="{%if story == 0%}active{% endif %}"></li>
+                        {% endfor %}
+                  </ol> 
+                </div>
+                </div>
+            </div>
+
+
+
+
+
+            
+            <a href="{% url 'why_inscription_url' %}" class="btn btn-dark btn-lg link" data-transition="slide" data-direction="reverse">ABOUT</a>
+            <a href="{% url 'mapsearch_url' %}" class="btn btn-dark btn-lg link">SEARCH</a>
         </div>
     </header>
 

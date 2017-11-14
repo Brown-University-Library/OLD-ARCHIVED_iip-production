@@ -1,0 +1,42 @@
+.left{
+	float: left;
+	padding-right: 20px;
+}
+
+.right{
+	float: right;
+	padding-left: 20px;
+}
+
+.center{
+	margin: 0 auto;
+	display: block;
+}
+
+.small{
+	width: 200px;
+}
+
+.medium{
+	width: 300px;
+}
+
+.large{
+	width: 400px;
+}
+
+.Xlarge{
+	width: 500px;
+}
+
+.XXlarge{
+	width: 600px;
+}
+
+.text-center{
+	text-align: center;
+}
+
+.text-indent{
+	text-indent: 50px;
+}
