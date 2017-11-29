@@ -20,8 +20,8 @@
 
 #map-inscriptions-box {
 	margin-top: 20px;
-	width: 94%;
-	height: 53%;
+	width: 200px;
+	height: 240px;
 	overflow: auto;
 	padding: 10px;
 	border: black solid 1px;

@@ -7,19 +7,40 @@
     <link href='{% static 'stories/css/stories.css' %}' rel="stylesheet">
     <style>
 
-hr.style-one {
-    border: 0;
-    height: 2px;
-    background: #333;
-    background-image: linear-gradient(to right, #ccc, #333, #ccc);
-}
+        hr.style-one {
+            border: 0;
+            height: 2px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+        
+        @media (max-width: 1199px) and (min-width: 992px) {
+           .img_description{
+            width: 213px;
+           }
+        }
+        @media (max-width: 991px) and (min-width: 768px){
+           .img_description{
+            width: 220px;
+           }
+        }
+        @media (max-width: 769px){
+           #grid{
+            display: none;
+           }
+           #top_section{
+            padding-top: 0px;
+           }
+        }
+
+        
 </style>
 {% endblock %}
 
 {% block body %}
-<section class="service-icon-style ptb-100" style="padding-bottom: 0">
+<section id= "top_section" class="service-icon-style ptb-100" style="padding-bottom: 0">
     <div class="container">
-        <div class="row">
+        <div id="grid" class="row">
 
         {% for story in num_stories %}
             <div class="col-md-3 col-sm-4 col-xs-6 img_wrap thumbnail_pic">
@@ -55,12 +76,12 @@ hr.style-one {
 
         <div class="row">
             <div class="col-md-3 thumbnail_pic">
-                <img class="img-responsive", src='{{thumbnail_image_url|indexList:forloop.counter0}}' />
+                <a href="{% url 'test_url' slug|indexList:forloop.counter0 %}"><img class="img-responsive", src='{{thumbnail_image_url|indexList:forloop.counter0}}' /></a>
             </div>
             <div class="col-md-3">
-                <h2>{{title|indexList:forloop.counter0}}</h2>
-                <h4>{{author|indexList:forloop.counter0}}</h4>
-                <a class="btn btn-default" href="{% url 'test_url' slug|indexList:forloop.counter0 %}">Read Full Story</a>
+                <h2 style="text-align: center;">{{title|indexList:forloop.counter0}}</h2>
+                <h4 style="text-align: center;">{{author|indexList:forloop.counter0}}</h4>
+                <a style="display: block;" class="btn btn-default" href="{% url 'test_url' slug|indexList:forloop.counter0 %}">Read Full Story</a>
             </div>
             <div class="col-md-4">
                 <h4>{{thumbnail_intro|indexList:forloop.counter0}}

@@ -23,7 +23,17 @@
     height: 1px;
     background: #333;
     background-image: linear-gradient(to right, #ccc, #333, #ccc);
-}
+	}
+	@media (max-width: 991px) {
+		#map-inscriptions-box{
+			height: 170px;
+		}
+	}
+	@media (max-width: 448px) {
+		#map-inscriptions-box{
+			display: none;
+		}
+	}
 	</style>
 {% endblock %}
 
@@ -34,7 +44,7 @@
 			<div style="float: right; width: 22%; height: 500px; margin: 100px auto 0px;">
 				<div class="row">
 					<center>
-						<strong style="padding-right: 80px;">Select Overlays</strong>
+						<strong>Select Overlays</strong>
 					</center>
 					<div class="overlay-checkbox">
 						<label><input id="king_herod_boundaries_37BCE" type="checkbox" value="">King Herod Boundaries 37BCE</label>
@@ -305,7 +315,7 @@
 		</form>
 		<div id="search_tips">
 				<p>
-					For tips on how to use the search box, please refer to the <a href="{% url 'resources_url' %}#guide">guide to searching</a>.
+					For tips on how to use the search box, please refer to the <a href="{% url 'guide_to_searching_url' %}">guide to searching</a>.
 				</p>
 		</div>
 		<br><br>
