@@ -595,7 +595,7 @@ def individual_story(request, story_id):
     
     for item in story_page.relevant_inscription_id.split(','):
         num_relevantInscriptions += 1
-        url = "http://library.brown.edu/search/solr_pub/iip/?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A%22" + item.lower() + "%22"
+        url = 'https://library.brown.edu/search/solr_pub/iip/?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A%22' + item.lower() + '%22'
 
         with urllib.request.urlopen(url) as response:
             s = response.read()
