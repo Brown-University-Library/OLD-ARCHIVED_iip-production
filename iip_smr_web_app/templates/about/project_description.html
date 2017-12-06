@@ -8,14 +8,14 @@
 
 {% block body %}
 
-<div id="page-content-wrapper">
+<div id="page-content-wrapper" style="font-size: 15px;">
     <section class="about-text ptb-100">
         <div class="container">
             <div class='row'>
                 <h2>Project Description</h2>
 	            <br>
-	            <p>The Inscriptions of Israel/Palestine project seeks to build an internet-accessible database of published inscriptions from Israel/Palestine dated ca. 500 BCE to 614 CE. This timespan roughly corresponds to the Persian, Greek, and Roman periods. Our database will make accessible the approximately 10,000 inscriptions published to date and will include substantial contextual information for these inscriptions, including images and geographic information. We tag our data according to Epidoc conventions and are exploring ways to link the database with other projects such as Pelagios and the EAGLE Network. </p>
-                <p>There are three primary goals for this project:
+	            <p>The Inscriptions of Israel/Palestine project seeks to build an internet-accessible database of published inscriptions from Israel/Palestine dated ca. 500 BCE to 614 CE. This timespan roughly corresponds to the Persian, Greek, and Roman periods. Our database will make accessible the approximately 10,000 inscriptions published to date and will include substantial contextual information for these inscriptions, including images and geographic information. We tag our data according to <a href="https://sourceforge.net/p/epidoc/wiki/Home/">Epidoc</a> conventions.  Our data are also accessible via the <a href="https://www.eagle-network.eu/">EAGLE Network</a> and we are partnering with other online sites such as <a href="http://pelagios-project.blogspot.com/">Pelagis</a>, <a href="http://www.trismegistos.org/">Trismegistos</a>, and the <a href="https://www.uu.nl/en/news/grant-for-peace-portal-of-epigraphy-archaeology-conservation-and-education-on-jewish-funerary">Portal of Epigraphy, Archaeology, Conservation, and Education on Jewish Funerary Culture</a>.</p>
+                <p>Our primary goals are: 
                 </p>
                 <p>
                 <ol>
@@ -24,48 +24,48 @@
                     <li>To contribute toward creating a wider web ecosystem (Linked Open Data) that will allow for the linking and bundling of data dealing with the ancient world.</li>
                 </ol> 
                 </p>
-               <p>As of August 2017 there are approximately 3,000 inscriptions in the database, with more added regularly. All are encoded using Epidoc guidelines. The inscriptions can be accessed via the “map search” tab at the top of this page. For more information on searching the data, see our “Guide to Searching”.</p>
-	           <p>Inscriptions of Israel/Palestine is an ongoing project at Brown University. IIP has been online at its present location since 2002 and was among the first freely-accessible online databases of inscriptions. It has been generously supported by the Center of Digital Scholarship and the Goldhirsh-Yellin Foundation.</p>
-	           <p>We welcome feedback. Please refer to our contact information at the bottom of this page.</p>
+               <p>As of August 2017 there are approximately 3,000 inscriptions in the database, with more added regularly. The inscriptions can be accessed via the “Search” tab at the top of this page. For more information on searching the data, see our <a href="{% url 'guide_to_searching_url' %}">Guide to Searching</a>.</p>
+	           <p>Inscriptions of Israel/Palestine is an ongoing project at Brown University. IIP has been online at its present location since 2002 and was among the first freely-accessible online databases of inscriptions. It has been generously supported by the <a href="https://library.brown.edu/cds/">Center of Digital Scholarship</a> and the <a href="http://goldhirshyellin.org/">Goldhirsh-Yellin Foundation</a>.</p>
+	           
 	           <br>
                 <h4>Rationale</h4>
-                <p>An “inscription” is writing on durable material (excepting coins). At present, we know of some 10,000 relevant inscriptions corresponding to the rough parameters of this database. These inscriptions are mainly in Hebrew, Aramaic, Greek, and Latin, although inscriptions may feature other languages as well. The inscriptions have been written by Jews, Christians, and traditional Greeks and Romans (i.e., “pagans”). Published hither and yon in small collections or even individually in journal articles, these inscriptions have never been fully collected. To compound the problem, many of the actual stones and mosaics upon which the older publications were made are no longer extant, and scholars have shown that some of the extant inscriptions were previously misread or misinterpreted.
+                <p>An “inscription” is writing on durable material (excepting coins). At present, we know of some 10,000 relevant inscriptions corresponding to the rough parameters of this database. These inscriptions are mainly in Hebrew, Aramaic, Greek, and Latin, although inscriptions may feature other languages as well. The inscriptions have been written by Jews, Christians, and traditional Greeks and Romans (i.e., “pagans”). Published hither and yon in small collections or even individually in journal articles, these inscriptions have never been fully collected. To compound the problem, many of the actual stones and mosaics upon which the older publications were made are no longer extant, and scholars have shown that some of the extant inscriptions were previously misread or misinterpreted. 
                 </p>
                 <p>
-                    Over the past two decades, a project to re-edit these inscriptions and present them in print form, the Corpus Inscriptionum Iudaeae/Palaestinae (CIIP), has been underway. There is currently no plan to allow free access to the data of the CIIP. We have been rebuffed repeatedly in our attempts to find areas in which we might collaborate.
+                    Over the past two decades, a project to re-edit these inscriptions and present them in print form, the <em>Corpus Inscriptionum Iudaeae/Palaestinae</em> (<em>CIIP</em>), has been underway. There is currently no plan to allow free access to the data of the CIIP. We have been rebuffed repeatedly in our attempts to find areas in which we might collaborate.
                 </p>
                 <p>
-                   Despite hosting some of the same data, the Inscriptions of Israel/Palestine is a fundamentally different project. Following a long epigraphic practice that differentiates between new editions (e.g., CIIP) and collections of previously published inscriptions, we seek to gather inscription data into a single digital repository which will increase access to these important materials and make them more useful to scholars and the general public by virtue of their digital existence. 
+                   Despite hosting some of the same data, the Inscriptions of Israel/Palestine is a fundamentally different project. Following a long epigraphic practice that differentiates between new editions (e.g., <em>CIIP</em>) and collections of previously published inscriptions, we seek to gather inscription data into a single digital repository which will increase access to these important materials and make them more useful to scholars and the general public by virtue of their digital existence.  
                 </p>
                 <p>
-                   The CIIP editors have asked us not to use their work or provide their corpus numbers in our own database. While we do not believe that they have the right to prevent this, we are presently honoring their requests out of a sense of scholarly collegiality.
+                   The <em>CIIP</em> editors have asked us not to use their work or provide their corpus numbers in our own database. While we do not believe that they have the legal right to prevent this, we are presently honoring their requests out of a sense of scholarly collegiality. 
                 </p>
 
                 <br>
                 <h4>History</h4>
                 <p>
-                    The project began in 1996 at the Institute for Advanced Digital Technology in the Humanities at the University of Virginia as a prototype under the name "Inscriptions of the Land of Israel." This prototype has since been decommissioned. We originally designed a structure for our data in Standard General Markup Language (SGML). Much of this structure underlies the present Epidoc standard (in XML) which we and many other digital inscription projects now share.
+                    The project began in 1996 at the <a href="http://www.iath.virginia.edu/">Institute for Advanced Digital Technology in the Humanities</a> at the University of Virginia as a prototype under the name "Inscriptions of the Land of Israel." This prototype has since been decommissioned. We originally designed a structure for our data in Standard General Markup Language (SGML). Much of this structure underlies the present Epidoc standard (in XML) which we and many other digital inscription projects now share.
                 </p>
                 <p>
-                    The project moved to Brown University in 2002, and soon went into production under the auspices of the Scholarly Technology Group, now reorganized as the Center for Digital Scholarship, a unit of the Brown University Library.
+                    The project moved to Brown University in 2002, and soon went into production under the auspices of the Scholarly Technology Group, now reorganized as the <a href="https://library.brown.edu/cds/">Center for Digital Scholarship</a>, a unit of the <a href="https://library.brown.edu/">Brown University Library</a>.
                 </p>
 
                 <br>
                 <h4>Data</h4>
                 <p>
-                   The texts are extensively marked up when added to the database. We are using the Epidoc schema and Guidelines to mark up our inscriptions. Please consult our Documentation page for more information about our data encoding and preservation.
+                   The texts are extensively marked up when added to the database.  Please consult our <a href="{% url 'documentation_url' %}">Documentation page</a> for more information about our data encoding and preservation. 
                 </p>
                 <p>
-                   Our data are freely available for viewing and download. Data can be accessed directly through our API (see our API page for more information) and found on our Github repository.
+                   Our data are freely available for viewing and download. Data can be accessed directly through our API (see our <a href="{% url 'api_url' %}">API page</a> for more information) and found on our<a href="https://github.com/Brown-University-Library/iip_smr_web_project"> Github repository</a>. 
                 </p>
 
                 <br>
                 <h4>Technical Information</h4>
                 <p>
-                    We enter each inscription as a separate XML file using standard XML editing software (mainly oXygen XML Editor). The bibliographic references currently reside in a separate database in Zotero (each with its own unique ID) referenced by the inscription XML files. The search platform is Apache Solr; our front end uses Django. All our code is available for free download on Github.
+                    We enter each inscription as a separate XML file using standard XML editing software (mainly oXygen XML Editor). The bibliographic references currently reside in a separate database in <a href="https://www.zotero.org/">Zotero</a> (each with its own unique ID) referenced by the inscription XML files. The search platform is Apache Solr; our front end uses Django. All our code is available for free download on <a href="https://github.com/Brown-University-Library/iip_smr_web_project">Github</a>. 
                 </p>
                 <p>
-                    More information can be found on our Documentation page.
+                    More information can be found on our <a href="{% url 'documentation_url' %}">Documentation page</a>.
                 </p>
             </div>
         </div>

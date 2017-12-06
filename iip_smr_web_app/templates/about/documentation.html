@@ -8,7 +8,7 @@
 
 {% block body %}
 
-<div id="page-content-wrapper">
+<div id="page-content-wrapper" style="font-size: 15px;">
     <section class="about-text ptb-100">
         <div class="container">
             <div class="row">
@@ -22,7 +22,7 @@
 
                 <p>
                     Following these guidelines, each inscription file has four major parts:
-                    <ul>
+                    <ul style="padding-left: 50px;">
                         <li>Header: This section contains all the metadata, or information about the inscription. This includes, when available, a description of the inscription; the object type and material on which it is written and how it is written; the inscription’s date; its place of discovery and present location; its genre and “religion”; its dimensions; and encoding information and links to images.</li>
                         <li>Diplomatic transcription: This section contains the literal transcription of the writing. Greek and Latin inscriptions were written entirely in uppercase letters and frequently do not have breaks between words. This is a simple copy of what is on the stone, with all of its gaps, damage, etc., indicated.</li>
                         <li>Edited transcription: This is where the editor reconstructs and restores the inscription, as necessary, in its original language. Breaks between words are provided and corrections (to, for example, misspelled words) are made.
@@ -32,38 +32,38 @@
                 </p>
 
                 <p>
-                    Given the complexity of the data and the different languages (with Hebrew being read right-to-left), we have created a guide for data entry (to be used with our oXygenXML framework - see below) located here. 
+                    Given the complexity of the data and the different languages (with Hebrew being read right-to-left), we have created a guide for data entry (to be used with our oXygenXML framework - see below) located here.  
                 </p>
                 <p>
-                    The transcriptions of the inscriptions in their original languages follow the Leiden conventions. These conventions standardize the symbols and punctuation used to represent the text. For example, text inside brackets encloses text which an editor assumes was on the stone. Text inside parentheses are editorial additions, such as the expansion of an abbreviation. The list of Leiden conventions, with their equivalent encoding (which is derived from the TEI, or Textual Encoding Initiative), can be found here.
+                    The transcriptions of the inscriptions in their original languages follow the Leiden conventions. These conventions standardize the symbols and punctuation used to represent the text. For example, text inside brackets encloses text which an editor assumes was on the stone. Text inside parentheses are editorial additions, such as the expansion of an abbreviation. The list of Leiden conventions, with their equivalent encoding (which is derived from the TEI, or Textual Encoding Initiative), can be found here. 
                 </p>
                 <br>
                 <h4>Vocabularies and Linked Data</h4>
                 <p>
-                    In order to facilitate searching, we have standardized some of the vocabularies. In particular, the entries for language; type of inscription; physical type; and religion have controlled vocabularies. We are working on standardizing the “figures” as well.
+                    In order to facilitate searching, we have standardized some of the vocabularies. In particular, the entries for language; type of inscription; physical type; and religion have controlled vocabularies. We are working on standardizing the “figures” as well. 
                 </p>
                 <p>
                     A note on the use of a category called “religion”. Inscriptions, of course, do not have “religions,” although those who commission them, those who are mentioned in them, and those who carved them might. Moreover, we have a problem categorizing those who are sometimes referred to as “pagan”; this is a pejorative term used by Jews and Christians which lumps together a large set of diverse beliefs and devotional practices. We use the category of “religion” with ambivalence because it is familiar and can be useful to scholars: we attribute a “religion” to inscriptions which have familiar religious symbols or other indications of belonging to such a community. Instead of attempting to create a taxonomy of different Greek and Roman religious groups we lump those together as “Other.” This is an imperfect solution and we would welcome other ideas for categorization.
                 </p>
                 <p>
-                    Our data contain information that facilitates linking. Primarily:
+                    Our data contain information that facilitates linking. Primarily: 
                     <ul>
-                        <li>Geographical linking through the Pleiades project. All inscriptions have Pleiades IDs for their location and can be linked to all other data with the same geographic ID.</li>
-                        <li>Object linking through the Getty Art and Architecture Thesaurus. All objects, such as an altar or a mosaic, contain a unique identifier. This too allows for links across the web to similarly tagged objects.</li>
-                        <li>Period linking through PeriodO. We are in the process of contributing additional periodizations to the PeriodO project and will soon add the resulting new identifiers to our data. This will allow consolidation of all data from across the web based on chronological period.</li>
+                        <li>Geographical linking through the <a href="https://pleiades.stoa.org/">Pleiades project</a>. All inscriptions have Pleiades IDs for their location and can be linked to all other data with the same geographic ID.</li>
+                        <li>Object linking through the <a href="http://www.getty.edu/research/tools/vocabularies/aat/">Getty Art and Architecture Thesaurus</a> All objects, such as an altar or a mosaic, contain a unique identifier. This too allows for links across the web to similarly tagged objects.</li>
+                        <li>Period linking through <a href="http://perio.do/">PeriodO</a>. We will soon add PeriodO URIs to our data files.  This will allow consolidation of all data from across the web based on chronological period.</li>
                     </ul>
                 </p>
                 <br>
                 <h4>Entering Data</h4>
                 <p>
-                    Our encoders use the program oXygen XML for data entry. Note that at this time we prefer version 16 due to its ability to handle the Hebrew and Aramaic. After installing the program on their own machines, our encoders configure it to work with our own custom designed framework. Instructions for installation can be found here. 
+                    Our encoders use the program oXygen XML for data entry. Note that at this time we prefer version 16 due to its ability to handle the Hebrew and Aramaic. After installing the program on their own machines, our encoders configure it to work with our own custom designed framework. Instructions for installation can be found <a href="https://github.com/Brown-University-Library/iip-texts/wiki/Configuring-Oxygen-with-the-IIP-Add-on-for-Authoring">here</a>. 
                 </p>
-                <p>The guide for entering inscriptions is here. Since entering and encoding Hebrew and Aramaic present a distinct set of challenges, those sections might be of particular interest.
+                <p>The guide for entering inscriptions is <a href="http://www.stoa.org/epidoc/gl/latest/">here</a>. Since entering and encoding Hebrew and Aramaic present a distinct set of challenges, those sections might be of particular interest.
                 </p>
                 <br>
                 <h4>Bibliography</h4>
                 <p>
-                    Following practices described in the Epidoc Guidelines, IIP has been maintaining bibliographic entries in a master bibliography and referring to these from individually encoded inscriptions. We feel that bibliographic data entry and editing must be collaborative, web based, and unambiguous. In an earlier stage of the project, we managed the bibliography with a customized SQL database which provided useful features such as controlled lists of journal abbreviations. When the project upgraded in 2013, we decided to replace the custom bibliographic database with Zotero. Zotero does not require maintenance on our part and has a versatile API which allows us to access citations directly when displaying an inscription in our interface. IIP assigns ID numbers to bibliographic entries, following the form [IIP-000], and uses the ID to reference a citation. Zotero also assigns ID numbers to bibliographic entries. These are automatic and function as database keys but are not part of the citation data. Thus, we store the IIP ID in the Zotero "Loc in Archive" or “Extra” field, on the premise that it is our project catalog number. To enable the Zotero API to retrieve a particular citation, we also save the IIP ID as a Zotero tag for each entry: the Zotero API can only access tags and a restricted number of bibliographic fields. We do not convert our bibliography to TEI in order to integrate it into our inscription files. The formatted citations the Zotero API generates using the Citation Style Language (CSL) an open language used by a variety of citation managers, are sufficient. 
+                    Following practices described in the Epidoc Guidelines, IIP has been maintaining bibliographic entries in a master bibliography and referring to these from individually encoded inscriptions. We feel that bibliographic data entry and editing must be collaborative, web based, and unambiguous. In an earlier stage of the project, we managed the bibliography with a customized SQL database which provided useful features such as controlled lists of journal abbreviations. When the project upgraded in 2013, we decided to replace the custom bibliographic database with <a href="http://zotero.org/">Zotero</a>. Zotero does not require maintenance on our part and has a versatile API which allows us to access citations directly when displaying an inscription in our interface. IIP assigns ID numbers to bibliographic entries, following the form [IIP-000], and uses the ID to reference a citation. Zotero also assigns ID numbers to bibliographic entries. These are automatic and function as database keys but are not part of the citation data. Thus, we store the IIP ID in the Zotero "Loc in Archive" or “Extra” field, on the premise that it is our project catalog number. To enable the Zotero API to retrieve a particular citation, we also save the IIP ID as a Zotero tag for each entry: the Zotero API can only access tags and a restricted number of bibliographic fields. We do not convert our bibliography to TEI in order to integrate it into our inscription files. The formatted citations the Zotero API generates using the Citation Style Language (CSL) an open language used by a variety of citation managers, are sufficient. 
                 </p>
                 <p>
                     We feel that our choice of an external database, (particularly Zotero, which is widely used; allows for collaboration; and can host a re-useable, standalone bibliography of sources for inscriptions) is an efficient means of working with different types of material and applying the tools most appropriate for each. In the future, when the IIP corpus is substantially complete, it would be important to incorporate full bibliographic entries as "<"bibl">"s into each encoded inscription for archival purposes.
@@ -71,7 +71,7 @@
                 <br>
                 <h4>Data Preservation</h4>
                 <p>
-                    There are two main repositories of our data. One lives on the production machine, a server maintained by the Brown University Library. This is the “working” repository accessed through our website. The second repository is on Github and is publicly accessible for download or use. The two repositories are substantially the same, although new inscriptions and corrections are first added to the Github repository, and then periodically synced to the repository on the production machine.
+                    There are two main repositories of our data. One lives on the production machine, a server maintained by the Brown University Library. This is the “working” repository accessed through our website. The second repository is on Github and is publicly accessible for download or use. The two repositories are substantially the same, although new inscriptions and corrections are first added to the <a href="https://github.com/Brown-University-Library/iip-texts">Github repository</a>, and then periodically synced to the repository on the production machine. 
                 </p>
                 <p>
                     The Brown University Library is committed to archiving and maintaining this data. We will soon add our data to the Brown Digital Repository and design a plan to update it at regular intervals.
@@ -82,7 +82,7 @@
                     Encoders create their files in a shared Dropbox folder. Each encoder has his or her personal subfolder, and within each of those is another sub-folder labeled “Finished”. Encoders add files to their “Finished” sub-folder when they complete their work.
                 </p>
                 <p>
-                    Periodically, the Project Manager checks the files in the “Finished” folders. When deemed satisfactory, files migrate to a sub-folder labeled “Finished Inscriptions.” Periodically, the Technical Director uploads these approved files to the Github repository. These are then periodically synced to the repository on the production machine.
+                    Periodically, the Project Manager checks the files in the “Finished” folders. When deemed satisfactory, files migrate to a sub-folder labeled “Finished Inscriptions,” after which the Technical Director uploads these approved files to the Github repository. These are then synced to the repository on the production machine. 
                 </p>
                 <p>
                     All inscriptions are marked with a status: “Approved,” “To Approve,” or “To Correct.” Inscriptions marked “To Approve” are uploaded to the production machine. The Project Director checks each of these files and either approves the file (at which point a file becomes visible to the public) or marks it “To Correct” if it needs modifications.
