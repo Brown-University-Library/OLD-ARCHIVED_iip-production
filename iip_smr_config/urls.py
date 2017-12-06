@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^resources/timeline$', views.timeline, name=u'timeline_url' ),
     url(r'^resources/guide_to_searching$', views.guide_to_searching, name=u'guide_to_searching_url' ),
     url(r'^resources/glossary$', views.glossary, name=u'glossary_url' ),
+    url(r'^resources/conventional_transciption_symbols$', views.conventional_transciption_symbols, name=u'conventional_transciption_symbols_url'),
     url(r'^stories/$', views.stories, name=u'stories_url' ),
     url( r'^stories/(?P<story_id>.*)/$', views.individual_story, name=u'test_url' ),
 

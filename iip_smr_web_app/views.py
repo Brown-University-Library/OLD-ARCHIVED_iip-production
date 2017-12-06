@@ -480,6 +480,8 @@ def guide_to_searching(request):
 def glossary(request):
     return render(request, 'resources/glossary.html')
 
+def conventional_transciption_symbols(request):
+    return render(request, 'resources/conventional_transciption_symbols.html')
 
 
 def load_layers(request):

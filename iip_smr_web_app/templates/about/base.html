@@ -113,14 +113,15 @@
 				                </li>
 				                <li class="{% if url_name == 'mapsearch_url' %}active{% endif %}"><a href="{% url 'mapsearch_url' %}">Search</a></li>
 				                <li class="{% if url_name == 'stories_url' %}active{% endif %}"><a href="{% url 'stories_url' %}">Stories</a></li>
-				                <li class="dropdown {% if url_name == 'bibliography_url' or url_name == 'timeline_url' or url_name == 'guide_to_searching_url' or url_name == 'glossary_url' %}active{% endif %}">
+				                <li class="dropdown {% if url_name == 'bibliography_url' or url_name == 'timeline_url' or url_name == 'guide_to_searching_url' or url_name == 'glossary_url' or url_name == 'conventional_transciption_symbols_url' %}active{% endif %}">
 				                    <a href="{% url 'bibliography_url' %}" class="dropdown-toggle" data-toggle="dropdown">Resources
 				                    <span class="caret"></span></a>
 				                    <ul class="dropdown-menu">
 				                      <li><a href="{% url 'bibliography_url' %}">Bibliography</a></li>
-				                      <li><a href="{% url 'timeline_url' %}">Timeline</a></li>
-				                      <li><a href="{% url 'guide_to_searching_url' %}">Guide to Searching</a></li>
+				                      <li><a href="{% url 'conventional_transciption_symbols_url' %}">Conventional Transcription Symbols</a></li>
 				                      <li><a href="{% url 'glossary_url' %}">Glossary</a></li>
+				                      <li><a href="{% url 'guide_to_searching_url' %}">Guide to Searching</a></li>
+				                      <li><a href="{% url 'timeline_url' %}">Timeline</a></li>
 				                    </ul>
 				                </li>
 				                <li class="{% if url_name == 'contact_url' %}active{% endif %}"><a href="{% url 'contact_url' %}">Contact<br></a></li>
@@ -169,17 +170,14 @@
 				                        </p>
 
 				                        <a href="https://www.brown.edu">
-											<img style="width: 100px;" src="{% static "iip_search_app/images/logo_brown.png" %}" alt="Brown University" />
+											<img style="width: 50px;" src="{% static "iip_search_app/images/logo_brown.png" %}" alt="Brown University" />
 										</a>
 										&nbsp;&nbsp;
 
 										<a href="https://library.brown.edu/">
-											<img style="width: 100px;" src="{% static "iip_search_app/images/cds_logo.png" %}" alt="Brown University Library" />
+											<img style="width: 50px;" src="{% static "iip_search_app/images/cds_logo.png" %}" alt="Brown University Library" />
 										</a>
 										&nbsp;&nbsp;
-										
-									
-
 				                        
 				                    </div>
 				                </div>
@@ -196,7 +194,7 @@
 					                <li class="{% if url_name == 'why_inscription_url' or url_name == 'project_description_url' or url_name == 'documentation_url' or url_name == 'api_url' or url_name == 'funding_url' or url_name == 'team_url' or url_name == 'copyright_url' %}active{% endif %}"><a href="{% url 'why_inscription_url' %}">About</a></li>
 					                <li class="{% if url_name == 'mapsearch_url' %}active{% endif %}"><a href="{% url 'mapsearch_url' %}">Search</a></li>
 					                <li class="{% if url_name == 'stories_url' %}active{% endif %}"><a href="{% url 'stories_url' %}">Stories</a></li>
-					                <li class="{% if url_name == 'bibliography_url' or url_name == 'timeline_url' or url_name == 'guide_to_searching_url' or url_name == 'glossary_url' %}active{% endif %}"><a href="{% url 'bibliography_url' %}">Resources<br></a></li>
+					                <li class="{% if url_name == 'bibliography_url' or url_name == 'timeline_url' or url_name == 'guide_to_searching_url' or url_name == 'glossary_url' or url_name == 'conventional_transciption_symbols_url' %}active{% endif %}"><a href="{% url 'bibliography_url' %}">Resources<br></a></li>
 					                <li class="{% if url_name == 'contact_url' %}active{% endif %}"><a href="{% url 'contact_url' %}">Contact<br></a></li>
 					               {% endwith %}
 				            </ul>
@@ -221,7 +219,7 @@
 		                <li class="{% if url_name == 'why_inscription_url' or url_name == 'project_description_url' or url_name == 'documentation_url' or url_name == 'api_url' or url_name == 'funding_url' or url_name == 'team_url' or url_name == 'copyright_url' %}active{% endif %}"><a href="{% url 'why_inscription_url' %}">About</a></li>
 		                <li class="{% if url_name == 'mapsearch_url' %}active{% endif %}"><a href="{% url 'mapsearch_url' %}">Search</a></li>
 		                <li class="{% if url_name == 'stories_url' %}active{% endif %}"><a href="{% url 'stories_url' %}">Stories</a></li>
-		                <li class="{% if url_name == 'bibliography_url' or url_name == 'timeline_url' or url_name == 'guide_to_searching_url' or url_name == 'glossary_url' %}active{% endif %}"><a href="{% url 'bibliography_url' %}">Resources<br></a></li>
+		                <li class="{% if url_name == 'bibliography_url' or url_name == 'timeline_url' or url_name == 'guide_to_searching_url' or url_name == 'glossary_url' or url_name == 'conventional_transciption_symbols_url' %}active{% endif %}"><a href="{% url 'bibliography_url' %}">Resources<br></a></li>
 		                <li class="{% if url_name == 'contact_url' %}active{% endif %}"><a href="{% url 'contact_url' %}">Contact<br></a></li>
 		                {% endwith %}
 		            </ul>
