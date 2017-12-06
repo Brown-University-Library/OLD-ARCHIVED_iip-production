@@ -34,6 +34,14 @@
 			display: none;
 		}
 	}
+
+	#advanced_search{
+		width: 1192px;
+		padding-left: 10px;
+		padding-right: 10px;
+		padding-bottom: 10px;
+		margin-bottom: 20px;
+	}
 	</style>
 {% endblock %}
 
@@ -72,7 +80,7 @@
 				</div>
 				<div class="row" id="map-inscriptions-box">
 					<ul>
-						
+						Click points on the map to view a full list of inscriptions in that region.
 					</ul>
 				</div>
 			</div>
@@ -84,9 +92,14 @@
 			</div>
 		</div>
 	</div>
-	<br>
 
 	<div id="filter-menu" class="container">
+		<br>
+		<div id="search_tips">
+				<p style="font-size: 18px;">
+					For tips on how to use the search box, please refer to the <a href="{% url 'guide_to_searching_url' %}">Guide to Searching</a>.
+				</p>
+		</div>
 		<form action="../results/" method="post">
             {% csrf_token %}
             <table class="search_box basic">
@@ -95,7 +108,7 @@
 				    	<strong>
                         	Location
                     	</strong>  
-                    	<span class="select-multiple">select multiple: disabled
+                    	<span class="select-multiple" style="padding-bottom: 7px;">select multiple: disabled
 						</span> 
 						<div id="place-filter" class="filter-container">
 							{% for field in form.place %}
@@ -312,13 +325,9 @@
 					</td>
 				</tr>
 			</table>
+			<br>
 		</form>
-		<div id="search_tips">
-				<p>
-					For tips on how to use the search box, please refer to the <a href="{% url 'guide_to_searching_url' %}">guide to searching</a>.
-				</p>
-		</div>
-		<br><br>
+		
 	</div>
 
 {% endblock %}

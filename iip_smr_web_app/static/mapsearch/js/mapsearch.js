@@ -133,7 +133,7 @@ function createPointsLayer(url) {
             place: place,
             num_inscriptions: num_inscriptions,
             radius: Math.sqrt(num_inscriptions) + 5,
-            color: '#333',
+            color: '#D15E28',
             weight: 2, 
             pane: 'markerPane'
           });
@@ -215,7 +215,7 @@ function createPointsLayer(url) {
             place: value['place'],
             num_inscriptions: value['num_inscriptions'],
             radius: Math.sqrt(value['num_inscriptions']) + 5,
-            color: '#333',
+            color: '#D15E28',
             weight: 2, 
             pane: 'markerPane'
           });
