@@ -600,23 +600,30 @@ def individual_story(request, story_id):
         url = 'https://library.brown.edu/search/solr_pub/iip/?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A%22' + item.lower() + '%22'
 
         with urllib.request.urlopen(url) as response:
+            inscription_boolean = False
             s = response.read()
             encoding = response.info().get_content_charset('utf-8')
             data = json.loads(s.decode(encoding))
 
-            inscription_id.append(data["response"]["docs"][0]["inscription_id"])
-            languages.append(data["response"]["docs"][0]["language_display"])
-            date.append(data["response"]["docs"][0]["date_desc"])
-            place_found.append(data["response"]["docs"][0]["place_found"])
-            transcription.append(data["response"]["docs"][0]["transcription"])
-            translation.append(data["response"]["docs"][0]["translation"])
-            dimension.append(data["response"]["docs"][0]["dimensions"])
-            if "notBefore" in data["response"]["docs"][0]:
-                date_start.append(data["response"]["docs"][0]["notBefore"])
-            else:
-                date_start.append('Unknown')
-            date_end.append(data["response"]["docs"][0]["notAfter"])
-            image_url.append("https://github.com/Brown-University-Library/iip-images/raw/master/" + str(data["response"]["docs"][0]["inscription_id"]) + ".jpg")
+            try:
+                inscription_id.append(data["response"]["docs"][0]["inscription_id"])
+
+
+                languages.append(data["response"]["docs"][0]["language_display"])
+                date.append(data["response"]["docs"][0]["date_desc"])
+                place_found.append(data["response"]["docs"][0]["place_found"])
+                transcription.append(data["response"]["docs"][0]["transcription"])
+                translation.append(data["response"]["docs"][0]["translation"])
+                dimension.append(data["response"]["docs"][0]["dimensions"])
+                if "notBefore" in data["response"]["docs"][0]:
+                    date_start.append(data["response"]["docs"][0]["notBefore"])
+                else:
+                    date_start.append('Unknown')
+                date_end.append(data["response"]["docs"][0]["notAfter"])
+                image_url.append("https://github.com/Brown-University-Library/iip-images/raw/master/" + str(data["response"]["docs"][0]["inscription_id"]) + ".jpg")
+                inscription_boolean = True
+            except:
+                print("No Relevant Inscriptions")
 
     context = {
         'slug': story_page.slug,
@@ -629,19 +636,19 @@ def individual_story(request, story_id):
         'relevant_inscription_id': story_page.relevant_inscription_id,
         'current_url': request.build_absolute_uri,
         'image_url': image_url,
-
-
-        "inscription_id": inscription_id,
-        "languages": languages,
-        "date": date,
-        "place_found": place_found,
-        "transcription": transcription,
-        "translation": translation,    
-        "dimension" : dimension,
-        "date_start" : date_start,
-        "date_end" : date_end,
-        "num_relevantInscriptions" : range(num_relevantInscriptions)
         }
+
+    if inscription_boolean:
+        context["inscription_id"] = inscription_id
+        context["languages"] = languages
+        context["date"] = date
+        context["place_found"] = place_found
+        context["transcription"] = transcription
+        context["translation"] = translation
+        context["dimension"] = dimension
+        context["date_start"] = date_start
+        context["date_end"] = date_end
+        context["num_relevantInscriptions"] = range(num_relevantInscriptions)
 
 
     return render(request, 'stories/individual_story.html', context)
