@@ -58,32 +58,32 @@ class SearchForm( forms.Form ):
         #
         self.vocab_request = requests.get("https://cds.library.brown.edu/projects/iip/include_taxonomies.xml")
         self.vocab = ET.fromstring(self.vocab_request.content)
-        self.taxonomies = self.vocab.findall('{https://www.tei-c.org/ns/1.0}taxonomy')
+        self.taxonomies = self.vocab.findall('{http://www.tei-c.org/ns/1.0}taxonomy')
         #
         log.debug( 'type(self.taxonomies), `%s`' % type(self.taxonomies) )
         log.debug( 'self.taxonomies, ```%s```' % pprint.pformat(self.taxonomies) )
         log.debug( 'self.taxonomies[0].attrib.values(), ```%s```' % self.taxonomies[0].attrib.values() )
         # self.type_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-genre'][0]
         self.type_tax = [tax for tax in self.taxonomies if list( tax.attrib.values() )[0] == 'IIP-genre'][0]
-        # self.types_dict = dict([(element.attrib.values()[0], element.find('{https://www.tei-c.org/ns/1.0}catDesc').text) for element in self.type_tax.findall('{https://www.tei-c.org/ns/1.0}category')])
-        #self.types_dict = dict([( list(element.attrib.values())[0], element.find('{https://www.tei-c.org/ns/1.0}catDesc').text ) for element in self.type_tax.findall('{https://www.tei-c.org/ns/1.0}category')])
-        self.types_dict = dict([(list(element.attrib.values())[0], element.find('{https://www.tei-c.org/ns/1.0}catDesc').text.lstrip('-')) for element in self.type_tax.findall('{https://www.tei-c.org/ns/1.0}category')])
+        # self.types_dict = dict([(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.type_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
+        #self.types_dict = dict([( list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text ) for element in self.type_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
+        self.types_dict = dict([(list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text.lstrip('-')) for element in self.type_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
         self.choice_types = make_vocab_list( self.types_dict, sorted( common.facetResults('type').keys()) )
         # self.fields['type'] = forms.MultipleChoiceField(required=False, choices=self.choice_types, widget=forms.SelectMultiple(attrs={'size':'7'}))
         self.fields['type'] = forms.MultipleChoiceField(required=False, choices=self.choice_types, widget=forms.CheckboxSelectMultiple())
         #
         # self.phys_types_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-form'][0]
         self.phys_types_tax = [tax for tax in self.taxonomies if list( tax.attrib.values() )[0] == 'IIP-form'][0]
-        # self.physical_types_dict = dict([(element.attrib.values()[0], element.find('{https://www.tei-c.org/ns/1.0}catDesc').text) for element in self.phys_types_tax.findall('{https://www.tei-c.org/ns/1.0}category')])
-        self.physical_types_dict = dict([( list(element.attrib.values())[0], element.find('{https://www.tei-c.org/ns/1.0}catDesc').text ) for element in self.phys_types_tax.findall('{https://www.tei-c.org/ns/1.0}category')])
+        # self.physical_types_dict = dict([(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.phys_types_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
+        self.physical_types_dict = dict([( list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text ) for element in self.phys_types_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
         self.physical_types = make_vocab_list(self.physical_types_dict, sorted( common.facetResults('physical_type').keys()))
         # self.fields['physical_type'] = forms.MultipleChoiceField(required=False, choices=self.physical_types, widget=forms.SelectMultiple(attrs={'size':'7'}))
         self.fields['physical_type'] = forms.MultipleChoiceField(required=False, choices=self.physical_types, widget=forms.CheckboxSelectMultiple())
         #
         # self.religions_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-religion'][0]
         self.religions_tax = [tax for tax in self.taxonomies if list( tax.attrib.values() )[0] == 'IIP-religion'][0]
-        # self.religions = [(element.attrib.values()[0], element.find('{https://www.tei-c.org/ns/1.0}catDesc').text) for element in self.religions_tax.findall('{https://www.tei-c.org/ns/1.0}category')]
-        self.religions = [( list(element.attrib.values())[0], element.find('{https://www.tei-c.org/ns/1.0}catDesc').text ) for element in self.religions_tax.findall('{https://www.tei-c.org/ns/1.0}category')]
+        # self.religions = [(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.religions_tax.findall('{http://www.tei-c.org/ns/1.0}category')]
+        self.religions = [( list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text ) for element in self.religions_tax.findall('{http://www.tei-c.org/ns/1.0}category')]
         # self.fields['religion'] = forms.MultipleChoiceField(required=False, choices=self.religions, widget=forms.CheckboxSelectMultiple)
         self.fields['religion'] = forms.MultipleChoiceField(required=False, choices=self.religions, widget=forms.CheckboxSelectMultiple(attrs={'class': 'styled'}))
         #
@@ -100,8 +100,8 @@ class SearchForm( forms.Form ):
 
         # self.material_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-materials'][0]
         self.material_tax = [tax for tax in self.taxonomies if list(tax.attrib.values())[0] == 'IIP-materials'][0]
-        # self.materials_dict = dict([(element.attrib.values()[0], element.find('{https://www.tei-c.org/ns/1.0}catDesc').text) for element in self.material_tax.findall('{https://www.tei-c.org/ns/1.0}category')])
-        self.materials_dict = dict([(list(element.attrib.values())[0], element.find('{https://www.tei-c.org/ns/1.0}catDesc').text) for element in self.material_tax.findall('{https://www.tei-c.org/ns/1.0}category')])
+        # self.materials_dict = dict([(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.material_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
+        self.materials_dict = dict([(list(element.attrib.values())[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.material_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
         self.materials = make_vocab_list( self.materials_dict, sorted( common.facetResults('material').keys()) )
         self.fields['material'] = forms.MultipleChoiceField(required=False, choices=self.materials, widget=forms.CheckboxSelectMultiple())
     text = forms.CharField(required=False)
