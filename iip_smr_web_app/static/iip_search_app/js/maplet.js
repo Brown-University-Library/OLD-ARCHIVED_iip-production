@@ -3,7 +3,7 @@ run()
 
 function run(){
 	inscription_list.forEach(function(inscrid){
-		url_json = "http://library.brown.edu/cds/projects/iip/api/?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A" + inscrid;
+		url_json = "https://library.brown.edu/cds/projects/iip/api/?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A" + inscrid;
 		$.getJSON(url_json, function(data){
 			if (data["response"]["docs"][0]["city_pleiades"]){
 				console.log(inscrid + ": pleiades id detected");
@@ -12,7 +12,7 @@ function run(){
 			}
 			else{
 				console.log(inscrid + ": no pleiades id detected");
-					
+
 				drawMaplet(null, inscrid);
 
 				// $("#maplet"+id.toString()).html('<img src="{{STATIC_URL}}iip_search_app/images/placeholder.png" style= "width: 100px; height: 100px;" />');
@@ -20,13 +20,13 @@ function run(){
 			}
 		});
 	});
-	
+
 }
 
 
 function getCoordinates(pleiades, inscrid) {
 	if (pleiades.slice(-6) === "380758") {
-	    pleiades = "http://pleiades.stoa.org/places/678006";
+	    pleiades = "https://pleiades.stoa.org/places/678006";
 	}
 
 	$.getJSON('https://pleiades.stoa.org/places/' + pleiades.slice(-6) + '/json', function(data) {
@@ -49,6 +49,6 @@ function drawMaplet(geoCoordinates, inscrid){
 	    }).addTo(maplet);
 
 	if (geoCoordinates != null){
-		L.marker([geoCoordinates[1], geoCoordinates[0]]).addTo(maplet);	
-	}	
+		L.marker([geoCoordinates[1], geoCoordinates[0]]).addTo(maplet);
+	}
 }
