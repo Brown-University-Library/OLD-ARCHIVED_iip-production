@@ -1,11 +1,11 @@
 // GLOBAL VARS
 
-// base url for getting all inscriptions 
-var BASE_URL = 'http://library.brown.edu/cds/projects/iip/api/?start=0&rows=3278&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language,language_display,religion,material&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
+// base url for getting all inscriptions
+var BASE_URL = 'https://library.brown.edu/cds/projects/iip/api/?start=0&rows=3278&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language,language_display,religion,material&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
 // url for applying filters to base url
 var FILTERS_URL = BASE_URL.concat("&fq=");
 //url for getting all pleiades urls from database
-var LOCATIONS_URL = 'http://library.brown.edu/cds/projects/iip/api/?q=*:*&%3A*&start=0&rows=0&indent=on&facet=on&facet.field=city_pleiades&wt=json';
+var LOCATIONS_URL = 'https://library.brown.edu/cds/projects/iip/api/?q=*:*&%3A*&start=0&rows=0&indent=on&facet=on&facet.field=city_pleiades&wt=json';
 // layer of points for inscriptions on map
 var points_layer = L.layerGroup();
 // map of each type of filters and the specific filter names that are being applied (e.g. place: ['Coastal Plain', 'Golan'])
@@ -16,7 +16,7 @@ var filters = {
   language: [],
   religion: [],
   material: []
-}; 
+};
 // map of concatenators for multiple filters. default is 'OR' unless set to AND
 var ops = {
   place: ' OR ',
@@ -31,13 +31,13 @@ var locations_dict = {};
 // map of each facet to number of inscriptions with that particular facet
 var facet_nums = {};
 
-////////////////////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////////////////////
 
-// Setting up Basemap 
+// Setting up Basemap
 var mymap = L.map('mapid').setView([31.3, 35.3], 7)
 
 var base_tile = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZGs1OCIsImEiOiJjajQ4aHd2MXMwaTE0MndsYzZwaG1sdmszIn0.VFRnx3NR9gUFBKBWNhhdjw', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://mapbox.com">Mapbox</a>',
         maxZoom: 11,
         id: 'isawnyu.map-knmctlkh',
         accessToken: 'pk.eyJ1IjoiZGs1OCIsImEiOiJjajQ4aHd2MXMwaTE0MndsYzZwaG1sdmszIn0.VFRnx3NR9gUFBKBWNhhdjw'
@@ -54,7 +54,7 @@ function createLocationsDict() {
       if(index%2 === 0) {
         if (value.slice(-6) === "380758") {
           console.log("The 9-digit pleiades ID still has not been corrected.");
-          value = "http://pleiades.stoa.org/places/678006";
+          value = "https://pleiades.stoa.org/places/678006";
         } else if (value.slice(0, 7) === "Maresha") {
           console.log("Invalid pleiades urls still present.");
           return false
@@ -81,7 +81,7 @@ function createLocationsDict() {
         createPointsLayer(BASE_URL);
     });
 
-  });  
+  });
 };
 
 // adds filters and concatenation operator (AND/OR) to FILTERS_URL
@@ -134,7 +134,7 @@ function createPointsLayer(url) {
             num_inscriptions: num_inscriptions,
             radius: Math.sqrt(num_inscriptions) + 5,
             color: '#D15E28',
-            weight: 2, 
+            weight: 2,
             pane: 'markerPane'
           });
           var inscriptions = {};
@@ -142,10 +142,10 @@ function createPointsLayer(url) {
             var doc = this['doclist']['docs'][i];
             inscriptions[doc.inscription_id] = {
               notBefore: doc['notBefore'],
-              notAfter: doc['notAfter'], 
+              notAfter: doc['notAfter'],
               placeMenu: doc['placeMenu'],
               language: doc['language'], // LANGUAGE IS DELIMITED BY COMMAS SO ARRAY LENGTH >= 1
-              language_display: doc['language_display'], 
+              language_display: doc['language_display'],
               religion: doc['religion'], // RELIGION IS DELIMITED BY COMMAS SO ARRAY LENGTH >= 1
               material: doc['material']
             };
@@ -184,10 +184,10 @@ function createPointsLayer(url) {
 
           coordinates_no_pleiades[doc['city_geo']]['inscriptions'][inscription_id] = {
             notBefore: doc['notBefore'],
-            notAfter: doc['notAfter'], 
+            notAfter: doc['notAfter'],
             placeMenu: doc['placeMenu'],
             language: doc['language'], // LANGUAGE IS DELIMITED BY COMMAS SO ARRAY LENGTH >= 1
-            language_display: doc['language_display'], 
+            language_display: doc['language_display'],
             religion: doc['religion'], // RELIGION IS DELIMITED BY COMMAS SO ARRAY LENGTH >= 1
             material: doc['material']
           };
@@ -216,7 +216,7 @@ function createPointsLayer(url) {
             num_inscriptions: value['num_inscriptions'],
             radius: Math.sqrt(value['num_inscriptions']) + 5,
             color: '#D15E28',
-            weight: 2, 
+            weight: 2,
             pane: 'markerPane'
           });
 
@@ -226,17 +226,17 @@ function createPointsLayer(url) {
       }
     });
     filterByDateRange();
-    points_layer.addTo(mymap);  
+    points_layer.addTo(mymap);
     $('input:checkbox').removeAttr('disabled')
   });
 }
 
 
-// increment numerical value corresponding to number of inscriptions with a 
+// increment numerical value corresponding to number of inscriptions with a
 // particular facet field
 function addFacetNums(inscription, facet_nums) {
   $.each(inscription, function(key, value) {
-    if ((key === 'language' || key === 'religion'|| key === 'type' 
+    if ((key === 'language' || key === 'religion'|| key === 'type'
       || key === 'physical_type' || key === 'placeMenu' || key === 'material') && value) {
       for (var i = 0; i < value.length; i++) {
         if (facet_nums[value[i]] === undefined) {
@@ -356,7 +356,7 @@ function filterByDateRange() {
       var inscr =  point['options']['inscriptions'][j];
       if(inscr['notBefore'] == null) {
         inscr['notBefore'] = $("#slider-range").slider("option", "min")
-      } 
+      }
       if (inscr['notAfter'] == null) {
         inscr['notAfter'] = $("#slider-range").slider("option", "max")
       }
@@ -364,18 +364,18 @@ function filterByDateRange() {
         || (inscr['notAfter'] <= high && inscr['notAfter'] > low)) {
         num_in_range += 1;
         promises.push(addFacetNums(inscr, facet_nums));
-      } 
+      }
     }
     if (num_in_range === 0) {
       point.setRadius(0);
     } else {
       point.setRadius(Math.sqrt(num_in_range) + 5);
     }
-    
+
     point['options']['num_inscriptions'] = num_in_range;
-    point.bindPopup("<strong>Place: </strong>" 
-        + point['options']['place'] + "<br><strong>Region: </strong>" 
-        + point['options']['region'] + "<br><strong>Inscriptions: </strong>" 
+    point.bindPopup("<strong>Place: </strong>"
+        + point['options']['place'] + "<br><strong>Region: </strong>"
+        + point['options']['region'] + "<br><strong>Inscriptions: </strong>"
         + num_in_range);
     point.on('click', function() {
       return showInscriptions(point['options']['inscriptions']);
@@ -410,7 +410,7 @@ function showInscriptions(inscriptions) {
   $('#map-inscriptions-box ul').empty();
   for (inscription in inscriptions) {
     if (inscriptions.hasOwnProperty(inscription)) {
-      $('#map-inscriptions-box ul').prepend('<li class="inscription" id=' + inscription + '><label><a href="../viewinscr/' 
+      $('#map-inscriptions-box ul').prepend('<li class="inscription" id=' + inscription + '><label><a href="../viewinscr/'
         + inscription + '" target="_blank">' + inscription.toUpperCase().substr(0,4) + ' ' + inscription.substr(4) + '</a>'
         + '</label></li>');
       var inscr = inscriptions[inscription];
@@ -639,12 +639,12 @@ $("#slider-range").slider({
       handle2.text(computeSliderValue(ui.values[1]));
       $('#id_notBefore').val(updateDateFieldValue(ui.values[0], 'id_afterDateEra'));
       $('#id_notAfter').val(updateDateFieldValue(ui.values[1], 'id_beforeDateEra'));
-      filterByDateRange(); 
-    } 
+      filterByDateRange();
+    }
 });
 
 
-// FILTER CHECKBOX CHANGES 
+// FILTER CHECKBOX CHANGES
 
 $('#place-filter').change(function() {
   return updateFilters('place');
@@ -698,15 +698,15 @@ $("#points_layer").click(function() {
     mymap.removeLayer(points_layer);
     $(this).text("Show Points");
   } else {
-    mymap.addLayer(points_layer);   
-    $(this).text("Hide Points");     
+    mymap.addLayer(points_layer);
+    $(this).text("Hide Points");
   }
 });
 
-$('#advanced_detail').click(function(){ 
+$('#advanced_detail').click(function(){
     var advanced_search = document.getElementById("advanced_search");
     advanced_search.style.display = advanced_search.style.display == "block" ? "none" : "block";
-    return false; 
+    return false;
 });
 
 $('#reset').click(function() {
@@ -749,4 +749,4 @@ $(':checkbox').each(function() {
   $(this).prop('checked', false);
 });
 
-createLocationsDict(); 
+createLocationsDict();
