@@ -46,6 +46,18 @@ tei-add[place='above']::before {
     display: none;
 }
 
+.transcription tei-choice > tei-orig {
+    display: none;
+}
+
+.diplomatic tei-choice > tei-reg {
+    display: none;
+}
+
+tei-orig:not(tei-choice > tei-orig) {
+    text-transform: uppercase;
+}
+
 tei-damage {
 
 }
