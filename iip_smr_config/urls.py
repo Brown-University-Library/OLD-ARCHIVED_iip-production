@@ -17,7 +17,10 @@ urlpatterns = [
     url( r'^api/$', views.api_wrapper, name=u"api_wrapper"),
     url( r'^viewinscr/(?P<inscrid>.*)/$', views.viewinscr, name='inscription_url'),
     url( r'^view_xml/(?P<inscription_id>.*)/$', views.view_xml, name=u'xml_url' ),
+
     url( r'^info/(?P<info_id>.*)/$', views.info, name=u'info_url' ),
+    url( r'^about/(?P<info_id>.*)/$', views.info, name=u'info_url' ),
+
     url( r'^edit_info/$', views.edit_info, name=u'edit_info_url' ),
     url( r'^results/$',  views.results, name=u'results_url' ),
 
