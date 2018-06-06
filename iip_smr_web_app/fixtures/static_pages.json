@@ -1,0 +1,1 @@
+[{"model": "iip_smr_web_app.staticpage", "pk": 2, "fields": {"slug": "why_inscription", "title_header": "why_inscription", "title": "Why Inscriptions", "content": "foo"}}, {"model": "iip_smr_web_app.staticpage", "pk": 3, "fields": {"slug": "transcription-symbols", "title_header": "transcription-symbols", "title": "Conventional Transcription Symbols", "content": "foo symbols"}}]

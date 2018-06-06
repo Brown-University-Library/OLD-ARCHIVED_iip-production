@@ -4,12 +4,31 @@ import json, logging, pprint
 # import requests, solr
 import requests
 from iip_smr_web_app import common, models, settings_app
-from django.test import TestCase
+from django.test import Client, TestCase
 # from models import Processor, ProcessorUtils
 # from models import ProcessorUtils
 
 
 log = logging.getLogger(__name__)
+
+
+class ResourcesPageTest(TestCase):
+    """ Tests responses for resource pages. """
+    fixtures = ['static_pages.json']
+
+    # def setUp(self):
+    #     self.client = Client()
+
+    def test_static_urls(self):
+        """ Checks '/about' and '/resources urls'. """
+        response = self.client.get( '/about/why_inscription/' )  # project root part of url is assumed
+        log.debug( 'response, `%s`' % response )
+        self.assertEqual( 200, response.status_code )
+        response = self.client.get( '/resources/transcription-symbols/' )
+        log.debug( 'response, `%s`' % response )
+        self.assertEqual( 200, response.status_code )
+
+    ## end class ResourcesPageTest()
 
 
 class CommonTest( TestCase ):
