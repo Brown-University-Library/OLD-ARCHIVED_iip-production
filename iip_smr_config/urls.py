@@ -21,6 +21,8 @@ urlpatterns = [
     url( r'^info/(?P<info_id>.*)/$', views.info, name=u'info_url' ),
     url( r'^about/(?P<info_id>.*)/$', views.info, name=u'info_url' ),
 
+    url( r'^resources/(?P<info_id>.*)/$', views.resources_general, name=u'resources_general_url' ),
+
     url( r'^edit_info/$', views.edit_info, name=u'edit_info_url' ),
     url( r'^results/$',  views.results, name=u'results_url' ),
 
@@ -42,7 +44,7 @@ urlpatterns = [
     url(r'^resources/timeline$', views.timeline, name=u'timeline_url' ),
     url(r'^resources/guide_to_searching$', views.guide_to_searching, name=u'guide_to_searching_url' ),
     url(r'^resources/glossary$', views.glossary, name=u'glossary_url' ),
-    url(r'^resources/conventional_transciption_symbols$', views.conventional_transciption_symbols, name=u'conventional_transciption_symbols_url'),
+    url(r'^resources/conventional_transcription_symbols$', views.conventional_transcription_symbols, name=u'conventional_transcription_symbols_url'),
     url(r'^stories/$', views.stories, name=u'stories_url' ),
     url( r'^stories/(?P<story_id>.*)/$', views.individual_story, name=u'test_url' ),
 

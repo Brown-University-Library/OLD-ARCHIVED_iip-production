@@ -16,15 +16,12 @@ class ResourcesPageTest(TestCase):
     """ Tests responses for resource pages. """
     fixtures = ['static_pages.json']
 
-    # def setUp(self):
-    #     self.client = Client()
-
     def test_static_urls(self):
         """ Checks '/about' and '/resources urls'. """
         response = self.client.get( '/about/why_inscription/' )  # project root part of url is assumed
         log.debug( 'response, `%s`' % response )
         self.assertEqual( 200, response.status_code )
-        response = self.client.get( '/resources/transcription-symbols/' )
+        response = self.client.get( '/resources/conventional_transciption_symbols' )
         log.debug( 'response, `%s`' % response )
         self.assertEqual( 200, response.status_code )
 

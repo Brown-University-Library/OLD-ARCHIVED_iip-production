@@ -51,16 +51,16 @@ hr.style-one {
 
 <table id="search_results">
 <br>
-<div class="col-md-11" style="border:solid #333333 5px; font-size: 15px;">The texts of the inscriptions are displayed using a modified form of what is known as the Leiden convention.  We have modified it in line with display limitations.  Note that the actual underlying text in the XML files are tagged according to the TEI/Epidoc conventions which are then translated into the typography displayed here. <br><br>Please refer to the <a href="{% url 'conventional_transciption_symbols_url' %}">Conventional Transcription Symbols</a> to view popular symbols and tags used.
+<div class="col-md-11" style="border:solid #333333 5px; font-size: 15px;">The texts of the inscriptions are displayed using a modified form of what is known as the Leiden convention.  We have modified it in line with display limitations.  Note that the actual underlying text in the XML files are tagged according to the TEI/Epidoc conventions which are then translated into the typography displayed here. <br><br>Please refer to the <a href="{% url 'conventional_transcription_symbols_url' %}">Conventional Transcription Symbols</a> to view popular symbols and tags used.
 </div>
 
 <script type="text/javascript">
-    
+
     var inscription_list = [];
 </script>
 
 {% for inscription in iipResult.object_list %}
-    
+
     <script type="text/javascript">
         inscription_list.push("{{inscription.inscription_id}}");
     </script>
@@ -76,17 +76,17 @@ hr.style-one {
     </tr>
 
 
-    
+
         <div class="row">
             <td class="col-md-2" style="padding-left: 0px;">
                 <br>
                 <img src="https://github.com/Brown-University-Library/iip-images/raw/master/{{inscription.inscription_id}}.jpg" style= "width: 150px; height: 120px;">
                 <br><a href="../viewinscr/{{inscription.inscription_id}}" target="_blank">View this inscription</a>
-            
+
                 <br><a class="xml_url" href="{% url 'xml_url' inscription.inscription_id %}">[View in XML]</a>
             </td>
-                
-            
+
+
             <td class="textColumn transcription col-md-3">
                 <span class="short_header"><span style="font-weight: bold;">Transcription:</span> <br>
                 {% if inscription.transcription %}
@@ -106,8 +106,8 @@ hr.style-one {
                 {% endif %}</span>
             </td>
             <td class="col-md-3">
-                <span style="font-weight: bold;">Languages:</span> 
-                
+                <span style="font-weight: bold;">Languages:</span>
+
                 {% if inscription.language_display|length > 0 and inscription.language|length > 0 %}
                 {% endif %}
                 {%if inscription.language_display%}
@@ -126,21 +126,21 @@ hr.style-one {
                 Not available
                 {%endif%}<br>
 
-                <span style="font-weight: bold;">Date:</span> 
+                <span style="font-weight: bold;">Date:</span>
                 {%if inscription.notBefore%}
                     {{inscription.notBefore|cleanDates}} to {{inscription.notAfter|cleanDates}}
                 {% else %}
                 Not Available
                 {%endif%} <br>
 
-                <span style="font-weight: bold;">Dimension:</span>  
+                <span style="font-weight: bold;">Dimension:</span>
                 {% if inscription.dimensions %}
                 {{inscription.dimensions}}
                 {% else %}
                 Not Available
                 {% endif %}<br>
             </td>
-        
+
 
             <td class="col-md-2">
                 <div id="maplet{{inscription.inscription_id}}" style="width:100px; height:100px;"></div>

@@ -119,7 +119,7 @@ def results( request ):
         return context
 
     # print("Request")
-    # print(request)  
+    # print(request)
     log_id = common.get_log_identifier( request.session )
     log.info( 'id, `%s`; starting' % log_id )
     if not u'authz_info' in request.session:
@@ -157,7 +157,7 @@ def results( request ):
 
 
 
-        
+
     elif request.is_ajax():  # user has requested another page, a facet, etc.
         log.debug( 'request.is_axax() is True' )
         return HttpResponse( _get_ajax_unistring(request) )
@@ -405,13 +405,24 @@ def view_xml( request, inscription_id ):
 ## static pages ##
 
 def info( request, info_id ):
-    """ Displays requested static page. """
+    """ Displays requested 'about' static page. """
     info_page = get_object_or_404( StaticPage, slug=info_id )
     context_dct = {
         'html_content': info_page.content,
         'title_header': info_page.title_header,
         'title': info_page.title
         }
+    return render( request, u'iip_search_templates/static.html', context_dct )
+
+def resources_general( request, info_id ):
+    """ Displays requested 'resources' static page. """
+    info_page = get_object_or_404( StaticPage, slug=info_id )
+    context_dct = {
+        'html_content': info_page.content,
+        'title_header': info_page.title_header,
+        'title': info_page.title
+        }
+    log.debug( 'context_dct, ```%s```' % pprint.pformat(context_dct) )
     return render( request, u'iip_search_templates/static.html', context_dct )
 
 def edit_info( request ):
@@ -480,8 +491,8 @@ def guide_to_searching(request):
 def glossary(request):
     return render(request, 'resources/glossary.html')
 
-def conventional_transciption_symbols(request):
-    return render(request, 'resources/conventional_transciption_symbols.html')
+def conventional_transcription_symbols(request):
+    return render(request, 'resources/conventional_transcription_symbols.html')
 
 
 def load_layers(request):
@@ -490,31 +501,31 @@ def load_layers(request):
     print(BASE_DIR)
 
     json_data = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "mapsearch/geoJSON/roman_provinces.geojson")
-    data = open(json_data, 'r') 
+    data = open(json_data, 'r')
     roman_provinces = json.load(data)
     roman_provinces = json.dumps(roman_provinces)
     data.close()
 
     json_data = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "mapsearch/geoJSON/roman_roads.geojson")
-    data = open(json_data, 'r') 
+    data = open(json_data, 'r')
     roman_roads = json.load(data)
     roman_roads = json.dumps(roman_roads)
     data.close()
 
     json_data = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "mapsearch/geoJSON/byzantine_provinces_400CE.geojson")
-    data = open(json_data, 'r') 
+    data = open(json_data, 'r')
     byzantine = json.load(data)
     byzantine = json.dumps(byzantine)
     data.close()
 
     json_data = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "mapsearch/geoJSON/IIP_regions.geojson")
-    data = open(json_data, 'r') 
+    data = open(json_data, 'r')
     iip = json.load(data)
     iip = json.dumps(iip)
     data.close()
 
     json_data = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "mapsearch/geoJSON/king_herod_boundaries_37BCE.geojson")
-    data = open(json_data, 'r') 
+    data = open(json_data, 'r')
     king_herod = json.load(data)
     king_herod = json.dumps(king_herod)
     data.close()
@@ -539,7 +550,7 @@ def stories(request, index_page=False):
     thumbnail_image_url = []
     content = []
     relevant_inscription_id = []
-    
+
     # image = []
 
     for el in story_page:
@@ -569,7 +580,7 @@ def stories(request, index_page=False):
         'content': content,
         'relevant_inscription_id': relevant_inscription_id,
         'num_stories': range(len(story_page)),
-        
+
         # 'image': image
     }
 
@@ -594,7 +605,7 @@ def individual_story(request, story_id):
     num_relevantInscriptions = 0
     image_url = []
 
-    
+
     for item in story_page.relevant_inscription_id.split(','):
         num_relevantInscriptions += 1
         url = 'https://library.brown.edu/search/solr_pub/iip/?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A%22' + item.lower() + '%22'
