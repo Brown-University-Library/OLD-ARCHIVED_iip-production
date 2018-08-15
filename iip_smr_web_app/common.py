@@ -14,10 +14,17 @@ NUM_ROWS = 40
 
 def facetResults( facet ):
     """ Returns dict of { facet_value_a: count_of_facet_value_a_entries }. """
+    log.debug( 'facet, `%s`' % facet )
     try:
+        # s = solr.SolrConnection( settings_app.SOLR_URL )
+        # q = s.select( u'*:*', **{u'facet':u'true',u'facet.field':facet,u'rows':u'0',u'facet.limit':u'-1', u'facet.mincount':u'1'} )
+        # log.debug( 'q, ```%s```' % q )
+        # facet_count_dict =q.facet_counts[u'facet_fields'][facet]
+        # return facet_count_dict
         s = solr.SolrConnection( settings_app.SOLR_URL )
-        # s = solr.Solr( settings_app.SOLR_URL )
-        q = s.select( u'*:*', **{u'facet':u'true',u'facet.field':facet,u'rows':u'0',u'facet.limit':u'-1', u'facet.mincount':u'1'} )
+        params = {u'facet':u'true',u'facet.field':facet,u'rows':u'0',u'facet.limit':u'-1', u'facet.mincount':u'1'}
+        q = s.select( u'*:*', **params )
+        log.debug( 'q.__dict__, ```%s```' % pprint.pformat(q.__dict__) )
         facet_count_dict =q.facet_counts[u'facet_fields'][facet]
         return facet_count_dict
     except Exception as e:

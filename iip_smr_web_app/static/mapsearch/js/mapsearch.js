@@ -1,7 +1,8 @@
 // GLOBAL VARS
 
 // base url for getting all inscriptions
-var BASE_URL = 'https://library.brown.edu/cds/projects/iip/api/?start=0&rows=3278&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language,language_display,religion,material&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
+// var BASE_URL = 'https://library.brown.edu/cds/projects/iip/api/?start=0&rows=3278&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language,language_display,religion,material&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
+var BASE_URL = 'https://library.brown.edu/cds/projects/iip/api/?start=0&rows=6000&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language,language_display,religion,material&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
 // url for applying filters to base url
 var FILTERS_URL = BASE_URL.concat("&fq=");
 //url for getting all pleiades urls from database
@@ -235,7 +236,9 @@ function createPointsLayer(url) {
 // increment numerical value corresponding to number of inscriptions with a
 // particular facet field
 function addFacetNums(inscription, facet_nums) {
+  console.log( 'facet_nums was, ' + facet_nums );
   $.each(inscription, function(key, value) {
+    // console.log( 'inscription, ' + inscription )
     if ((key === 'language' || key === 'religion'|| key === 'type'
       || key === 'physical_type' || key === 'placeMenu' || key === 'material') && value) {
       for (var i = 0; i < value.length; i++) {
@@ -247,7 +250,7 @@ function addFacetNums(inscription, facet_nums) {
       }
     }
   });
-
+  console.log( 'facet_nums now, ' + facet_nums );
   return true;
 }
 
@@ -256,7 +259,9 @@ function updateSelectMenus() {
   $('.checkbox-default').each(function(index, checkbox){
     var input = $(checkbox).children('input');
     var value = input.val();
+    // console.log( 'value, ' + value );
     var name = input.attr('name');
+    // console.log( 'name, ' + name );
     if ($('input[name=' + name + '_]:checked').val() === 'and') {
       if (facet_nums.hasOwnProperty(value)) {
         $(this).find('span').text('('+facet_nums[value]+')');
