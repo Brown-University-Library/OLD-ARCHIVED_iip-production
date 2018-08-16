@@ -236,7 +236,8 @@ function createPointsLayer(url) {
 // increment numerical value corresponding to number of inscriptions with a
 // particular facet field
 function addFacetNums(inscription, facet_nums) {
-  console.log( 'facet_nums was, ' + facet_nums );
+  /* called by filterByDateRange() */
+  // console.log( 'facet_nums was, ' + JSON.stringify(facet_nums) )
   $.each(inscription, function(key, value) {
     // console.log( 'inscription, ' + inscription )
     if ((key === 'language' || key === 'religion'|| key === 'type'
@@ -250,7 +251,7 @@ function addFacetNums(inscription, facet_nums) {
       }
     }
   });
-  console.log( 'facet_nums now, ' + facet_nums );
+  // console.log( 'facet_nums now, ' + JSON.stringify(facet_nums) )
   return true;
 }
 
@@ -354,6 +355,8 @@ function filterByDateRange() {
   var low = $('#slider-range').slider("option", "values")[0];
   var high = $('#slider-range').slider("option", "values")[1]
   facet_nums = {};
+  console.log( 'facet_nums just initialized' );
+  console.log( 'facet_nums, ' + JSON.stringify(facet_nums) );
   var promises = [];
   points_layer.eachLayer(function(point) {
     var num_in_range = 0;
@@ -368,7 +371,7 @@ function filterByDateRange() {
       if ((inscr['notBefore'] >= low && inscr['notBefore'] < high)
         || (inscr['notAfter'] <= high && inscr['notAfter'] > low)) {
         num_in_range += 1;
-        promises.push(addFacetNums(inscr, facet_nums));
+        // promises.push(addFacetNums(inscr, facet_nums));
       }
     }
     if (num_in_range === 0) {
@@ -386,6 +389,8 @@ function filterByDateRange() {
       return showInscriptions(point['options']['inscriptions']);
     });
   });
+  console.log( 'at this point, facet_nums has been updatd, and the counts are wrong' );
+  console.log( 'facet_nums, ' + JSON.stringify(facet_nums) );
 
   Promise.all(promises)
     .then((results) => {
@@ -747,7 +752,7 @@ $('.checkbox-default').each(function(index, checkbox) {
 });
 
 $('.filter-container label').each(function(index) {
-  $(this).append('<span class="facet-count"></span>');
+  // $(this).append('<span class="facet-count"></span>');
 });
 
 $(':checkbox').each(function() {
