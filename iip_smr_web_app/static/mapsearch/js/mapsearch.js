@@ -237,9 +237,11 @@ function createPointsLayer(url) {
 // particular facet field
 function addFacetNums(inscription, facet_nums) {
   /* called by filterByDateRange() */
-  // console.log( 'facet_nums was, ' + JSON.stringify(facet_nums) )
+  // console.log( 'facet_nums started, ' + JSON.stringify(facet_nums) )
   $.each(inscription, function(key, value) {
     // console.log( 'inscription, ' + inscription )
+    // console.log( "key, " + key );
+    // console.log( "value, " + value )
     if ((key === 'language' || key === 'religion'|| key === 'type'
       || key === 'physical_type' || key === 'placeMenu' || key === 'material') && value) {
       for (var i = 0; i < value.length; i++) {
@@ -254,6 +256,29 @@ function addFacetNums(inscription, facet_nums) {
   // console.log( 'facet_nums now, ' + JSON.stringify(facet_nums) )
   return true;
 }
+
+
+// // increment numerical value corresponding to number of inscriptions with a
+// // particular facet field
+// function addFacetNums(inscription, facet_nums) {
+//   /* called by filterByDateRange() */
+//   // console.log( 'facet_nums was, ' + JSON.stringify(facet_nums) )
+//   $.each(inscription, function(key, value) {
+//     // console.log( 'inscription, ' + inscription )
+//     if ((key === 'language' || key === 'religion'|| key === 'type'
+//       || key === 'physical_type' || key === 'placeMenu' || key === 'material') && value) {
+//       for (var i = 0; i < value.length; i++) {
+//         if (facet_nums[value[i]] === undefined) {
+//           facet_nums[value[i]] = 1;
+//         } else {
+//           facet_nums[value[i]] += 1;
+//         }
+//       }
+//     }
+//   });
+//   // console.log( 'facet_nums now, ' + JSON.stringify(facet_nums) )
+//   return true;
+// }
 
 // update the numbers that show up to each facet in the filter menus
 function updateSelectMenus() {
@@ -371,7 +396,7 @@ function filterByDateRange() {
       if ((inscr['notBefore'] >= low && inscr['notBefore'] < high)
         || (inscr['notAfter'] <= high && inscr['notAfter'] > low)) {
         num_in_range += 1;
-        // promises.push(addFacetNums(inscr, facet_nums));
+        promises.push(addFacetNums(inscr, facet_nums));
       }
     }
     if (num_in_range === 0) {
@@ -752,7 +777,7 @@ $('.checkbox-default').each(function(index, checkbox) {
 });
 
 $('.filter-container label').each(function(index) {
-  // $(this).append('<span class="facet-count"></span>');
+  $(this).append('<span class="facet-count"></span>');
 });
 
 $(':checkbox').each(function() {
