@@ -237,6 +237,9 @@ function createPointsLayer(url) {
 // particular facet field
 function addFacetNums(inscription, facet_nums) {
   /* called by filterByDateRange() */
+  if( inscription["placeMenu"][0].indexOf("Caesarea") > -1 ) {
+    console.log( "addFacetNums() inscription, " + JSON.stringify(inscription) );
+  }
   // console.log( 'facet_nums started, ' + JSON.stringify(facet_nums) )
   $.each(inscription, function(key, value) {
     // console.log( 'inscription, ' + inscription )
@@ -431,20 +434,26 @@ function filterByDateRange() {
 
     if( point["options"]["place"].indexOf("Caesarea") > -1 ) {
         console.log( "found!" );
-    }
-
-    if( Math.floor(Math.random() * 10) > 8 ) {
-        console.log( 'gogogo' );
-        console.log( 'point, ' + JSON.stringify(point) );
+        console.log( "point, " + JSON.stringify(point) );
         console.log( "point data..." );
         console.log( point["options"]["place"] );
         console.log( point["options"]["region"] );
         console.log( point["options"]["num_inscriptions"] );
-
-    } else {
-        console.log( 'stop' );
-        1/0;
+        console.log( "facet_nums before point processing, " + JSON.stringify(facet_nums) );
     }
+
+    // if( Math.floor(Math.random() * 10) > 8 ) {
+    //     console.log( 'gogogo' );
+    //     console.log( 'point, ' + JSON.stringify(point) );
+    //     console.log( "point data..." );
+    //     console.log( point["options"]["place"] );
+    //     console.log( point["options"]["region"] );
+    //     console.log( point["options"]["num_inscriptions"] );
+
+    // } else {
+    //     console.log( 'stop' );
+    //     1/0;
+    // }
 
     var num_in_range = 0;
     for (var j in point['options']['inscriptions']) {
@@ -455,6 +464,12 @@ function filterByDateRange() {
       if (inscr['notAfter'] == null) {
         inscr['notAfter'] = $("#slider-range").slider("option", "max")
       }
+
+      if( point["options"]["place"].indexOf("Caesarea") > -1 ) {
+        // console.log( "inscr, " + JSON.stringify(inscr) );
+        console.log( "num_in_range, " + num_in_range );
+      }
+
       if ((inscr['notBefore'] >= low && inscr['notBefore'] < high)
         || (inscr['notAfter'] <= high && inscr['notAfter'] > low)) {
         num_in_range += 1;
