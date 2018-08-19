@@ -165,7 +165,7 @@ function createPointsLayer(url) {
           p.options.inscriptions = inscriptions;
           points_layer.addLayer(p);
         } else {
-          console.log("This key has no value in locations_dict: " + this.groupValue);
+          // console.log("This key has no value in locations_dict: " + this.groupValue);
         }
       } else {
         docs_no_pleiades = this['doclist']['docs'];
@@ -374,6 +374,50 @@ function updateDateFieldValue(slider_value, checkbox_id) {
   }
 }
 
+// // filters the points on the map by the date range of the sliders
+// // also updates the popup on the point to reflect correct number of inscriptions
+// function filterByDateRange() {
+//   var low = $('#slider-range').slider("option", "values")[0];
+//   var high = $('#slider-range').slider("option", "values")[1]
+//   facet_nums = {};
+//   console.log( 'facet_nums just initialized' );
+//   console.log( 'facet_nums, ' + JSON.stringify(facet_nums) );
+//   var promises = [];
+//   points_layer.eachLayer(function(point) {
+
+//     var num_in_range = 0;
+//     for (var j in point['options']['inscriptions']) {
+//       var inscr =  point['options']['inscriptions'][j];
+//       if(inscr['notBefore'] == null) {
+//         inscr['notBefore'] = $("#slider-range").slider("option", "min")
+//       }
+//       if (inscr['notAfter'] == null) {
+//         inscr['notAfter'] = $("#slider-range").slider("option", "max")
+//       }
+//       if ((inscr['notBefore'] >= low && inscr['notBefore'] < high)
+//         || (inscr['notAfter'] <= high && inscr['notAfter'] > low)) {
+//         num_in_range += 1;
+//         promises.push(addFacetNums(inscr, facet_nums));
+//       }
+//     }
+//     if (num_in_range === 0) {
+//       point.setRadius(0);
+//     } else {
+//       point.setRadius(Math.sqrt(num_in_range) + 5);
+//     }
+
+//     point['options']['num_inscriptions'] = num_in_range;
+//     point.bindPopup("<strong>Place: </strong>"
+//         + point['options']['place'] + "<br><strong>Region: </strong>"
+//         + point['options']['region'] + "<br><strong>Inscriptions: </strong>"
+//         + num_in_range);
+//     point.on('click', function() {
+//       return showInscriptions(point['options']['inscriptions']);
+//     });
+//   });
+//   console.log( 'at this point, facet_nums has been updatd, and the counts are wrong' );
+//   console.log( 'facet_nums, ' + JSON.stringify(facet_nums) );
+
 // filters the points on the map by the date range of the sliders
 // also updates the popup on the point to reflect correct number of inscriptions
 function filterByDateRange() {
@@ -384,6 +428,24 @@ function filterByDateRange() {
   console.log( 'facet_nums, ' + JSON.stringify(facet_nums) );
   var promises = [];
   points_layer.eachLayer(function(point) {
+
+    if( point["options"]["place"].indexOf("Caesarea") > -1 ) {
+        console.log( "found!" );
+    }
+
+    if( Math.floor(Math.random() * 10) > 8 ) {
+        console.log( 'gogogo' );
+        console.log( 'point, ' + JSON.stringify(point) );
+        console.log( "point data..." );
+        console.log( point["options"]["place"] );
+        console.log( point["options"]["region"] );
+        console.log( point["options"]["num_inscriptions"] );
+
+    } else {
+        console.log( 'stop' );
+        1/0;
+    }
+
     var num_in_range = 0;
     for (var j in point['options']['inscriptions']) {
       var inscr =  point['options']['inscriptions'][j];
