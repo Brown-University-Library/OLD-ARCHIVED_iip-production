@@ -251,24 +251,26 @@ function addFacetNums(inscription, facet_nums) {
     if ((key === 'language' || key === 'religion'|| key === 'type'
       || key === 'physical_type' || key === 'placeMenu' || key === 'material') && value) {
       for (var i = 0; i < value.length; i++) {
+
         if( inscription["placeMenu"][0].indexOf("Caesarea") > -1 ) {
           if(key == "placeMenu") {
-            console.log( "i, " + i );
-            console.log( "value.length, " + value.length );
-            console.log( "facet_nums[value[i]], " + facet_nums[value[i]] );
+            console.log( "addFacetNums() value.length, " + value.length );
+            console.log( "addFacetNums() i, " + i );
+            console.log( "addFacetNums() [value[i], " + value[i] );
+            // console.log( "addFacetNums() facet_nums[value[i]], " + facet_nums[value[i]] );
+            console.log( "addFacetNums() facet_nums[" + value[i] + "], " + facet_nums[value[i]] );
           }
         }
+
         if (facet_nums[value[i]] === undefined) {
           facet_nums[value[i]] = 1;
         } else {
           facet_nums[value[i]] += 1;
         }
 
-        // if( inscription["placeMenu"][0].indexOf("Caesarea") > -1 ) {
-        //   if(key == "placeMenu") {
-        //     console.log( "value, " + value );
-        //   }
-        // }
+        if( inscription["placeMenu"][0].indexOf("Caesarea") > -1 ) {
+          // console.log( "value[\"Caesarea\"], " + value["(Caesarea"] );
+        }
 
       }
     }

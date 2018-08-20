@@ -97,6 +97,7 @@ def paginateRequest( qstring, resultsPage, log_id):
     fq = _run_paginator_facet_query( s, qstring, log_id )               # gets facet-query object
     ( p, pg ) = _run_paginator_page_query( q, resultsPage, log_id )     # gets paginator object and paginator-page object
     f = _run_paginator_facet_counts( fq )                               # gets facet-counts dict
+    # log.debug( 'f, ```%s```' % f )
     try:
         dispQstring = queryCleanup( qstring )
         return {'pages': p, 'iipResult': pg, 'qstring':qstring, 'resultsPage': resultsPage, 'facets':f, 'dispQstring': dispQstring}
