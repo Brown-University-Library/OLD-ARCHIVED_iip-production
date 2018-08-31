@@ -16,7 +16,13 @@
 {% endblock %}
 
 {%block viewinscr%}
-
+<script type="text/javascript">
+function ImgError(source){
+    source.src = "../../static/resources/img/noimg.png";
+    source.onerror = "";
+    return true;
+}
+</script>
 <div class="container story-wrapper">
 
 <div id="single_inscription">
@@ -60,7 +66,7 @@
           {% endfor %}
         {% else %}
 
-        <img src='{{image_url}}' style= "width: 60%; height: 150px;">
+        <img src='{{image_url}}' onerror="ImgError(this)" style= "width: 60%; height: 150px;">
         {% endif %}
         <br><br>
 
@@ -85,7 +91,7 @@
         {% if i.image %}
           <p class="thumbnail">
           {% for thumb in i.image %}
-            <a href="/django_z_media/iip_z_media/inscription_images/display_size/{{thumb}}.jpg"><img src="/django_z_media/iip_z_media/inscription_images/thumbnails/{{thumb}}_t.jpg"/></a><br />
+            <a href="/django_z_media/iip_z_media/inscription_images/display_size/{{thumb}}.jpg"><img onerror="ImgError(this)" src="/django_z_media/iip_z_media/inscription_images/thumbnails/{{thumb}}_t.jpg"/></a><br />
           {% endfor %}
           </p>
         {% endif %}
@@ -298,6 +304,7 @@ ga('create', 'UA-3203647-22', 'auto');
 ga('send', 'pageview');
 
 </script>
+
 <script type="text/javascript" src='{% static "iip_search_app/js/result_display.js" %}'></script>
 
 
