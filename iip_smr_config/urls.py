@@ -23,9 +23,9 @@ urlpatterns = [
 
     url( r'^about/(?P<info_id>.*)/$', views.info, name='info_url' ),
 
-    url( r'^resources/labs/$', views.proxy, name='proxy_url' ),
-    url( r'^presources/labs/doubletree-data.txt/$', views.proxy_doubletree, name='proxy_doubletree_url' ),
-    url( r'^resources/labs/(?P<slug>.*)/$', views.proxy, name='proxy_param_url' ),
+    url( r'^resources/wordcount_labs/$', views.proxy, name='proxy_url' ),
+    url( r'^presources/wordcount_labs/doubletree-data.txt/$', views.proxy_doubletree, name='proxy_doubletree_url' ),
+    url( r'^resources/wordcount_labs/(?P<slug>.*)/$', views.proxy, name='proxy_param_url' ),
 
     url( r'^resources/(?P<info_id>.*)/$', views.resources_general, name='resources_general_url' ),
 

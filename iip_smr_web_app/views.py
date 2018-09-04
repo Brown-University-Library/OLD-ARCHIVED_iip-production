@@ -44,16 +44,40 @@ def proxy( request, slug=None ):
     log.debug( 'r.url, ```%s```' % r.url )
     raw = r.content.decode( 'utf-8' )
     log.debug( 'raw, ```%s```' % raw )
+    # rewritten = raw.replace(
+    #     'href="../', 'href="%s' % proxy_url ).replace(
+    #     '<script src="doubletreejs/', '<script src="%s' % js_rewrite_url ).replace(
+    #     'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%sdoubletree-data.txt"' % proxy_url
+    #     )
     rewritten = raw.replace(
-        'href="../', 'href="%s' % proxy_url ).replace(
-        '<script src="doubletreejs/', '<script src="%s' % js_rewrite_url ).replace(
-        'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%sdoubletree-data.txt"' % proxy_url
-        )
+        'href="../', 'href="%s' % proxy_url )
+    rewritten = rewritten.replace(
+        '<script src="doubletreejs/', '<script src="%s' % js_rewrite_url )
+    rewritten = rewritten.replace(
+        'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%sdoubletree-data.txt"' % proxy_url )
+
+    rewritten = rewritten.replace(
+        'src="../index_search.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/index_search.js/"' )
+    rewritten = rewritten.replace(
+        'src="../levenshtein.min.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/levenshtein.min.js/"' )
+    rewritten = rewritten.replace(
+        '<!DOCTYPE HTML>', '' )
+    rewritten = rewritten.replace(
+        '<html>', '', 2 )
+
     log.debug( 'rewritten, ```%s```' % rewritten )
     if request.META['PATH_INFO'][-5:] == '.xml/':
         resp = HttpResponse( rewritten, content_type='application/xml; charset=utf-8' )
+    elif request.META['PATH_INFO'][-5:] == '.css/':
+        resp = HttpResponse( rewritten, content_type='text/css; charset=utf-8' )
+    elif request.META['PATH_INFO'][-4:] == '.js/':
+        resp = HttpResponse( rewritten, content_type='application/javascript; charset=utf-8' )
     else:
-        resp = HttpResponse( rewritten )
+        # resp = HttpResponse( rewritten )
+        context = {
+            'title': 'Wordcount Labs -- under active development',
+            'html_content': rewritten }
+        resp = render( request, 'resources/proxy.html', context )
     return resp
 
 def proxy_doubletree( request ):
