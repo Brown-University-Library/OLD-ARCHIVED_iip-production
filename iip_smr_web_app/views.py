@@ -15,6 +15,7 @@ from iip_smr_web_app import common, models, settings_app
 from iip_smr_web_app import forms
 from iip_smr_web_app import old_forms
 from iip_smr_web_app.libs import ajax_snippet
+from iip_smr_web_app.libs.proxy_helper import rewrite
 from iip_smr_web_app.libs.version_helper import Versioner
 from iip_smr_web_app.libs.view_xml_helper import XmlPrepper
 
@@ -44,28 +45,25 @@ def proxy( request, slug=None ):
     log.debug( 'r.url, ```%s```' % r.url )
     raw = r.content.decode( 'utf-8' )
     log.debug( 'raw, ```%s```' % raw )
+
+    rewritten = rewrite( raw, proxy_url, js_rewrite_url )
+
     # rewritten = raw.replace(
-    #     'href="../', 'href="%s' % proxy_url ).replace(
-    #     '<script src="doubletreejs/', '<script src="%s' % js_rewrite_url ).replace(
-    #     'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%sdoubletree-data.txt"' % proxy_url
-    #     )
-    rewritten = raw.replace(
-        'href="../', 'href="%s' % proxy_url )
-    rewritten = rewritten.replace(
-        '<script src="doubletreejs/', '<script src="%s' % js_rewrite_url )
-    rewritten = rewritten.replace(
-        'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%sdoubletree-data.txt"' % proxy_url )
+    #     'href="../', 'href="%s' % proxy_url )
+    # rewritten = rewritten.replace(
+    #     '<script src="doubletreejs/', '<script src="%s' % js_rewrite_url )
+    # rewritten = rewritten.replace(
+    #     'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%sdoubletree-data.txt"' % proxy_url )
+    # rewritten = rewritten.replace(
+    #     'src="../index_search.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/index_search.js/"' )
+    # rewritten = rewritten.replace(
+    #     'src="../levenshtein.min.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/levenshtein.min.js/"' )
+    # rewritten = rewritten.replace(
+    #     '<!DOCTYPE HTML>', '' )
+    # rewritten = rewritten.replace(
+    #     '<html>', '', 2 )
 
-    rewritten = rewritten.replace(
-        'src="../index_search.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/index_search.js/"' )
-    rewritten = rewritten.replace(
-        'src="../levenshtein.min.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/levenshtein.min.js/"' )
-    rewritten = rewritten.replace(
-        '<!DOCTYPE HTML>', '' )
-    rewritten = rewritten.replace(
-        '<html>', '', 2 )
-
-    log.debug( 'rewritten, ```%s```' % rewritten )
+    # log.debug( 'rewritten, ```%s```' % rewritten )
     if request.META['PATH_INFO'][-5:] == '.xml/':
         resp = HttpResponse( rewritten, content_type='application/xml; charset=utf-8' )
     elif request.META['PATH_INFO'][-5:] == '.css/':
