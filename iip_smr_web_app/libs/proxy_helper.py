@@ -17,13 +17,28 @@ def rewrite( source, proxy_url, js_rewrite_url ):
         '<script src="doubletreejs/', '<script src="%s' % js_rewrite_url )
     rewritten = rewritten.replace(
         'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%sdoubletree-data.txt"' % proxy_url )
-    rewritten = rewritten.replace(
-        'src="../index_search.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/index_search.js/"' )
-    rewritten = rewritten.replace(
-        'src="../levenshtein.min.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/levenshtein.min.js/"' )
 
     rewritten = rewritten.replace(
-        'src="../wordInfo.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/wordInfo.js/"' )
+        'src="../index_search.js"', 'src="%sindex_search.js/"' % proxy_url )
+
+    # rewritten = rewritten.replace(
+    #     'src="../index_search.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/index_search.js/"' )
+
+
+    rewritten = rewritten.replace(
+        'src="../levenshtein.min.js"', 'src="%slevenshtein.min.js/"' % proxy_url )
+
+    # rewritten = rewritten.replace(
+    #     'src="../levenshtein.min.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/levenshtein.min.js/"' )
+
+
+
+    rewritten = rewritten.replace(
+        'src="../wordInfo.js"', 'src="%swordInfo.js/"' % proxy_url )
+
+    # rewritten = rewritten.replace(
+    #     'src="../wordInfo.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/wordInfo.js/"' )
+
 
     rewritten = rewritten.replace(
         '<!DOCTYPE HTML>', '' )

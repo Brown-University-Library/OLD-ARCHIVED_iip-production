@@ -34,7 +34,7 @@ def proxy( request, slug=None ):
     log.debug( 'gets, `%s`' % gets )
     fetch_url = settings_app.FETCH_DIR_URL  # includes trailing slash
     proxy_url = reverse( 'proxy_url' )  # includes trailing slash
-    # log.debug( 'proxy_url, `%s`' % proxy_url )
+    log.debug( 'proxy_url, `%s`' % proxy_url )
     js_rewrite_url = '%s%s' % ( fetch_url, 'doubletreejs/' )
     if slug:
         fetch_url = '%s%s' % ( fetch_url, urllib.parse.unquote_plus(slug) )
