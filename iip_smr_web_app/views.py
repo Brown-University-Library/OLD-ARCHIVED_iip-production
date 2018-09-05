@@ -73,7 +73,7 @@ def proxy( request, slug=None ):
     else:
         # resp = HttpResponse( rewritten )
         context = {
-            'title': 'Wordcount Labs -- under active development',
+            'title': 'Word Labs -- under active development',
             'html_content': rewritten }
         resp = render( request, 'resources/proxy.html', context )
     return resp
