@@ -21,9 +21,17 @@ def rewrite( source, proxy_url, js_rewrite_url ):
         'src="../index_search.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/index_search.js/"' )
     rewritten = rewritten.replace(
         'src="../levenshtein.min.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/levenshtein.min.js/"' )
+
+    rewritten = rewritten.replace(
+        'src="../wordInfo.js"', 'src="http://127.0.0.1:8000/resources/wordcount_labs/wordInfo.js/"' )
+
     rewritten = rewritten.replace(
         '<!DOCTYPE HTML>', '' )
     rewritten = rewritten.replace(
         '<html>', '', 2 )
     log.debug( 'rewritten, ```%s```' % rewritten )
     return rewritten
+
+
+
+# <script src="../wordInfo.js"> </script>
