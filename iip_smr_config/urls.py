@@ -18,7 +18,9 @@ urlpatterns = [
     url( r'^viewinscr/(?P<inscrid>.*)/$', views.viewinscr, name='inscription_url'),
     url( r'^view_xml/(?P<inscription_id>.*)/$', views.view_xml, name=u'xml_url' ),
 
-    url( r'^info/(?P<info_id>.*)/$', views.info, name=u'info_url' ),
+    # url( r'^info/(?P<info_id>.*)/$', views.info, name=u'info_url' ),
+    url( r'^info/$',  views.version, name='version_url' ),
+
     url( r'^about/(?P<info_id>.*)/$', views.info, name=u'info_url' ),
 
     url( r'^resources/(?P<info_id>.*)/$', views.resources_general, name=u'resources_general_url' ),

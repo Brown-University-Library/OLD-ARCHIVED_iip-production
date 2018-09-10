@@ -14,10 +14,17 @@ NUM_ROWS = 40
 
 def facetResults( facet ):
     """ Returns dict of { facet_value_a: count_of_facet_value_a_entries }. """
+    log.debug( 'facet, `%s`' % facet )
     try:
+        # s = solr.SolrConnection( settings_app.SOLR_URL )
+        # q = s.select( u'*:*', **{u'facet':u'true',u'facet.field':facet,u'rows':u'0',u'facet.limit':u'-1', u'facet.mincount':u'1'} )
+        # log.debug( 'q, ```%s```' % q )
+        # facet_count_dict =q.facet_counts[u'facet_fields'][facet]
+        # return facet_count_dict
         s = solr.SolrConnection( settings_app.SOLR_URL )
-        # s = solr.Solr( settings_app.SOLR_URL )
-        q = s.select( u'*:*', **{u'facet':u'true',u'facet.field':facet,u'rows':u'0',u'facet.limit':u'-1', u'facet.mincount':u'1'} )
+        params = {u'facet':u'true',u'facet.field':facet,u'rows':u'0',u'facet.limit':u'-1', u'facet.mincount':u'1'}
+        q = s.select( u'*:*', **params )
+        log.debug( 'q.__dict__, ```%s```' % pprint.pformat(q.__dict__) )
         facet_count_dict =q.facet_counts[u'facet_fields'][facet]
         return facet_count_dict
     except Exception as e:
@@ -90,6 +97,7 @@ def paginateRequest( qstring, resultsPage, log_id):
     fq = _run_paginator_facet_query( s, qstring, log_id )               # gets facet-query object
     ( p, pg ) = _run_paginator_page_query( q, resultsPage, log_id )     # gets paginator object and paginator-page object
     f = _run_paginator_facet_counts( fq )                               # gets facet-counts dict
+    # log.debug( 'f, ```%s```' % f )
     try:
         dispQstring = queryCleanup( qstring )
         return {'pages': p, 'iipResult': pg, 'qstring':qstring, 'resultsPage': resultsPage, 'facets':f, 'dispQstring': dispQstring}

@@ -46,6 +46,8 @@ class SearchForm( forms.Form ):
         #
         super(SearchForm, self).__init__(*args, **kwargs)
         log.debug( 'SearchForm() instantiated' )
+        log.debug( '*args, ```%s```' % args )
+        log.debug( '**kwargs, ```%s```' % kwargs )
         #
         # url = 'https://127.0.0.1/test/dev/django_choices.json'
         # r = requests.get( url )
@@ -61,8 +63,8 @@ class SearchForm( forms.Form ):
         self.taxonomies = self.vocab.findall('{http://www.tei-c.org/ns/1.0}taxonomy')
         #
         log.debug( 'type(self.taxonomies), `%s`' % type(self.taxonomies) )
-        log.debug( 'self.taxonomies, ```%s```' % pprint.pformat(self.taxonomies) )
         log.debug( 'self.taxonomies[0].attrib.values(), ```%s```' % self.taxonomies[0].attrib.values() )
+        log.debug( 'tax.attrib.values(), ```%s```' % [tax.attrib.values() for tax in self.taxonomies] )
         # self.type_tax = [tax for tax in self.taxonomies if tax.attrib.values()[0] == 'IIP-genre'][0]
         self.type_tax = [tax for tax in self.taxonomies if list( tax.attrib.values() )[0] == 'IIP-genre'][0]
         # self.types_dict = dict([(element.attrib.values()[0], element.find('{http://www.tei-c.org/ns/1.0}catDesc').text) for element in self.type_tax.findall('{http://www.tei-c.org/ns/1.0}category')])
@@ -142,7 +144,9 @@ class SearchForm( forms.Form ):
             'religion': self.cleaned_data['religion_'].upper(),
             'material': self.cleaned_data['material_'].upper()
         }
-        print(self.cleaned_data.items())
+        log.debug( 'concat_operators, ```%s```' % concat_operators )
+        # print(self.cleaned_data.items())
+        log.debug( 'self.cleaned_data.items(), ```%s```' % self.cleaned_data.items() )
         for f,v in self.cleaned_data.items(): # f = facet (place, type, etc.), v = value (["altar, amphora"])
             #The following is specific to the date-encoding in the IIP & US Epigraphy projects
             #If youre using this code for other projects, you probably want to omit them
