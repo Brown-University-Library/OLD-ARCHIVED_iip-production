@@ -1,25 +1,26 @@
 # -*- coding: utf-8 -*-
 
-import datetime, json, logging, os, pprint, re
-import solr, requests
+import csv, datetime, json, logging, os, pprint, re
+import urllib.request
+import requests, solr
 from .models import StaticPage, StoryPage
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
+from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, render_to_response
 from iip_smr_web_app import common, models, settings_app
 from iip_smr_web_app import forms
 from iip_smr_web_app import old_forms
-from iip_smr_web_app.libs.view_xml_helper import XmlPrepper
 from iip_smr_web_app.libs import ajax_snippet
-import csv
-import json
-import urllib.request
-from django.contrib.sites.models import Site
+from iip_smr_web_app.libs.version_helper import Versioner
+from iip_smr_web_app.libs.view_xml_helper import XmlPrepper
+
 
 log = logging.getLogger(__name__)
+versioner = Versioner()
 
 
 def temp( request ):
@@ -400,6 +401,19 @@ def view_xml( request, inscription_id ):
     response = HttpResponse()
     enhanced_response = xml_prepper.enhance_response( response, lookup_response )
     return enhanced_response
+
+
+def version( request ):
+    """ Displays branch and commit for easy comparison between localdev, dev, and production web-apps. """
+    rq_now = datetime.datetime.now()
+    commit = versioner.get_commit()
+    branch = versioner.get_branch()
+    info_txt = commit.replace( 'commit', branch )
+    resp_now = datetime.datetime.now()
+    taken = resp_now - rq_now
+    context_dct = versioner.make_context( request, rq_now, info_txt, taken )
+    output = json.dumps( context_dct, sort_keys=True, indent=2 )
+    return HttpResponse( output, content_type='application/json; charset=utf-8' )
 
 
 ## static pages ##

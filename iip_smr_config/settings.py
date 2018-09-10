@@ -7,6 +7,8 @@ import json, os
 
 SITE_ID = 1
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['IIP_SMR__SECRET_KEY']
 
