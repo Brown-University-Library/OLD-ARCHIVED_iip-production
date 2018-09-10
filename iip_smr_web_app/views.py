@@ -1,33 +1,90 @@
 # -*- coding: utf-8 -*-
 
-import datetime, json, logging, os, pprint, re
-import solr, requests
+import csv, datetime, json, logging, os, pprint, re
+import urllib.request
+import requests, solr
 from .models import StaticPage, StoryPage
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
+from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, render_to_response
 from iip_smr_web_app import common, models, settings_app
 from iip_smr_web_app import forms
 from iip_smr_web_app import old_forms
-from iip_smr_web_app.libs.view_xml_helper import XmlPrepper
 from iip_smr_web_app.libs import ajax_snippet
-import csv
-import json
-import urllib.request
-from django.contrib.sites.models import Site
+from iip_smr_web_app.libs.proxy_helper import rewrite
+from iip_smr_web_app.libs.version_helper import Versioner
+from iip_smr_web_app.libs.view_xml_helper import XmlPrepper
+
 
 log = logging.getLogger(__name__)
+versioner = Versioner()
 
 
-def temp( request ):
-    message = 'BLUEEEEEE!!! %s' % str( datetime.datetime.now() )
-    log.debug( 'test log debug entry' )
-    log.info( 'test log info entry' )
-    log.error( 'test log error entry' )
-    return HttpResponse( message )
+## proxy start ##
+
+def proxy( request, slug=None ):
+    """ Handles resources/labs/etc urls """
+    log.debug( 'slug, `%s`' % slug )
+    log.debug( 'request.__dict__, ```%s```' % pprint.pformat(request.__dict__) )
+    gets = request.GET
+    log.debug( 'gets, `%s`' % gets )
+    fetch_url = settings_app.FETCH_DIR_URL  # includes trailing slash
+    proxy_url = reverse( 'proxy_url' )  # includes trailing slash
+    log.debug( 'proxy_url, `%s`' % proxy_url )
+    js_rewrite_url = '%s%s' % ( fetch_url, 'doubletreejs/' )
+    if slug:
+        fetch_url = '%s%s' % ( fetch_url, urllib.parse.unquote_plus(slug) )
+    if gets:
+        r = requests.get( fetch_url, params=gets )
+    else:
+        r = requests.get( fetch_url )
+    log.debug( 'r.url, ```%s```' % r.url )
+    raw = r.content.decode( 'utf-8' )
+    log.debug( 'raw, ```%s```' % raw )
+
+    rewritten = rewrite( raw, proxy_url, js_rewrite_url )
+
+    # rewritten = raw.replace(
+    #     'href="../', 'href="%s' % proxy_url )
+    # rewritten = rewritten.replace(
+    #     '<script src="doubletreejs/', '<script src="%s' % js_rewrite_url )
+    # rewritten = rewritten.replace(
+    #     'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%sdoubletree-data.txt"' % proxy_url )
+    # rewritten = rewritten.replace(
+    #     'src="../index_search.js"', 'src="http://127.0.0.1:8000/resources/word_labs/index_search.js/"' )
+    # rewritten = rewritten.replace(
+    #     'src="../levenshtein.min.js"', 'src="http://127.0.0.1:8000/resources/word_labs/levenshtein.min.js/"' )
+    # rewritten = rewritten.replace(
+    #     '<!DOCTYPE HTML>', '' )
+    # rewritten = rewritten.replace(
+    #     '<html>', '', 2 )
+
+    # log.debug( 'rewritten, ```%s```' % rewritten )
+    if request.META['PATH_INFO'][-5:] == '.xml/':
+        resp = HttpResponse( rewritten, content_type='application/xml; charset=utf-8' )
+    elif request.META['PATH_INFO'][-5:] == '.css/':
+        resp = HttpResponse( rewritten, content_type='text/css; charset=utf-8' )
+    elif request.META['PATH_INFO'][-4:] == '.js/':
+        resp = HttpResponse( rewritten, content_type='application/javascript; charset=utf-8' )
+    else:
+        # resp = HttpResponse( rewritten )
+        context = {
+            'title': 'Word Labs -- under active development',
+            'html_content': rewritten }
+        resp = render( request, 'resources/proxy.html', context )
+    return resp
+
+def proxy_doubletree( request ):
+    log.debug( 'starting' )
+    url = '%s%s' % ( settings_app.FETCH_DIR_URL, 'doubletree-data.txt' )
+    r = requests.get( url )
+    return HttpResponse( r.content )
+
+## proxy end ##
 
 
 ## search and results ##
@@ -400,6 +457,19 @@ def view_xml( request, inscription_id ):
     response = HttpResponse()
     enhanced_response = xml_prepper.enhance_response( response, lookup_response )
     return enhanced_response
+
+
+def version( request ):
+    """ Displays branch and commit for easy comparison between localdev, dev, and production web-apps. """
+    rq_now = datetime.datetime.now()
+    commit = versioner.get_commit()
+    branch = versioner.get_branch()
+    info_txt = commit.replace( 'commit', branch )
+    resp_now = datetime.datetime.now()
+    taken = resp_now - rq_now
+    context_dct = versioner.make_context( request, rq_now, info_txt, taken )
+    output = json.dumps( context_dct, sort_keys=True, indent=2 )
+    return HttpResponse( output, content_type='application/json; charset=utf-8' )
 
 
 ## static pages ##
