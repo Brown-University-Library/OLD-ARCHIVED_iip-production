@@ -1,7 +1,8 @@
 // GLOBAL VARS
 
 // base url for getting all inscriptions
-var BASE_URL = 'https://library.brown.edu/cds/projects/iip/api/?start=0&rows=3278&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language,language_display,religion,material&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
+// var BASE_URL = 'https://library.brown.edu/cds/projects/iip/api/?start=0&rows=3278&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language,language_display,religion,material&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
+var BASE_URL = 'https://library.brown.edu/cds/projects/iip/api/?start=0&rows=6000&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language,language_display,religion,material&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
 // url for applying filters to base url
 var FILTERS_URL = BASE_URL.concat("&fq=");
 //url for getting all pleiades urls from database
@@ -164,7 +165,7 @@ function createPointsLayer(url) {
           p.options.inscriptions = inscriptions;
           points_layer.addLayer(p);
         } else {
-          console.log("This key has no value in locations_dict: " + this.groupValue);
+          // console.log("This key has no value in locations_dict: " + this.groupValue);
         }
       } else {
         docs_no_pleiades = this['doclist']['docs'];
@@ -235,28 +236,80 @@ function createPointsLayer(url) {
 // increment numerical value corresponding to number of inscriptions with a
 // particular facet field
 function addFacetNums(inscription, facet_nums) {
+  /* called by filterByDateRange() */
+  if( inscription["placeMenu"][0].indexOf("Caesarea") > -1 ) {
+    console.log( "addFacetNums() inscription, " + JSON.stringify(inscription) );
+  }
+  // console.log( 'facet_nums started, ' + JSON.stringify(facet_nums) )
   $.each(inscription, function(key, value) {
+    if( inscription["placeMenu"][0].indexOf("Caesarea") > -1 ) {
+      if(key == "placeMenu") {
+        console.log( "value, " + value );
+        // console.log( "facet_nums[value], " + facet_nums[value] );
+      }
+    }
     if ((key === 'language' || key === 'religion'|| key === 'type'
       || key === 'physical_type' || key === 'placeMenu' || key === 'material') && value) {
       for (var i = 0; i < value.length; i++) {
+
+        if( inscription["placeMenu"][0].indexOf("Caesarea") > -1 ) {
+          if(key == "placeMenu") {
+            console.log( "addFacetNums() value.length, " + value.length );
+            console.log( "addFacetNums() i, " + i );
+            console.log( "addFacetNums() [value[i], " + value[i] );
+            // console.log( "addFacetNums() facet_nums[value[i]], " + facet_nums[value[i]] );
+            console.log( "addFacetNums() facet_nums[" + value[i] + "], " + facet_nums[value[i]] );
+          }
+        }
+
         if (facet_nums[value[i]] === undefined) {
           facet_nums[value[i]] = 1;
         } else {
           facet_nums[value[i]] += 1;
         }
+
+        if( inscription["placeMenu"][0].indexOf("Caesarea") > -1 ) {
+          // console.log( "value[\"Caesarea\"], " + value["(Caesarea"] );
+        }
+
       }
     }
   });
-
+  // console.log( 'facet_nums now, ' + JSON.stringify(facet_nums) )
   return true;
 }
+
+
+// // increment numerical value corresponding to number of inscriptions with a
+// // particular facet field
+// function addFacetNums(inscription, facet_nums) {
+//   /* called by filterByDateRange() */
+//   // console.log( 'facet_nums was, ' + JSON.stringify(facet_nums) )
+//   $.each(inscription, function(key, value) {
+//     // console.log( 'inscription, ' + inscription )
+//     if ((key === 'language' || key === 'religion'|| key === 'type'
+//       || key === 'physical_type' || key === 'placeMenu' || key === 'material') && value) {
+//       for (var i = 0; i < value.length; i++) {
+//         if (facet_nums[value[i]] === undefined) {
+//           facet_nums[value[i]] = 1;
+//         } else {
+//           facet_nums[value[i]] += 1;
+//         }
+//       }
+//     }
+//   });
+//   // console.log( 'facet_nums now, ' + JSON.stringify(facet_nums) )
+//   return true;
+// }
 
 // update the numbers that show up to each facet in the filter menus
 function updateSelectMenus() {
   $('.checkbox-default').each(function(index, checkbox){
     var input = $(checkbox).children('input');
     var value = input.val();
+    // console.log( 'value, ' + value );
     var name = input.attr('name');
+    // console.log( 'name, ' + name );
     if ($('input[name=' + name + '_]:checked').val() === 'and') {
       if (facet_nums.hasOwnProperty(value)) {
         $(this).find('span').text('('+facet_nums[value]+')');
@@ -343,14 +396,84 @@ function updateDateFieldValue(slider_value, checkbox_id) {
   }
 }
 
+// // filters the points on the map by the date range of the sliders
+// // also updates the popup on the point to reflect correct number of inscriptions
+// function filterByDateRange() {
+//   var low = $('#slider-range').slider("option", "values")[0];
+//   var high = $('#slider-range').slider("option", "values")[1]
+//   facet_nums = {};
+//   console.log( 'facet_nums just initialized' );
+//   console.log( 'facet_nums, ' + JSON.stringify(facet_nums) );
+//   var promises = [];
+//   points_layer.eachLayer(function(point) {
+
+//     var num_in_range = 0;
+//     for (var j in point['options']['inscriptions']) {
+//       var inscr =  point['options']['inscriptions'][j];
+//       if(inscr['notBefore'] == null) {
+//         inscr['notBefore'] = $("#slider-range").slider("option", "min")
+//       }
+//       if (inscr['notAfter'] == null) {
+//         inscr['notAfter'] = $("#slider-range").slider("option", "max")
+//       }
+//       if ((inscr['notBefore'] >= low && inscr['notBefore'] < high)
+//         || (inscr['notAfter'] <= high && inscr['notAfter'] > low)) {
+//         num_in_range += 1;
+//         promises.push(addFacetNums(inscr, facet_nums));
+//       }
+//     }
+//     if (num_in_range === 0) {
+//       point.setRadius(0);
+//     } else {
+//       point.setRadius(Math.sqrt(num_in_range) + 5);
+//     }
+
+//     point['options']['num_inscriptions'] = num_in_range;
+//     point.bindPopup("<strong>Place: </strong>"
+//         + point['options']['place'] + "<br><strong>Region: </strong>"
+//         + point['options']['region'] + "<br><strong>Inscriptions: </strong>"
+//         + num_in_range);
+//     point.on('click', function() {
+//       return showInscriptions(point['options']['inscriptions']);
+//     });
+//   });
+//   console.log( 'at this point, facet_nums has been updatd, and the counts are wrong' );
+//   console.log( 'facet_nums, ' + JSON.stringify(facet_nums) );
+
 // filters the points on the map by the date range of the sliders
 // also updates the popup on the point to reflect correct number of inscriptions
 function filterByDateRange() {
   var low = $('#slider-range').slider("option", "values")[0];
   var high = $('#slider-range').slider("option", "values")[1]
   facet_nums = {};
+  console.log( 'facet_nums just initialized' );
+  console.log( 'facet_nums, ' + JSON.stringify(facet_nums) );
   var promises = [];
   points_layer.eachLayer(function(point) {
+
+    if( point["options"]["place"].indexOf("Caesarea") > -1 ) {
+        console.log( "found!" );
+        console.log( "point, " + JSON.stringify(point) );
+        console.log( "point data..." );
+        console.log( point["options"]["place"] );
+        console.log( point["options"]["region"] );
+        console.log( point["options"]["num_inscriptions"] );
+        console.log( "facet_nums before point processing, " + JSON.stringify(facet_nums) );
+    }
+
+    // if( Math.floor(Math.random() * 10) > 8 ) {
+    //     console.log( 'gogogo' );
+    //     console.log( 'point, ' + JSON.stringify(point) );
+    //     console.log( "point data..." );
+    //     console.log( point["options"]["place"] );
+    //     console.log( point["options"]["region"] );
+    //     console.log( point["options"]["num_inscriptions"] );
+
+    // } else {
+    //     console.log( 'stop' );
+    //     1/0;
+    // }
+
     var num_in_range = 0;
     for (var j in point['options']['inscriptions']) {
       var inscr =  point['options']['inscriptions'][j];
@@ -360,6 +483,12 @@ function filterByDateRange() {
       if (inscr['notAfter'] == null) {
         inscr['notAfter'] = $("#slider-range").slider("option", "max")
       }
+
+      if( point["options"]["place"].indexOf("Caesarea") > -1 ) {
+        // console.log( "inscr, " + JSON.stringify(inscr) );
+        console.log( "num_in_range, " + num_in_range );
+      }
+
       if ((inscr['notBefore'] >= low && inscr['notBefore'] < high)
         || (inscr['notAfter'] <= high && inscr['notAfter'] > low)) {
         num_in_range += 1;
@@ -381,6 +510,8 @@ function filterByDateRange() {
       return showInscriptions(point['options']['inscriptions']);
     });
   });
+  console.log( 'at this point, facet_nums has been updatd, and the counts are wrong' );
+  console.log( 'facet_nums, ' + JSON.stringify(facet_nums) );
 
   Promise.all(promises)
     .then((results) => {

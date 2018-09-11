@@ -21,7 +21,7 @@ class ResourcesPageTest(TestCase):
         response = self.client.get( '/about/why_inscription/' )  # project root part of url is assumed
         log.debug( 'response, `%s`' % response )
         self.assertEqual( 200, response.status_code )
-        response = self.client.get( '/resources/conventional_transciption_symbols' )
+        response = self.client.get( '/resources/conventional_transcription_symbols/' )
         log.debug( 'response, `%s`' % response )
         self.assertEqual( 200, response.status_code )
 
