@@ -237,9 +237,9 @@ function createPointsLayer(url) {
 // particular facet field
 function addFacetNums(inscription, facet_nums) {
   /* called by filterByDateRange() */
-  if( inscription["placeMenu"][0].indexOf("Caesarea") > -1 ) {
-    console.log( "addFacetNums() inscription, " + JSON.stringify(inscription) );
-  }
+  // if( inscription["placeMenu"][0].indexOf("Caesarea") > -1 ) {
+  //   console.log( "addFacetNums() inscription, " + JSON.stringify(inscription) );
+  // }
   // console.log( 'facet_nums started, ' + JSON.stringify(facet_nums) )
   $.each(inscription, function(key, value) {
     if( inscription["placeMenu"][0].indexOf("Caesarea") > -1 ) {
@@ -453,12 +453,12 @@ function filterByDateRange() {
 
     if( point["options"]["place"].indexOf("Caesarea") > -1 ) {
         console.log( "found!" );
-        console.log( "point, " + JSON.stringify(point) );
+        // console.log( "point, " + JSON.stringify(point) );
         console.log( "point data..." );
         console.log( point["options"]["place"] );
         console.log( point["options"]["region"] );
         console.log( point["options"]["num_inscriptions"] );
-        console.log( "facet_nums before point processing, " + JSON.stringify(facet_nums) );
+        // console.log( "facet_nums before point processing, " + JSON.stringify(facet_nums) );
     }
 
     // if( Math.floor(Math.random() * 10) > 8 ) {
@@ -484,10 +484,10 @@ function filterByDateRange() {
         inscr['notAfter'] = $("#slider-range").slider("option", "max")
       }
 
-      if( point["options"]["place"].indexOf("Caesarea") > -1 ) {
-        // console.log( "inscr, " + JSON.stringify(inscr) );
-        console.log( "num_in_range, " + num_in_range );
-      }
+      // if( point["options"]["place"].indexOf("Caesarea") > -1 ) {
+      //   // console.log( "inscr, " + JSON.stringify(inscr) );
+      //   console.log( "num_in_range, " + num_in_range );
+      // }
 
       if ((inscr['notBefore'] >= low && inscr['notBefore'] < high)
         || (inscr['notAfter'] <= high && inscr['notAfter'] > low)) {
