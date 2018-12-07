@@ -4,12 +4,19 @@
 
 
 {% block extra_css %}
+<style type="text/css">
+    #words {
+        background:red;
+    }
+</style>
     {% load staticfiles %}
     <link href='{% static 'about/css/about.css' %}' rel="stylesheet">
+    <link href='{% static "resources/css/proxy.css" %}' rel="stylesheet">
 {% endblock %}
 
 
 {% block body %}
+
 
 <div id="page-content-wrapper" style="font-size: 15px;">
     <section class="about-text ptb-100">

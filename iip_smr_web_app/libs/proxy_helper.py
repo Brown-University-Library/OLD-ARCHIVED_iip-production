@@ -44,6 +44,15 @@ def rewrite( source, proxy_url, js_rewrite_url ):
         '<!DOCTYPE HTML>', '' )
     rewritten = rewritten.replace(
         '<html>', '', 2 )
+
+
+    rewritten = rewritten.replace(
+        '<link rel="stylesheet" type="text/css" href="/resources/word_labs/style.css"/>',
+        ''
+        )
+
+
+
     log.debug( 'rewritten, ```%s```' % rewritten )
     return rewritten
 
