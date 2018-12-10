@@ -3,6 +3,8 @@
 
 
 {% block extra_css %}
+
+
 {% load staticfiles %}
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link href='{% static "iip_search_app/css/general2.css"%}' media="all" rel="stylesheet" type="text/css" />
@@ -13,6 +15,28 @@
   crossorigin=""/>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
+
+<style>
+ ul {
+  list-style-type:none;
+ }
+
+ol li::before {
+  content: counter(counter) ". ";
+  position:relative;
+  left:-2em;
+  top:1.5em;
+}
+
+ol {
+  list-style: none;
+  counter-reset: counter;
+}
+ol li {
+  counter-increment: counter;
+}
+
+</style>
 {% endblock %}
 
 {%block viewinscr%}
@@ -20,6 +44,7 @@
 function ImgError(source){
     source.src = "../../static/resources/img/noimg.png";
     source.onerror = "";
+    source.width = "150";
     return true;
 }
 </script>
@@ -66,7 +91,7 @@ function ImgError(source){
           {% endfor %}
         {% else %}
 
-        <img src='{{image_url}}' onerror="ImgError(this)" style= "width: 60%; height: 150px;">
+        <img src='{{image_url}}' onerror="ImgError(this)" >
         {% endif %}
         <br><br>
 
@@ -192,10 +217,12 @@ function ImgError(source){
 
           {% for b,l in z_ids.items %}
             <li class="biblToRetrieve">
-              <span class='z_id' bibl='{{b}}'>{{b}}</span>
-              <ul style="list-style-type: initial;">
+              <div>
+             
+              <span style="display:inline; " class='z_id' bibl='{{b}}'>{{b}}</span>
+              <span style="display:inline; white-space:nowrap; position:relative; left:2em;">(
               {% for ntype,n in l %}
-                <li>
+               
                   {% if ntype == 'insc' %}
                     insc. 
                   {% elif ntype == 'page' %}
@@ -204,9 +231,13 @@ function ImgError(source){
                     {{ntype}} 
                   {% endif %}
                   {{n}}
-                </li>
+                
+
               {%endfor%}
-              </ul>
+            )</span>
+      
+            </div>
+            
             </li>
           {%endfor%}
 
@@ -246,7 +277,7 @@ function ImgError(source){
 <br><br>
 
     <div>
-      <h4 class="widget-title">Share on Social Media</h4>
+      <h3 class="widget-title">Share on Social Media</h3>
       <ul class="social-nav">
           <li><a href="http://twitter.com/share?text={{i.inscription_id|upper}} - {{i.short_description}}.%0AURL: &url={{current_url}}&hashtags=IIP" target="_blank" title="Twitter" rel="nofollow" class="twitter"><i class="fa fa-twitter"></i></a></li>
           <li><a href="http://www.facebook.com/sharer/sharer.php?u={{ current_url }}&quote={{i.inscription_id|upper}} - {{i.short_description}}." target="_blank" title="Facebook" rel="nofollow" class="facebook"><i class="fa fa-facebook"></i></a></li>

@@ -10,7 +10,7 @@ function add_citation(ztag) {
 
 
     var req = new XMLHttpRequest();
-    req.open("GET", "https://api.zotero.org/groups/" + GROUP + "/items?tag=" + ztag + "&include=bib", true);
+    req.open("GET", "https://api.zotero.org/groups/" + GROUP + "/items?tag=" + ztag + "&include=bib" + "&style=apa", true);
     req.setRequestHeader("Zotero-API-Version", "3");
     req.onload = function() {
         var bibs = JSON.parse(this.response);

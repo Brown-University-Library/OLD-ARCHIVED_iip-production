@@ -79,7 +79,7 @@ hr.style-one {
 		<td class="resultTitle" colspan='4' style="padding-left: 0px;">
             <hr class="style-one">
             <span class="short_header resultTitle">
-                {{inscription.inscription_id|upper}} - {{inscription.short_description}}
+              <a href="../viewinscr/{{inscription.inscription_id}}" target="_blank">  {{inscription.inscription_id|upper}}  {{inscription.short_description}} </a>
             </span>
         </td>
     </tr>
@@ -90,7 +90,7 @@ hr.style-one {
             <td class="col-md-2" style="padding-left: 0px;">
                 <br>
                 <img src="https://github.com/Brown-University-Library/iip-images/raw/master/{{inscription.inscription_id}}.jpg"  onerror="ImgError(this)" style= "width: 150px; height: 120px;">
-                <br><a href="../viewinscr/{{inscription.inscription_id}}" target="_blank">View this inscription</a>
+                <br>
 
                 <br><a class="xml_url" href="{% url 'xml_url' inscription.inscription_id %}">[View in XML]</a>
             </td>
