@@ -44,6 +44,7 @@ def rewrite( source, proxy_url, js_rewrite_url ):
         '<!DOCTYPE HTML>', '' )
     rewritten = rewritten.replace(
         '<html>', '', 2 )
+
     log.debug( 'rewritten, ```%s```' % rewritten )
     return rewritten
 
