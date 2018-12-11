@@ -28,6 +28,7 @@ ol li::before {
   top:1.5em;
 }
 
+
 ol {
   list-style: none;
   counter-reset: counter;
@@ -216,11 +217,11 @@ function ImgError(source){
 
 
           {% for b,l in z_ids.items %}
-            <li class="biblToRetrieve">
+            <div class="biblToRetrieve" style="position:relative; left:-2em; padding-bottom:10px;">
               <div>
              
               <span style="display:inline; " class='z_id' bibl='{{b}}'>{{b}}</span>
-              <span style="display:inline; white-space:nowrap; position:relative; left:2em;">(
+              <span style="display:inline; white-space:nowrap; position:relative;">(
               {% for ntype,n in l %}
                
                   {% if ntype == 'insc' %}
@@ -238,7 +239,7 @@ function ImgError(source){
       
             </div>
             
-            </li>
+            </div>
           {%endfor%}
 
 
