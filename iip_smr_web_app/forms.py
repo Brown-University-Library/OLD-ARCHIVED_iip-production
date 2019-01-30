@@ -134,7 +134,9 @@ class SearchForm( forms.Form ):
     # place = forms.MultipleChoiceField(required=False, choices=places, widget=forms.SelectMultiple(attrs={'size':'10'}))
 
     def generateSolrQuery(self):
-        search_fields = ('text','metadata','figure','region','city','place','type','physical_type','language','religion','notBefore','notAfter', 'display_status')
+        log.debug( 'starting generateSolrQuery()' )
+        # search_fields = ('text','metadata','figure','region','city','place','type','physical_type','language','religion','notBefore','notAfter', 'display_status')
+        search_fields = ('text','metadata','figure','region','city','place','type','physical_type','language','religion','material','notBefore','notAfter', 'display_status')
         response = ''
         first = True
         concat_operators = {

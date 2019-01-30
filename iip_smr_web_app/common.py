@@ -24,7 +24,7 @@ def facetResults( facet ):
         s = solr.SolrConnection( settings_app.SOLR_URL )
         params = {u'facet':u'true',u'facet.field':facet,u'rows':u'0',u'facet.limit':u'-1', u'facet.mincount':u'1'}
         q = s.select( u'*:*', **params )
-        log.debug( 'q.__dict__, ```%s```' % pprint.pformat(q.__dict__) )
+        # log.debug( 'q.__dict__, ```%s```' % pprint.pformat(q.__dict__) )
         facet_count_dict =q.facet_counts[u'facet_fields'][facet]
         return facet_count_dict
     except Exception as e:
@@ -156,13 +156,16 @@ def updateQstring( initial_qstring, session_authz_dict, log_id ):
           (because if user *is* logged in, display facets are shown explicitly).
         Returns modified_qstring dict.
         Called by: views.iipResults(). """
+    log.debug( 'initial_qstring, ```%s```' % initial_qstring )
+    log.debug( 'session_authz_dict, ```%s```' % pprint.pformat(session_authz_dict) )
+    log.debug( 'log_id, ```%s```' % log_id )
     if ( (session_authz_dict == None)
          or (not u'authorized' in session_authz_dict)
          or (not session_authz_dict['authorized'] == True) ):
         qstring = u'display_status:(approved) AND ' + initial_qstring if initial_qstring != '' else u'display_status:(approved)'
     else:
         qstring = initial_qstring
-    log.debug( 'qstring, ```%s```' % qstring )
+    log.debug( 'qstring being returned, ```%s```' % qstring )
     return { 'modified_qstring': qstring }
 
 ## eof

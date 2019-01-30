@@ -178,7 +178,7 @@ def results( request ):
     # print("Request")
     # print(request)
     log_id = common.get_log_identifier( request.session )
-    log.info( 'id, `%s`; starting' % log_id )
+    log.info( 'id, `%s`; starting views.results()' % log_id )
     if not u'authz_info' in request.session:
         request.session[u'authz_info'] = { u'authorized': False }
     if request.method == u'POST': # form has been submitted by user
