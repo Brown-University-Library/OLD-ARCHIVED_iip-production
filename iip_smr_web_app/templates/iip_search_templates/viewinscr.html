@@ -92,12 +92,12 @@ function ImgError(source){
           {% endfor %}
         {% else %}
 
-        <img src='{{image_url}}' onerror="ImgError(this)" >
+        <img src='{{image_url}}' onerror="ImgError(this)" style="max-width: 400px;" >
         {% endif %}
         <br><br>
 
         <span class="short_header"><span style="font-weight: bold;">Diplomatic:</span></span>
-        
+
         <p class="diplomatic">{%if i.diplomatic%}{{i.diplomatic}}{%else%}No diplomatic{%endif%}</p>
 
         <span class="short_header"><span style="font-weight: bold;">Transcription:</span></span>
@@ -121,7 +121,7 @@ function ImgError(source){
           {% endfor %}
           </p>
         {% endif %}
-        
+
 
         <script type="text/javascript">
         var inscription_list = ["{{i.inscription_id}}"];
@@ -134,7 +134,7 @@ function ImgError(source){
         <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
         <script type="text/javascript" src='{% static "iip_search_app/js/maplet.js" %}'></script>
 
-        
+
         <div id="maplet{{i.inscription_id}}" style="width: 100px; height: 100px; float: right; padding: 15px;"></div>
 
         <p><!-- {% if i.language_display|length > 0 and i.language|length > 0 %}s{% endif %}: -->
@@ -181,13 +181,13 @@ function ImgError(source){
 
 
         </p>
-        
+
 
 
 
 
         <p><span class="short_header"><span style="font-weight: bold;">Place Found:</span></span>&nbsp;&nbsp;
-        
+
         {%if i.place_found%}
 
           {{i.place_found|placeClean}}
@@ -196,21 +196,21 @@ function ImgError(source){
           Not Available
         {%endif%}
         </p>
-        
+
 
 
 
 
 
         <p><span class="short_header"><span style="font-weight: bold;">Note:</span></span>&nbsp;&nbsp;{%if i.description%}{{i.description}}{% else %}Not Available{%endif%}</p>
-        
+
 
         <p><span class="short_header"><span style="font-weight: bold;">Figures:</span></span>&nbsp;&nbsp;{% if i.figure %}{%for f in i.figure%}{{f}}<br />{%endfor%}{% else %}Not Available{% endif %}</p>
 
         <p>{%if biblDiplomatic %}<span class="short_header"><span style="font-weight: bold;">Source of Diplomatic:</span></span>&nbsp;&nbsp;<span id="diplomatic" class="biblToRetrieve" bibl='{{biblDiplomatic.0}}' ntype='{{biblDiplomatic.1}}' n='{{biblDiplomatic.2}}'>{{biblDiplomatic}}</span>{% else %}<span class="short_header"><span style="font-weight: bold;">Source of Diplomatic: </span></span>Not Available{% endif %}</p>
         <p>{%if biblTranscription %}<span class="short_header"><span style="font-weight: bold;">Source of Transcription:</span></span>&nbsp;&nbsp;<span id="transcription" class="biblToRetrieve" bibl='{{biblTranscription.0}}' ntype='{{biblTranscription.1}}' n='{{biblTranscription.2}}'>{{biblTranscription}}</span>{% else %}<span class="short_header"><span style="font-weight: bold;">Source of Transcription: </span></span>Not Available{% endif %}</p>
         <p>{%if biblTranslation %}<span class="short_header"><span style="font-weight: bold;">Source of Translation:</span></span>&nbsp;&nbsp;<span id="translation" class="biblToRetrieve" bibl='{{biblTranslation.0}}' ntype='{{biblTranslation.1}}' n='{{biblTranslation.2}}'>{{biblTranslation}}</span>{% else %}<span class="short_header"><span style="font-weight: bold;">Source of Translation: </span></span>Not Available{% endif %}</p>
-        
+
           <p style="{% if not biblioFull %}display: none;{% endif %}"><span class="short_header"><span style="font-weight: bold;">Bibliography:</span></span>&nbsp;&nbsp;
           <ol style="{% if not biblioFull %}display: none;{% endif %}">
 
@@ -219,31 +219,31 @@ function ImgError(source){
           {% for b,l in z_ids.items %}
             <div class="biblToRetrieve" style="position:relative; left:-2em; padding-bottom:10px;">
               <div>
-             
+
               <span style="display:inline; " class='z_id' bibl='{{b}}'>{{b}}</span>
               <span style="display:inline; white-space:nowrap; position:relative;">(
               {% for ntype,n in l %}
-               
+
                   {% if ntype == 'insc' %}
-                    insc. 
+                    insc.
                   {% elif ntype == 'page' %}
-                    p. 
+                    p.
                   {% else %}
-                    {{ntype}} 
+                    {{ntype}}
                   {% endif %}
                   {{n}}
-                
+
 
               {%endfor%}
             )</span>
-      
+
             </div>
-            
+
             </div>
           {%endfor%}
 
 
-          
+
           </ol>
           </p>
 <!--           {% if biblioFull %}
@@ -273,7 +273,7 @@ function ImgError(source){
     {%endif%}
 
 
-  
+
 
 <br><br>
 
@@ -284,7 +284,7 @@ function ImgError(source){
           <li><a href="http://www.facebook.com/sharer/sharer.php?u={{ current_url }}&quote={{i.inscription_id|upper}} - {{i.short_description}}." target="_blank" title="Facebook" rel="nofollow" class="facebook"><i class="fa fa-facebook"></i></a></li>
           <li><a href="https://plus.google.com/share?url={{ current_url }}&prefilltext={{i.inscription_id|upper}} - {{i.short_description}}." target="_blank" title="Google plus" rel="nofollow" class="google"><i class="fa fa-google-plus"></i></a></li>
           <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{current_url}}&title={{i.inscription_id|upper}} - {{i.short_description}}&summary={{ current_url}}" target="_blank" title="Linkedin" rel="nofollow" class="linkedin"><i class="fa fa-linkedin"></i></a></li>
-          <li><a href="https://pinterest.com/pin/create/button/?url={{ current_url }}&description={{i.inscription_id|upper}} - {{i.short_description}}" target="_blank" title="Pinterest" rel="nofollow" class="pinterest"><i class="fa fa-pinterest"></i></a></li>        
+          <li><a href="https://pinterest.com/pin/create/button/?url={{ current_url }}&description={{i.inscription_id|upper}} - {{i.short_description}}" target="_blank" title="Pinterest" rel="nofollow" class="pinterest"><i class="fa fa-pinterest"></i></a></li>
       </ul>
     </div>
 
@@ -302,7 +302,7 @@ function ImgError(source){
               <label for="pwd">Email address:</label>
               <input type="password" class="form-control" id="pwd">
           </div>
-          <div class="form-group"> 
+          <div class="form-group">
               <label for="comment">Comment:</label>
               <textarea class="form-control" rows="5" id="comment"></textarea>
           </div>
