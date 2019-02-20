@@ -217,22 +217,21 @@
 
         <p>{%if biblDiplomatic %}<span class="short_header"><span style="font-weight: bold;">Source of
               Diplomatic:</span></span>&nbsp;&nbsp;<span id="diplomatic" class="biblToRetrieve"
-            bibl='{{biblDiplomatic.0}}' ntype='{{biblDiplomatic.1}}'
-            n='{{biblDiplomatic.2}}'>{{biblDiplomatic}}</span>
-            {% else %}<span class="short_header"><span
-              style="font-weight: bold;">Source of Diplomatic: </span></span>Not Available{% endif %}</p>
+            bibl='{{biblDiplomatic.0}}' ntype='{{biblDiplomatic.1}}' n='{{biblDiplomatic.2}}'>{{biblDiplomatic}}</span>
+          {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Diplomatic: </span></span>Not
+          Available{% endif %}</p>
         <p>{%if biblTranscription %}<span class="short_header"><span style="font-weight: bold;">Source of
               Transcription:</span></span>&nbsp;&nbsp;<span id="transcription" class="biblToRetrieve"
             bibl='{{biblTranscription.0}}' ntype='{{biblTranscription.1}}'
             n='{{biblTranscription.2}}'>{{biblTranscription}}</span>
-            {% else %}<span class="short_header"><span
-              style="font-weight: bold;">Source of Transcription: </span></span>Not Available{% endif %}</p>
+          {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Transcription:
+            </span></span>Not Available{% endif %}</p>
         <p>{%if biblTranslation %}<span class="short_header"><span style="font-weight: bold;">Source of
               Translation:</span></span>&nbsp;&nbsp;<span id="translation" class="biblToRetrieve"
             bibl='{{biblTranslation.0}}' ntype='{{biblTranslation.1}}'
             n='{{biblTranslation.2}}'>{{biblTranslation}}</span>
-            {% else %}<span class="short_header"><span
-              style="font-weight: bold;">Source of Translation: </span></span>Not Available{% endif %}</p>
+          {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Translation: </span></span>Not
+          Available{% endif %}</p>
 
         <p style="{% if not biblioFull %}display: none;{% endif %}"><span class="short_header"><span
               style="font-weight: bold;">Bibliography:</span></span>&nbsp;&nbsp;
@@ -241,13 +240,15 @@
 
 
             {% for bib_id,reference in z_ids.items %}
-            <div class="biblToRetrieve" style="position:relative; left:-2em; padding-bottom:10px;">
+            <li class="biblToRetrieve" style="position:relative; left:-2em; padding-bottom:10px;">
               <div>
 
                 <span style="display:inline; " class='z_id' bibl='{{bib_id}}'>{{bib_id}}
                 </span>
-                <span style="display:inline; white-space:nowrap; position:relative;">(
+                <ul>
+                <!-- <span style="display:inline; white-space:nowrap; position:relative;">( -->
                   {% for ntype, n in reference %}
+                  <li>
                   {% if ntype == 'insc' %}
                   insc.
                   {% elif ntype == 'page' %}
@@ -257,11 +258,13 @@
                   {% endif %}
                   {{n}}
                   {%endfor%}
-                  )
+                  </li>
+                  <!-- ) -->
+                </ul>
                 </span>
               </div>
 
-            </div>
+            </li>
             {%endfor%}
 
 
@@ -286,13 +289,16 @@
 
     {%if biblioFull %}
     <script type="text/javascript" src='{% static "iip_search_app/js/zotero.js" %}'></script>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
       $(".z_id").each(function (i, item) {
         console.log(item + " z_id: item")
         add_citation($(item).attr("bibl"));
       });
       console.log($(".z_id"));
       $("[bibl=ms]").html("Supplied by Michael Satlow.");
+    </script> -->
+    <script type="text/javascript">
+      $(document).ready(render_bibliography);
     </script>
     {%endif%}
 
@@ -362,10 +368,10 @@
 </script>
 <script>
     (function (i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-      (i[r].q = i[r].q || []).push(arguments)
-    }, i[r].l = 1 * new Date(); a = s.createElement(o),
-      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
   ga('create', 'UA-3203647-22', 'auto');
