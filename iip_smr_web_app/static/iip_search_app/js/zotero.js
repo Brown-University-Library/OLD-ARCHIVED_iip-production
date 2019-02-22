@@ -115,7 +115,7 @@ function retrieve_bib(id_list, callback) {
   var tags = id_list.join(" || ");
   var req = new XMLHttpRequest();
   req.open("GET", "https://api.zotero.org/groups/" + GROUP + "/items?tag=" + tags + "&format=atom&content=bib,json", true);
-  req.setRequestHeader("Zotero-API-Version", "2");
+  req.setRequestHeader("Zotero-API-Version", "3");
   req.onload = callback;
   req.send();
 }
@@ -229,7 +229,9 @@ function render_bibliography() {
           var entry = bibliographies[b[0]].parsed;
           var colon = ": ";
           if (b[2] === "") colon = "";
-          this.innerHTML = entry.creators[0].lastName + ". " + entry.title + ", " + entry.date + colon + '(' + b[1] + '.' +  b[2] + ')' + " (<a href='" + bibliographies[b[0]].url + "'>Full</a>)";
+          this.innerHTML = "<div>" +
+          entry.creators[0].lastName + ". " + entry.title + ", " + entry.date + colon + '(' + b[1] + '.' +  b[2] + ')' + " (<a href='" + bibliographies[b[0]].url + "'>Full</a>)"
+          +"</div>";
         }
         catch (err) {
           console.log('Catch error here 2!');
