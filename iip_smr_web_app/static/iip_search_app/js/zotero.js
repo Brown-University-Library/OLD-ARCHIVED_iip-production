@@ -166,7 +166,7 @@ function render_bibliography() {
 
         var bspan = $(this).find('span')[0];
         b = bspan.innerHTML.trim();
-        console.log("DEBUG:\tb", b);
+        console.log("DEBUG:\tb\t\t\t\t\t", b);
         var pages = $(this).find('ul li');
         var new_html;
 
@@ -229,7 +229,7 @@ function render_bibliography() {
       // this is for upper threee parts
       $("span.biblToRetrieve").each(function () {
         var b = this.innerHTML.split("|");
-        console.log('DEBUG:\t b');
+        console.log('DEBUG:\t b in biblToRetrieve');
         console.log(b);
         b_array = Array()
         split_substring = "', '"
@@ -245,12 +245,12 @@ function render_bibliography() {
         try {
           var entry = bibliographies[b[0]].parsed;
           var colon = ": ";
-          if (b[2] === "") colon = "";
+          if (b[2] === "") 
+              colon = "";
           // this.innerHTML = "<div>" +
           // entry.creators[0].lastName + ". " + "<i>" + entry.title + "</i>" + ", " + entry.date + colon + '(' + b[1] + '.' +  b[2] + ')' + " (<a href='" + bibliographies[b[0]].url + "'>Full</a>)"
           // +"</div>";
-          this.innerHTML = "<div>" +
-          entry.creators[0].lastName + ". " + "<i>" + entry.title + "</i>" + ", " + entry.date + colon + '(' + b[1] + '.' +  b[2] + ')' + " (<a href='" + bibliographies[b[0]].url + "'>Full</a>)"
+          this.innerHTML = bibliographies[b_array[0]].content  + '(' + b[1] + '.' +  b[2] + ')' + " (<a href='" + bibliographies[b[0]].url + "'>Full Entry</a>)"
           +"</div>";
         }
         catch (err) {
