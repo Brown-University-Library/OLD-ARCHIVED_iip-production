@@ -163,7 +163,10 @@ function render_bibliography() {
 
         list_content['json'].push(entryjson);
         list_content['url'].push(entrie_list[i].getElementsByTagName("id")[0].textContent);
-        list_content['bibl'].push(contents_f.getElementsByClassName('csl-bib-body')[0].innerHTML);
+
+        // console.log("DEBUG:list_content['bibl']", typeof( contents_f.getElementsByClassName('csl-bib-body')[0].innerHTML) );
+        bibl_entry = contents_f.getElementsByClassName('csl-bib-body')[0];
+        list_content['bibl'].push(bibl_entry.outerHTML);
       }
       console.log("bibliographies", bibliographies);
       /************************************/
@@ -209,6 +212,7 @@ function render_bibliography() {
         $(this).find("ul")[0].innerHTML = "";
 
         try {
+          console.log("DEBUG:list_content['bibl']", list_content['bibl']);
           innerHTML_list = []
           for (let i = 0; i < list_content['bibl'].length; i++) {
             let link = "<a style='display:inline;' href='" + list_content['url'][i] + "'>(Link to Full Entry)</a>";
@@ -218,7 +222,7 @@ function render_bibliography() {
               + "</div>"
             );
           }
-          new_html = innerHTML_list.join('<br></br>');
+          new_html = innerHTML_list.join('');
           console.log("DEBUG:\tnewhtml", new_html);
           bspan.innerHTML = new_html;
         } catch (err) {
