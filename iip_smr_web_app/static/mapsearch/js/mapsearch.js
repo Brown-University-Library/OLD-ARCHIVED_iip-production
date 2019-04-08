@@ -50,9 +50,9 @@ var base_tile = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.pn
   accessToken: 'pk.eyJ1IjoiZGs1OCIsImEiOiJjajQ4aHd2MXMwaTE0MndsYzZwaG1sdmszIn0.VFRnx3NR9gUFBKBWNhhdjw'
 }).addTo(mymap);
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+// function sleep(ms) {
+//   return new Promise(resolve => setTimeout(resolve, ms));
+// }
 
 async function requestFacetNums(ops_request, request_url) {
   content_array = new Array();
@@ -74,7 +74,8 @@ async function requestFacetNums(ops_request, request_url) {
   }
   return content_array;
 }
-async function initializeFacetNums(request_url) {
+
+async function initializeFacetNums(request_url, date_query) {
   let ops_request = {
     // place: ' OR ',
     type: ' OR ',
@@ -87,14 +88,23 @@ async function initializeFacetNums(request_url) {
   if (request_url === 'default') {
     request_url = 'https://library.brown.edu/cds/projects/iip/api/?start=0&rows=0&indent=on&fl=type&q=*:*&facet=on&facet.field=';
   } else {
-    if (! request_url.includes('facet=on&facet.field=')) {
-      console.log("facet=on&facet.field= not in request_url");
-      request_url = request_url + '&facet=on&facet.field=';
+    if (date_query === '(notBefore:[-600 TO 10000]) AND (notAfter:[-10000 TO 650])') {
+      // this is the default date range, so query should be null
+      date_query = '*:*';
+    }
+    if (request_url.includes('q=*:*')) {
+      request_url = request_url.replace('q=*:*', 'q=' + date_query);
+    }
+    if (!request_url.includes('facet=on&facet.field=')) {
+      console.log("facet=on&facet.field= not in request_url, program will add these.");
+      request_url = request_url + '&facet=on&facet.field='; 
+      // you shall always keep "facet.field=" in the ending of the query url
     }
   }
   let content_array = await requestFacetNums(ops_request, request_url);
-  console.log("DEBUG@initializeFacetNums", content_array);
-  facet_nums_request = Object.assign({}, content_array[0], content_array[1], 
+  // console.log("DEBUG@initializeFacetNums request_url", request_url);
+  // console.log("DEBUG@initializeFacetNums", content_array);
+  facet_nums_request = Object.assign({}, content_array[0], content_array[1],
     content_array[2], content_array[3], content_array[4], content_array[5]);
   return facet_nums_request;
 }
@@ -137,10 +147,9 @@ async function createLocationsDict() {
 
 
 // adds filters and concatenation operator (AND/OR) to FILTERS_URL
-function addFiltersToUrl() {
+async function addFiltersToUrl() {
   var query = '';
   for (var filter in filters) {
-    console.log('DEBUG@addFiltersToUrl for loop');
     if (filters.hasOwnProperty(filter) && filters[filter].length) {
       console.log("This filter has been applied: ", filters[filter]);
       var op = ops[filter];
@@ -150,25 +159,15 @@ function addFiltersToUrl() {
         str_filter = str_filter.concat(filter + ':"' + filters[filter][i] + '"' + op);
       }
       str_filter = str_filter.concat(filter + ':"' + filters[filter][i] + '"');
-      console.log('DEBUG@addFiltersToUrl str1', str_filter);
 
       str_filter = encodeURIComponent(str_filter.concat(')'));
-      console.log("DEBUG@addFiltersToUrl str2", str_filter);
       query = query.concat(str_filter + ' AND ');
     }
   }
-  //correct format: 
-  // fq=(place:"Yotvata (Negev)")
-  // incorrect format:
-  // fq=(placeMenu:"Yotvata (Negev))" 
-  console.log('DEBUG@addFiltersToUrl query', query);
-  console.log('DEBUG@addFiltersToUrl query1', query);
+
   query = query.slice(0, -4);
-  console.log('DEBUG@addFiltersToUrl query2', query);
-  console.log("This is the final query: " + query);
   var url = FILTERS_URL.concat(query);
-  console.log('DEBUG@yang:url@addFiltersToUrl', url);
-  createPointsLayer(url);
+  await createPointsLayer(url);
 }
 
 //CLEAN UP THIS FUNCTION
@@ -176,9 +175,12 @@ function addFiltersToUrl() {
 // url: the url to get the point data from
 async function createPointsLayer(url) {
   $('input:checkbox').attr('disabled', true)
-  console.log("url:@createPointsLayer ", url);
   points_layer.clearLayers();
-  facet_nums_request = await initializeFacetNums(url);
+  date_query = filterByDateRangeNumbers();
+  // add date into query
+  console.log('DEBUG@createPointsLayer: url', url);
+  console.log('DEBUG@createPointsLayer: date_query', date_query);
+  facet_nums_request = await initializeFacetNums(url, date_query);
 
   $.getJSON(url, function (data) {
     console.log(data['grouped']['city_pleiades']['matches']);
@@ -381,7 +383,6 @@ function hasFilters() {
       return;
     }
   }
-
   createPointsLayer(BASE_URL);
 }
 
@@ -411,12 +412,29 @@ function updateDateFieldValue(slider_value, checkbox_id) {
 }
 
 
+function parseDateYear(year) {
+  if (year.includes('BCE')) {
+    result = -1 * parseInt(year.slice(0, -4));
+  } else if (year.includes('CE')) {
+    result = parseInt(year.slice(0, -3));
+  }
+  return result;
+}
+
+function filterByDateRangeNumbers() {
+  var date1 = $('#slider-range > #custom-handle-low').text();
+  var date2 = $('#slider-range > #custom-handle-high').text();
+  date1 = parseDateYear(date1);
+  date2 = parseDateYear(date2);
+  date_query = `(notBefore:[${date1} TO 10000]) AND (notAfter:[-10000 TO ${date2}])`;
+  return date_query;
+}
+
 function filterByDateRange() {
-  console.log('DEBUG:filterByDateRange activated');
   var low = $('#slider-range').slider("option", "values")[0];
   var high = $('#slider-range').slider("option", "values")[1]
   var promises = [];
-  console.log('DEBUG@filterByDateRange', low, high);
+
   points_layer.eachLayer(function (point) {
 
     if (point["options"]["place"].indexOf("Caesarea") > -1) {
@@ -453,7 +471,7 @@ function filterByDateRange() {
         num_in_range += 1;
       }
     }
-    
+
     if (num_in_range === 0) {
       point.setRadius(0);
     } else {
@@ -734,6 +752,8 @@ $("#slider-range").slider({
     $('#id_notBefore').val(updateDateFieldValue(ui.values[0], 'id_afterDateEra'));
     $('#id_notAfter').val(updateDateFieldValue(ui.values[1], 'id_beforeDateEra'));
     filterByDateRange();
+  },
+    addFiltersToUrl(); // this function will call createPointsLayer().
   }
 });
 
