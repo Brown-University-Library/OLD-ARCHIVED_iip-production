@@ -753,6 +753,7 @@ $("#slider-range").slider({
     $('#id_notAfter').val(updateDateFieldValue(ui.values[1], 'id_beforeDateEra'));
     filterByDateRange();
   },
+  stop: function (event, ui) {
     addFiltersToUrl(); // this function will call createPointsLayer().
   }
 });
