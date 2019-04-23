@@ -8,24 +8,24 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link href='{% static "iip_search_app/css/general2.css"%}' media="all" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href='{% static "iip_search_app/css/tei_custom_elements.css" %}' />
+<link rel="stylesheet" type="text/css" href='{% static "iip_search_app/css/tei_custom_elements.css" %}'/>
 <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
   integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
-  crossorigin="" />
+  crossorigin=""/>
 <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
 
 <style>
   ul {
-    list-style-type: none;
+    list-style-type:none;
   }
 
   ol li::before {
     content: counter(counter) ". ";
-    position: relative;
-    left: -2em;
-    top: 1.5em;
+    position:relative;
+    left:-2em;
+    top:1.5em;
   }
 
 
@@ -33,16 +33,16 @@
     list-style: none;
     counter-reset: counter;
   }
-
   ol li {
     counter-increment: counter;
   }
+
 </style>
 {% endblock %}
 
 {%block viewinscr%}
 <script type="text/javascript">
-  function ImgError(source) {
+function ImgError(source){
     source.src = "https://github.com/Brown-University-Library/iip_smr_web_project/raw/zak/iip_smr_web_app/static/resources/img/noimg.png";
     source.onerror = "";
     source.width = "150";
@@ -66,8 +66,7 @@
         <p>( current display status: '{{ chosen_display_status }}' )</p>
         <p>New Status:</p>
         {% ifequal chosen_display_status 'to_approve' %}
-        <input type="submit" name="action_button" value="Approved" /> <input type="submit" name="action_button"
-          value="To Correct" />
+        <input type="submit" name="action_button" value="Approved" /> <input type="submit" name="action_button" value="To Correct" />
         {% endifequal %}
         {% ifequal chosen_display_status 'approved' %}
         <input type="submit" name="action_button" value="To Correct" />
@@ -77,7 +76,7 @@
         {% endifequal %}
       </form>
     </div>
-    {% endif %} {% comment %}end of '''if session_authz_info.authorized'''{% endcomment %}
+    {% endif %}  {% comment %}end of '''if session_authz_info.authorized'''{% endcomment %}
 
     <br><br>
 
@@ -92,7 +91,6 @@
         </a>
         {% endfor %}
         {% else %}
-
 
         <img src='{{image_url}}' onerror="ImgError(this)" style="max-width: 400px;" >
         {% endif %}
@@ -141,8 +139,7 @@
 
         <div id="maplet{{i.inscription_id}}" style="width: 100px; height: 100px; float: right; padding: 15px;"></div>
 
-        <p>
-          <!-- {% if i.language_display|length > 0 and i.language|length > 0 %}s{% endif %}: -->
+        <p><!-- {% if i.language_display|length > 0 and i.language|length > 0 %}s{% endif %}: -->
           <span class="short_header"><span style="font-weight: bold;">Languages:</span></span>
           &nbsp;&nbsp;
 
@@ -193,8 +190,7 @@
 
         <p><span class="short_header"><span style="font-weight: bold;">Place Found:</span></span>&nbsp;&nbsp;
 
-
-        {%if i.place_found%}
+          {%if i.place_found%}
 
           {{i.place_found|placeClean}}
 
@@ -211,8 +207,8 @@
         <p>
           <span class="short_header">
             <span style="font-weight: bold;">
-                Note:
-              </span>
+              Note:
+            </span>
           </span>
           &nbsp;&nbsp;
           {%if i.description%}
@@ -223,22 +219,22 @@
         </p>
 
 
+        <p><span class="short_header"><span style="font-weight: bold;">Figures:</span></span>&nbsp;&nbsp;{% if i.figure %}{%for f in i.figure%}{{f}}<br />{%endfor%}{% else %}Not Available{% endif %}</p>
 
-        <p><span class="short_header"><span
-              style="font-weight: bold;">Figures:</span></span>&nbsp;&nbsp;{% if i.figure %}{%for f in i.figure%}{{f}}<br />{%endfor%}{% else %}Not
-          Available{% endif %}</p>
 
         <p>{%if biblDiplomatic %}<span class="short_header"><span style="font-weight: bold;">Source of
               Diplomatic:</span></span>&nbsp;&nbsp;<span id="diplomatic" class="biblToRetrieve"
             bibl='{{biblDiplomatic.0}}' ntype='{{biblDiplomatic.1}}' n='{{biblDiplomatic.2}}'>{{biblDiplomatic}}</span>
           {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Diplomatic: </span></span>Not
           Available{% endif %}</p>
+
         <p>{%if biblTranscription %}<span class="short_header"><span style="font-weight: bold;">Source of
               Transcription:</span></span>&nbsp;&nbsp;<span id="transcription" class="biblToRetrieve"
             bibl='{{biblTranscription.0}}' ntype='{{biblTranscription.1}}'
             n='{{biblTranscription.2}}'>{{biblTranscription}}</span>
           {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Transcription:
             </span></span>Not Available{% endif %}</p>
+
         <p>{%if biblTranslation %}<span class="short_header"><span style="font-weight: bold;">Source of
               Translation:</span></span>&nbsp;&nbsp;<span id="translation" class="biblToRetrieve"
             bibl='{{biblTranslation.0}}' ntype='{{biblTranslation.1}}'
@@ -247,43 +243,38 @@
           Available{% endif %}</p>
 
 
-        <p>{%if biblDiplomatic %}<span class="short_header"><span style="font-weight: bold;">Source of Diplomatic:</span></span>&nbsp;&nbsp;<span id="diplomatic" class="biblToRetrieve" bibl='{{biblDiplomatic.0}}' ntype='{{biblDiplomatic.1}}' n='{{biblDiplomatic.2}}'>{{biblDiplomatic}}</span>{% else %}<span class="short_header"><span style="font-weight: bold;">Source of Diplomatic: </span></span>Not Available{% endif %}</p>
-        <p>{%if biblTranscription %}<span class="short_header"><span style="font-weight: bold;">Source of Transcription:</span></span>&nbsp;&nbsp;<span id="transcription" class="biblToRetrieve" bibl='{{biblTranscription.0}}' ntype='{{biblTranscription.1}}' n='{{biblTranscription.2}}'>{{biblTranscription}}</span>{% else %}<span class="short_header"><span style="font-weight: bold;">Source of Transcription: </span></span>Not Available{% endif %}</p>
-        <p>{%if biblTranslation %}<span class="short_header"><span style="font-weight: bold;">Source of Translation:</span></span>&nbsp;&nbsp;<span id="translation" class="biblToRetrieve" bibl='{{biblTranslation.0}}' ntype='{{biblTranslation.1}}' n='{{biblTranslation.2}}'>{{biblTranslation}}</span>{% else %}<span class="short_header"><span style="font-weight: bold;">Source of Translation: </span></span>Not Available{% endif %}</p>
-
-          <p style="{% if not biblioFull %}display: none;{% endif %}"><span class="short_header"><span style="font-weight: bold;">Bibliography:</span></span>&nbsp;&nbsp;
-          <ol style="{% if not biblioFull %}display: none;{% endif %}">
+        <p style="{% if not biblioFull %}display: none;{% endif %}"><span class="short_header"><span
+              style="font-weight: bold;">Bibliography:</span></span>&nbsp;&nbsp;
+          <ol id="bibllist" class='bibllist' style="{% if not biblioFull %}display: none;{% endif %}">
 
 
 
-            {% for bib_id,reference in z_ids.items %}
-            <ul class="biblToRetrieve" style="position:relative; left:-2em; padding-bottom:10px;">
+            {% for bib_id, reference in z_ids.items %}
+            <div class="biblToRetrieve" style="position:relative; left:-2em; padding-bottom:10px;">
               <div>
 
-                <span style="display:inline; " class='z_id' bibl='{{bib_id}}'>{{bib_id}}
-                </span>
-                <ul>
-                <!-- <span style="display:inline; white-space:nowrap; position:relative;">( -->
+                <span style="display:inline; " class='z_id' bibl='{{bib_id}}'>{{bib_id}}</span>
+                <span class='ref' style="display:inline; white-space:nowrap; position:relative;">(
                   {% for ntype, n in reference %}
-                  <li>
-                  {% if ntype == 'insc' %}
-                  insc.
-                  {% elif ntype == 'page' %}
-                  p.
-                  {% else %}
-                  {{ntype}}
-                  {% endif %}
-                  {{n}}
-                  {%endfor%}
-                  </li>
-                  <!-- ) -->
-                </ul>
-                </span>
+                    {% if ntype == 'insc' %}
+                    insc.
+                    {% elif ntype == 'page' %}
+                    p.
+                    {% else %}
+                    {{ntype}}
+                    {% endif %}
+                    {{n}}
+
+
+
+                    {%endfor%}
+                )
+              </span>
+
               </div>
 
-            </ul>
+            </div>
             {%endfor%}
-
 
 
 
@@ -292,32 +283,41 @@
         <!--           {% if biblioFull %}
             <p><span class="short_header"><span style="font-weight: bold;">Bibliography: </span></span>Not Available</p>
           {% endif %} -->
-      </div> <!-- end of div class="insMetadata" -->
+      </div>  <!-- end of div class="insMetadata" -->
 
       <div style="clear:both"></div>
 
-      {%if not biblioFull %}<div id="permalink"><a href="../viewinscr/{{i.inscription_id}}/">Link to this
-          inscription</a></div>{%endif%}
+      {%if not biblioFull %}<div id="permalink"><a href="../viewinscr/{{i.inscription_id}}/">Link to this inscription</a></div>{%endif%}
 
       <div id="viewXml"><a href="{{ view_xml_url }}">View XML</a></div>
 
-    </div> <!-- end div id="details" -->
+    </div>  <!-- end div id="details" -->
     {% endautoescape %}
 
 
     {%if biblioFull %}
     <script type="text/javascript" src='{% static "iip_search_app/js/zotero.js" %}'></script>
-    <!-- <script type="text/javascript">
-      $(".z_id").each(function (i, item) {
-        console.log(item + " z_id: item")
-        add_citation($(item).attr("bibl"));
-      });
-      console.log($(".z_id"));
-      $("[bibl=ms]").html("Supplied by Michael Satlow.");
-    </script> -->
     <script type="text/javascript">
-      $(document).ready(render_bibliography);
+      //do what you need here
+      let promises = [];
+      let done = false;
+      const delay = ms => new Promise(res => setTimeout(res, ms));
+
+      async function add_cita() {
+        $(".z_id").each(function(i, item) {
+          add_citation($(item).attr("bibl"))
+        });
+        await delay(5000);
+        add_cita_bibl();
+    }
+    $("[bibl=ms]").html("Supplied by Michael Satlow.");
+    add_cita();
+    // do_add_cita_bibl();
     </script>
+    <!-- <script></script> -->
+    <!-- <script type="text/javascript">
+      $(document).ready(render_bibliography);
+    </script> -->
     {%endif%}
 
 
@@ -328,16 +328,26 @@
       <h3 class="widget-title">Share on Social Media</h3>
       <ul class="social-nav">
 
-          <li><a href="http://twitter.com/share?text={{i.inscription_id|upper}} - {{i.short_description}}.%0AURL: &url={{current_url}}&hashtags=IIP" target="_blank" title="Twitter" rel="nofollow" class="twitter"><i class="fa fa-twitter"></i></a></li>
-          <li><a href="http://www.facebook.com/sharer/sharer.php?u={{ current_url }}&quote={{i.inscription_id|upper}} - {{i.short_description}}." target="_blank" title="Facebook" rel="nofollow" class="facebook"><i class="fa fa-facebook"></i></a></li>
-          <li><a href="https://plus.google.com/share?url={{ current_url }}&prefilltext={{i.inscription_id|upper}} - {{i.short_description}}." target="_blank" title="Google plus" rel="nofollow" class="google"><i class="fa fa-google-plus"></i></a></li>
-          <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{current_url}}&title={{i.inscription_id|upper}} - {{i.short_description}}&summary={{ current_url}}" target="_blank" title="Linkedin" rel="nofollow" class="linkedin"><i class="fa fa-linkedin"></i></a></li>
-          <li><a href="https://pinterest.com/pin/create/button/?url={{ current_url }}&description={{i.inscription_id|upper}} - {{i.short_description}}" target="_blank" title="Pinterest" rel="nofollow" class="pinterest"><i class="fa fa-pinterest"></i></a></li>
+        <li><a
+            href="http://twitter.com/share?text={{i.inscription_id|upper}} - {{i.short_description}}.%0AURL: &url={{current_url}}&hashtags=IIP"
+            target="_blank" title="Twitter" rel="nofollow" class="twitter"><i class="fa fa-twitter"></i></a></li>
+        <li><a
+            href="http://www.facebook.com/sharer/sharer.php?u={{ current_url }}&quote={{i.inscription_id|upper}} - {{i.short_description}}."
+            target="_blank" title="Facebook" rel="nofollow" class="facebook"><i class="fa fa-facebook"></i></a></li>
+        <li><a
+            href="https://plus.google.com/share?url={{ current_url }}&prefilltext={{i.inscription_id|upper}} - {{i.short_description}}."
+            target="_blank" title="Google plus" rel="nofollow" class="google"><i class="fa fa-google-plus"></i></a></li>
+        <li><a
+            href="https://www.linkedin.com/shareArticle?mini=true&url={{current_url}}&title={{i.inscription_id|upper}} - {{i.short_description}}&summary={{ current_url}}"
+            target="_blank" title="Linkedin" rel="nofollow" class="linkedin"><i class="fa fa-linkedin"></i></a></li>
+        <li><a
+            href="https://pinterest.com/pin/create/button/?url={{ current_url }}&description={{i.inscription_id|upper}} - {{i.short_description}}"
+            target="_blank" title="Pinterest" rel="nofollow" class="pinterest"><i class="fa fa-pinterest"></i></a></li>
       </ul>
     </div>
 
 
-    {%endfor%} {% comment %} end of '''for i in inscription''' {% endcomment %}
+    {%endfor%}  {% comment %} end of '''for i in inscription''' {% endcomment %}
     <br><br><br><br>
     <!-- <div class="comment-box">
       <h2>Write a Comment</h2>
@@ -369,18 +379,16 @@
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src='{% static "iip_search_app/js/jquery.livequery.js" %}' type="text/javascript"></script>
-<script src='{% static "iip_search_app/js/CETEI.js" %}' type="text/javascript"></script>
+<script src='{% static "iip_search_app/js/CETEI.js" %}'type="text/javascript"></script>
 <script type="text/javascript" src='{% static "iip_search_app/highslide/highslide-with-gallery.packed.js" %}'></script>
 <script type="text/javascript">
   hs.graphicsDir = '{% static "iip_search_app/highslide/graphics/" %}'
 </script>
 <script>
-    (function (i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date(); a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
   ga('create', 'UA-3203647-22', 'auto');
   ga('send', 'pageview');
