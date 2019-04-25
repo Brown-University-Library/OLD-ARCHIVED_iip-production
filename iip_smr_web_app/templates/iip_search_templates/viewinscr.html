@@ -10,32 +10,32 @@
 <link href='{% static "iip_search_app/css/general2.css"%}' media="all" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href='{% static "iip_search_app/css/tei_custom_elements.css" %}'/>
 <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
   integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
   crossorigin=""/>
-  <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+<link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
 
 <style>
- ul {
-  list-style-type:none;
- }
+  ul {
+    list-style-type:none;
+  }
 
-ol li::before {
-  content: counter(counter) ". ";
-  position:relative;
-  left:-2em;
-  top:1.5em;
-}
+  ol li::before {
+    content: counter(counter) ". ";
+    position:relative;
+    left:-2em;
+    top:1.5em;
+  }
 
 
-ol {
-  list-style: none;
-  counter-reset: counter;
-}
-ol li {
-  counter-increment: counter;
-}
+  ol {
+    list-style: none;
+    counter-reset: counter;
+  }
+  ol li {
+    counter-increment: counter;
+  }
 
 </style>
 {% endblock %}
@@ -47,13 +47,13 @@ function ImgError(source){
     source.onerror = "";
     source.width = "150";
     return true;
-}
+  }
 </script>
 <div class="container story-wrapper">
 
-<div id="single_inscription">
+  <div id="single_inscription">
 
-  {% for i in inscription %}
+    {% for i in inscription %}
 
     {% autoescape off %}
     <div class="resultTitle">
@@ -61,21 +61,21 @@ function ImgError(source){
     </div>
 
     {% if session_authz_info.authorized %}
-      <div id="action_buttons">
-        <form action="{{ current_url }}" method="POST">{% csrf_token %}
-          <p>( current display status: '{{ chosen_display_status }}' )</p>
-          <p>New Status:</p>
-          {% ifequal chosen_display_status 'to_approve' %}
-            <input type="submit" name="action_button" value="Approved" /> <input type="submit" name="action_button" value="To Correct" />
-          {% endifequal %}
-          {% ifequal chosen_display_status 'approved' %}
-            <input type="submit" name="action_button" value="To Correct" />
-          {% endifequal %}
-          {% ifequal chosen_display_status 'to_correct' %}
-            <input type="submit" name="action_button" value="To Approve" />
-          {% endifequal %}
-        </form>
-      </div>
+    <div id="action_buttons">
+      <form action="{{ current_url }}" method="POST">{% csrf_token %}
+        <p>( current display status: '{{ chosen_display_status }}' )</p>
+        <p>New Status:</p>
+        {% ifequal chosen_display_status 'to_approve' %}
+        <input type="submit" name="action_button" value="Approved" /> <input type="submit" name="action_button" value="To Correct" />
+        {% endifequal %}
+        {% ifequal chosen_display_status 'approved' %}
+        <input type="submit" name="action_button" value="To Correct" />
+        {% endifequal %}
+        {% ifequal chosen_display_status 'to_correct' %}
+        <input type="submit" name="action_button" value="To Approve" />
+        {% endifequal %}
+      </form>
+    </div>
     {% endif %}  {% comment %}end of '''if session_authz_info.authorized'''{% endcomment %}
 
     <br><br>
@@ -85,11 +85,11 @@ function ImgError(source){
       <div class="insText" id="{{ i.inscription_id }}">
         {% if i.imageSource and biblioFull %}
         <h4>Images:</h4>
-          {% for im in i.imageSource %}
-            <a href="{{im}}" class="highslide " onclick="return hs.expand(this)">
-              <img width="200" src="{{im}}" alt="Highslide JS" title="Click to enlarge">
-            </a>
-          {% endfor %}
+        {% for im in i.imageSource %}
+        <a href="{{im}}" class="highslide " onclick="return hs.expand(this)">
+          <img width="200" src="{{im}}" alt="Highslide JS" title="Click to enlarge">
+        </a>
+        {% endfor %}
         {% else %}
 
         <img src='{{image_url}}' onerror="ImgError(this)" style="max-width: 400px;" >
@@ -115,22 +115,24 @@ function ImgError(source){
 
       <div class="insMetadata">
         {% if i.image %}
-          <p class="thumbnail">
+        <p class="thumbnail">
           {% for thumb in i.image %}
-            <a href="/django_z_media/iip_z_media/inscription_images/display_size/{{thumb}}.jpg"><img onerror="ImgError(this)" src="/django_z_media/iip_z_media/inscription_images/thumbnails/{{thumb}}_t.jpg"/></a><br />
+          <a href="/django_z_media/iip_z_media/inscription_images/display_size/{{thumb}}.jpg"><img
+              onerror="ImgError(this)"
+              src="/django_z_media/iip_z_media/inscription_images/thumbnails/{{thumb}}_t.jpg" /></a><br />
           {% endfor %}
-          </p>
+        </p>
         {% endif %}
 
 
         <script type="text/javascript">
-        var inscription_list = ["{{i.inscription_id}}"];
+          var inscription_list = ["{{i.inscription_id}}"];
         </script>
 
         <script src='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
         <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
-        integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
-        crossorigin=""></script>
+          integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
+          crossorigin=""></script>
         <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
         <script type="text/javascript" src='{% static "iip_search_app/js/maplet.js" %}'></script>
 
@@ -138,24 +140,24 @@ function ImgError(source){
         <div id="maplet{{i.inscription_id}}" style="width: 100px; height: 100px; float: right; padding: 15px;"></div>
 
         <p><!-- {% if i.language_display|length > 0 and i.language|length > 0 %}s{% endif %}: -->
-        <span class="short_header"><span style="font-weight: bold;">Languages:</span></span>
-        &nbsp;&nbsp;
+          <span class="short_header"><span style="font-weight: bold;">Languages:</span></span>
+          &nbsp;&nbsp;
 
-        {%if i.language_display%}
+          {%if i.language_display%}
           {%for l in i.language_display%}
-            {{l}}
-            {% if not forloop.last %},&nbsp;
-            {% endif %}
+          {{l}}
+          {% if not forloop.last %},&nbsp;
+          {% endif %}
           {%endfor%}
-        {%elif i.language%}
+          {%elif i.language%}
           {%for l in i.language%}
-            {{l}}
-            {% if not forloop.last %},&nbsp;
-            {% endif %}
+          {{l}}
+          {% if not forloop.last %},&nbsp;
+          {% endif %}
           {%endfor%}}
-        {% else %}
+          {% else %}
           Not Available
-        {%endif%}
+          {%endif%}
         </p>
 
 
@@ -163,21 +165,21 @@ function ImgError(source){
         <p><span class="short_header"><span style="font-weight: bold;">Dimensions:</span></span>&nbsp;&nbsp;
 
 
-        {%if i.dimensions%}
+          {%if i.dimensions%}
           {{i.dimensions}}
-        {% else %}
+          {% else %}
           Not Available
-        {%endif%}
+          {%endif%}
         </p>
 
 
         <p><span class="short_header"><span style="font-weight: bold;">Date:</span></span>&nbsp;&nbsp;
 
-        {%if i.notBefore%}
+          {%if i.notBefore%}
           {{i.notBefore|cleanDates}} to {{i.notAfter|cleanDates}}
-        {% else %}
+          {% else %}
           Not Available
-        {%endif%}
+          {%endif%}
 
 
         </p>
@@ -188,13 +190,13 @@ function ImgError(source){
 
         <p><span class="short_header"><span style="font-weight: bold;">Place Found:</span></span>&nbsp;&nbsp;
 
-        {%if i.place_found%}
+          {%if i.place_found%}
 
           {{i.place_found|placeClean}}
 
-        {% else %}
+          {% else %}
           Not Available
-        {%endif%}
+          {%endif%}
         </p>
 
 
@@ -202,51 +204,83 @@ function ImgError(source){
 
 
 
-        <p><span class="short_header"><span style="font-weight: bold;">Note:</span></span>&nbsp;&nbsp;{%if i.description%}{{i.description}}{% else %}Not Available{%endif%}</p>
+        <p>
+          <span class="short_header">
+            <span style="font-weight: bold;">
+              Note:
+            </span>
+          </span>
+          &nbsp;&nbsp;
+          {%if i.description%}
+          {{i.description}}
+          {% else %}
+          Not Available
+          {%endif%}
+        </p>
 
 
         <p><span class="short_header"><span style="font-weight: bold;">Figures:</span></span>&nbsp;&nbsp;{% if i.figure %}{%for f in i.figure%}{{f}}<br />{%endfor%}{% else %}Not Available{% endif %}</p>
 
-        <p>{%if biblDiplomatic %}<span class="short_header"><span style="font-weight: bold;">Source of Diplomatic:</span></span>&nbsp;&nbsp;<span id="diplomatic" class="biblToRetrieve" bibl='{{biblDiplomatic.0}}' ntype='{{biblDiplomatic.1}}' n='{{biblDiplomatic.2}}'>{{biblDiplomatic}}</span>{% else %}<span class="short_header"><span style="font-weight: bold;">Source of Diplomatic: </span></span>Not Available{% endif %}</p>
-        <p>{%if biblTranscription %}<span class="short_header"><span style="font-weight: bold;">Source of Transcription:</span></span>&nbsp;&nbsp;<span id="transcription" class="biblToRetrieve" bibl='{{biblTranscription.0}}' ntype='{{biblTranscription.1}}' n='{{biblTranscription.2}}'>{{biblTranscription}}</span>{% else %}<span class="short_header"><span style="font-weight: bold;">Source of Transcription: </span></span>Not Available{% endif %}</p>
-        <p>{%if biblTranslation %}<span class="short_header"><span style="font-weight: bold;">Source of Translation:</span></span>&nbsp;&nbsp;<span id="translation" class="biblToRetrieve" bibl='{{biblTranslation.0}}' ntype='{{biblTranslation.1}}' n='{{biblTranslation.2}}'>{{biblTranslation}}</span>{% else %}<span class="short_header"><span style="font-weight: bold;">Source of Translation: </span></span>Not Available{% endif %}</p>
 
-          <p style="{% if not biblioFull %}display: none;{% endif %}"><span class="short_header"><span style="font-weight: bold;">Bibliography:</span></span>&nbsp;&nbsp;
-          <ol style="{% if not biblioFull %}display: none;{% endif %}">
+        <p>{%if biblDiplomatic %}<span class="short_header"><span style="font-weight: bold;">Source of
+              Diplomatic:</span></span>&nbsp;&nbsp;<span id="diplomatic" class="biblToRetrieve"
+            bibl='{{biblDiplomatic.0}}' ntype='{{biblDiplomatic.1}}' n='{{biblDiplomatic.2}}'>{{biblDiplomatic}}</span>
+          {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Diplomatic: </span></span>Not
+          Available{% endif %}</p>
+
+        <p>{%if biblTranscription %}<span class="short_header"><span style="font-weight: bold;">Source of
+              Transcription:</span></span>&nbsp;&nbsp;<span id="transcription" class="biblToRetrieve"
+            bibl='{{biblTranscription.0}}' ntype='{{biblTranscription.1}}'
+            n='{{biblTranscription.2}}'>{{biblTranscription}}</span>
+          {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Transcription:
+            </span></span>Not Available{% endif %}</p>
+
+        <p>{%if biblTranslation %}<span class="short_header"><span style="font-weight: bold;">Source of
+              Translation:</span></span>&nbsp;&nbsp;<span id="translation" class="biblToRetrieve"
+            bibl='{{biblTranslation.0}}' ntype='{{biblTranslation.1}}'
+            n='{{biblTranslation.2}}'>{{biblTranslation}}</span>
+          {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Translation: </span></span>Not
+          Available{% endif %}</p>
+
+
+        <p style="{% if not biblioFull %}display: none;{% endif %}"><span class="short_header"><span
+              style="font-weight: bold;">Bibliography:</span></span>&nbsp;&nbsp;
+          <ol id="bibllist" class='bibllist' style="{% if not biblioFull %}display: none;{% endif %}">
 
 
 
-          {% for b,l in z_ids.items %}
+            {% for bib_id, reference in z_ids.items %}
             <div class="biblToRetrieve" style="position:relative; left:-2em; padding-bottom:10px;">
               <div>
 
-              <span style="display:inline; " class='z_id' bibl='{{b}}'>{{b}}</span>
-              <span style="display:inline; white-space:nowrap; position:relative;">(
-              {% for ntype,n in l %}
-
-                  {% if ntype == 'insc' %}
+                <span style="display:inline; " class='z_id' bibl='{{bib_id}}'>{{bib_id}}</span>
+                <span class='ref' style="display:inline; white-space:nowrap; position:relative;">(
+                  {% for ntype, n in reference %}
+                    {% if ntype == 'insc' %}
                     insc.
-                  {% elif ntype == 'page' %}
+                    {% elif ntype == 'page' %}
                     p.
-                  {% else %}
+                    {% else %}
                     {{ntype}}
-                  {% endif %}
-                  {{n}}
+                    {% endif %}
+                    {{n}}
 
 
-              {%endfor%}
-            )</span>
+
+                    {%endfor%}
+                )
+              </span>
+
+              </div>
 
             </div>
-
-            </div>
-          {%endfor%}
+            {%endfor%}
 
 
 
           </ol>
-          </p>
-<!--           {% if biblioFull %}
+        </p>
+        <!--           {% if biblioFull %}
             <p><span class="short_header"><span style="font-weight: bold;">Bibliography: </span></span>Not Available</p>
           {% endif %} -->
       </div>  <!-- end of div class="insMetadata" -->
@@ -264,34 +298,58 @@ function ImgError(source){
     {%if biblioFull %}
     <script type="text/javascript" src='{% static "iip_search_app/js/zotero.js" %}'></script>
     <script type="text/javascript">
-      $(".z_id").each(function(i, item) {
-        console.log(item + " z_id: item")
-        add_citation($(item).attr("bibl"));
-      });
-      $("[bibl=ms]").html("Supplied by Michael Satlow.");
+      //do what you need here
+      let promises = [];
+      let done = false;
+      const delay = ms => new Promise(res => setTimeout(res, ms));
+
+      async function add_cita() {
+        $(".z_id").each(function(i, item) {
+          add_citation($(item).attr("bibl"))
+        });
+        await delay(5000);
+        add_cita_bibl();
+    }
+    $("[bibl=ms]").html("Supplied by Michael Satlow.");
+    add_cita();
+    // do_add_cita_bibl();
     </script>
+    <!-- <script></script> -->
+    <!-- <script type="text/javascript">
+      $(document).ready(render_bibliography);
+    </script> -->
     {%endif%}
 
 
 
-
-<br><br>
+    <br><br>
 
     <div>
       <h3 class="widget-title">Share on Social Media</h3>
       <ul class="social-nav">
-          <li><a href="http://twitter.com/share?text={{i.inscription_id|upper}} - {{i.short_description}}.%0AURL: &url={{current_url}}&hashtags=IIP" target="_blank" title="Twitter" rel="nofollow" class="twitter"><i class="fa fa-twitter"></i></a></li>
-          <li><a href="http://www.facebook.com/sharer/sharer.php?u={{ current_url }}&quote={{i.inscription_id|upper}} - {{i.short_description}}." target="_blank" title="Facebook" rel="nofollow" class="facebook"><i class="fa fa-facebook"></i></a></li>
-          <li><a href="https://plus.google.com/share?url={{ current_url }}&prefilltext={{i.inscription_id|upper}} - {{i.short_description}}." target="_blank" title="Google plus" rel="nofollow" class="google"><i class="fa fa-google-plus"></i></a></li>
-          <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{current_url}}&title={{i.inscription_id|upper}} - {{i.short_description}}&summary={{ current_url}}" target="_blank" title="Linkedin" rel="nofollow" class="linkedin"><i class="fa fa-linkedin"></i></a></li>
-          <li><a href="https://pinterest.com/pin/create/button/?url={{ current_url }}&description={{i.inscription_id|upper}} - {{i.short_description}}" target="_blank" title="Pinterest" rel="nofollow" class="pinterest"><i class="fa fa-pinterest"></i></a></li>
+
+        <li><a
+            href="http://twitter.com/share?text={{i.inscription_id|upper}} - {{i.short_description}}.%0AURL: &url={{current_url}}&hashtags=IIP"
+            target="_blank" title="Twitter" rel="nofollow" class="twitter"><i class="fa fa-twitter"></i></a></li>
+        <li><a
+            href="http://www.facebook.com/sharer/sharer.php?u={{ current_url }}&quote={{i.inscription_id|upper}} - {{i.short_description}}."
+            target="_blank" title="Facebook" rel="nofollow" class="facebook"><i class="fa fa-facebook"></i></a></li>
+        <li><a
+            href="https://plus.google.com/share?url={{ current_url }}&prefilltext={{i.inscription_id|upper}} - {{i.short_description}}."
+            target="_blank" title="Google plus" rel="nofollow" class="google"><i class="fa fa-google-plus"></i></a></li>
+        <li><a
+            href="https://www.linkedin.com/shareArticle?mini=true&url={{current_url}}&title={{i.inscription_id|upper}} - {{i.short_description}}&summary={{ current_url}}"
+            target="_blank" title="Linkedin" rel="nofollow" class="linkedin"><i class="fa fa-linkedin"></i></a></li>
+        <li><a
+            href="https://pinterest.com/pin/create/button/?url={{ current_url }}&description={{i.inscription_id|upper}} - {{i.short_description}}"
+            target="_blank" title="Pinterest" rel="nofollow" class="pinterest"><i class="fa fa-pinterest"></i></a></li>
       </ul>
     </div>
 
 
-  {%endfor%}  {% comment %} end of '''for i in inscription''' {% endcomment %}
+    {%endfor%}  {% comment %} end of '''for i in inscription''' {% endcomment %}
     <br><br><br><br>
-  <!-- <div class="comment-box">
+    <!-- <div class="comment-box">
       <h2>Write a Comment</h2>
       <form>
           <div class="form-group">
@@ -312,7 +370,7 @@ function ImgError(source){
 
 
 
-</div> <!-- end div id="single_inscription" -->
+  </div> <!-- end div id="single_inscription" -->
 </div>
 
 {%endblock%}
@@ -332,8 +390,8 @@ function ImgError(source){
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-ga('create', 'UA-3203647-22', 'auto');
-ga('send', 'pageview');
+  ga('create', 'UA-3203647-22', 'auto');
+  ga('send', 'pageview');
 
 </script>
 

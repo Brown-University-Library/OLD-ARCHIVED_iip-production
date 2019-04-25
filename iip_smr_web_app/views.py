@@ -206,21 +206,15 @@ def results( request ):
 
     if request.method == u'GET' and request.GET.get(u'q', None) != None:
         log.debug( 'GET, with params, hit solr and show results' )
-
         return render( request, u'iip_search_templates/results.html', _get_results_context(request, log_id) )
-
-
-
-
-
-
-
     elif request.is_ajax():  # user has requested another page, a facet, etc.
         log.debug( 'request.is_axax() is True' )
         return HttpResponse( _get_ajax_unistring(request) )
     else:  # regular GET, no params
         log.debug( 'GET, no params, show search form' )
-        return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
+        return render( request, u'mapsearch/mapsearch.html', 
+        _get_searchform_context(request, log_id) 
+        )
 
 
 
@@ -340,6 +334,7 @@ def viewinscr(request, inscrid):
             'image_url':  "https://github.com/Brown-University-Library/iip-images/raw/master/" + inscrid + ".jpg"
             }
         # log.debug( u'in _prepare_viewinscr_plain_get_response(); context, %s' % pprint.pformat(context) )
+        print(z_bibids)
         return_response = render( request, u'iip_search_templates/viewinscr.html', context )
         return return_response
 
@@ -1129,6 +1124,7 @@ def old_viewinscr(request, inscrid):
             'biblTranslation' : specific_sources['translation'],
             'biblioFull': False,
             'view_xml_url': view_xml_url }
+        print(z_bibids)
         return_str = ajax_snippet.render_block_to_string( 'iip_search_templates/old_viewinscr.html', 'viewinscr', context )
         return_response = HttpResponse( return_str )
         return return_response
