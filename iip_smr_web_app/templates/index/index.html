@@ -84,24 +84,24 @@
             <a href="{% url 'index_url' %}">
                 <img src='{% static "iip_search_app/images/logo3.png" %}' alt="" style="height:55px;">
             </a>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                            
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="https://www.brown.edu">
                 <img style="width: 80px;" src="{% static "iip_search_app/images/logo_brown.png" %}" alt="Brown University" />
             </a>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div style="max-width: 50px; display:inline-block; overflow-wrap: break-word;">
             <a href="http://library.brown.edu/cds" style="color: white; font-weight:bold; width: 150px; display:block;">
              <div style="position: relative; top:.8em;">  Center for Digital Scholarship </div>
                 {# <img style="width: 80px;" src="{% static "iip_search_app/images/cds_logo.png" %}" alt="Brown University Library" /> #}
             </a>
         </div>
-            
+
             <br><br><br><br>
 
             <h1 id="project_title" style="color:white">A collection of ancient inscriptions <br>from Israel/Palestine</h1>
 
             <div class="row">
-                
+
                 <br><br>
                 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                 <!-- Wrapper for slides -->
@@ -129,13 +129,13 @@
 
                         {% endfor %}
                     </div>
-                
+
                     <div class='carousel-indicators-div'>
                         <ol class="carousel-indicators">
                             {% for story in num_stories %}
                             <li data-target="#carousel-example-generic" data-slide-to="{{story}}"" class="{%if story == 0%}active{% endif %}"></li>
                             {% endfor %}
-                      </ol> 
+                      </ol>
                     </div>
                 </div>
             </div>
