@@ -273,6 +273,8 @@ def viewinscr(request, inscrid):
         log_id = common.get_log_identifier( request.session )
         return log_id
 
+        #query solr instance wrong
+        #is it solr instance wrong or the view code?
     def _call_viewinsc_solr( inscription_id ):
         """ Hits solr with inscription-id.
                 Returns a solrpy query-object.
@@ -1061,6 +1063,7 @@ def old_viewinscr(request, inscrid):
         current_display_status = _update_viewinscr_display_status( request, q )
         z_bibids_initial = [_bib_tuple_or_none(x) for x in q.results[0]['bibl']]
         z_bibids = {}
+        print(z_bibids_initial)
         for entry in z_bibids_initial:
             if not entry:
                 continue
@@ -1068,6 +1071,7 @@ def old_viewinscr(request, inscrid):
             if(not bibid in z_bibids):
                 z_bibids[bibid] = []
             if(not (ntype, n) in z_bibids[bibid]):
+                #append ntype
                 z_bibids[bibid].append((ntype, n))
         specific_sources = dict()
         specific_sources['transcription'] = _bib_tuple_or_none(q.results[0]['biblTranscription'][0]) if 'biblTranscription' in q.results[0] else ""
