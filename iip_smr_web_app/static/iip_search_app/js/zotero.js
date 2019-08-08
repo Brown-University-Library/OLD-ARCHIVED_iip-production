@@ -10,7 +10,11 @@ id_dict = {
 }
 total_links_array = {};
 async function add_citation(ztag) {
+    //assign targets html
     var targets_html = $("[bibl="+ztag+"]");
+    //ztag is inscription ID
+    console.log(ztag);
+    console.log(targets_html);
     if (ztag === "ms") {
         targets_html.html("Supplied by Michael Satlow.");
     }
@@ -19,14 +23,18 @@ async function add_citation(ztag) {
     let links_array = new Array();
     var req = new XMLHttpRequest();
     req.open("GET", "https://api.zotero.org/groups/" + GROUP + "/items?tag=" + ztag + "&include=bib" + "&style=apa", true);
+    console.log("https://api.zotero.org/groups/" + GROUP + "/items?tag=" + ztag + "&include=bib" + "&style=apa", true);
     req.setRequestHeader("Zotero-API-Version", "3");
     req.onload = function() {
+        //bibs response from api call
         var bibs = JSON.parse(this.response);
+        console.log(bibs);
         targets_html.html("");
         if (bibs.length > 0) {
             bibs.forEach(function(b) {
                 console.log('DEBUG: foreach ------- b', b);
                 console.log('current ztag', ztag);
+                console.log(b.bib);
                 let href = b.links.alternate.href;
                 links_array.push(href);
                 total_links_array[ztag] = href;
@@ -42,6 +50,9 @@ async function add_citation(ztag) {
             targets_html.innerHTML = "Not found: " + ztag;
         }
         
+        console.log(targets_html);
+        //iterating over each html node child
+        //index, specific node
         targets_html.each(function(i,d) {
             console.log('DEBUG: i', i);
             console.log('DEBUG: d', d);
@@ -52,13 +63,15 @@ async function add_citation(ztag) {
             console.log("DEBUG: *********** ntype", ntype)
             console.log("DEBUG: *********** n", n)
 
+
+
             if (ntype) {
                 if (ntype === "page") {
-                    $(".csl-entry", d).append("<div><span>(page." + n + ")</span></div>");
+                    $(".csl-entry", d).append("<div style='display:inline; margin-left:.5em;'><span>(page." + n + ")</span></div>");
                 } else if (ntype === "insc") {
-                    $(".csl-entry", d).append("<div><span>(inscription. " + n + ")</span></div>");
+                    $(".csl-entry", d).append("<div style='display:inline; margin-left:.5em;'><span>(inscription. " + n + ")</span></div>");
                 } else {
-                    $(".csl-entry", d).append("<div><span>("+ntype + " " + n + ")</span></div>");
+                    $(".csl-entry", d).append("<div style='display:inline; margin-left:.5em;'><span>("+ntype + " " + n + ")</span></div>");
                 }                
             };
 
@@ -67,7 +80,10 @@ async function add_citation(ztag) {
                 select_exp = '#' + id + ' .csl-bib-body';
                 d_html = $(select_exp);
                 for (let [i, link_href] of links_array.entries()) {
-                    $(d_html[i]).append("<div><a href='"+link_href+"' target='_blank'>(Full Entry)</a><div>");
+                    //error here
+                    //console.log(d_html[i].childNodes);
+                    //$(d_html[i] + "> div.csl-entry > i:nth-child(1)").css("display","none");
+                    //$(d_html[i]).append("<div style='float:right;'><a href='"+link_href+"' target='_blank'>(See bin Zotero)</a><div>");
                 }
             }
         });
@@ -95,7 +111,7 @@ function add_cita_bibl() {
         parent_div_ztag = $(final_parts_html[i_link]).parent().attr('bibl')
         link_href = total_links_array[parent_div_ztag];
         console.log('inner for loop', link_href);
-        $(final_parts_html[i_link]).append("<div><a href='"+link_href+"' target='_blank'>(Full Entry)</a><div>");
+        $(final_parts_html[i_link]).append("<div style='float:right;'><a href='"+link_href+"' target='_blank'>(See in Zotero)</a><div>");
     }
 }
 
