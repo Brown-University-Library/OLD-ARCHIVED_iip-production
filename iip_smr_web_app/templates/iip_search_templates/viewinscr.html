@@ -4,52 +4,46 @@
 
 {% block extra_css %}
 
+    {% load staticfiles %}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href='{% static "iip_search_app/css/general2.css"%}' media="all" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href='{% static "iip_search_app/css/tei_custom_elements.css" %}'/>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+        integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
+        crossorigin=""/>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
-{% load staticfiles %}
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link href='{% static "iip_search_app/css/general2.css"%}' media="all" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href='{% static "iip_search_app/css/tei_custom_elements.css" %}'/>
-<link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
-  integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
-  crossorigin=""/>
-<link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        ul {
+            list-style-type:none;
+        }
+        ol li::before {
+            content: counter(counter) ". ";
+            position:relative;
+            left:-2em;
+            top:1.5em;
+        }
+        ol {
+            list-style: none;
+            counter-reset: counter;
+        }
+        ol li {
+            counter-increment: counter;
+        }
+        .short_header{
+            margin-bottom:1em;
+        }
+        .insMetadata {
+            line-height: 1.5em;
+        }
+        .csl-entry{
+            line-height: 1.5em;
+        }
+    </style>
 
-
-<style>
-  ul {
-    list-style-type:none;
-  }
-
-  ol li::before {
-    content: counter(counter) ". ";
-    position:relative;
-    left:-2em;
-    top:1.5em;
-  }
-
-
-  ol {
-    list-style: none;
-    counter-reset: counter;
-  }
-  ol li {
-    counter-increment: counter;
-  }
-
-  .short_header{
-    margin-bottom:1em;
-  }
-
-  .insMetadata {
-    line-height: 1.5em;
-  }
-
-  .csl-entry{
-    line-height: 1.5em;
-  }
-</style>
 {% endblock %}
+s
 
 {%block viewinscr%}
 <script type="text/javascript">
@@ -247,11 +241,11 @@ function ImgError(source){
 
         <p>{%if biblTranscription %}<span class="short_header"><span style="font-weight: bold;">Source of
               Transcription:</span></span>&nbsp;&nbsp;
-               
+
               <span id="transcription" class="biblToRetrieve"
             bibl='{{biblTranscription.0}}' ntype='{{biblTranscription.1}}'
             n='{{biblTranscription.2}}'>{{biblTranscription}}</span>
-           
+
           {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Transcription:
             </span></span><br />Not
           Available <br />{% endif %}</p>
@@ -262,7 +256,7 @@ function ImgError(source){
             n='{{biblTranslation.2}}'>{{biblTranslation}}</span>
           {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Translation: </span></span><br />Not
           Available <br />{% endif %}</p>
- 
+
           </div>
         <p style="{% if not biblioFull %}display: none;{% endif %}"><span class="short_header"><span
               style="font-weight: bold;">Bibliography:</span></span>&nbsp;&nbsp;
@@ -413,19 +407,19 @@ else
     return false;
 }
 $(window).load(function(){
- 
+
    $(function() {
   var $textNodes = $("#diplomatic > div > div").contents().filter(function() {
     return this.nodeType === Node.TEXT_NODE;
   });
-  
+
   var counter = 0;
   $textNodes.each(function() {
     counter = counter + 1;
     var $this = $(this);
     if(counter > 1){
     if(this.nodeType == 3){
-           $this.remove(); // Remove it 
+           $this.remove(); // Remove it
           } else if(this.nodeType == 1){ // If its an element node
             $this.removeText(); //Recurse
           }
@@ -434,7 +428,7 @@ $(window).load(function(){
           var str = $this.text().replace(regex, "");
           $this.replaceWith(str + ").");
         }
-        
+
   });
 
 });
@@ -444,14 +438,14 @@ $(window).load(function(){
   var $textNodes = $("#transcription > div > div").contents().filter(function() {
     return this.nodeType === Node.TEXT_NODE;
   });
-  
+
   var counter = 0;
   $textNodes.each(function() {
     counter = counter + 1;
     var $this = $(this);
     if(counter > 1){
     if(this.nodeType == 3){
-           $this.remove(); // Remove it 
+           $this.remove(); // Remove it
           } else if(this.nodeType == 1){ // If its an element node
             $this.removeText(); //Recurse
           }
@@ -460,7 +454,7 @@ $(window).load(function(){
           var str = $this.text().replace(regex, "");
           $this.replaceWith(str + ").");
         }
-        
+
   });
 
 });
@@ -469,23 +463,23 @@ $(window).load(function(){
   var $textNodes = $("#translation > div > div").contents().filter(function() {
     return this.nodeType === Node.TEXT_NODE;
   });
-  
+
   var counter = 0;
   $textNodes.each(function() {
     counter = counter + 1;
     var $this = $(this);
     if(counter > 1){
     if(this.nodeType == 3){
-           $this.remove(); // Remove it 
+           $this.remove(); // Remove it
           } else if(this.nodeType == 1){ // If its an element node
             $this.removeText(); //Recurse
-          } 
+          }
         } else {
           var regex = /(?<=([0-9]{4})).*/;
           var str = $this.text().replace(regex, "");
           $this.replaceWith(str + ").");
         }
-        
+
   });
 
 });
