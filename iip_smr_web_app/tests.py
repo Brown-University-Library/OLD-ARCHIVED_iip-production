@@ -47,6 +47,7 @@ class UrlTest( TestCase ):
         is_json = False
         try:
             json.loads( response.content )
+            is_json = True
         except:
             log.exception( 'not json!' )
         self.assertEqual( is_json, True )
