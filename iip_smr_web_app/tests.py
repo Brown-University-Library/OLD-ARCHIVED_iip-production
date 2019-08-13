@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import json, logging, pprint
-# import requests, solr
+
 import requests
 from iip_smr_web_app import common, models, settings_app
 from django.test import Client, TestCase
-# from models import Processor, ProcessorUtils
-# from models import ProcessorUtils
 
 
 log = logging.getLogger(__name__)
@@ -41,6 +39,17 @@ class UrlTest( TestCase ):
         self.assertEqual( 200, response.status_code )
         self.assertTrue(  b'caes0501' in response.content.lower() )
         self.assertTrue(  b'caesarea, 6th-7th century' in response.content.lower() )
+
+    def test_mapsearch_results_data(self):
+        """ Checks 'mapsearch' results json. """
+        response = self.client.get( '/mapsearch/?q=(material:lead)&format=json' )
+        self.assertEqual( 200, response.status_code )
+        is_json = False
+        try:
+            json.loads( response.content )
+        except:
+            log.exception( 'not json!' )
+        self.assertEqual( is_json, True )
 
     ## end class UrlTest
 
