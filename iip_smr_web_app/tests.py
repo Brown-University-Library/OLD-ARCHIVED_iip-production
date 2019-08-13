@@ -12,6 +12,39 @@ from django.test import Client, TestCase
 log = logging.getLogger(__name__)
 
 
+class UrlTest( TestCase ):
+    """ Checks urls. """
+
+    def test_root_url_no_slash(self):
+        """ Checks '/root_url redirect (no appended slash)'. """
+        response = self.client.get( '' )  # project root part of url is assumed
+        self.assertEqual( 302, response.status_code )  # permanent redirect
+        redirect_url = response._headers['location'][1]
+        self.assertEqual(  '/index/', redirect_url )
+
+    def test_root_url_slash(self):
+        """ Checks '/root_url/ redirect (with appended slash)'. """
+        response = self.client.get( '/' )  # project root part of url is assumed
+        self.assertEqual( 302, response.status_code )  # permanent redirect
+        redirect_url = response._headers['location'][1]
+        self.assertEqual(  '/index/', redirect_url )
+
+    def test_mapsearch_form(self):
+        """ Checks 'mapsearch' form. """
+        response = self.client.get( '/mapsearch/' )
+        self.assertEqual( 200, response.status_code )
+        self.assertTrue(  b'the search box' in response.content )
+
+    def test_mapsearch_results(self):
+        """ Checks 'mapsearch' results. """
+        response = self.client.get( '/mapsearch/?q=(material:lead)' )
+        self.assertEqual( 200, response.status_code )
+        self.assertTrue(  b'caes0501' in response.content.lower() )
+        self.assertTrue(  b'caesarea, 6th-7th century' in response.content.lower() )
+
+    ## end class UrlTest
+
+
 class ResourcesPageTest(TestCase):
     """ Tests responses for resource pages. """
     fixtures = ['static_pages.json']
