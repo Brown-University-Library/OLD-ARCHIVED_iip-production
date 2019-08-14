@@ -81,7 +81,7 @@ function longDisplay(domTarget) {
 }
 
 $("#search_results tr[id]").each( function() {
-    shortDisplay(this);
+    // shortDisplay(this);
 });
 
 $("#single_inscription .insText").each(function() {
