@@ -55,10 +55,12 @@
 
                 {% autoescape off %}
 
-                <span class="search_results_header">Your search for {{dispQstring}} yielded {{pages.count}} results</span>
+                <!-- <span class="search_results_header">Your search for {{dispQstring}} yielded {{pages.count}} results</span> -->
+                <span class="search_results_header">Your search for `{{dispQstring}}` yielded {{ results_count }} result{{ results_count|pluralize }}</span>
 
                 <div class="page_list">
-                    {% for pg in pages.page_range %}
+                    Results pages:
+                    {% for pg in pages %}
                     <a href='./?q={{ initial_qstring|urlencode }}&resultsPage={{pg}}' {%ifequal pg resultsPage%}style="font-size: 1.3em"{%endifequal%}>{{pg}}</a>&nbsp;
                     {% endfor %}
                 </div>
@@ -74,7 +76,8 @@
                         var inscription_list = [];
                     </script>
 
-                    {% for inscription in iipResult.object_list %}
+                    {# {% for inscription in iipResult.object_list %} #}
+                    {% for inscription in iipResult %}
 
                         <script type="text/javascript">
                             inscription_list.push("{{inscription.inscription_id}}");
@@ -165,8 +168,9 @@
                 </table>
 
                 <div class="page_list">
-                    {% for pg in pages.page_range %}
-                        <a href='./?q={{ initial_qstring|urlencode }}&resultsPage={{pg}}' {%ifequal pg resultsPage%}style="font-size: 1.3em"{%endifequal%}>{{pg}}</a>&nbsp;
+                    Results pages:
+                    {% for pg in pages %}
+                    <a href='./?q={{ initial_qstring|urlencode }}&resultsPage={{pg}}' {%ifequal pg resultsPage%}style="font-size: 1.3em"{%endifequal%}>{{pg}}</a>&nbsp;
                     {% endfor %}
                 </div>
 
