@@ -115,7 +115,8 @@ def _run_paginator_main_query( qstring, log_id ):
         log.debug( 'id, %s; q created via try' % log_id )
     except Exception as e1:
         q = s.query('*:*', **args)
-        log.debug( 'id, %s; exception, %s; q created via except' % (log_id, unicode(repr(e1))) )
+        # log.debug( 'id, %s; exception, %s; q created via except' % (log_id, unicode(repr(e1))) )
+        log.exception( f'id, `{log_id}`; q created via except; traceback follows, but processing continues with q as, `{q}`' )
     return ( s, q )
 
 def _run_paginator_facet_query( s, qstring, log_id ):

@@ -8,27 +8,38 @@ Conv.addBehaviors({'handlers':{
 
 function shortDisplay(domTarget) {
 
-
-    console.log("short display: transcription trim");
+    console.log("bd- short display: transcription trim");
 
     var xmlURL = $(".xml_url", domTarget).attr('href');
+    console.log( "bd- shortDisplay() xmlURL try-1, ```" + xmlURL + "```" );
+    var insc_url = domTarget.getElementsByTagName( 'a' )[0].href;
+    xmlURL = insc_url.replace( "viewinscr", "view_xml" ) + "/";
+    console.log( "bd- shortDisplay() xmlURL try-02, ```" + xmlURL + "```" );
+
     $.get(xmlURL, function(data) {
+        console.log( "bd- in get()" );
+        console.log( "bd- data, ```" + data + "```" );  // xml document
         if (typeof data == 'string') {
+            console.log( "bd- data is type string" );
             data = (new DOMParser()).parseFromString(data, 'application/xml');
         }
         Conv.domToHTML5(data,function(parsed, self) {
+            // console.log( "bd- parsed, ```" + parsed.outerHTML + "```" );  // the xml
             var transcription = $(parsed).find("tei-div[subtype=transcription]");
+            // console.log( "bd- transcription[0], ```" + transcription[0] + "```" );
+            // console.log( "bd- transcription, ```" + transcription[0].outerHTML + "```" );
+
             var diplomatic = $(parsed).find("tei-div[subtype=diplomatic]");
             if (transcription.text().trim()) {
-
-
-
-
+                console.log( "bd- transcription.text() found" );
                 $(domTarget).find(".transcription").append(transcription);
+                console.log( "bd- transcription html updated" );
             } else if(diplomatic.text().trim()) {
+                console.log( "bd- diplomatic.text() found" );
                 $(domTarget).find(".transcription .short_header").text("Diplomatic");
                 $(domTarget).find(".transcription").append(diplomatic);
             } else {
+                console.log( "bd- not found" );
                 $(domTarget).find(".transcription").append("<tei-div>[no transcription]</tei-div>");
             }
 
@@ -81,7 +92,8 @@ function longDisplay(domTarget) {
 }
 
 $("#search_results tr[id]").each( function() {
-    // shortDisplay(this);
+    console.log( "calling shortDisplay()" );
+    shortDisplay(this);
 });
 
 $("#single_inscription .insText").each(function() {

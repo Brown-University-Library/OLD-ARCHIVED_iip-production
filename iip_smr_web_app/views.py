@@ -204,7 +204,7 @@ def results( request ):
             log.debug( 'returning json' )
             resp = HttpResponse( json.dumps(context_dct, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
         else:
-            resp = render( request, 'iip_search_templates/results.html', context_dct )
+            resp = render( request, 'iip_search_templates/results_dev.html', context_dct )
         return resp
     elif request.is_ajax():  # user has requested another page, a facet, etc.
         log.debug( 'request.is_axax() is True' )
