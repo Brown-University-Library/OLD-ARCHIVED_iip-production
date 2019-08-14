@@ -193,20 +193,18 @@ def results( request ):
         context_dct = _get_results_context(request, log_id)
 
         # log.debug( f'context_dct-iipResult, ```{context_dct["iipResult"]}```' )  # solr.paginator.SolrPage -- <https://github.com/search5/solrpy/>
-        # iipResult_dct = context_dct['iipResult'].result
-        # iipResult_page_lst = context_dct["iipResult"].paginator.page_range
-        # context_dct['iipResult'] = iipResult_dct
-        # context_dct['pages'] = iipResult_page_lst
+        iipResult_dct = context_dct['iipResult'].result
+        iipResult_page_lst = context_dct["iipResult"].paginator.page_range
+        iipResult_count = context_dct["iipResult"].paginator.count
+        context_dct['iipResult'] = iipResult_dct
+        context_dct['pages'] = iipResult_page_lst
+        context_dct['results_count'] = iipResult_count
 
         if request.GET.get('format', '') == 'json':
-            iipResult_dct = context_dct['iipResult'].result
-            iipResult_page_lst = context_dct["iipResult"].paginator.page_range
-            context_dct['iipResult'] = iipResult_dct
-            context_dct['pages'] = iipResult_page_lst
             log.debug( 'returning json' )
             resp = HttpResponse( json.dumps(context_dct, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
         else:
-            resp = render( request, 'iip_search_templates/results2.html', context_dct )
+            resp = render( request, 'iip_search_templates/results.html', context_dct )
         return resp
     elif request.is_ajax():  # user has requested another page, a facet, etc.
         log.debug( 'request.is_axax() is True' )
