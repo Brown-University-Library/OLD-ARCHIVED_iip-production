@@ -90,74 +90,76 @@
                                   <a href="../viewinscr/{{inscription.inscription_id}}" target="_blank">  {{inscription.inscription_id|upper}}  {{inscription.short_description}} </a>
                                 </span>
                             </td>
+                        <!-- </tr> -->
+
+                            <div class="row">
+                                <td class="col-md-2" style="padding-left: 0px;">
+                                    <br>
+                                    <img src="https://github.com/Brown-University-Library/iip-images/raw/master/{{inscription.inscription_id}}.jpg"  onerror="ImgError(this)" style= "width: 150px; height: 120px;">
+                                    <br>
+
+                                    <br><a class="xml_url" href="{% url 'xml_url' inscription.inscription_id %}">[View in XML]</a>
+                                </td>
+
+
+                                <td class="textColumn transcription col-md-3">
+                                    <span class="short_header"><span style="font-weight: bold;">Transcription:</span> <br>
+                                    </span>
+                                </td>
+                                <td class="textColumn transcription"></td>
+
+
+                                <td class="textColumn translation col-md-3">
+                                    <span class="short_header"><span style="font-weight: bold;">Translation:</span> <br>{% if inscription.translation %}
+                                        {{inscription.translation|truncatewords_html:25}}
+                                    {% else %}
+                                        [no translation]
+                                    {% endif %}</span>
+                                </td>
+                                <td class="col-md-3">
+                                    <span style="font-weight: bold;">Languages:</span>
+
+                                    {% if inscription.language_display|length > 0 and inscription.language|length > 0 %}
+                                    {% endif %}
+                                    {%if inscription.language_display%}
+                                        {%for l in inscription.language_display%}
+                                            {{l}}
+                                            {% if not forloop.last %},&nbsp;
+                                            {% endif %}
+                                        {%endfor%}
+                                    {%elif inscription.language%}
+                                        {%for l in inscription.language%}
+                                            {{l}}
+                                            {% if not forloop.last %},&nbsp;
+                                            {% endif %}
+                                        {%endfor%}
+                                    {% else %}
+                                    Not available
+                                    {%endif%}<br>
+
+                                    <span style="font-weight: bold;">Date:</span>
+                                    {%if inscription.notBefore%}
+                                        {{inscription.notBefore|cleanDates}} to {{inscription.notAfter|cleanDates}}
+                                    {% else %}
+                                    Not Available
+                                    {%endif%} <br>
+
+                                    <span style="font-weight: bold;">Dimension:</span>
+                                    {% if inscription.dimensions %}
+                                    {{inscription.dimensions}}
+                                    {% else %}
+                                    Not Available
+                                    {% endif %}<br>
+                                </td>
+
+
+                                <td class="col-md-2">
+                                    <div id="maplet{{inscription.inscription_id}}" style="width:100px; height:100px;"></div>
+                                </td>
+
+                            </div> <!-- end <div class="row"> -->
+
                         </tr>
-
-                        <div class="row">
-                            <td class="col-md-2" style="padding-left: 0px;">
-                                <br>
-                                <img src="https://github.com/Brown-University-Library/iip-images/raw/master/{{inscription.inscription_id}}.jpg"  onerror="ImgError(this)" style= "width: 150px; height: 120px;">
-                                <br>
-
-                                <br><a class="xml_url" href="{% url 'xml_url' inscription.inscription_id %}">[View in XML]</a>
-                            </td>
-
-
-                            <td class="textColumn transcription col-md-3">
-                                <span class="short_header"><span style="font-weight: bold;">Transcription:</span> <br>
-                                </span>
-                            </td>
-                            <td class="textColumn transcription"></td>
-
-
-                            <td class="textColumn translation col-md-3">
-                                <span class="short_header"><span style="font-weight: bold;">Translation:</span> <br>{% if inscription.translation %}
-                                    {{inscription.translation|truncatewords_html:25}}
-                                {% else %}
-                                    [no translation]
-                                {% endif %}</span>
-                            </td>
-                            <td class="col-md-3">
-                                <span style="font-weight: bold;">Languages:</span>
-
-                                {% if inscription.language_display|length > 0 and inscription.language|length > 0 %}
-                                {% endif %}
-                                {%if inscription.language_display%}
-                                    {%for l in inscription.language_display%}
-                                        {{l}}
-                                        {% if not forloop.last %},&nbsp;
-                                        {% endif %}
-                                    {%endfor%}
-                                {%elif inscription.language%}
-                                    {%for l in inscription.language%}
-                                        {{l}}
-                                        {% if not forloop.last %},&nbsp;
-                                        {% endif %}
-                                    {%endfor%}
-                                {% else %}
-                                Not available
-                                {%endif%}<br>
-
-                                <span style="font-weight: bold;">Date:</span>
-                                {%if inscription.notBefore%}
-                                    {{inscription.notBefore|cleanDates}} to {{inscription.notAfter|cleanDates}}
-                                {% else %}
-                                Not Available
-                                {%endif%} <br>
-
-                                <span style="font-weight: bold;">Dimension:</span>
-                                {% if inscription.dimensions %}
-                                {{inscription.dimensions}}
-                                {% else %}
-                                Not Available
-                                {% endif %}<br>
-                            </td>
-
-
-                            <td class="col-md-2">
-                                <div id="maplet{{inscription.inscription_id}}" style="width:100px; height:100px;"></div>
-                            </td>
-
-                        </div> <!-- end <div class="row"> -->
 
                     {% endfor %}
 
