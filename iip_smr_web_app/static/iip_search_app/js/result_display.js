@@ -13,7 +13,8 @@ function shortDisplay(domTarget) {
     var xmlURL = $(".xml_url", domTarget).attr('href');
     console.log( "bd- shortDisplay() xmlURL try-1, ```" + xmlURL + "```" );
     var insc_url = domTarget.getElementsByTagName( 'a' )[0].href;
-    xmlURL = insc_url.replace( "viewinscr", "view_xml" ) + "/";
+    // xmlURL = insc_url.replace( "viewinscr", "view_xml" ) + "/";
+    xmlURL = insc_url.replace( "viewinscr", "view_xml" );
     console.log( "bd- shortDisplay() xmlURL try-02, ```" + xmlURL + "```" );
 
     $.get(xmlURL, function(data) {
@@ -91,7 +92,13 @@ function longDisplay(domTarget) {
     }, 'xml');
 }
 
-$("#search_results tr[id]").each( function() {
+// $("#search_results tr[id]").each( function() {
+//     console.log( "calling shortDisplay()" );
+//     shortDisplay(this);
+// });
+
+// $(".single_inscription_stuff").each( function() {  // grrr -- that should work!!
+$(".single_inscription_data_row").each( function() {
     console.log( "calling shortDisplay()" );
     shortDisplay(this);
 });
