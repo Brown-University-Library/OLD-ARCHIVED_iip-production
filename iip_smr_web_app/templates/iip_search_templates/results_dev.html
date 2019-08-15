@@ -92,96 +92,100 @@
 
                         <!-- TEMP comment -- start of inscription data -->
 
-                        <script type="text/javascript">
-                            inscription_list.push("{{inscription.inscription_id}}");
-                        </script>
+                        <div class="single_inscription_stuff">
 
-                        <!-- inscription header row -->
-                    	<tr class="short_result resultTitle descColumn" id="{{inscription.inscription_id}}">
+                            <script type="text/javascript">
+                                inscription_list.push("{{inscription.inscription_id}}");
+                            </script>
 
-                            <td class="resultTitle" colspan="4" style="padding-left: 0px;">
-                                <hr class="style-one">
-                                <span class="short_header resultTitle">
-                                  <a href="../viewinscr/{{inscription.inscription_id}}" target="_blank">  {{inscription.inscription_id|upper}}  {{inscription.short_description}} </a>
-                                </span>
-                            </td>
-                        </tr>
+                            <!-- inscription header row -->
+                        	<tr class="short_result resultTitle descColumn" id="{{inscription.inscription_id}}">
 
-                        <!-- inscription data row -->
-                        <tr>
+                                <td class="resultTitle" colspan="4" style="padding-left: 0px;">
+                                    <hr class="style-one">
+                                    <span class="short_header resultTitle">
+                                      <a href="../viewinscr/{{inscription.inscription_id}}" target="_blank">  {{inscription.inscription_id|upper}}  {{inscription.short_description}} </a>
+                                    </span>
+                                </td>
+                            </tr>
 
-                            <!-- image cell -->
-                            <td class="col-md-2" style="padding-left: 0px;">
-                                <br/>
-                                <img src="https://github.com/Brown-University-Library/iip-images/raw/master/{{inscription.inscription_id}}.jpg"  onerror="ImgError(this)" style= "width: 150px; height: 120px;">
-                                <br/>
-                                <br/>
-                                <a class="xml_url" href="{% url 'xml_url' inscription.inscription_id %}">[View in XML]</a>
-                            </td>
+                            <!-- inscription data row -->
+                            <tr class="single_inscription_data_row">
 
-                            <!-- transcription cell -->
-                            <td class="textColumn transcription col-md-3">
-                                <span class="short_header"><span style="font-weight: bold;">Transcription:</span> <br>
-                                </span>
-                            </td>
+                                <!-- image cell -->
+                                <td class="col-md-2" style="padding-left: 0px;">
+                                    <br/>
+                                    <img src="https://github.com/Brown-University-Library/iip-images/raw/master/{{inscription.inscription_id}}.jpg"  onerror="ImgError(this)" style= "width: 150px; height: 120px;">
+                                    <br/>
+                                    <br/>
+                                    <a class="xml_url" href="{% url 'xml_url' inscription.inscription_id %}">[View in XML]</a>
+                                </td>
 
-                            <!-- translation cell -->
-                            <td class="textColumn translation col-md-3">
-                                <span class="short_header"><span style="font-weight: bold;">Translation:</span> <br>
-                                {% comment %}
-                                {% if inscription.translation %}
-                                    {{inscription.translation|truncatewords_html:25}}
-                                {% else %}
-                                    [no translation]
-                                {% endif %}
-                                {% endcomment %}
-                                </span>
-                            </td>
+                                <!-- transcription cell -->
+                                <td class="textColumn transcription col-md-3">
+                                    <span class="short_header"><span style="font-weight: bold;">Transcription:</span> <br>
+                                    </span>
+                                </td>
 
-                            <!-- language/date/dimension cell -->
-                            <td class="col-md-3">
-                                <span style="font-weight: bold;">Languages:</span>
+                                <!-- translation cell -->
+                                <td class="textColumn translation col-md-3">
+                                    <span class="short_header"><span style="font-weight: bold;">Translation:</span> <br>
+                                    {% comment %}
+                                    {% if inscription.translation %}
+                                        {{inscription.translation|truncatewords_html:25}}
+                                    {% else %}
+                                        [no translation]
+                                    {% endif %}
+                                    {% endcomment %}
+                                    </span>
+                                </td>
 
-                                {% if inscription.language_display|length > 0 and inscription.language|length > 0 %}
-                                {% endif %}
-                                {%if inscription.language_display%}
-                                    {%for l in inscription.language_display%}
-                                        {{l}}
-                                        {% if not forloop.last %},&nbsp;
-                                        {% endif %}
-                                    {%endfor%}
-                                {%elif inscription.language%}
-                                    {%for l in inscription.language%}
-                                        {{l}}
-                                        {% if not forloop.last %},&nbsp;
-                                        {% endif %}
-                                    {%endfor%}
-                                {% else %}
-                                Not available
-                                {%endif%}<br>
+                                <!-- language/date/dimension cell -->
+                                <td class="col-md-3">
+                                    <span style="font-weight: bold;">Languages:</span>
 
-                                <span style="font-weight: bold;">Date:</span>
-                                {%if inscription.notBefore%}
-                                    {{inscription.notBefore|cleanDates}} to {{inscription.notAfter|cleanDates}}
-                                {% else %}
-                                Not Available
-                                {%endif%} <br>
+                                    {% if inscription.language_display|length > 0 and inscription.language|length > 0 %}
+                                    {% endif %}
+                                    {%if inscription.language_display%}
+                                        {%for l in inscription.language_display%}
+                                            {{l}}
+                                            {% if not forloop.last %},&nbsp;
+                                            {% endif %}
+                                        {%endfor%}
+                                    {%elif inscription.language%}
+                                        {%for l in inscription.language%}
+                                            {{l}}
+                                            {% if not forloop.last %},&nbsp;
+                                            {% endif %}
+                                        {%endfor%}
+                                    {% else %}
+                                    Not available
+                                    {%endif%}<br>
 
-                                <span style="font-weight: bold;">Dimension:</span>
-                                {% if inscription.dimensions %}
-                                {{inscription.dimensions}}
-                                {% else %}
-                                Not Available
-                                {% endif %}<br>
-                            </td>
+                                    <span style="font-weight: bold;">Date:</span>
+                                    {%if inscription.notBefore%}
+                                        {{inscription.notBefore|cleanDates}} to {{inscription.notAfter|cleanDates}}
+                                    {% else %}
+                                    Not Available
+                                    {%endif%} <br>
 
-                            <!-- image cell -->
-                            <td class="col-md-2">
-                                <div id="maplet{{inscription.inscription_id}}" style="width:100px; height:100px;"></div>
-                            </td>
+                                    <span style="font-weight: bold;">Dimension:</span>
+                                    {% if inscription.dimensions %}
+                                    {{inscription.dimensions}}
+                                    {% else %}
+                                    Not Available
+                                    {% endif %}<br>
+                                </td>
+
+                                <!-- image cell -->
+                                <td class="col-md-2">
+                                    <div id="maplet{{inscription.inscription_id}}" style="width:100px; height:100px;"></div>
+                                </td>
 
 
-                        </tr>
+                            </tr>
+
+                        </div> <!-- end of <div class="single_inscription_stuff"> -->
 
                         <!-- TEMP comment -- end of inscription data -->
 
