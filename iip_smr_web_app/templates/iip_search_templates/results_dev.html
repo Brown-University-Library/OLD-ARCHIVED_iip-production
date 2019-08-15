@@ -65,103 +65,128 @@
                     {% endfor %}
                 </div>
 
+                <br>
+
+                <div class="col-md-11" style="border:solid #333333 5px; font-size: 15px;">
+                    The texts of the inscriptions are displayed using a modified form of what is known as the Leiden convention.  We have modified it in line with display limitations.  Note that the actual underlying text in the XML files are tagged according to the TEI/Epidoc conventions which are then translated into the typography displayed here. <br><br>Please refer to the <a href="{% url 'conventional_transcription_symbols_url' %}">Conventional Transcription Symbols</a> to view popular symbols and tags used.
+                </div>
+
+                <div class="row"></div>
+                <div class="row"></div>
+
                 <table id="search_results">
-
-                    <br>
-
-                    <div class="col-md-11" style="border:solid #333333 5px; font-size: 15px;">The texts of the inscriptions are displayed using a modified form of what is known as the Leiden convention.  We have modified it in line with display limitations.  Note that the actual underlying text in the XML files are tagged according to the TEI/Epidoc conventions which are then translated into the typography displayed here. <br><br>Please refer to the <a href="{% url 'conventional_transcription_symbols_url' %}">Conventional Transcription Symbols</a> to view popular symbols and tags used.
-                    </div>
 
                     <script type="text/javascript">
                         var inscription_list = [];
                     </script>
 
-                    {# {% for inscription in iipResult.object_list %} #}
+                    <!--
+                    <script type="text/javascript">
+                        inscription_list.push("{{inscription.inscription_id}}");
+                    </script>
+                    -->
+
+                    <tbody>
+
                     {% for inscription in iipResult %}
+
+                        <!-- TEMP comment -- start of inscription data -->
 
                         <script type="text/javascript">
                             inscription_list.push("{{inscription.inscription_id}}");
                         </script>
 
+                        <!-- inscription header row -->
                     	<tr class="short_result resultTitle descColumn" id="{{inscription.inscription_id}}">
-                    		<td class="resultTitle" colspan='4' style="padding-left: 0px;">
+
+                            <td class="resultTitle" colspan="4" style="padding-left: 0px;">
                                 <hr class="style-one">
                                 <span class="short_header resultTitle">
                                   <a href="../viewinscr/{{inscription.inscription_id}}" target="_blank">  {{inscription.inscription_id|upper}}  {{inscription.short_description}} </a>
                                 </span>
                             </td>
-                        <!-- </tr> -->
+                        </tr>
 
-                            <div class="row">
-                                <td class="col-md-2" style="padding-left: 0px;">
-                                    <br>
-                                    <img src="https://github.com/Brown-University-Library/iip-images/raw/master/{{inscription.inscription_id}}.jpg"  onerror="ImgError(this)" style= "width: 150px; height: 120px;">
-                                    <br>
+                        <!-- inscription data row -->
+                        <tr>
 
-                                    <br><a class="xml_url" href="{% url 'xml_url' inscription.inscription_id %}">[View in XML]</a>
-                                </td>
+                            <!-- image cell -->
+                            <td class="col-md-2" style="padding-left: 0px;">
+                                <br/>
+                                <img src="https://github.com/Brown-University-Library/iip-images/raw/master/{{inscription.inscription_id}}.jpg"  onerror="ImgError(this)" style= "width: 150px; height: 120px;">
+                                <br/>
+                                <br/>
+                                <a class="xml_url" href="{% url 'xml_url' inscription.inscription_id %}">[View in XML]</a>
+                            </td>
 
+                            <!-- transcription cell -->
+                            <td class="textColumn transcription col-md-3">
+                                <span class="short_header"><span style="font-weight: bold;">Transcription:</span> <br>
+                                </span>
+                            </td>
 
-                                <td class="textColumn transcription col-md-3">
-                                    <span class="short_header"><span style="font-weight: bold;">Transcription:</span> <br>
-                                    </span>
-                                </td>
-                                <td class="textColumn transcription"></td>
+                            <!-- translation cell -->
+                            <td class="textColumn translation col-md-3">
+                                <span class="short_header"><span style="font-weight: bold;">Translation:</span> <br>
+                                {% comment %}
+                                {% if inscription.translation %}
+                                    {{inscription.translation|truncatewords_html:25}}
+                                {% else %}
+                                    [no translation]
+                                {% endif %}
+                                {% endcomment %}
+                                </span>
+                            </td>
 
+                            <!-- language/date/dimension cell -->
+                            <td class="col-md-3">
+                                <span style="font-weight: bold;">Languages:</span>
 
-                                <td class="textColumn translation col-md-3">
-                                    <span class="short_header"><span style="font-weight: bold;">Translation:</span> <br>{% if inscription.translation %}
-                                        {{inscription.translation|truncatewords_html:25}}
-                                    {% else %}
-                                        [no translation]
-                                    {% endif %}</span>
-                                </td>
-                                <td class="col-md-3">
-                                    <span style="font-weight: bold;">Languages:</span>
+                                {% if inscription.language_display|length > 0 and inscription.language|length > 0 %}
+                                {% endif %}
+                                {%if inscription.language_display%}
+                                    {%for l in inscription.language_display%}
+                                        {{l}}
+                                        {% if not forloop.last %},&nbsp;
+                                        {% endif %}
+                                    {%endfor%}
+                                {%elif inscription.language%}
+                                    {%for l in inscription.language%}
+                                        {{l}}
+                                        {% if not forloop.last %},&nbsp;
+                                        {% endif %}
+                                    {%endfor%}
+                                {% else %}
+                                Not available
+                                {%endif%}<br>
 
-                                    {% if inscription.language_display|length > 0 and inscription.language|length > 0 %}
-                                    {% endif %}
-                                    {%if inscription.language_display%}
-                                        {%for l in inscription.language_display%}
-                                            {{l}}
-                                            {% if not forloop.last %},&nbsp;
-                                            {% endif %}
-                                        {%endfor%}
-                                    {%elif inscription.language%}
-                                        {%for l in inscription.language%}
-                                            {{l}}
-                                            {% if not forloop.last %},&nbsp;
-                                            {% endif %}
-                                        {%endfor%}
-                                    {% else %}
-                                    Not available
-                                    {%endif%}<br>
+                                <span style="font-weight: bold;">Date:</span>
+                                {%if inscription.notBefore%}
+                                    {{inscription.notBefore|cleanDates}} to {{inscription.notAfter|cleanDates}}
+                                {% else %}
+                                Not Available
+                                {%endif%} <br>
 
-                                    <span style="font-weight: bold;">Date:</span>
-                                    {%if inscription.notBefore%}
-                                        {{inscription.notBefore|cleanDates}} to {{inscription.notAfter|cleanDates}}
-                                    {% else %}
-                                    Not Available
-                                    {%endif%} <br>
+                                <span style="font-weight: bold;">Dimension:</span>
+                                {% if inscription.dimensions %}
+                                {{inscription.dimensions}}
+                                {% else %}
+                                Not Available
+                                {% endif %}<br>
+                            </td>
 
-                                    <span style="font-weight: bold;">Dimension:</span>
-                                    {% if inscription.dimensions %}
-                                    {{inscription.dimensions}}
-                                    {% else %}
-                                    Not Available
-                                    {% endif %}<br>
-                                </td>
+                            <!-- image cell -->
+                            <td class="col-md-2">
+                                <div id="maplet{{inscription.inscription_id}}" style="width:100px; height:100px;"></div>
+                            </td>
 
-
-                                <td class="col-md-2">
-                                    <div id="maplet{{inscription.inscription_id}}" style="width:100px; height:100px;"></div>
-                                </td>
-
-                            </div> <!-- end <div class="row"> -->
 
                         </tr>
 
+                        <!-- TEMP comment -- end of inscription data -->
+
                     {% endfor %}
+                    </tbody>
 
                 </table>
 
