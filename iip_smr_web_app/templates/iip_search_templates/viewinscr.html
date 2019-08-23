@@ -416,7 +416,7 @@ $(window).load(function(){
  
    $(function() {
   var $textNodes = $("#diplomatic > div > div").contents().filter(function() {
-    return this.nodeType === Node.TEXT_NODE;
+return this.nodeType === Node.TEXT_NODE;
   });
   
   var counter = 0;
@@ -428,21 +428,22 @@ $(window).load(function(){
            $this.remove(); // Remove it 
           } else if(this.nodeType == 1){ // If its an element node
             $this.removeText(); //Recurse
-          }
+          } 
         } else {
-        var regex = /(?<=([0-9]{4})).*/;
-          var str = $this.text().replace(regex, "");
-          $this.replaceWith(str + ").");
+          var regex = /(^[^\(]+\(\d+\))(.+)$/;
+         var str = $this.text().replace(regex, "$1");
+          $this.replaceWith(str);
         }
         
   });
+
 
 });
 
 
    $(function() {
   var $textNodes = $("#transcription > div > div").contents().filter(function() {
-    return this.nodeType === Node.TEXT_NODE;
+return this.nodeType === Node.TEXT_NODE;
   });
   
   var counter = 0;
@@ -454,11 +455,11 @@ $(window).load(function(){
            $this.remove(); // Remove it 
           } else if(this.nodeType == 1){ // If its an element node
             $this.removeText(); //Recurse
-          }
+          } 
         } else {
-          var regex = /(?<=([0-9]{4})).*/;
-          var str = $this.text().replace(regex, "");
-          $this.replaceWith(str + ").");
+          var regex = /(^[^\(]+\(\d+\))(.+)$/;
+         var str = $this.text().replace(regex, "$1");
+          $this.replaceWith(str);
         }
         
   });
@@ -481,9 +482,9 @@ $(window).load(function(){
             $this.removeText(); //Recurse
           } 
         } else {
-          var regex = /(?<=([0-9]{4})).*/;
-          var str = $this.text().replace(regex, "");
-          $this.replaceWith(str + ").");
+          var regex = /(^[^\(]+\(\d+\))(.+)$/;
+         var str = $this.text().replace(regex, "$1");
+          $this.replaceWith(str);
         }
         
   });
@@ -491,9 +492,12 @@ $(window).load(function(){
 });
 
      $("#diplomatic > div > div > i").css("display","none");
+
      $("#diplomatic > div").css("text-indent","-1.3em");
-     //$("#short_bib > p:nth-child(1)").css("margin-bottom","0");
-    //$("#short_bib > p > span > div > div > i:nth-child(1)").next().css("display","none");
+      $("#translation > div > div > i:nth-child(2)").css("display", "none");
+            $("#diplomatic> div > div > i:nth-child(2)").css("display", "none");
+                  $("#transcription > div > div > i:nth-child(2)").css("display", "none");
+
      $("#short_bib > p > span > div > div > i:nth-child(1)").css("display","none");
  });
 </script>
