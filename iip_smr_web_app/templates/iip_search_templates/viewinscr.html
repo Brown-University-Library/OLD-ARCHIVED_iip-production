@@ -236,14 +236,17 @@ function ImgError(source){
         <p><span class="short_header"><span style="font-weight: bold;">Figures:</span></span>&nbsp;&nbsp;{% if i.figure %}{%for f in i.figure%}{{f}}<br />{%endfor%}{% else %}Not Available{% endif %}</p>
 
         <div id="short_bib">
-        <p>{%if biblDiplomatic %}<span class="short_header"><span style="font-weight: bold;">Source of
+        <p>
+        {%if biblDiplomatic %}<span class="short_header"><span style="font-weight: bold;">Source of
               Diplomatic:</span></span>&nbsp;&nbsp;
-              <div id="dip">
+          
               <span id="diplomatic" class="biblToRetrieve"
             bibl='{{biblDiplomatic.0}}' ntype='{{biblDiplomatic.1}}' n='{{biblDiplomatic.2}}'>{{biblDiplomatic}}</span>
-            </div>
-          {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Diplomatic: </span></span><br /><span style="min-height:2em;">Not
-          Available</span> <br />{% endif %}</p>
+       
+          {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Diplomatic: </span></span><br />Not
+          Available <br />{% endif %}
+        </p>
+
 
         <p>{%if biblTranscription %}<span class="short_header"><span style="font-weight: bold;">Source of
               Transcription:</span></span>&nbsp;&nbsp;
@@ -493,7 +496,7 @@ return this.nodeType === Node.TEXT_NODE;
 
      $("#diplomatic > div > div > i").css("display","none");
 
-     $("#diplomatic > div").css("text-indent","-1.3em");
+     $("#diplomatic > div").css("text-indent","-2em");
       $("#translation > div > div > i:nth-child(2)").css("display", "none");
             $("#diplomatic> div > div > i:nth-child(2)").css("display", "none");
                   $("#transcription > div > div > i:nth-child(2)").css("display", "none");
