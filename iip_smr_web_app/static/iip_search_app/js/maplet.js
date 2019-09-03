@@ -15,7 +15,6 @@ function run(){
 
 				drawMaplet(null, inscrid);
 
-				// $("#maplet"+id.toString()).html('<img src="{{STATIC_URL}}iip_search_app/images/placeholder.png" style= "width: 100px; height: 100px;" />');
 				console.log(inscrid + ": placed placeholder image");
 			}
 		});
