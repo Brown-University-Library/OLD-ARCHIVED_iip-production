@@ -53,8 +53,12 @@ tei-add[place='above']::before {
 .diplomatic tei-choice > tei-reg {
     display: none;
 }
+/*
+tei-orig:not(tei-choice>tei-orig) {
+    text-transform: uppercase;
+}*/
 
-tei-orig:not(tei-choice > tei-orig) {
+ :not(tei-choice) > tei-orig {
     text-transform: uppercase;
 }
 
@@ -76,6 +80,18 @@ tei-del[rend='erasure']::after {
 
 tei-del[rend='corrected'] {
     text-decoration: line-through;
+}
+
+tei-g::before {
+  content: "(("; 
+}
+
+tei=g:after {
+  content: "))";
+}
+
+tei-g:empty::before {
+  content: "((" attr(type);
 }
 
 tei-gap::before {
