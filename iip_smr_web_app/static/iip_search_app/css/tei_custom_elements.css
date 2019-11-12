@@ -82,8 +82,16 @@ tei-del[rend='corrected'] {
     text-decoration: line-through;
 }
 
-tei-g:empty {
-    content: "((" attr(type) "))" ;
+tei-g::before {
+  content: "(("; 
+}
+
+tei=g:after {
+  content: "))";
+}
+
+tei-g:empty::before {
+  content: "((" attr(type);
 }
 
 tei-gap::before {
