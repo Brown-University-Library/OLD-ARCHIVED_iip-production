@@ -86,7 +86,7 @@ tei-g::before {
   content: "(("; 
 }
 
-tei=g:after {
+tei-g::after {
   content: "))";
 }
 
