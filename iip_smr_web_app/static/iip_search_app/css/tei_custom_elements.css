@@ -9,8 +9,8 @@ tei-expan > tei-ex[cert='low']::after {
     content: "?)";
 }
 
-.transcription tei-am {
-    display: none;
+.transcription  tei-am {
+    display:  none;
 }
 
 tei-add::before {
@@ -83,7 +83,7 @@ tei-del[rend='corrected'] {
 }
 
 tei-g::before {
-  content: "(("; 
+  content: "((";
 }
 
 tei-g::after {
@@ -136,8 +136,10 @@ tei-lb[break='no']::before {
 }
 
 tei-unclear {
-    text-decoration: underline;
+    /* text-decoration: underline; */
     /*text-decoration-style: dotted;*/
+    text-emphasis-style: dot;
+    text-emphasis-position: under;
 }
 
 tei-hi[rend='superscript'] {
