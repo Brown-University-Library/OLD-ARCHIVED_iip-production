@@ -307,7 +307,7 @@ table.search_box, table#search_results {
 
 table.search_box {
     background-color:#d9e3d0;
-    
+
     color: #333333;
     border: 1px solid #333333;
 }
@@ -539,7 +539,7 @@ display: inline;
     margin-left: 3em;
 }
 
-#single_inscription tei-p {   
+#single_inscription tei-p {
     counter-reset: lines;
     counter-increment: lines;
 }
@@ -569,11 +569,12 @@ tei-lb {
 
 #single_inscription tei-div[type=textpart]::before {
     display: block;
-    margin-left: -1em;
+    /* margin-left: -1em; */
     margin-top: 4px;
-    font-style: italic;
+		text-transform: capitalize;
+    font-variant: small-caps
     opacity: 0.7;
-    content: "Part " attr(n);
+    content: attr(subtype) ' ' attr(n);
 }
 
 .resultTitle {
@@ -626,7 +627,7 @@ padding-top: 5px;
 
 .short_header {
     color:#5E4F5F;
-    
+
 }
 
 .xml_url {
