@@ -10,7 +10,7 @@ tei-expan > tei-ex[cert='low']::after {
 }
 
 .transcription  tei-am {
-    /* display:  none; */
+    display:  none;
 }
 
 tei-add::before {
