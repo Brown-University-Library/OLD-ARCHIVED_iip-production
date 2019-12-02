@@ -185,17 +185,18 @@ def results( request ):
         log.debug( 'redirect_url for valid form, ```%s```' % redirect_url )
         return HttpResponseRedirect( redirect_url )
 
-    # if request.method == 'GET' and request.GET.get('q', None) != None:
-    #     log.debug( 'GET, with params, hit solr and show results' )
-    #     return render( request, u'iip_search_templates/results.html', _get_results_context(request, log_id) )
     if request.method == 'GET' and request.GET.get('q', None) != None:
         log.debug( 'GET, with params, hit solr and show results' )
         context_dct = _get_results_context(request, log_id)
 
         # log.debug( f'context_dct-iipResult, ```{context_dct["iipResult"]}```' )  # solr.paginator.SolrPage -- <https://github.com/search5/solrpy/>
-        iipResult_dct = context_dct['iipResult'].result
-        iipResult_page_lst = context_dct["iipResult"].paginator.page_range
-        iipResult_count = context_dct["iipResult"].paginator.count
+        iipResult_dct = {}
+        iipResult_page_lst = []
+        iipResult_count = 0
+        if context_dct['iipResult']:  # will be '' if no results are found
+            iipResult_dct = context_dct['iipResult'].result
+            iipResult_page_lst = context_dct["iipResult"].paginator.page_range
+            iipResult_count = context_dct["iipResult"].paginator.count
         context_dct['iipResult'] = iipResult_dct
         context_dct['pages'] = iipResult_page_lst
         context_dct['results_count'] = iipResult_count
@@ -212,6 +213,31 @@ def results( request ):
     else:  # regular GET, no params
         log.debug( 'GET, no params, show search form' )
         return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
+
+    # if request.method == 'GET' and request.GET.get('q', None) != None:
+    #     log.debug( 'GET, with params, hit solr and show results' )
+    #     context_dct = _get_results_context(request, log_id)
+
+    #     # log.debug( f'context_dct-iipResult, ```{context_dct["iipResult"]}```' )  # solr.paginator.SolrPage -- <https://github.com/search5/solrpy/>
+    #     iipResult_dct = context_dct['iipResult'].result
+    #     iipResult_page_lst = context_dct["iipResult"].paginator.page_range
+    #     iipResult_count = context_dct["iipResult"].paginator.count
+    #     context_dct['iipResult'] = iipResult_dct
+    #     context_dct['pages'] = iipResult_page_lst
+    #     context_dct['results_count'] = iipResult_count
+
+    #     if request.GET.get('format', '') == 'json':
+    #         log.debug( 'returning json' )
+    #         resp = HttpResponse( json.dumps(context_dct, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
+    #     else:
+    #         resp = render( request, 'iip_search_templates/results_dev.html', context_dct )
+    #     return resp
+    # elif request.is_ajax():  # user has requested another page, a facet, etc.
+    #     log.debug( 'request.is_axax() is True' )
+    #     return HttpResponse( _get_ajax_unistring(request) )
+    # else:  # regular GET, no params
+    #     log.debug( 'GET, no params, show search form' )
+    #     return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
 
     ## end def results()
 
