@@ -58,12 +58,18 @@
                 <!-- <span class="search_results_header">Your search for {{dispQstring}} yielded {{pages.count}} results</span> -->
                 <span class="search_results_header">Your search for `{{dispQstring}}` yielded {{ results_count }} result{{ results_count|pluralize }}</span>
 
+                {% if iipResult %}
+
                 <div class="page_list">
                     Results pages:
                     {% for pg in pages %}
                     <a href='./?q={{ initial_qstring|urlencode }}&resultsPage={{pg}}' {%ifequal pg resultsPage%}style="font-size: 1.3em"{%endifequal%}>{{pg}}</a>&nbsp;
                     {% endfor %}
                 </div>
+
+                {% endif %}
+
+                {% if iipResult %}
 
                 <br>
 
@@ -194,12 +200,18 @@
 
                 </table>
 
+                {% endif %} {# end of ```{% if iipResult %}``` #}
+
+                {% if iipResult %}
+
                 <div class="page_list">
                     Results pages:
                     {% for pg in pages %}
                     <a href='./?q={{ initial_qstring|urlencode }}&resultsPage={{pg}}' {%ifequal pg resultsPage%}style="font-size: 1.3em"{%endifequal%}>{{pg}}</a>&nbsp;
                     {% endfor %}
                 </div>
+
+                {% endif %}
 
                 <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
                 <script src='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
