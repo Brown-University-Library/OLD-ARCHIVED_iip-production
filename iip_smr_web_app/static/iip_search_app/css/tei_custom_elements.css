@@ -34,10 +34,6 @@ tei-add[place='below']::after {
     content: "\\\\";
 }
 
-tei-add[place='above']::before {
-    content: "\\";
-}
-
 .transcription tei-choice > tei-sic {
     display: none;
 }
@@ -92,6 +88,10 @@ tei-g::after {
 
 tei-g:empty::before {
   content: "((" attr(type);
+}
+
+tei-g:empty {
+  direction: ltr;
 }
 
 tei-gap::before {
