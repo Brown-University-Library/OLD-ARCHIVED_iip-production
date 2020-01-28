@@ -106,7 +106,9 @@ function ImgError(source){
         <img src='{{image_url}}' onerror="ImgError(this)" style="max-width: 400px;" >
         {% endif %}
 
-        <div id="photo_caption">photo caption</div>
+        {% if photo_caption %}
+        <div id="photo_caption">({{ photo_caption }})</div>
+        {% endif %}
 
         <br><br>
 
