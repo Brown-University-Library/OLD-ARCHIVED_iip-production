@@ -40,6 +40,9 @@
         .csl-entry{
             line-height: 1.5em;
         }
+        div#photo_caption {
+            font-style: italic
+        }
     </style>
 
 {% endblock %}
@@ -102,6 +105,9 @@ function ImgError(source){
 
         <img src='{{image_url}}' onerror="ImgError(this)" style="max-width: 400px;" >
         {% endif %}
+
+        <div id="photo_caption">photo caption</div>
+
         <br><br>
 
         <span class="short_header"><span style="font-weight: bold;">Diplomatic:</span></span>
@@ -233,10 +239,10 @@ function ImgError(source){
         <p>
         {%if biblDiplomatic %}<span class="short_header"><span style="font-weight: bold;">Source of
               Diplomatic:</span></span>&nbsp;&nbsp;
-          
+
               <span id="diplomatic" class="biblToRetrieve"
             bibl='{{biblDiplomatic.0}}' ntype='{{biblDiplomatic.1}}' n='{{biblDiplomatic.2}}'>{{biblDiplomatic}}</span>
-       
+
           {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Diplomatic: </span></span><br />Not
           Available <br />{% endif %}
         </p>
@@ -425,7 +431,7 @@ return this.nodeType === Node.TEXT_NODE;
            $this.remove(); // Remove it
           } else if(this.nodeType == 1){ // If its an element node
             $this.removeText(); //Recurse
-          } 
+          }
         } else {
           var regex = /(^[^\(]+\(\d+\))(.+)$/;
          var str = $this.text().replace(regex, "$1");
@@ -452,7 +458,7 @@ return this.nodeType === Node.TEXT_NODE;
            $this.remove(); // Remove it
           } else if(this.nodeType == 1){ // If its an element node
             $this.removeText(); //Recurse
-          } 
+          }
         } else {
           var regex = /(^[^\(]+\(\d+\))(.+)$/;
          var str = $this.text().replace(regex, "$1");
