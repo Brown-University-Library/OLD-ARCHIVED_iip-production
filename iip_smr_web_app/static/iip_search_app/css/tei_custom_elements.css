@@ -103,10 +103,12 @@ tei-g::after {
 }
 
 tei-g:empty::before {
-  content: "((" attr(type);
+  content: "((" attr(type) "))";
   unicode-bidi: bidi-override;
   direction: ltr;
 }
+
+tei-g:empty::after {}
 
 tei-gap[reaso="illegible"][unit="character"][extent="unknown"]::before {
   content: "[...]";
@@ -209,16 +211,16 @@ tei-hi[rend='ligature'] {
     /*TODO*/
 }
 
-tei-space::before {
-    content: " (vac.";
+tei-space[quantity][unit='character']::before {
+    content: " (vac." attr(quantity) ") ";
 }
 
-tei-space[quantity][unit='character']::after {
-    content: attr(quantity) ") ";
+tei-space[extent='unknown']::before {
+    content: " (vac. ?) ";
 }
 
-tei-space[extent='unknown']::after {
-    content: "?) ";
+tei-space[dim='horizontal']::before {
+  content: " (vac.) ";
 }
 
 tei-note::before {
@@ -287,4 +289,10 @@ tei-gap[reason='ellipsis'] {
     unicode-bidi: bidi-override;
     direction: ltr;
     text-align: left;
+}
+
+tei-num {
+  unicode-bidi: bidi-override;
+  direction: ltr;
+  text-align: left;
 }
