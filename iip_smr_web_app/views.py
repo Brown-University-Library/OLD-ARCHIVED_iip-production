@@ -281,11 +281,13 @@ def viewinscr(request, inscrid):
         specific_sources['transcription'] = _bib_tuple_or_none(q.results[0]['biblTranscription'][0]) if 'biblTranscription' in q.results[0] else ""
         specific_sources['translation'] = _bib_tuple_or_none(q.results[0]['biblTranslation'][0]) if 'biblTranslation' in q.results[0] else ""
         specific_sources['diplomatic'] = _bib_tuple_or_none(q.results[0]['biblDiplomatic'][0]) if 'biblDiplomatic' in q.results[0] else ""
-        photo_caption = q.results[0].get( 'photo_caption', None )
+        image_caption: list = q.results[0].get( 'image-caption', None )
+        if image_caption:
+            image_caption = image_caption[0]
 
         view_xml_url = u'%s://%s%s' % (  request.META[u'wsgi.url_scheme'],  request.get_host(),  reverse(u'xml_url', kwargs={u'inscription_id':inscrid})  )
         current_url = u'%s://%s%s' % (  request.META[u'wsgi.url_scheme'],  request.get_host(),  reverse(u'inscription_url', kwargs={u'inscrid':inscrid})  )
-        return ( q, z_bibids, specific_sources, current_display_status, view_xml_url, current_url, photo_caption )
+        return ( q, z_bibids, specific_sources, current_display_status, view_xml_url, current_url, image_caption )
 
     def _setup_viewinscr( request ):
         """ Takes request;
@@ -341,7 +343,7 @@ def viewinscr(request, inscrid):
         return_response = HttpResponse( return_str )
         return return_response
 
-    def _prepare_viewinscr_plain_get_response( q, z_bibids, specific_sources, current_display_status, inscrid, request, view_xml_url, current_url, log_id, photo_caption ):
+    def _prepare_viewinscr_plain_get_response( q, z_bibids, specific_sources, current_display_status, inscrid, request, view_xml_url, current_url, log_id, image_caption ):
         """ Returns view-inscription response-object for regular GET.
             Called by viewinscr() """
         log.debug( u'in _prepare_viewinscr_plain_get_response(); starting' )
@@ -359,7 +361,7 @@ def viewinscr(request, inscrid):
             'view_xml_url': view_xml_url,
             'current_url': current_url,
             'image_url':  "https://github.com/Brown-University-Library/iip-images/raw/master/" + inscrid + ".jpg",
-            'photo_caption': photo_caption
+            'image_caption': image_caption
             }
         # log.debug( u'in _prepare_viewinscr_plain_get_response(); context, %s' % pprint.pformat(context) )
         print(z_bibids)
@@ -368,11 +370,11 @@ def viewinscr(request, inscrid):
 
     log_id = _setup_viewinscr( request )
     log.info( u'in viewinscr(); id, %s; starting' % log_id )
-    ( q, z_bibids, specific_sources, current_display_status, view_xml_url, current_url, photo_caption ) = _prepare_viewinscr_get_data( request, inscrid )
+    ( q, z_bibids, specific_sources, current_display_status, view_xml_url, current_url, image_caption ) = _prepare_viewinscr_get_data( request, inscrid )
     if request.is_ajax():
         return_response = _prepare_viewinscr_ajax_get_response( q, z_bibids, specific_sources, view_xml_url )
     else:
-        return_response = _prepare_viewinscr_plain_get_response( q, z_bibids, specific_sources, current_display_status, inscrid, request, view_xml_url, current_url, log_id, photo_caption )
+        return_response = _prepare_viewinscr_plain_get_response( q, z_bibids, specific_sources, current_display_status, inscrid, request, view_xml_url, current_url, log_id, image_caption )
     return return_response
 
 
