@@ -282,6 +282,7 @@ def viewinscr(request, inscrid):
         specific_sources['translation'] = _bib_tuple_or_none(q.results[0]['biblTranslation'][0]) if 'biblTranslation' in q.results[0] else ""
         specific_sources['diplomatic'] = _bib_tuple_or_none(q.results[0]['biblDiplomatic'][0]) if 'biblDiplomatic' in q.results[0] else ""
         image_caption: list = q.results[0].get( 'image-caption', None )
+        log.debug( f'image_caption, ```{image_caption}```' )
         if image_caption:
             image_caption = image_caption[0]
 
