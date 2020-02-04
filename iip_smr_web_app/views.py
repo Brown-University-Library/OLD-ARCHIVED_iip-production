@@ -372,8 +372,10 @@ def viewinscr(request, inscrid):
     log.info( u'in viewinscr(); id, %s; starting' % log_id )
     ( q, z_bibids, specific_sources, current_display_status, view_xml_url, current_url, image_caption ) = _prepare_viewinscr_get_data( request, inscrid )
     if request.is_ajax():
+        log.debug( 'ajax-request' )
         return_response = _prepare_viewinscr_ajax_get_response( q, z_bibids, specific_sources, view_xml_url )
     else:
+        log.debug( 'non-ajax-request' )
         return_response = _prepare_viewinscr_plain_get_response( q, z_bibids, specific_sources, current_display_status, inscrid, request, view_xml_url, current_url, log_id, image_caption )
     return return_response
 
