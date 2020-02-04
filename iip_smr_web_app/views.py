@@ -363,8 +363,8 @@ def viewinscr(request, inscrid):
             'image_url':  "https://github.com/Brown-University-Library/iip-images/raw/master/" + inscrid + ".jpg",
             'image_caption': image_caption
             }
-        # log.debug( u'in _prepare_viewinscr_plain_get_response(); context, %s' % pprint.pformat(context) )
-        print(z_bibids)
+        # print(z_bibids)
+        log.debug( f'context, ```{pprint.pformat(context)}```' )
         return_response = render( request, u'iip_search_templates/viewinscr.html', context )
         return return_response
 
