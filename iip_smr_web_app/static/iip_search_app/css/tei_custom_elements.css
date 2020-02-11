@@ -103,12 +103,10 @@ tei-g::after {
 }
 
 tei-g:empty::before {
-  content: "((" attr(type) "))";
+  content: "((" attr(type);
   unicode-bidi: bidi-override;
   direction: ltr;
 }
-
-tei-g:empty::after {}
 
 tei-gap[reaso="illegible"][unit="character"][extent="unknown"]::before {
   content: "[...]";
@@ -130,15 +128,15 @@ tei-gap[reaso="lost"][unit="line"][extent="unknown"]::before {
 otherwise parenthsis with number */
 
 tei-gap[reason="illegible"][unit="character"][quantity="1"]::before {
-  content: "+"
+  content: "."
 }
 
 tei-gap[reason="illegible"][unit="character"][quantity="2"]::before {
-  content: "++"
+  content: ".."
 }
 
 tei-gap[reason="illegible"][unit="character"][quantity]::before {
-    content: "[+ c." attr(quantity) " +]"
+    content: "[. " attr(quantity) " chars. .]"
 }
 
 tei-gap[reason="lost"][unit="character"][quantity="1"]::before {
@@ -150,26 +148,25 @@ tei-gap[reason="lost"][unit="character"][quantity="2"]::before {
 }
 
 tei-gap[reason="lost"][unit="character"][quantity]::before {
-    content: "[- c" attr(quantity) " -]"}
+    content: "[-" attr(quantity) "char. -]"}
+
+tei-gap[reason="lost"][unit="character"][quantity] [precision="low"]::before {
+        content: "[- ca. " attr(quantity) "char. -]"}
 
 tei-gap[reason="lost"][unit="line"][quantity] {
   content: "[-" attr(quantity) lin. "-]"
 }
 
 tei-gap[reason="illegible"][unit="character"][atLeast] {
-  content: "[+ c." attr(atLeast) "=" attr(atMost) " +]"
+  content: "[." attr(atLeast) "-" attr(atMost) " chars. .]"
 }
 
 tei-gap[reason="lost"][unit="character"][atLeast] {
-  content: "[- c." attr(atLeast) "=" attr(atMost) " -]"
+  content: "[- " attr(atLeast) "-" attr(atMost) "chars. -]"
 }
 
 tei-gap[reason="lost"][unit="line"][atLeast] {
   content: "[-" attr(atLeast) "-" attr(atMost) "lin. -]"
-}
-
-tei-gap[unit='line'][precision='low']::before {
-    content: "[ca." attr(quantity) "]";
 }
 
 /* need to add @cert rules for gap */
