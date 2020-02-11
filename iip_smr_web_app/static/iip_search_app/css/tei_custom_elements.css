@@ -1,3 +1,5 @@
+/* 2020-02-11 EM editing gap CSS */
+
 tei-expan > tei-ex::before {
     content: "(";
 }
