@@ -153,19 +153,19 @@ tei-gap[reason="lost"][unit="character"][quantity]::before {
 tei-gap[reason="lost"][unit="character"][quantity] [precision="low"]::before {
         content: "[- ca. " attr(quantity) "char. -]"}
 
-tei-gap[reason="lost"][unit="line"][quantity] {
+tei-gap[reason="lost"][unit="line"][quantity]::before {
   content: "[-" attr(quantity) lin. "-]"
 }
 
-tei-gap[reason="illegible"][unit="character"][atLeast] {
+tei-gap[reason="illegible"][unit="character"][atLeast]::before {
   content: "[." attr(atLeast) "-" attr(atMost) " chars. .]"
 }
 
-tei-gap[reason="lost"][unit="character"][atLeast] {
+tei-gap[reason="lost"][unit="character"][atLeast]::before {
   content: "[- " attr(atLeast) "-" attr(atMost) "chars. -]"
 }
 
-tei-gap[reason="lost"][unit="line"][atLeast] {
+tei-gap[reason="lost"][unit="line"][atLeast]::before {
   content: "[-" attr(atLeast) "-" attr(atMost) "lin. -]"
 }
 
