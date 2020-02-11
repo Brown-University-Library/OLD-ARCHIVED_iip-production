@@ -281,10 +281,14 @@ def viewinscr(request, inscrid):
         specific_sources['transcription'] = _bib_tuple_or_none(q.results[0]['biblTranscription'][0]) if 'biblTranscription' in q.results[0] else ""
         specific_sources['translation'] = _bib_tuple_or_none(q.results[0]['biblTranslation'][0]) if 'biblTranslation' in q.results[0] else ""
         specific_sources['diplomatic'] = _bib_tuple_or_none(q.results[0]['biblDiplomatic'][0]) if 'biblDiplomatic' in q.results[0] else ""
+        image_caption: list = q.results[0].get( 'image-caption', None )
+        log.debug( f'image_caption, ```{image_caption}```' )
+        if image_caption:
+            image_caption = image_caption[0]
 
         view_xml_url = u'%s://%s%s' % (  request.META[u'wsgi.url_scheme'],  request.get_host(),  reverse(u'xml_url', kwargs={u'inscription_id':inscrid})  )
         current_url = u'%s://%s%s' % (  request.META[u'wsgi.url_scheme'],  request.get_host(),  reverse(u'inscription_url', kwargs={u'inscrid':inscrid})  )
-        return ( q, z_bibids, specific_sources, current_display_status, view_xml_url, current_url )
+        return ( q, z_bibids, specific_sources, current_display_status, view_xml_url, current_url, image_caption )
 
     def _setup_viewinscr( request ):
         """ Takes request;
@@ -301,7 +305,7 @@ def viewinscr(request, inscrid):
         #is it solr instance wrong or the view code?
     def _call_viewinsc_solr( inscription_id ):
         """ Hits solr with inscription-id.
-                Returns a solrpy query-object.
+                Returns a solrpy response-object, where `q.results` is a list of dicts.
             Called by _prepare_viewinscr_get_data(). """
         s = solr.SolrConnection( settings_app.SOLR_URL )
         # print(settings_app.SOLR_URL)
@@ -340,7 +344,7 @@ def viewinscr(request, inscrid):
         return_response = HttpResponse( return_str )
         return return_response
 
-    def _prepare_viewinscr_plain_get_response( q, z_bibids, specific_sources, current_display_status, inscrid, request, view_xml_url, current_url, log_id ):
+    def _prepare_viewinscr_plain_get_response( q, z_bibids, specific_sources, current_display_status, inscrid, request, view_xml_url, current_url, log_id, image_caption ):
         """ Returns view-inscription response-object for regular GET.
             Called by viewinscr() """
         log.debug( u'in _prepare_viewinscr_plain_get_response(); starting' )
@@ -357,20 +361,23 @@ def viewinscr(request, inscrid):
             'admin_links': common.make_admin_links( session_authz_dict=request.session[u'authz_info'], url_host=request.get_host(), log_id=log_id ),
             'view_xml_url': view_xml_url,
             'current_url': current_url,
-            'image_url':  "https://github.com/Brown-University-Library/iip-images/raw/master/" + inscrid + ".jpg"
+            'image_url':  "https://github.com/Brown-University-Library/iip-images/raw/master/" + inscrid + ".jpg",
+            'image_caption': image_caption
             }
-        # log.debug( u'in _prepare_viewinscr_plain_get_response(); context, %s' % pprint.pformat(context) )
-        print(z_bibids)
+        # print(z_bibids)
+        log.debug( f'context, ```{pprint.pformat(context)}```' )
         return_response = render( request, u'iip_search_templates/viewinscr.html', context )
         return return_response
 
     log_id = _setup_viewinscr( request )
     log.info( u'in viewinscr(); id, %s; starting' % log_id )
-    ( q, z_bibids, specific_sources, current_display_status, view_xml_url, current_url ) = _prepare_viewinscr_get_data( request, inscrid )
+    ( q, z_bibids, specific_sources, current_display_status, view_xml_url, current_url, image_caption ) = _prepare_viewinscr_get_data( request, inscrid )
     if request.is_ajax():
+        log.debug( 'ajax-request' )
         return_response = _prepare_viewinscr_ajax_get_response( q, z_bibids, specific_sources, view_xml_url )
     else:
-        return_response = _prepare_viewinscr_plain_get_response( q, z_bibids, specific_sources, current_display_status, inscrid, request, view_xml_url, current_url, log_id )
+        log.debug( 'non-ajax-request' )
+        return_response = _prepare_viewinscr_plain_get_response( q, z_bibids, specific_sources, current_display_status, inscrid, request, view_xml_url, current_url, log_id, image_caption )
     return return_response
 
 
