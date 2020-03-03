@@ -32,5 +32,3 @@ class StoryPage( models.Model ):
 	thumbnail_intro = models.TextField( blank=True )
 	content = models.TextField( blank=True, help_text='Markdown allowed.' )
 	relevant_inscription_id = models.CharField( blank=True, max_length=100 )
-	# image = models.ImageField(upload_to = 'iip_search_app/images/', default = 'iip_search_app/images/placeholder2.png', max_length=100)
-
