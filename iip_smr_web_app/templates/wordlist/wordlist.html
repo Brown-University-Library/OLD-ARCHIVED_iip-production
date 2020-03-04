@@ -1,0 +1,50 @@
+{% extends 'about/base.html' %}
+
+
+{% block extra_css %}
+
+<link href="{{ STATIC_URL }}iip_search_app/css/general2.css" media="all" rel="stylesheet" type="text/css" />
+{% load staticfiles %}
+ <link href='{% static 'wordlist/css/wordlist.css' %}' rel="stylesheet"/>
+
+{% endblock %}
+
+
+
+{% block body %}
+
+    <div class="container text-center">
+
+
+    <br><br><br><br><h1>WORDLIST:</h1><br>
+
+    <label for="language">Choose a language:</label>
+
+	<select id="language" onChange="langSelect(this.value)">
+		<option value="" disabled selected>Select</option>
+  		<option value="Latin">Latin</option>
+  		<option value="Greek">Greek</option>
+  		<option value="Hebrew">Hebrew</option>
+	</select>
+
+	<div id="latin-table" display="none">
+		{% include "templates/wordlist/latin.html" %}    
+	</div>
+
+	<div id="in-progress">
+		<br>
+		<h3>In Progress...</h3>
+	</div>
+	
+    </div>
+
+    <br><br><br>
+    
+{% endblock %}
+
+{% block extra_js %}
+
+{% load staticfiles %}  
+    <script src='{% static 'wordlist/js/wordlist.js' %}'></script>
+
+{% endblock %}

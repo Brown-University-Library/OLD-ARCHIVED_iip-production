@@ -18,10 +18,24 @@ from iip_smr_web_app.libs import ajax_snippet
 from iip_smr_web_app.libs.proxy_helper import rewrite
 from iip_smr_web_app.libs.version_helper import Versioner
 from iip_smr_web_app.libs.view_xml_helper import XmlPrepper
+from iip_smr_web_app.libs.wordlist.wordlist import get_latin_words
+from iip_smr_web_app.libs.wordlist.wordlist import get_latin_word
 
 
 log = logging.getLogger(__name__)
 versioner = Versioner()
+
+def wordlist(request):
+    print(request)
+    words = get_latin_words(500)
+    context = {"words": words}
+    return render(request, "wordlist/wordlist.html", context)
+
+def latinword(request, word_id):
+    print("latin word id: " + word_id)
+    word_info = get_latin_word(word_id)
+    context = {"word": word_info}
+    return render(request, "wordlist/latinword.html", context)
 
 
 ## proxy start ##
