@@ -5,9 +5,9 @@ This is the code for the production iip project.
 
 ---
 
-### Student-Developer Installation
+### Installation
 
-- make a dir `iip_student_dev_stuff`
+- make a dir `iip_webapp_stuff`
 - cd into that dir
 - $ python3 -m venv ./env3_iip_student_dev_project
 - $ git clone https://github.com/Brown-University-Library/iip_smr_web_project.git ./iip_student_dev_project
