@@ -1,0 +1,31 @@
+{% extends 'about/base.html' %}
+
+
+{% block extra_css %}
+
+<link href="{{ STATIC_URL }}iip_search_app/css/general2.css" media="all" rel="stylesheet" type="text/css" />
+{% load staticfiles %}
+ <link href='{% static 'wordlist/css/wordlist.css' %}' rel="stylesheet"/>
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="container ">
+
+
+    <br><br><br><br><h1>{{word.Normalized}}</h1>
+
+    <br>
+
+    <p><b>Lemma: </b> {{word.POSTaggerLemma}}</p>
+    <p><b>Part of Speech: </b> {{word.PartofSpeech}}</p>
+    <p><b>Text: </b> {{word.Text}}</p>
+    <p><b>Position: </b> Word Number {{word.WordNumber}},
+    Line {{word.LineStart}} - {{word.LineEnd}}</p>
+	
+    </div>
+
+    <br><br><br>
+    
+{% endblock %}

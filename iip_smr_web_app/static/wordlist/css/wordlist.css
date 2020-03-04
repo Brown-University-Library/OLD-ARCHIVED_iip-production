@@ -1,0 +1,16 @@
+.table {
+   margin: auto;
+   width: 50% !important; 
+}
+
+table th {
+   text-align: center; 
+}
+
+#latin-table{
+	display: none;
+}
+
+#in-progress {
+	display: none;
+}
