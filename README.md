@@ -1,6 +1,6 @@
 ## Overview
 
-This is the code for the student developer version of the iip project
+This is the code for the production iip project.
 
 
 ---
