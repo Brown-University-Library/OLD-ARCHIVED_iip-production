@@ -1,3 +1,5 @@
+/* 2020-02-11 EM editing gap CSS */
+
 tei-expan > tei-ex::before {
     content: "(";
 }
@@ -103,25 +105,29 @@ tei-g::after {
 }
 
 tei-g:empty::before {
-  content: "((" attr(type);
+  content: "((" attr(type) "))";
   unicode-bidi: bidi-override;
   direction: ltr;
 }
 
-tei-gap[reaso="illegible"][unit="character"][extent="unknown"]::before {
+tei-g:empty::after {
+  ;
+}
+
+tei-gap[reason="illegible"][unit="character"][extent="unknown"]::before {
   content: "[...]";
 }
 
-tei-gap[reaso="lost"][unit="character"][extent="unknown"]::before {
+tei-gap[reason="lost"][unit="character"][extent="unknown"]::before {
   content: "[---]";
 }
 
 /*  doesn't appear in IIP at this point. Doesn't make sense, really
-tei-gap[reaso="illegible"][unit="line"][extent="unknown"]::before {
+tei-gap[reason="illegible"][unit="line"][extent="unknown"]::before {
   content: "-----";
 } */
 
-tei-gap[reaso="lost"][unit="line"][extent="unknown"]::before {
+tei-gap[reason="lost"][unit="line"][extent="unknown"]::before {
   content: "-----";
 }
 /*  one two or three ill. characters, use one two or three dots
@@ -210,14 +216,20 @@ tei-hi[rend='ligature'] {
 
 tei-space[quantity][unit='character']::before {
     content: " (vac." attr(quantity) ") ";
+    unicode-bidi: bidi-override;
+    direction: ltr;
 }
 
 tei-space[extent='unknown']::before {
     content: " (vac. ?) ";
+    unicode-bidi: bidi-override;
+    direction: ltr;
 }
 
 tei-space[dim='horizontal']::before {
   content: " (vac.) ";
+  unicode-bidi: bidi-override;
+  direction: ltr;
 }
 
 tei-note::before {
