@@ -60,15 +60,18 @@ function longDisplay(domTarget) {
 
 
     var xmlURL = $("#viewXml a").attr('href');
-    console.log( "xmlURL, ", xmlURL );
+    console.log( "in logDisplay(); xmlURL, ", xmlURL );
     $.get(xmlURL, function(data) {
         console.log( "data, ", data );
         if (typeof data == 'string') {
             data = (new DOMParser()).parseFromString(data, 'application/xml');
         }
         Conv.domToHTML5(data,function(parsed, self) {
-            var transcription = $(parsed).find("tei-div[subtype=transcription]");
-            console.log( "transcription, ", transcription )
+            var transcription = $(parsed).find("tei-div[subtype=transcription]"); // NOTE: transcription here is not a normal js object, its a jquery or CETEI object.
+            console.log( "in longDisplay(); transcription, ", transcription )
+            console.dir( transcription );
+            console.log( "here" );
+
             var diplomatic = $(parsed).find("tei-div[subtype=diplomatic]");
             var translation = $(parsed).find("tei-div[type=translation]");
 
@@ -85,7 +88,28 @@ function longDisplay(domTarget) {
             //     $(domTarget).find(".transcription").html("[no transcription]");
             // }
 
-            $(domTarget).find(".transcription").html(transcription);
+
+
+            /* First improvement... */
+            // $(domTarget).find(".transcription").html(transcription); // stuffs the element with the transcription class with the contents of var transcription.
+
+
+
+            /* Better... */
+
+            var p_el = transcription.children()[0];
+            console.log( "in longDisplay(); p_el, ", p_el );
+
+            var inside_p_length = p_el.innerHTML.trim().length;
+            console.log( "in longDisplay(); inside_p_length, ", inside_p_length );
+            if (inside_p_length == 0) {
+                console.log( "in longDisplay(); applying no-transcription message" )
+                $(domTarget).find(".transcription").html("[no transcription]");
+            } else {
+                console.log( "in longDisplay(); found content within p-tag, so applying that html" )
+                $(domTarget).find(".transcription").html(transcription);
+            }
+            /* End of Better... */
 
 
 
