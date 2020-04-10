@@ -60,22 +60,34 @@ function longDisplay(domTarget) {
 
 
     var xmlURL = $("#viewXml a").attr('href');
+    console.log( "xmlURL, ", xmlURL );
     $.get(xmlURL, function(data) {
+        console.log( "data, ", data );
         if (typeof data == 'string') {
             data = (new DOMParser()).parseFromString(data, 'application/xml');
         }
         Conv.domToHTML5(data,function(parsed, self) {
             var transcription = $(parsed).find("tei-div[subtype=transcription]");
+            console.log( "transcription, ", transcription )
             var diplomatic = $(parsed).find("tei-div[subtype=diplomatic]");
             var translation = $(parsed).find("tei-div[type=translation]");
 
-            if (transcription.text().trim()) {
-                console.log("long display: transcription trim");
 
-                $(domTarget).find(".transcription").html(transcription);
-            } else {
-                $(domTarget).find(".transcription").html("[no transcription]");
-            }
+
+            // console.log( "about to check transcription; `domTarget`, ", domTarget )
+            // console.log( "`transcription`, ", transcription )
+            // console.log( "transcription.text().trim(), ", transcription.text().trim() );
+            // if (transcription.text().trim()) {
+            //     console.log("in longDisplay(); transcription.text() found");
+            //     $(domTarget).find(".transcription").html(transcription);
+            // } else {
+            //     console.log("in longDisplay(); transcription.text() not found");
+            //     $(domTarget).find(".transcription").html("[no transcription]");
+            // }
+
+            $(domTarget).find(".transcription").html(transcription);
+
+
 
             if(diplomatic.text().trim()) {
                 $(domTarget).find(".diplomatic").html(diplomatic);
