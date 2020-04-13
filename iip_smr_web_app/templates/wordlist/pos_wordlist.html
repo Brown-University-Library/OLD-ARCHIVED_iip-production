@@ -1,0 +1,42 @@
+{% block extra_css %}
+
+{% load staticfiles %}
+ <link href='{% static 'wordlist/css/wordlist.css' %}' rel="stylesheet"/>
+
+{% endblock %}
+{% block body %}
+
+    <div class="container text-left">
+
+    <div class=" container text-center">
+    <br><br><h1>LATIN POS</h1><br>
+    </div>
+
+
+    <table class="table" id="latin-pos-table">
+        {% for word in words %}
+            <tr class="level0">
+                <td colspan="2">
+                <button type="button" class="btn btn-primary" 
+                id="buttog{{forloop.counter}}" onclick="collapseToggle(this)">+</button>
+                <b>{{word.0}}</b>
+                </td>
+            </tr>
+            {% for k, v in word.1.items %}
+                <tr class="level1 tog{{forloop.parentloop.counter}}">
+                <td rowspan={{v|length}} class="formentry">{{k}}</td>
+                {% for kwic in v %}
+                    <td>{{kwic}}</td>
+                    </tr><tr class="level1 {{forloop.parentloop.parentloop.counter}}">
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </table>
+
+    <br><br>
+
+	
+    </div>
+    
+{% endblock %}
