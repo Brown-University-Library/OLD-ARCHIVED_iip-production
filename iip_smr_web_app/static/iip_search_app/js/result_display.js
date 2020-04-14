@@ -60,7 +60,7 @@ function longDisplay(domTarget) {
 
 
     var xmlURL = $("#viewXml a").attr('href');
-    console.log( "in logDisplay(); xmlURL, ", xmlURL );
+    console.log( "in longDisplay(); xmlURL, ", xmlURL );
     $.get(xmlURL, function(data) {
         console.log( "data, ", data );
         if (typeof data == 'string') {
@@ -68,38 +68,12 @@ function longDisplay(domTarget) {
         }
         Conv.domToHTML5(data,function(parsed, self) {
             var transcription = $(parsed).find("tei-div[subtype=transcription]"); // NOTE: transcription here is not a normal js object, its a jquery or CETEI object.
-            console.log( "in longDisplay(); transcription, ", transcription )
-            console.dir( transcription );
-            console.log( "here" );
-
             var diplomatic = $(parsed).find("tei-div[subtype=diplomatic]");
             var translation = $(parsed).find("tei-div[type=translation]");
 
-
-
-            // console.log( "about to check transcription; `domTarget`, ", domTarget )
-            // console.log( "`transcription`, ", transcription )
-            // console.log( "transcription.text().trim(), ", transcription.text().trim() );
-            // if (transcription.text().trim()) {
-            //     console.log("in longDisplay(); transcription.text() found");
-            //     $(domTarget).find(".transcription").html(transcription);
-            // } else {
-            //     console.log("in longDisplay(); transcription.text() not found");
-            //     $(domTarget).find(".transcription").html("[no transcription]");
-            // }
-
-
-
-            /* First improvement... */
-            // $(domTarget).find(".transcription").html(transcription); // stuffs the element with the transcription class with the contents of var transcription.
-
-
-
-            /* Better... */
-
+            /* transcription display... */
             var p_el = transcription.children()[0];
             console.log( "in longDisplay(); p_el, ", p_el );
-
             var inside_p_length = p_el.innerHTML.trim().length;
             console.log( "in longDisplay(); inside_p_length, ", inside_p_length );
             if (inside_p_length == 0) {
@@ -109,21 +83,42 @@ function longDisplay(domTarget) {
                 console.log( "in longDisplay(); found content within p-tag, so applying that html" )
                 $(domTarget).find(".transcription").html(transcription);
             }
-            /* End of Better... */
 
-
-
-            if(diplomatic.text().trim()) {
-                $(domTarget).find(".diplomatic").html(diplomatic);
-            } else {
+            /* diplomatic display... */
+            var p_dip_el = diplomatic.children()[0];
+            console.log( "in longDisplay(); p_dip_el, ", p_dip_el );
+            var inside_p_dip_length = p_dip_el.innerHTML.trim().length;
+            console.log( "in longDisplay(); inside_p_dip_length, ", inside_p_dip_length );
+            if (inside_p_dip_length == 0) {
+                console.log( "in longDisplay(); applying no-diplomatic message" )
                 $(domTarget).find(".diplomatic").html("[no diplomatic]");
-            }
-
-            if (translation.text().trim()) {
-                $(domTarget).find(".translation").html(translation);
             } else {
-                $(domTarget).find(".translation").html("[no translation]");
+                console.log( "in longDisplay(); found content within diplomatic p-tag, so applying that html" )
+                $(domTarget).find(".diplomatic").html(diplomatic);
             }
+            // if(diplomatic.text().trim()) {
+            //     $(domTarget).find(".diplomatic").html(diplomatic);
+            // } else {
+            //     $(domTarget).find(".diplomatic").html("[no diplomatic]");
+            // }
+
+            /* translation display... */
+            var p_dip_el = diplomatic.children()[0];
+            console.log( "in longDisplay(); p_dip_el, ", p_dip_el );
+            var inside_p_dip_length = p_dip_el.innerHTML.trim().length;
+            console.log( "in longDisplay(); inside_p_dip_length, ", inside_p_dip_length );
+            if (inside_p_dip_length == 0) {
+                console.log( "in longDisplay(); applying no-diplomatic message" )
+                $(domTarget).find(".diplomatic").html("[no diplomatic]");
+            } else {
+                console.log( "in longDisplay(); found content within diplomatic p-tag, so applying that html" )
+                $(domTarget).find(".diplomatic").html(diplomatic);
+            }
+            // if (translation.text().trim()) {
+            //     $(domTarget).find(".translation").html(translation);
+            // } else {
+            //     $(domTarget).find(".translation").html("[no translation]");
+            // }
         });
     }, 'xml');
 }
