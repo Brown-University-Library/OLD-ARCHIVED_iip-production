@@ -103,16 +103,16 @@ function longDisplay(domTarget) {
             // }
 
             /* translation display... */
-            var p_dip_el = diplomatic.children()[0];
-            console.log( "in longDisplay(); p_dip_el, ", p_dip_el );
-            var inside_p_dip_length = p_dip_el.innerHTML.trim().length;
-            console.log( "in longDisplay(); inside_p_dip_length, ", inside_p_dip_length );
-            if (inside_p_dip_length == 0) {
-                console.log( "in longDisplay(); applying no-diplomatic message" )
-                $(domTarget).find(".diplomatic").html("[no diplomatic]");
+            var p_trnsltn_el = diplomatic.children()[0];
+            console.log( "in longDisplay(); p_trnsltn_el, ", p_trnsltn_el );
+            var inside_p_trnsltn_length = p_trnsltn_el.innerHTML.trim().length;
+            console.log( "in longDisplay(); inside_p_trnsltn_length, ", inside_p_trnsltn_length );
+            if (inside_p_trnsltn_length == 0) {
+                console.log( "in longDisplay(); applying no-translation message" )
+                $(domTarget).find(".translation").html("[no translation]");
             } else {
-                console.log( "in longDisplay(); found content within diplomatic p-tag, so applying that html" )
-                $(domTarget).find(".diplomatic").html(diplomatic);
+                console.log( "in longDisplay(); found content within translation p-tag, so applying that html" )
+                $(domTarget).find(".translation").html(translation);
             }
             // if (translation.text().trim()) {
             //     $(domTarget).find(".translation").html(translation);
