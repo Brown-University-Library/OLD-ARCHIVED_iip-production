@@ -569,10 +569,10 @@ tei-lb {
 
 #single_inscription tei-div[type=textpart]::before {
     display: block;
-    /* margin-left: -1em; */
+    margin-left: -1em;
     margin-top: 4px;
 		text-transform: capitalize;
-    font-variant: small-caps
+    font-variant: small-caps;
     opacity: 0.7;
     content: attr(subtype) ' ' attr(n);
 }

@@ -32,22 +32,36 @@ def get_latin_words_pos():
 				header = row
 			line_count += 1
 		go_through_text(textrows, words)
-		return {k: v for k, v in sorted(words.items(), key = lambda item: item)}
+		sorted_words = {k: v for k, v in sorted(words.items(), key = lambda item: item)}
+		return count_words(sorted_words)
+
+
+def count_words(words):
+	counted = []
+	for word, word_dict in words.items():
+		total = 0
+		for key, val in word_dict.items():
+			total += len(val)
+		counted_dict = {k + " (" + str(len(v)) + ")": v for k,v in word_dict.items()}
+		counted.append([word + " (" + str(total) + ")", counted_dict])
+
+	return counted
+
 
 def go_through_text(text_rows, words):
 	row_len = len(text_rows)
 	for x in range(0, row_len):
 		row = text_rows[x]
-		lemma_string = row[LATIN_LEMMA] + " " + row[LATIN_POS1]
-		pos2 = row[LATIN_POS2]
+		lemma_string = row[LATIN_LEMMA].upper()
+		pos2 = row[LATIN_POS2].lower()
 		if pos2 == "":
 			pos2 = "undefined"
-		pos_string = row[LATIN_WORD] + " " + pos2
+		pos_string = row[LATIN_WORD]+ " (" + pos2 + ")"
 		KWIC = ""
-		for y in range(x - KWIC_BUFF, x + KWIC_BUFF):
+		for y in range(x - KWIC_BUFF, x + KWIC_BUFF + 1):
 			if y >= 0 and y < row_len:
 				KWIC += " " + text_rows[y][LATIN_WORD]
-		KWIC += " (" + row[LATIN_TEXT] + ")"
+		# KWIC += " (" + row[LATIN_TEXT] + ")"
 		if lemma_string in words:
 			if pos_string in words[lemma_string]:
 				words[lemma_string][pos_string].append(KWIC)
