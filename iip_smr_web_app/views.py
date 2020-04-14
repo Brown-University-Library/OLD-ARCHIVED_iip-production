@@ -308,7 +308,7 @@ def viewinscr(request, inscrid):
                 Returns a solrpy response-object, where `q.results` is a list of dicts.
             Called by _prepare_viewinscr_get_data(). """
         s = solr.SolrConnection( settings_app.SOLR_URL )
-        # print(settings_app.SOLR_URL)
+        log.debug( f'settings_app.SOLR_URL, ```{settings_app.SOLR_URL}```' )
         qstring = u'inscription_id:%s' % inscription_id
         try:
             q = s.query(qstring)
@@ -364,7 +364,6 @@ def viewinscr(request, inscrid):
             'image_url':  "https://github.com/Brown-University-Library/iip-images/raw/master/" + inscrid + ".jpg",
             'image_caption': image_caption
             }
-        # print(z_bibids)
         log.debug( f'context, ```{pprint.pformat(context)}```' )
         return_response = render( request, u'iip_search_templates/viewinscr.html', context )
         return return_response
@@ -596,7 +595,7 @@ def conventional_transcription_symbols(request):
 def load_layers(request):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    print(BASE_DIR)
+    log.debug( f'BASE_DIR, ```{BASE_DIR}```' )
 
     json_data = os.path.join(BASE_DIR, 'iip_smr_web_app/static/', "mapsearch/geoJSON/roman_provinces.geojson")
     data = open(json_data, 'r')
@@ -732,7 +731,7 @@ def individual_story(request, story_id):
                 image_url.append("https://github.com/Brown-University-Library/iip-images/raw/master/" + str(data["response"]["docs"][0]["inscription_id"]) + ".jpg")
                 inscription_boolean = True
             except:
-                print("No Relevant Inscriptions")
+                log.debug( 'No Relevant Inscriptions' )
 
     context = {
         'slug': story_page.slug,
@@ -1094,7 +1093,7 @@ def old_viewinscr(request, inscrid):
         current_display_status = _update_viewinscr_display_status( request, q )
         z_bibids_initial = [_bib_tuple_or_none(x) for x in q.results[0]['bibl']]
         z_bibids = {}
-        print(z_bibids_initial)
+        log.debug( f'z_bibids_initial, ```{z_bibids_initial}```' )
         for entry in z_bibids_initial:
             if not entry:
                 continue
@@ -1159,7 +1158,7 @@ def old_viewinscr(request, inscrid):
             'biblTranslation' : specific_sources['translation'],
             'biblioFull': False,
             'view_xml_url': view_xml_url }
-        print(z_bibids)
+        log.debug( f'z_bibids, ```{z_bibids}```' )
         return_str = ajax_snippet.render_block_to_string( 'iip_search_templates/old_viewinscr.html', 'viewinscr', context )
         return_response = HttpResponse( return_str )
         return return_response
