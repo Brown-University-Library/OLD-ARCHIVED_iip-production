@@ -103,7 +103,7 @@ function longDisplay(domTarget) {
             // }
 
             /* translation display... */
-            var p_trnsltn_el = diplomatic.children()[0];
+            var p_trnsltn_el = translation.children()[0];
             console.log( "in longDisplay(); p_trnsltn_el, ", p_trnsltn_el );
             var inside_p_trnsltn_length = p_trnsltn_el.innerHTML.trim().length;
             console.log( "in longDisplay(); inside_p_trnsltn_length, ", inside_p_trnsltn_length );
