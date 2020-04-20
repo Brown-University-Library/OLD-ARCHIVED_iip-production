@@ -28,8 +28,6 @@ log = logging.getLogger(__name__)
 versioner = Versioner()
 
 def wordlist(request):
-    print(request)
-    #words = get_latin_words(500)
     words = get_latin_words_pos()
     context = {"words": words}
     return render(request, "wordlist/wordlist.html", context)

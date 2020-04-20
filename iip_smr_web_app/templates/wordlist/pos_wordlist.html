@@ -9,7 +9,7 @@
     <div class="container text-left">
 
     <div class=" container text-center">
-    <br><br><h1>LATIN POS</h1><br>
+    <br><br><h1>LATIN WORDLIST</h1><br>
     </div>
 
 
@@ -26,10 +26,13 @@
                 <tr class="level1 tog{{forloop.parentloop.counter}}">
                 <td rowspan={{v|length}} class="formentry">{{k}}</td>
                 {% for kwic in v %}
-                    <td>{{kwic}}</td>
-                    </tr><tr class="level1 {{forloop.parentloop.parentloop.counter}}">
+                    {% if not forloop.first %}
+                        <tr class="level1 tog{{forloop.parentloop.parentloop.counter}}">
+                    {% endif %}
+                    <td class="kwic">{{kwic.0}} 
+                    (<a href="/viewinscr/{{kwic.1}}">{{kwic.1}}</a>)</td>
+                    </tr>
                 {% endfor %}
-                </tr>
             {% endfor %}
         {% endfor %}
     </table>

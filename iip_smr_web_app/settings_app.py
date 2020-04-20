@@ -28,6 +28,8 @@ URL_SCHEME = os.environ['IIP_SMR__URL_SCHEME']  # 'http' or, on production, 'htt
 
 DOCUMENTATION_URL = os.environ['IIP_SMR__DOCUMENTATION_URL']
 
+LATIN_CSV_URL = "https://raw.githubusercontent.com/christiancasey/iip-word-lists/master/new%20version%20test/Step%204%20Output.csv"
+
 
 ## proxy ##
 
