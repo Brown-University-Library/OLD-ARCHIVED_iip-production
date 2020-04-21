@@ -35,5 +35,6 @@ td>.btn {
     padding-left: 40px;
 }
 
-#latin-pos-table .level1 {
+.level1 {
+	display: none;
 }

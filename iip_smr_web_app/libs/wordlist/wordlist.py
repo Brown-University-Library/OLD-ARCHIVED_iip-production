@@ -1,5 +1,7 @@
 import csv
 import os
+import requests
+from iip_smr_web_app import settings_app
 
 LATIN_TEXT = 3
 LATIN_WORDNUM = 4
@@ -11,10 +13,13 @@ LATIN_LEMMA = 13
 KWIC_BUFF = 2
 
 
+
 def get_latin_words_pos():
-	with open('iip_smr_web_app/libs/wordlist/latin.csv') as csv_file:
+	with requests.Session() as s:
+		download = s.get(settings_app.LATIN_CSV_URL)
+		decoded = download.content.decode('utf-8')
 		words = {}
-		csv_reader = csv.reader(csv_file, delimiter=",")
+		csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
 		line_count = 0
 		header = []
 		curtext = ""
@@ -57,11 +62,13 @@ def go_through_text(text_rows, words):
 		if pos2 == "":
 			pos2 = "undefined"
 		pos_string = row[LATIN_WORD]+ " (" + pos2 + ")"
-		KWIC = ""
+		KWICstr = ""
 		for y in range(x - KWIC_BUFF, x + KWIC_BUFF + 1):
 			if y >= 0 and y < row_len:
-				KWIC += " " + text_rows[y][LATIN_WORD]
-		# KWIC += " (" + row[LATIN_TEXT] + ")"
+				KWICstr += " " + text_rows[y][LATIN_WORD]
+
+		KWIC = [KWICstr, row[LATIN_TEXT][:-4]]
+
 		if lemma_string in words:
 			if pos_string in words[lemma_string]:
 				words[lemma_string][pos_string].append(KWIC)
