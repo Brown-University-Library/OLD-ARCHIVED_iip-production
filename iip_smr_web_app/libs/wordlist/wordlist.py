@@ -43,13 +43,17 @@ def get_latin_words_pos():
 
 def count_words(words):
 	counted = []
+	pos = set()
 	for word, word_dict in words.items():
 		total = 0
+		splitword = word.split()
 		for key, val in word_dict.items():
 			total += len(val)
 		counted_dict = {k + " (" + str(len(v)) + ")": v for k,v in word_dict.items()}
-		counted.append([word + " (" + str(total) + ")", counted_dict])
+		counted.append([splitword[0] + " (" + str(total) + ")", counted_dict, splitword[1]])
+		pos.add(splitword[1])
 
+	print(pos)
 	return counted
 
 
@@ -57,7 +61,7 @@ def go_through_text(text_rows, words):
 	row_len = len(text_rows)
 	for x in range(0, row_len):
 		row = text_rows[x]
-		lemma_string = row[LATIN_LEMMA].upper()
+		lemma_string = row[LATIN_LEMMA].upper() + " " + row[LATIN_POS1]
 		pos2 = row[LATIN_POS2].lower()
 		if pos2 == "":
 			pos2 = "undefined"
