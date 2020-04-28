@@ -391,11 +391,19 @@ def api_wrapper( request ):
     s = solr.SolrConnection( settings_app.SOLR_URL )
 
     r = s.raw_query(**params)
+    log.debug( f'type(r), ``{type(r)}``' )
 
-    resp = HttpResponse( str(r), content_type="application/json" )
+    unicode_r = r.decode( 'utf-8' )
+    log.debug( f'type(unicode_r), ``{type(unicode_r)}``' )
+
+    # resp = HttpResponse( str(r), content_type="application/json" )
+    resp = HttpResponse( unicode_r, content_type='application/javascript; charset=utf-8' )
     resp['Access-Control-Allow-Origin'] = "*"
 
     return resp
+
+    # resp = HttpResponse( json.dumps(context, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
+
 
 ## login ##
 
