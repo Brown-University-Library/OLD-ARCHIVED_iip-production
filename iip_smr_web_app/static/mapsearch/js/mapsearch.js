@@ -5,8 +5,10 @@
 // Note: API_URL is set in `mapsearch.html`` template, just before mapsearch.js is loaded
 var BASE_URL = API_URL + "?start=0&rows=6000&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language,language_display,religion,material&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*";
 console.log( "BASE_URL: ", BASE_URL );
+
 /* url for applying filters to base url */
 var FILTERS_URL = BASE_URL.concat("&fq=");
+
 /* url for getting all pleiades urls from database */
 // var LOCATIONS_URL = 'https://library.brown.edu/cds/projects/iip/api/?q=*:*&%3A*&start=0&rows=0&indent=on&facet=on&facet.field=city_pleiades&wt=json';
 // Note: API_URL is set in `mapsearch.html`` template, just before mapsearch.js is loaded
