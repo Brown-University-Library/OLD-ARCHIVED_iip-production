@@ -26,7 +26,7 @@ sys.path.append( PROJECT_DIR_PATH )
 ##   - requires apache env_module; info: <https://www.phusionpassenger.com/library/indepth/environment_variables.html>
 
 ## reference django settings
-os.environ['DJANGO_SETTINGS_MODULE'] = 'iip_smr_config.settings'  # so django can access its settings
+os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings'  # so django can access its settings
 
 ## load up env vars
 var_dct = shellvars.get_vars( ENV_SETTINGS_FILE )
