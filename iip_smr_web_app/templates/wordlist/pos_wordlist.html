@@ -12,10 +12,41 @@
     <br><br><h1>LATIN WORDLIST</h1><br>
     </div>
 
+    <p align="center" id="atoz"> [
+        {% for word in words %}
+            {% ifchanged word.0.0 %} 
+                {% if not forloop.first %}|{% endif %}
+            <a class="alphalink">{{word.0.0}}</a>  {% endifchanged %}
+        {% endfor %}
+        ]
+    </p>
+
+    <div id="posfilter">
+        <h5> Part of Speech Filter:</h5>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="nouncheck">
+            <label class="form-check-label" for="nouncheck">
+                Noun
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="verbcheck">
+            <label class="form-check-label" for="verbcheck">
+                Verb
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="adjcheck">
+            <label class="form-check-label" for="adjcheck">
+                Adbjective
+            </label>
+        </div>
+    </div>
+
 
     <table class="table" id="latin-pos-table">
         {% for word in words %}
-            <tr class="level0">
+            <tr class="level0 pos{{word.2}}">
                 <td colspan="2">
                 <button type="button" class="btn btn-primary" 
                 id="buttog{{forloop.counter}}" onclick="collapseToggle(this)">+</button>

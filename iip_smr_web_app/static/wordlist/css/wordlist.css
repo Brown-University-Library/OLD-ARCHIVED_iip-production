@@ -38,3 +38,16 @@ td>.btn {
 .level1 {
 	display: none;
 }
+
+p#atoz {
+	font-size: 15px;
+}
+
+#posfilter {
+	background-color: lightgray;
+	padding: 10px;
+	width: 200px;
+	margin: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
