@@ -90,7 +90,9 @@ async function initializeFacetNums(request_url, date_query) {
     placeMenu: 'OR',
   };
   if (request_url === 'default') {
-    request_url = 'https://library.brown.edu/cds/projects/iip/api/?start=0&rows=0&indent=on&fl=type&q=*:*&facet=on&facet.field=';
+    // request_url = 'https://library.brown.edu/cds/projects/iip/api/?start=0&rows=0&indent=on&fl=type&q=*:*&facet=on&facet.field=';
+    request_url = API_URL + "?start=0&rows=0&indent=on&fl=type&q=*:*&facet=on&facet.field=";  // API_URL is set in `mapsearch.html`` template, just before mapsearch.js is loaded
+    console.log( "initializeFacetNums() request_url: ", request_url );
   } else {
     if (date_query === '(notBefore:[-600 TO 10000]) AND (notAfter:[-10000 TO 650])') {
       // this is the default date range, so query should be null
