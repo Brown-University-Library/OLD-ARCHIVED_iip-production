@@ -14,7 +14,7 @@ urlpatterns = [
     url( r'^login/$',  views.login, name='login_url' ),
     url( r'^logout/$',  views.logout, name='logout_url' ),
     # url( r'^old_search/$',  views.old_results, name='oldsearch_url' ),
-    url( r'^api/$', views.api_wrapper, name=u"api_wrapper"),
+    url( r'^api/$', views.api_wrapper, name='api_wrapper' ),
     url( r'^viewinscr/(?P<inscrid>.*)/$', views.viewinscr, name='inscription_url'),
     url( r'^view_xml/(?P<inscription_id>.*)/$', views.view_xml, name='xml_url' ),
 

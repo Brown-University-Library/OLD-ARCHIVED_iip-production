@@ -177,8 +177,11 @@
                 <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
                 <script src='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
                 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
-                integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
-                crossorigin=""></script>
+                    integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
+                    crossorigin="">
+                </script>
+
+                <script type="text/javascript"> var API_URL = "{% url 'api_wrapper' %}"; </script>  <!-- used by maplet.js -->
                 <script type="text/javascript" src='{% static "iip_search_app/js/maplet.js" %}'></script>
 
                 {% endautoescape %}
