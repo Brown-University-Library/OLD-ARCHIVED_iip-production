@@ -45,11 +45,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     ]
 
-ROOT_URLCONF = 'iip_smr_config.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = json.loads( os.environ['IIP_SMR__TEMPLATES_JSON'] )  # list of dict(s)
 
-WSGI_APPLICATION = 'iip_smr_config.passenger_wsgi.application'
+WSGI_APPLICATION = 'config.passenger_wsgi.application'
 
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 DATABASES = json.loads( os.environ['IIP_SMR__DATABASES_JSON'] )

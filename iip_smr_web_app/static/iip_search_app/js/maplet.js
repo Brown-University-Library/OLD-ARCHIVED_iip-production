@@ -3,8 +3,11 @@ run()
 
 function run(){
 	inscription_list.forEach(function(inscrid){
-		url_json = "https://library.brown.edu/cds/projects/iip/api/?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A" + inscrid;
-		$.getJSON(url_json, function(data){
+
+        url_json = API_URL + "?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A" + inscrid;  // API_URL set in template, just before maplet.js is loaded
+        console.log( "url_json: ", url_json );
+
+        $.getJSON(url_json, function(data){
 			if (data["response"]["docs"][0]["city_pleiades"]){
 				console.log(inscrid + ": pleiades id detected");
 				var pleiades = data["response"]["docs"][0]["city_pleiades"]
