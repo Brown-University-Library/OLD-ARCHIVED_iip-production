@@ -61,7 +61,7 @@
                         <tr class="level1 tog{{forloop.parentloop.parentloop.counter}}">
                     {% endif %}
                     <td class="kwic">{{kwic.0}} 
-                    (<a href="/viewinscr/{{kwic.1}}">{{kwic.1}}</a>)</td>
+                    (<a href="{% url 'inscription_url' kwic.1 %}">{{kwic.1}}</a>)</td>
                     </tr>
                 {% endfor %}
             {% endfor %}
