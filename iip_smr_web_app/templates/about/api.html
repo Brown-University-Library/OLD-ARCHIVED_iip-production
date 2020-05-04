@@ -19,7 +19,7 @@
                     The IIP API sends queries to the Solr index powering the IIP search interface. Queries will mostly rely on IIP keywords and metadata and will return IIP metadata and IIP IDs. The Solr documentation provides details on the query syntax.
                 </p>
                 <p>
-                    The inscription files themselves can be accessed in their XML form by appending the IIP ID to the URL https://library.brown.edu/cds/projects/iip/view_xml/ . For example, the following URL will link to the XML file of inscription AKLD0012: https://library.brown.edu/cds/projects/iip/view_xml/akld0012/
+                    The inscription files themselves can be accessed in their XML form by appending the IIP ID to the URL https://library.brown.edu/iip/view_xml/ . For example, the following URL will link to the XML file of inscription AKLD0012: https://library.brown.edu/iip/view_xml/akld0012/
                 </p>
                 <p>
                     The IIP ID takes the form AAAA1111 or AAAA1111A (where A stands for an alphabetic character and 1 stands for a number). Please note that although the URL path may change, the IIP ID will not. API queries can return xml or json formats, depending on the value of the wt flag: wt=xml or wt=json.
@@ -28,12 +28,12 @@
                 <h4>Some example queries:</h4>
                 <ul>
                     <li>
-                        Find the first 100 IIP inscriptions:     
+                        Find the first 100 IIP inscriptions:
                         http://library.brown.edu/search/solr_pub/iip/?start=0&rows=100&indent=on&wt=json&q=*
                     </li>
                     <li>
                         Find the first 100 inscriptions that are from the region “Coastal Plain”: http://library.brown.edu/search/solr_pub/iip/?start=0&rows=100&indent=on&wt=json&q=region%3A%22Coastal+Plain%22
-                        Note that in this query, the search string "Coastal Plain" is enclosed in double quotes "" but that the URL must be encoded as %22 
+                        Note that in this query, the search string "Coastal Plain" is enclosed in double quotes "" but that the URL must be encoded as %22
                     </li>
                     <li>
                         Return all the genre attributes:
@@ -43,7 +43,7 @@
                 <br>
                 <h4>Useful facets (keywords):</h4>
                 <p>
-                    A guide to the keywords appearing in the metadata fields (e.g. “physical type” or “inscription type”) appears on our Glossary page. 
+                    A guide to the keywords appearing in the metadata fields (e.g. “physical type” or “inscription type”) appears on our Glossary page.
                 </p>
                 <p>
                     NOTE: We are in the process of improving our Solr index, so the API results may change. Most metadata fields will remain the same, but the results will be more concise and easier to use. Also, please note that bibliographic references draw their information from a Zotero database which can be found here.
