@@ -147,7 +147,6 @@ class SearchForm( forms.Form ):
             'material': self.cleaned_data['material_'].upper()
         }
         log.debug( 'concat_operators, ```%s```' % concat_operators )
-        # print(self.cleaned_data.items())
         log.debug( 'self.cleaned_data.items(), ```%s```' % self.cleaned_data.items() )
         for f,v in self.cleaned_data.items(): # f = facet (place, type, etc.), v = value (["altar, amphora"])
             #The following is specific to the date-encoding in the IIP & US Epigraphy projects
@@ -173,13 +172,11 @@ class SearchForm( forms.Form ):
                         v = u"\"%s\"" % v
             if f and v:
                 if f in search_fields:
-                    print(f)
-                    print(v)
+                    log.debug( f'f, ```{f}```; v, ```{v}```' )
                     if first:
                         first = False
                     else:
                         if(v != ''): response += " AND "
                     if(v != ''): response += u"(%s:%s)" % (f,v)
-        print('response')
-        print(response)
+        log.debug( f'response, ```{response}```' )
         return response

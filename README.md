@@ -1,24 +1,24 @@
 ## Overview
 
-This is the code for the student developer version of the iip project
+This is the code for the production iip project.
 
 
 ---
 
-### Student-Developer Installation
+### Installation
 
-- make a dir `iip_student_dev_stuff`
+- make a dir `iip_webapp_stuff`
 - cd into that dir
-- $ python3 -m venv ./env3_iip_student_dev_project
-- $ git clone https://github.com/Brown-University-Library/iip_smr_web_project.git ./iip_student_dev_project
+- $ python3 -m venv ./env3_iip_web
+- $ git clone https://github.com/Brown-University-Library/iip_production.git ./iip_web_project
 - $ mkdir ./settings
 - $ mkdir ./logs
 - $ mkdir ./db
 - $ mkdir ./pull_from_github
-- $ cd ./iip_student_dev_project
-- $ source ../env3_iip_student_dev_project/bin/activate
+- $ cd ./iip_web_project
+- $ source ../env3_iip_web/bin/activate
 - $ pip install --upgrade pip
-- $ pip install -r ./iip_smr_config/requirements.txt
+- $ pip install -r ./config/requirements.txt
 - put submitted settings file in the settings dir
     - watch for line-endings
 - put submitted db file in the db dir
