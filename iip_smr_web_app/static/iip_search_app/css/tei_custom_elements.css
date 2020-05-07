@@ -66,6 +66,10 @@ so as to be contained in p elements with class attributes "transcription", etc *
     text-transform: uppercase;
 }
 
+tei-choice > tei-unclear:first-child::after {
+ content: "/";
+}
+
 tei-damage {
 
 }
@@ -110,8 +114,8 @@ tei-g:empty::before {
   direction: ltr;
 }
 
-tei-g:empty::after {
-  ;
+.edition tei-g:empty::after {
+
 }
 
 tei-gap[reason="illegible"][unit="character"][extent="unknown"]::before {
@@ -134,45 +138,61 @@ tei-gap[reason="lost"][unit="line"][extent="unknown"]::before {
 otherwise parenthsis with number */
 
 tei-gap[reason="illegible"][unit="character"][quantity="1"]::before {
-  content: "."
+  content: ".";
 }
 
 tei-gap[reason="illegible"][unit="character"][quantity="2"]::before {
-  content: ".."
+  content: "..";
 }
 
 tei-gap[reason="illegible"][unit="character"][quantity]::before {
-    content: "[. " attr(quantity) " chars. .]"
+    content: "[. " attr(quantity) " chars. .]";
+    unicode-bidi: bidi-override;
+    direction: ltr;
 }
 
 tei-gap[reason="lost"][unit="character"][quantity="1"]::before {
-  content: "[-]"
+  content: "[-]";
 }
 
 tei-gap[reason="lost"][unit="character"][quantity="2"]::before {
-  content: "[--]"
+  content: "[--]";
 }
 
 tei-gap[reason="lost"][unit="character"][quantity]::before {
-    content: "[-" attr(quantity) "char. -]"}
+    content: "[-" attr(quantity) "char. -]";
+    unicode-bidi: bidi-override;
+    direction: ltr;
+  }
 
 tei-gap[reason="lost"][unit="character"][quantity] [precision="low"]::before {
-        content: "[- ca. " attr(quantity) "char. -]"}
+        content: "[- ca. " attr(quantity) "char. -]";
+        unicode-bidi: bidi-override;
+        direction: ltr;
+      }
 
 tei-gap[reason="lost"][unit="line"][quantity]::before {
-  content: "[-" attr(quantity) lin. "-]"
+  content: "[-" attr(quantity) "lin. -]";
+  unicode-bidi: bidi-override;
+  direction: ltr;
 }
 
 tei-gap[reason="illegible"][unit="character"][atLeast]::before {
   content: "[." attr(atLeast) "-" attr(atMost) " chars. .]"
+  unicode-bidi: bidi-override;
+  direction: ltr;
 }
 
 tei-gap[reason="lost"][unit="character"][atLeast]::before {
   content: "[- " attr(atLeast) "-" attr(atMost) "chars. -]"
+  unicode-bidi: bidi-override;
+  direction: ltr;
 }
 
 tei-gap[reason="lost"][unit="line"][atLeast]::before {
   content: "[-" attr(atLeast) "-" attr(atMost) "lin. -]"
+  unicode-bidi: bidi-override;
+  direction: ltr;
 }
 
 /* need to add @cert rules for gap */
@@ -192,6 +212,8 @@ tei-unclear {
     /* text-emphasis-style: dot;
     text-emphasis-position: under; */
 }
+
+/* see tei-choice for tei-unclear inside tei-choice */
 
 tei-hi[rend='superscript'] {
     vertical-align: super;
@@ -215,7 +237,7 @@ tei-hi[rend='ligature'] {
 }
 
 tei-space[quantity][unit='character']::before {
-    content: " (vac." attr(quantity) ") ";
+    content: " (vac. " attr(quantity) ") ";
     unicode-bidi: bidi-override;
     direction: ltr;
 }
@@ -240,16 +262,28 @@ tei-note::after {
     content: "*/";
 }
 
-tei-supplied::before {
+tei-supplied[reason="lost"]::before {
     content: "[";
 }
 
-tei-supplied::after {
+tei-supplied[reason="lost"]::after {
     content: "]";
 }
 
-tei-supplied[cert='low']::after {
+tei-supplied[reason="lost"][cert='low']::after {
     content: "?]";
+}
+
+tei-supplied[reason="omitted"]::before {
+    content: "<";
+}
+
+tei-supplied[reason="omitted"]::after {
+    content: ">";
+}
+
+tei-supplied[reason="omitted"][cert='low']::after {
+    content: "?>";
 }
 
 tei-surplus::before {
