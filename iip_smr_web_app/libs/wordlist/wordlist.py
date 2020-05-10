@@ -13,7 +13,19 @@ LATIN_LEMMA = 13
 KWIC_BUFF = 2
 
 
-
+# data is formatted as a list of dictionaries 
+# each dictionary is a lemma
+# LEMMA DICTIONARY FORMAT
+# [ lemma: normalized form of word
+#   pos: part of speech of lemma
+#   count: # of times word appears in inscriptions
+#   forms : dictionary of different forms of word]
+# FORMS DICTIONARY FORMAT
+# [ form: string of form
+#   count: # of times form appears
+#   pos: pos information about the form
+#   kwics: list of duples of the form, first index is kwic, second is inscrp id]
+# (kwics and inscription ids should correspond to each other)
 def get_latin_words_pos():
 	with requests.Session() as s:
 		download = s.get(settings_app.LATIN_CSV_URL)
@@ -21,7 +33,6 @@ def get_latin_words_pos():
 		words = {}
 		csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
 		line_count = 0
-		header = []
 		curtext = ""
 		textrows = []
 		for row in csv_reader:
@@ -32,28 +43,21 @@ def get_latin_words_pos():
 					curtext = row[LATIN_TEXT]
 					textrows = []
 				textrows.append(row)
-
-			if line_count == 0:
-				header = row
 			line_count += 1
 		go_through_text(textrows, words)
 		sorted_words = {k: v for k, v in sorted(words.items(), key = lambda item: item)}
 		return count_words(sorted_words)
 
-
 def count_words(words):
 	counted = []
-	pos = set()
-	for word, word_dict in words.items():
+	for lemma, lemma_dict in words.items():
 		total = 0
-		splitword = word.split()
-		for key, val in word_dict.items():
-			total += len(val)
-		counted_dict = {k + " (" + str(len(v)) + ")": v for k,v in word_dict.items()}
-		counted.append([splitword[0] + " (" + str(total) + ")", counted_dict, splitword[1]])
-		pos.add(splitword[1])
-
-	print(pos)
+		for form, form_dict in lemma_dict["forms"].items():
+			formlen = len(form_dict["kwics"])
+			total += formlen
+			form_dict["count"] = formlen
+		lemma_dict["count"] = total
+		counted.append(lemma_dict)
 	return counted
 
 
@@ -61,47 +65,35 @@ def go_through_text(text_rows, words):
 	row_len = len(text_rows)
 	for x in range(0, row_len):
 		row = text_rows[x]
-		lemma_string = row[LATIN_LEMMA].upper() + " " + row[LATIN_POS1]
+		lemma = row[LATIN_LEMMA].lower()
+		pos1 = row[LATIN_POS1]
+		lemma_string = lemma + " " + pos1
 		pos2 = row[LATIN_POS2].lower()
 		if pos2 == "":
 			pos2 = "undefined"
 		pos_string = row[LATIN_WORD]+ " (" + pos2 + ")"
+		form = row[LATIN_WORD]
 		KWICstr = ""
 		for y in range(x - KWIC_BUFF, x + KWIC_BUFF + 1):
 			if y >= 0 and y < row_len:
 				KWICstr += " " + text_rows[y][LATIN_WORD]
 
-		KWIC = [KWICstr, row[LATIN_TEXT][:-4]]
+		incp_id = row[LATIN_TEXT][:-4]
+		if len(incp_id) < 3:
+			print("boop")
+		KWIC = [KWICstr, incp_id]
 
-		if lemma_string in words:
-			if pos_string in words[lemma_string]:
-				words[lemma_string][pos_string].append(KWIC)
+		lemma_dict = words.get(lemma_string)
+		if lemma_dict is not None:
+			form_dict = lemma_dict.get("forms").get(pos_string)
+			if form_dict is not None:
+				form_dict.append(KWIC)
 			else:
-				words[lemma_string][pos_string] = [KWIC]
+				form = {"form": form, "pos": pos2, "kwics": [KWIC]}
+				lemma_dict["forms"][pos_string] = form
 		else:
-			words[lemma_string] = {pos_string: [KWIC]}
-
-def get_latin_words(num):
-	with open('iip_smr_web_app/libs/wordlist/latin.csv') as csv_file:
-		words = {}
-		csv_reader = csv.reader(csv_file, delimiter=",")
-		line_count = 0
-		header = []
-		for row in csv_reader:
-			row_word = row[LATIN_LEMMA]
-			if line_count < num and line_count != 0 and len(row_word) > 0 and row_word[:1] != "?":
-				word = {}
-				word["data"] = row[3][:-4] + ", line " + row[5] + " (" + row[7] + ")"
-				word["link_id"] = row[3] + "" + row[4]
-				if row_word in words:
-					words[row_word].append(word)
-				else:
-					words[row_word] = [word]
-			if line_count == 0:
-				header = row
-			line_count += 1
-		return {k: v for k, v in sorted(words.items(), key = lambda item: item)}
-
+			forms = {"form": form, "pos": pos2, "kwics": [KWIC]}
+			words[lemma_string] = {"lemma": lemma, "pos": pos1, "forms": {pos_string: forms} }
 
 def get_latin_word(latin_id):
 	info = {}

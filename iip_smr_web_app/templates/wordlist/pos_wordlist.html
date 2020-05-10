@@ -14,9 +14,9 @@
 
     <p align="center" id="atoz"> [
         {% for word in words %}
-            {% ifchanged word.0.0 %} 
+            {% ifchanged word.lemma.0 %} 
                 {% if not forloop.first %}|{% endif %}
-            <a class="alphalink">{{word.0.0}}</a>  {% endifchanged %}
+            <a class="alphalink">{{word.lemma.0}}</a>  {% endifchanged %}
         {% endfor %}
         ]
     </p>
@@ -50,13 +50,14 @@
                 <td colspan="2">
                 <button type="button" class="btn btn-primary" 
                 id="buttog{{forloop.counter}}" onclick="collapseToggle(this)">+</button>
-                <b>{{word.0}}</b>
+                <b>{{word.lemma}}</b> {{word.pos}} ({{word.count}})
                 </td>
             </tr>
-            {% for k, v in word.1.items %}
+            {% for k, v in word.forms.items %}
                 <tr class="level1 tog{{forloop.parentloop.counter}}">
-                <td rowspan={{v|length}} class="formentry">{{k}}</td>
-                {% for kwic in v %}
+                <td rowspan={{v.kwics|length}} class="formentry">{{v.form}} 
+                {{v.pos}} ({{v.count}})</td>
+                {% for kwic in v.kwics %}
                     {% if not forloop.first %}
                         <tr class="level1 tog{{forloop.parentloop.parentloop.counter}}">
                     {% endif %}
