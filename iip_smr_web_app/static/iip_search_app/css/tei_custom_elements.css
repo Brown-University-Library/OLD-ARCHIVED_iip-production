@@ -70,6 +70,12 @@ tei-choice > tei-unclear:first-child::after {
  content: "/";
 }
 
+/* easier to do this as a special case in Hebrew, as the XML element that is
+2nd Hebrew word counts as the first element. */
+[lang="heb"] > tei-choice > tei-unclear:first-child::before {
+ content: "/";
+}
+
 tei-damage {
 
 }
@@ -109,13 +115,9 @@ tei-g::after {
 }
 
 tei-g:empty::before {
-  content: "((" attr(type) "))";
+  content: "((" attr(type);
   unicode-bidi: bidi-override;
   direction: ltr;
-}
-
-.edition tei-g:empty::after {
-
 }
 
 tei-gap[reason="illegible"][unit="character"][extent="unknown"]::before {
