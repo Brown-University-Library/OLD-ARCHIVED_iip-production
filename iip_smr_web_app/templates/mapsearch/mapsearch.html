@@ -17,7 +17,7 @@
 <!-- 	<link href -->
 	</style>
 	<style type="text/css">
-	
+
 	hr.style-one {
     border: 0;
     height: 1px;
@@ -45,7 +45,7 @@
 	</style>
 {% endblock %}
 
-{% block body %} 
+{% block body %}
 	<div class="container">
 		<div class="row">
 			<div id="mapid"></div>
@@ -56,10 +56,10 @@
 					</center>
 					<div class="overlay-checkbox">
 						<label><input id="king_herod_boundaries_37BCE" type="checkbox" value="">King Herod Boundaries 37BCE</label>
-					</div> 
+					</div>
 					<div class="overlay-checkbox" >
 						<label><input id="roman_provinces" type="checkbox" value="">Roman Empire Provinces 200CE</label>
-					</div> 
+					</div>
 					<div class="overlay-checkbox">
 						<label><input id="roman_roads" type="checkbox" value="">Roman Roads</label>
 					</div>
@@ -68,15 +68,15 @@
 					</div>
 					<div class="overlay-checkbox">
 						<label><input id="iip_regions" type="checkbox" value="">IIP Regions</label>
-					</div> 
+					</div>
 					<div class="overlay-checkbox">
 						<label><input id="overlay_satelite" type="checkbox" value="">Satellite View</label>
-					</div> 
+					</div>
 				</div>
 				<div class="row btn-row">
 					<button id="points_layer" type="button" class="btn btn-primary btn-sm">
 					  Hide Points
-					</button>	
+					</button>
 				</div>
 				<div class="row" id="map-inscriptions-box">
 					<ul>
@@ -104,12 +104,12 @@
             {% csrf_token %}
             <table class="search_box basic">
 				<tr class="border_top">
-					<td class="col-md-2">				
+					<td class="col-md-2">
 				    	<strong>
                         	Location
-                    	</strong>  
+                    	</strong>
                     	<span class="select-multiple" style="padding-bottom: 7px;">select multiple: disabled
-						</span> 
+						</span>
 						<div id="place-filter" class="filter-container">
 							{% for field in form.place %}
 								<div class="checkbox checkbox-default">
@@ -122,11 +122,11 @@
 					<td class="col-md-2">
 						<strong>
 							Type of Inscription
-						</strong>	
+						</strong>
 						<div class="select-multiple">
 							<p>select multiple: </p>
 							{{ form.type_ }}
-						</div> 				                 
+						</div>
 						<div id="type-filter" class="filter-container">
 							{% for field in form.type %}
 								<div class="checkbox checkbox-default">
@@ -143,7 +143,7 @@
 						<div class="select-multiple">
 							<p>select multiple: </p>
 							{{ form.physical_type_ }}
-						</div> 	
+						</div>
 						<div id="physical_type-filter" class="filter-container">
 							{% for field in form.physical_type %}
 								<div class="checkbox checkbox-default">
@@ -160,7 +160,7 @@
 						<div class="select-multiple">
 							<p>select multiple: </p>
 							{{ form.language_}}
-						</div> 	
+						</div>
 						<div id="language-filter" class="filter-container">
 							{% for field in form.language %}
 								<div class="checkbox checkbox-default">
@@ -177,7 +177,7 @@
 						<div class="select-multiple">
 							<p>select multiple: </p>
 							{{ form.religion_ }}
-						</div> 	
+						</div>
 						<div id="religion-filter" class="filter-container">
 							{% for field in form.religion %}
 								<div class="checkbox checkbox-default">
@@ -202,7 +202,7 @@
 						<div class="select-multiple">
 							<p>select multiple: </p>
 							{{ form.material_ }}
-						</div> 	 
+						</div>
 						<div id="material-filter" class="filter-container">
 							{% for field in form.material %}
 								<div class="checkbox checkbox-default">
@@ -327,7 +327,7 @@
 			</table>
 			<br>
 		</form>
-		
+
 	</div>
 
 {% endblock %}
@@ -343,11 +343,12 @@
 	crossorigin=""></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
 
-    {% load staticfiles %}  
+    {% load staticfiles %}
+    <script type="text/javascript"> var API_URL = "{% url 'api_wrapper' %}"; </script>  <!-- used by mapsearch.js -->
     <script src='{% static 'mapsearch/js/mapsearch.js' %}'></script>
     <script src='{% static 'mapsearch/js/jquery.livequery.js' %}'></script>
     <script src='{% static 'mapsearch/highslide/highslide-with-gallery.packed.js' %}'></script>
-    
+
 
 
 	<script type="text/javascript">
