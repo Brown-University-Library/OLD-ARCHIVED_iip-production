@@ -136,8 +136,16 @@ tei-gap[reason="illegible"][unit="line"][extent="unknown"]::before {
 tei-gap[reason="lost"][unit="line"][extent="unknown"]::before {
   content: "-----";
 }
-/*  one two or three ill. characters, use one two or three dots
-otherwise parenthsis with number */
+/*  one two (or three) ill. characters, use one two (or three) dots
+otherwise parenthsis with number. Note that CSS rule for quantities unspecified
+has to be before the rules with specified @units. Otherwise it is the rule
+that selects. */
+
+tei-gap[reason="illegible"][unit="character"][quantity]::before {
+    content: "[. " attr(quantity) " char. .]";
+    unicode-bidi: bidi-override;
+    direction: ltr;
+}
 
 tei-gap[reason="illegible"][unit="character"][quantity="1"]::before {
   content: ".";
@@ -147,11 +155,11 @@ tei-gap[reason="illegible"][unit="character"][quantity="2"]::before {
   content: "..";
 }
 
-tei-gap[reason="illegible"][unit="character"][quantity]::before {
-    content: "[. " attr(quantity) " chars. .]";
+tei-gap[reason="lost"][unit="character"][quantity]::before {
+    content: "[-" attr(quantity) "chars. -]";
     unicode-bidi: bidi-override;
     direction: ltr;
-}
+  }
 
 tei-gap[reason="lost"][unit="character"][quantity="1"]::before {
   content: "[-]";
@@ -161,14 +169,9 @@ tei-gap[reason="lost"][unit="character"][quantity="2"]::before {
   content: "[--]";
 }
 
-tei-gap[reason="lost"][unit="character"][quantity]::before {
-    content: "[-" attr(quantity) "char. -]";
-    unicode-bidi: bidi-override;
-    direction: ltr;
-  }
 
 tei-gap[reason="lost"][unit="character"][quantity] [precision="low"]::before {
-        content: "[- ca. " attr(quantity) "char. -]";
+        content: "[?- ca. " attr(quantity) "char. -]";
         unicode-bidi: bidi-override;
         direction: ltr;
       }
@@ -180,19 +183,19 @@ tei-gap[reason="lost"][unit="line"][quantity]::before {
 }
 
 tei-gap[reason="illegible"][unit="character"][atLeast]::before {
-  content: "[." attr(atLeast) "-" attr(atMost) " chars. .]"
+  content: "[. " attr(atLeast) "-" attr(atMost) " chars. .]";
   unicode-bidi: bidi-override;
   direction: ltr;
 }
 
 tei-gap[reason="lost"][unit="character"][atLeast]::before {
-  content: "[- " attr(atLeast) "-" attr(atMost) "chars. -]"
+  content: "[- " attr(atLeast) "-" attr(atMost) "chars. -]";
   unicode-bidi: bidi-override;
   direction: ltr;
 }
 
 tei-gap[reason="lost"][unit="line"][atLeast]::before {
-  content: "[-" attr(atLeast) "-" attr(atMost) "lin. -]"
+  content: "[-" attr(atLeast) "-" attr(atMost) "lin. -]";
   unicode-bidi: bidi-override;
   direction: ltr;
 }
@@ -286,6 +289,13 @@ tei-supplied[reason="omitted"]::after {
 
 tei-supplied[reason="omitted"][cert='low']::after {
     content: "?>";
+}
+tei-supplied[reason="subaudible"]::before {
+    content: "\(";
+}
+
+tei-supplied[reason="subaudible"]::after {
+    content: "\)";
 }
 
 tei-surplus::before {
