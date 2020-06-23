@@ -2,15 +2,20 @@ import csv
 import os
 import requests
 from iip_smr_web_app import settings_app
+import xml.etree.ElementTree as ET
 
-LATIN_TEXT = 3
-LATIN_WORDNUM = 4
-LATIN_WORD = 10
-LATIN_POS1 = 11
-LATIN_POS2 = 12
-LATIN_LEMMA = 13
+LATIN_TEXT = 0
+LATIN_WORDNUM = 1
+LATIN_WORD = 7
+LATIN_POS1 = 8
+LATIN_POS2 = 9
+LATIN_LEMMA = 10
+XML1 = 11
+XML2 = 12
 
 KWIC_BUFF = 2
+
+POSDICT = {"ADV": "adverb", "V": "verb", "N": "noun", "PREP": "preposition", "CC": "conjunction", "ADJ": "adjective"}
 
 
 # data is formatted as a list of dictionaries 
@@ -27,11 +32,14 @@ KWIC_BUFF = 2
 #   kwics: list of duples of the form, first index is kwic, second is inscrp id]
 # (kwics and inscription ids should correspond to each other)
 def get_latin_words_pos():
-	with requests.Session() as s:
-		download = s.get(settings_app.LATIN_CSV_URL)
-		decoded = download.content.decode('utf-8')
+	#with requests.Session() as s:
+	with open('iip_smr_web_app/libs/wordlist/corrected_latin.csv') as csv_file:
+
+		#download = s.get(settings_app.LATIN_CSV_URL)
+		#decoded = download.content.decode('utf-8')
+		csv_reader = csv.reader(csv_file, delimiter=",")
 		words = {}
-		csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
+		#csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
 		line_count = 0
 		curtext = ""
 		textrows = []
@@ -42,10 +50,12 @@ def get_latin_words_pos():
 					go_through_text(textrows, words)
 					curtext = row[LATIN_TEXT]
 					textrows = []
-				textrows.append(row)
+				else:
+					textrows.append(row)
 			line_count += 1
 		go_through_text(textrows, words)
 		sorted_words = {k: v for k, v in sorted(words.items(), key = lambda item: item)}
+		#findMatch()
 		return count_words(sorted_words)
 
 def count_words(words):
@@ -68,7 +78,9 @@ def go_through_text(text_rows, words):
 		lemma = row[LATIN_LEMMA].lower()
 		pos1 = row[LATIN_POS1]
 		lemma_string = lemma + " " + pos1
-		pos2 = row[LATIN_POS2].lower()
+		pos2 = getXMLPOS(row[XML2])
+		if pos2 == "":
+			pos2 = row[LATIN_POS2].lower()
 		if pos2 == "":
 			pos2 = "undefined"
 		pos_string = row[LATIN_WORD]+ " (" + pos2 + ")"
@@ -79,15 +91,13 @@ def go_through_text(text_rows, words):
 				KWICstr += " " + text_rows[y][LATIN_WORD]
 
 		incp_id = row[LATIN_TEXT][:-4]
-		if len(incp_id) < 3:
-			print("boop")
 		KWIC = [KWICstr, incp_id]
 
 		lemma_dict = words.get(lemma_string)
 		if lemma_dict is not None:
 			form_dict = lemma_dict.get("forms").get(pos_string)
 			if form_dict is not None:
-				form_dict.append(KWIC)
+				form_dict.get("kwics").append(KWIC)
 			else:
 				form = {"form": form, "pos": pos2, "kwics": [KWIC]}
 				lemma_dict["forms"][pos_string] = form
@@ -95,61 +105,61 @@ def go_through_text(text_rows, words):
 			forms = {"form": form, "pos": pos2, "kwics": [KWIC]}
 			words[lemma_string] = {"lemma": lemma, "pos": pos1, "forms": {pos_string: forms} }
 
-def get_latin_word(latin_id):
-	info = {}
-	with open('iip_smr_web_app/libs/wordlist/latin.csv') as csv_file:
-		header = []
-		csv_reader = csv.reader(csv_file, delimiter=",")
-		line_count = 0
-		for row in csv_reader:
-			if line_count == 0:
-				header = row
-			else:
-				this_id = row[3] + "" + row[4]
-				if this_id == latin_id:
-					header_index = 3
-					while header_index < len(header) - 1:
-						info.update({header[header_index].replace(" ", "") : row[header_index]})
-						header_index += 1
-					return info
-			line_count += 1
-	return info
 
-def get_latin_KWIC(latin_id, buf_num):
-	kwic = ""
+def getXMLPOS(xmlString):
+	try:
+		root = ET.ElementTree(ET.fromstring(xmlString)).getroot()
+		if root.tag == "infl":
+			return parseByPos(root)
+		for elem in root.findall("infl"):
+			return parseByPos(elem)
+	except Exception as e: 
+		print(e)
+		return ""
 
-	index = latin_id.find(".xml") + 4
-	inscrip = latin_id[:index]
-	num = int(latin_id[index:])
-	
-	with open('iip_smr_web_app/libs/wordlist/latin.csv') as csv_file:
-		finding = 0
-		csv_reader = csv.reader(csv_file, delimiter=",")
-		line_count = 0
-		for row in csv_reader:
-			if line_count == 0:
-				line_count += 1
-				continue
-			word_num = int(row[4])
-			if row[3] == inscrip and word_num <= num + buf_num and word_num >= num - buf_num:
-				word = row[7]
-				kwic += word + " "
-				finding = 1
-			elif finding:
-				return kwic[:len(kwic) - 1]
-		
-	if len(kwic) == 0:
-		return "KWIC not found"
+def parseByPos(elem):
+	print("5")
+	pos = elem.find('pofs').text
+	if pos == "noun":
+		return elem.find("decl").text + " " + elem.find("case").text + " " + elem.find("gend").text + " " + elem.find("num").text[:1]
+	elif pos == "verb":
+		return elem.find("pers").text + " " + elem.find("num").text[:1] + " " + elem.find("voice").text + " " + elem.find("tense").text + " " + elem.find("mood").text;
+	elif pos == "adjective":
+		return elem.find("decl").text + " " + elem.find("case").text + " " + elem.find("gend").text + " " + elem.find("num").text[:1] + elem.find("comp").text
+	elif pos == "pronoun":
+		return elem.find("case").text + " " + elem.find("gend").text + " " + elem.find("num").text[:1]
 	else:
-		return kwic[:len(kwic) - 1]
-
-def getPOS(row):
-	pos1 = row[11]
-	pos2 = row[12]
-	if pos1 == "N":
-		print("noun")
-
-	print(row)
+		return ""
 
 
+def findMatch():
+	with open('iip_smr_web_app/libs/wordlist/corrected_latin.csv') as csv_file:
+		csv_reader = csv.reader(csv_file, delimiter=",")
+		line_count = 0
+		curtext = ""
+		textrows = []
+		for row in csv_reader:
+			if line_count == 2:
+				try:
+					print("1")
+					root = ET.ElementTree(ET.fromstring(row[XML2])).getroot()
+					print("2")
+					if root.tag == "infl":
+						print("3")
+						print(parseByPos(root))
+						return
+					for elem in root.findall("infl"):
+						print("4")
+						print(parseByPos(elem))
+						return
+				except Exception as e: 
+					print(e)
+					return
+			line_count += 1
+
+def formatNPOS(posdic):
+	return ""
+
+def formatVPOS(posdic):
+	return ""
 				

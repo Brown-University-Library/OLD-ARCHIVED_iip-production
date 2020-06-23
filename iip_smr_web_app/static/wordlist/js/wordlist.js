@@ -50,6 +50,40 @@ function findAndScroll(letter) {
 	}
 }
 
+function posFilter() {
+	checked = new Set()
+	$(".pos-filter").each(function(i, obj) {
+		if(obj.checked) {
+			checked.add(obj.value)
+		}
+	})
+	const noCheck = checked.size == 0
+	var table = document.getElementById("latin-pos-table")
+	var hiding = false
+	for(var r = 0, row; row = table.rows[r]; r++) {
+		if($(row).attr('class').includes("level0")) {
+			const rowHTML = row.innerHTML
+			const ind = rowHTML.indexOf("</b>")
+			const pos = rowHTML.substring(ind + 5, rowHTML.indexOf(" ", ind + 6))
+			if(noCheck || checked.has(pos)) {
+				for(var j = 0, cell; cell = row.cells[j]; j++) {
+					$(cell).show()
+					hiding = false
+				}
+			} else {
+				for(var j = 0, cell; cell = row.cells[j]; j++) {
+					$(cell).hide()
+					hiding = true
+				}
+			}
+		} else if (hiding) {
+			for(var j = 0, cell; cell = row.cells[j]; j++) {
+					$(cell).hide()
+				}
+		}
+	}
+}
+
 
 function langSelect(option) {
 	if(option == "Latin") {
