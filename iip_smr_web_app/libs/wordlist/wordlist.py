@@ -16,6 +16,7 @@ XML2 = 12
 KWIC_BUFF = 2
 
 POSDICT = {"ADV": "adverb", "V": "verb", "N": "noun", "PREP": "preposition", "CC": "conjunction", "ADJ": "adjective"}
+MOODDICT = {"IND": "indicative", "PTC": "participle", "IMP": "imperative", "SUB": "subjunctive"}
 
 
 # data is formatted as a list of dictionaries 
@@ -45,7 +46,7 @@ def get_latin_words_pos():
 		textrows = []
 		for row in csv_reader:
 			row_word = row[LATIN_LEMMA]
-			if line_count != 0 and len(row_word) > 0 and row_word[:1] != "?":
+			if len(row_word) > 0 and row_word[:1] != "?":
 				if curtext != row[LATIN_TEXT]:
 					go_through_text(textrows, words)
 					curtext = row[LATIN_TEXT]
@@ -78,7 +79,10 @@ def go_through_text(text_rows, words):
 		lemma = row[LATIN_LEMMA].lower()
 		pos1 = row[LATIN_POS1]
 		lemma_string = lemma + " " + pos1
-		pos2 = getXMLPOS(row[XML2])
+		#getting pos info
+		pos2 = getXML2POS(row[XML2])
+		if pos2 == "":
+			pos2 = getXML1POS(row[XML1], pos1, row[LATIN_POS2])
 		if pos2 == "":
 			pos2 = row[LATIN_POS2].lower()
 		if pos2 == "":
@@ -106,7 +110,42 @@ def go_through_text(text_rows, words):
 			words[lemma_string] = {"lemma": lemma, "pos": pos1, "forms": {pos_string: forms} }
 
 
-def getXMLPOS(xmlString):
+def getXML1POS(xmlString, pos, match):
+	try:
+		root = ET.ElementTree(ET.fromstring(xmlString)).getroot()
+		first = None
+		for elem in root.findall("word/entry/infl"):
+			if first is None:
+				first = elem
+			if checkMatch(elem, pos, match):
+				return parseByPos(elem)
+		if first is None:
+			return ""
+		else:
+			return parseByPos(first)
+	except Exception as e:
+		print(e) 
+		return ""
+
+def checkMatch(el, pos, match):
+	if el.find('pofs') is not None and el.find('pofs').text == POSDICT[pos]:
+		if pos == "N":
+			print("noun match")
+			return el.find('case') is not None and match.lower() == el.find('case').text[:3]
+		if pos == "V":
+			print("verb match")
+			return el.find('mood') is not None and MOODDICT[match] == el.find('mood').text
+		if pos == "ADJ":
+			print("adj match")
+			return (el.find('case') is not None and match.lower() == el.find('case').text[:3]) \
+			or (el.find('comp') is not None and match.lower() == el.find('comp').text[:3])
+
+		return False
+	else:
+		return False
+
+
+def getXML2POS(xmlString):
 	try:
 		root = ET.ElementTree(ET.fromstring(xmlString)).getroot()
 		if root.tag == "infl":
@@ -114,22 +153,30 @@ def getXMLPOS(xmlString):
 		for elem in root.findall("infl"):
 			return parseByPos(elem)
 	except Exception as e: 
-		print(e)
 		return ""
 
-def parseByPos(elem):
-	print("5")
-	pos = elem.find('pofs').text
+def parseByPos(el):
+	pos = el.find('pofs').text
 	if pos == "noun":
-		return elem.find("decl").text + " " + elem.find("case").text + " " + elem.find("gend").text + " " + elem.find("num").text[:1]
+		return pPart(el, "decl") + pPart(el, "case") + pPart(el, "gend") + pPart(el, "num")
 	elif pos == "verb":
-		return elem.find("pers").text + " " + elem.find("num").text[:1] + " " + elem.find("voice").text + " " + elem.find("tense").text + " " + elem.find("mood").text;
+		return pPart(el, "pers") + pPart(el, "num") + pPart(el, "voice") + pPart(el, "tense") + pPart(el, "mood") 
 	elif pos == "adjective":
-		return elem.find("decl").text + " " + elem.find("case").text + " " + elem.find("gend").text + " " + elem.find("num").text[:1] + elem.find("comp").text
+		return pPart(el, "decl") + pPart(el, "case") + pPart(el, "gend") + pPart(el, "num") + pPart(el, "comp")
 	elif pos == "pronoun":
-		return elem.find("case").text + " " + elem.find("gend").text + " " + elem.find("num").text[:1]
+		return pPart(el, "case") + pPart(el, "gend") + pPart(el, "num")
 	else:
 		return ""
+
+
+def pPart(elem, part):
+	if elem.find(part) is None:
+		return ""
+	else:
+		str = elem.find(part).text + " "
+		if part == "num":
+			str = str[:1]
+		return str
 
 
 def findMatch():
@@ -139,22 +186,15 @@ def findMatch():
 		curtext = ""
 		textrows = []
 		for row in csv_reader:
-			if line_count == 2:
+			if line_count == 10:
 				try:
-					print("1")
-					root = ET.ElementTree(ET.fromstring(row[XML2])).getroot()
-					print("2")
-					if root.tag == "infl":
-						print("3")
-						print(parseByPos(root))
-						return
-					for elem in root.findall("infl"):
-						print("4")
+					root = ET.ElementTree(ET.fromstring(row[XML1])).getroot()
+					for elem in root.findall("word/entry/infl"):
 						print(parseByPos(elem))
-						return
 				except Exception as e: 
+					print("error")
 					print(e)
-					return
+					return ""
 			line_count += 1
 
 def formatNPOS(posdic):
