@@ -13,8 +13,8 @@ function boldKWIC() {
 			for(var j = 0, col; col = row.cells[j]; j++) {
 				var cvar = $(col)
 				if(cvar.attr('class').includes("kwic")) {
-					const rv = cvar.html().split(curword, 2)
-					cvar.html(rv[0] + "<strong>" + curword + "</strong>" + rv[1])
+					const rv = cvar.html().split(" " + curword + " ", 2)
+					cvar.html(rv[0] + " <strong>" + curword + "</strong> " + rv[1])
 				} else {
 					const rowval = cvar.html()
 					curword = rowval.substr(0, rowval.indexOf(' '));
@@ -46,6 +46,40 @@ function findAndScroll(letter) {
 				top: offset
 			});
 			return;
+		}
+	}
+}
+
+function posFilter() {
+	checked = new Set()
+	$(".pos-filter").each(function(i, obj) {
+		if(obj.checked) {
+			checked.add(obj.value)
+		}
+	})
+	const noCheck = checked.size == 0
+	var table = document.getElementById("latin-pos-table")
+	var hiding = false
+	for(var r = 0, row; row = table.rows[r]; r++) {
+		if($(row).attr('class').includes("level0")) {
+			const rowHTML = row.innerHTML
+			const ind = rowHTML.indexOf("</b>")
+			const pos = rowHTML.substring(ind + 5, rowHTML.indexOf(" ", ind + 6))
+			if(noCheck || checked.has(pos)) {
+				for(var j = 0, cell; cell = row.cells[j]; j++) {
+					$(cell).show()
+					hiding = false
+				}
+			} else {
+				for(var j = 0, cell; cell = row.cells[j]; j++) {
+					$(cell).hide()
+					hiding = true
+				}
+			}
+		} else if (hiding) {
+			for(var j = 0, cell; cell = row.cells[j]; j++) {
+					$(cell).hide()
+				}
 		}
 	}
 }

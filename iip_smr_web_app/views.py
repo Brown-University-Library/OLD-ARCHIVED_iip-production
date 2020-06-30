@@ -19,10 +19,7 @@ from iip_smr_web_app.libs import ajax_snippet
 from iip_smr_web_app.libs.proxy_helper import rewrite
 from iip_smr_web_app.libs.version_helper import Versioner
 from iip_smr_web_app.libs.view_xml_helper import XmlPrepper
-from iip_smr_web_app.libs.wordlist.wordlist import get_latin_words
 from iip_smr_web_app.libs.wordlist.wordlist import get_latin_words_pos
-from iip_smr_web_app.libs.wordlist.wordlist import get_latin_word
-from iip_smr_web_app.libs.wordlist.wordlist import get_latin_KWIC
 
 
 log = logging.getLogger(__name__)

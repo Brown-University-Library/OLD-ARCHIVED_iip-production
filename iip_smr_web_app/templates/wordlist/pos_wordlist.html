@@ -14,32 +14,53 @@
 
     <p align="center" id="atoz"> [
         {% for word in words %}
-            {% ifchanged word.0.0 %} 
+            {% ifchanged word.lemma.0 %} 
                 {% if not forloop.first %}|{% endif %}
-            <a class="alphalink">{{word.0.0}}</a>  {% endifchanged %}
+            <a class="alphalink">{{word.lemma.0}}</a>  {% endifchanged %}
         {% endfor %}
         ]
     </p>
 
     <div id="posfilter">
         <h5> Part of Speech Filter:</h5>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="nouncheck">
-            <label class="form-check-label" for="nouncheck">
-                Noun
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="verbcheck">
-            <label class="form-check-label" for="verbcheck">
-                Verb
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="adjcheck">
-            <label class="form-check-label" for="adjcheck">
-                Adbjective
-            </label>
+        <div class="form-group">
+            <div class="form-check">
+                <input class="form-check-input pos-filter" type="checkbox" value="N" id="nouncheck">
+                <label class="form-check-label" for="nouncheck">
+                    Noun
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input pos-filter" type="checkbox" value="V" id="verbcheck">
+                <label class="form-check-label" for="verbcheck">
+                    Verb
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input pos-filter" type="checkbox" value="ADJ" id="adjcheck">
+                <label class="form-check-label" for="adjcheck">
+                    Adjective
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input pos-filter" type="checkbox" value="ADV" id="advcheck">
+                <label class="form-check-label" for="advcheck">
+                    Adverb
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input pos-filter" type="checkbox" value="PREP" id="prepcheck">
+                <label class="form-check-label" for="prepcheck">
+                    Preposition
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input pos-filter" type="checkbox" value="CC" id="cccheck">
+                <label class="form-check-label" for="cccheck">
+                    Conjunction
+                </label>
+            </div>
+            <button type="submit" onClick="posFilter()" class="btn btn-primary mb-2">Submit</button>
         </div>
     </div>
 
@@ -50,13 +71,14 @@
                 <td colspan="2">
                 <button type="button" class="btn btn-primary" 
                 id="buttog{{forloop.counter}}" onclick="collapseToggle(this)">+</button>
-                <b>{{word.0}}</b>
+                <b>{{word.lemma}}</b> {{word.pos}} ({{word.count}})
                 </td>
             </tr>
-            {% for k, v in word.1.items %}
+            {% for k, v in word.forms.items %}
                 <tr class="level1 tog{{forloop.parentloop.counter}}">
-                <td rowspan={{v|length}} class="formentry">{{k}}</td>
-                {% for kwic in v %}
+                <td rowspan={{v.kwics|length}} class="formentry">{{v.form}} 
+                {{v.pos}} ({{v.count}})</td>
+                {% for kwic in v.kwics %}
                     {% if not forloop.first %}
                         <tr class="level1 tog{{forloop.parentloop.parentloop.counter}}">
                     {% endif %}
