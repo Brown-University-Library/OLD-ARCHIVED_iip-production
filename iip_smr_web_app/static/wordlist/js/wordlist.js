@@ -51,6 +51,7 @@ function findAndScroll(letter) {
 }
 
 function posFilter() {
+	console.log("filtering")
 	checked = new Set()
 	$(".pos-filter").each(function(i, obj) {
 		if(obj.checked) {
@@ -66,20 +67,14 @@ function posFilter() {
 			const ind = rowHTML.indexOf("</b>")
 			const pos = rowHTML.substring(ind + 5, rowHTML.indexOf(" ", ind + 6))
 			if(noCheck || checked.has(pos)) {
-				for(var j = 0, cell; cell = row.cells[j]; j++) {
-					$(cell).show()
-					hiding = false
-				}
+				$(row).show()
+				hiding = false
 			} else {
-				for(var j = 0, cell; cell = row.cells[j]; j++) {
-					$(cell).hide()
-					hiding = true
-				}
+				$(row).hide()
+				hiding = true
 			}
 		} else if (hiding) {
-			for(var j = 0, cell; cell = row.cells[j]; j++) {
-					$(cell).hide()
-				}
+			$(row).hide()
 		}
 	}
 }
