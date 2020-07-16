@@ -51,7 +51,6 @@ function findAndScroll(letter) {
 }
 
 function posFilter() {
-	console.log("filtering")
 	checked = new Set()
 	$(".pos-filter").each(function(i, obj) {
 		if(obj.checked) {

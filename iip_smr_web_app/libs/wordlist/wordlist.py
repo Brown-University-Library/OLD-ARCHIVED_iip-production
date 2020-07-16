@@ -34,20 +34,18 @@ MOODDICT = {"IND": "indicative", "PTC": "participle", "IMP": "imperative", "SUB"
 #   kwics: list of duples of the form, first index is kwic, second is inscrp id]
 # (kwics and inscription ids should correspond to each other)
 def get_latin_words_pos():
-	#with requests.Session() as s:
-	with open('iip_smr_web_app/libs/wordlist/corrected_latin.csv') as csv_file:
 
-		#download = s.get(settings_app.LATIN_CSV_URL)
-		#decoded = download.content.decode('utf-8')
-		csv_reader = csv.reader(csv_file, delimiter=",")
+	with requests.Session() as s:
+		download = s.get(settings_app.LATIN_CSV_URL)
+		decoded = download.content.decode('utf-8')
 		words = {}
-		#csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
+		csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
 		line_count = 0
 		curtext = ""
 		textrows = []
 		for row in csv_reader:
 			row_word = row[LATIN_LEMMA]
-			if len(row_word) > 0 and row_word[:1] != "?":
+			if line_count > 0 and len(row_word) > 0 and row_word[:1] != "?":
 				if curtext != row[LATIN_TEXT]:
 					go_through_text(textrows, words)
 					curtext = row[LATIN_TEXT]
@@ -80,7 +78,6 @@ def go_through_text(text_rows, words):
 		lemma = row[LATIN_LEMMA].lower()
 		pos1 = row[LATIN_POS1]
 		latext = row[LATIN_TEXT]
-		lemma_string = lemma + " " + pos1
 		#getting pos info
 		pos2 = getXML2POS(row[XML2])
 		if pos2 is None:
@@ -101,6 +98,7 @@ def go_through_text(text_rows, words):
 					pos1 = REVPOSDICT.get(pos1)
 
 		pos_string = row[LATIN_WORD]+ " (" + pos2 + ")"
+		lemma_string = lemma + " " + pos1
 		form = row[LATIN_WORD]
 		KWICstr = ""
 		for y in range(x - KWIC_BUFF, x + KWIC_BUFF + 1):
@@ -189,8 +187,10 @@ def pPart(elem, part):
 
 
 def findMatch():
-	with open('iip_smr_web_app/libs/wordlist/corrected_latin.csv') as csv_file:
-		csv_reader = csv.reader(csv_file, delimiter=",")
+	with requests.Session() as s:
+		download = s.get(settings_app.LATIN_CSV_URL)
+		decoded = download.content.decode('utf-8')
+		csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
 		line_count = 1
 		curtext = ""
 		textrows = []
