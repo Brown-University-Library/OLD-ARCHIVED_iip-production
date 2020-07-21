@@ -16,6 +16,7 @@ XML2 = 12
 KWIC_BUFF = 2
 
 POSDICT = {"ADV": "adverb", "V": "verb", "N": "noun", "PREP": "preposition", "CC": "conjunction", "ADJ": "adjective"}
+REVPOSDICT = {"noun": "N", "verb": "V", "adjective": "ADJ", "adverb": "ADV"}
 MOODDICT = {"IND": "indicative", "PTC": "participle", "IMP": "imperative", "SUB": "subjunctive"}
 
 
@@ -33,20 +34,18 @@ MOODDICT = {"IND": "indicative", "PTC": "participle", "IMP": "imperative", "SUB"
 #   kwics: list of duples of the form, first index is kwic, second is inscrp id]
 # (kwics and inscription ids should correspond to each other)
 def get_latin_words_pos():
-	#with requests.Session() as s:
-	with open('iip_smr_web_app/libs/wordlist/corrected_latin.csv') as csv_file:
 
-		#download = s.get(settings_app.LATIN_CSV_URL)
-		#decoded = download.content.decode('utf-8')
-		csv_reader = csv.reader(csv_file, delimiter=",")
+	with requests.Session() as s:
+		download = s.get(settings_app.LATIN_CSV_URL)
+		decoded = download.content.decode('utf-8')
 		words = {}
-		#csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
+		csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
 		line_count = 0
 		curtext = ""
 		textrows = []
 		for row in csv_reader:
 			row_word = row[LATIN_LEMMA]
-			if len(row_word) > 0 and row_word[:1] != "?":
+			if line_count > 0 and len(row_word) > 0 and row_word[:1] != "?":
 				if curtext != row[LATIN_TEXT]:
 					go_through_text(textrows, words)
 					curtext = row[LATIN_TEXT]
@@ -78,16 +77,28 @@ def go_through_text(text_rows, words):
 		row = text_rows[x]
 		lemma = row[LATIN_LEMMA].lower()
 		pos1 = row[LATIN_POS1]
-		lemma_string = lemma + " " + pos1
+		latext = row[LATIN_TEXT]
 		#getting pos info
 		pos2 = getXML2POS(row[XML2])
-		if pos2 == "":
+		if pos2 is None:
 			pos2 = getXML1POS(row[XML1], pos1, row[LATIN_POS2])
-		if pos2 == "":
-			pos2 = row[LATIN_POS2].lower()
-		if pos2 == "":
-			pos2 = "undefined"
+			if pos2 is None:
+				pos2 = row[LATIN_POS2].lower()
+				if pos2 == "":
+					pos2 = "undefined"
+			else:
+				pos1 = pos2[0]
+				pos2 = pos2[1]
+				if pos1 in REVPOSDICT:
+					pos1 = REVPOSDICT.get(pos1)
+		else:
+			pos1 = pos2[0]
+			pos2 = pos2[1]
+			if pos1 in REVPOSDICT:
+					pos1 = REVPOSDICT.get(pos1)
+
 		pos_string = row[LATIN_WORD]+ " (" + pos2 + ")"
+		lemma_string = lemma + " " + pos1
 		form = row[LATIN_WORD]
 		KWICstr = ""
 		for y in range(x - KWIC_BUFF, x + KWIC_BUFF + 1):
@@ -120,26 +131,22 @@ def getXML1POS(xmlString, pos, match):
 			if checkMatch(elem, pos, match):
 				return parseByPos(elem)
 		if first is None:
-			return ""
+			return None
 		else:
 			return parseByPos(first)
 	except Exception as e:
 		print(e) 
-		return ""
+		return None
 
 def checkMatch(el, pos, match):
 	if el.find('pofs') is not None and el.find('pofs').text == POSDICT[pos]:
 		if pos == "N":
-			print("noun match")
 			return el.find('case') is not None and match.lower() == el.find('case').text[:3]
 		if pos == "V":
-			print("verb match")
 			return el.find('mood') is not None and MOODDICT[match] == el.find('mood').text
 		if pos == "ADJ":
-			print("adj match")
 			return (el.find('case') is not None and match.lower() == el.find('case').text[:3]) \
 			or (el.find('comp') is not None and match.lower() == el.find('comp').text[:3])
-
 		return False
 	else:
 		return False
@@ -153,20 +160,20 @@ def getXML2POS(xmlString):
 		for elem in root.findall("infl"):
 			return parseByPos(elem)
 	except Exception as e: 
-		return ""
+		return None
 
 def parseByPos(el):
 	pos = el.find('pofs').text
 	if pos == "noun":
-		return pPart(el, "decl") + pPart(el, "case") + pPart(el, "gend") + pPart(el, "num")
+		return (pos, pPart(el, "decl") + pPart(el, "case") + pPart(el, "gend") + pPart(el, "num"))
 	elif pos == "verb":
-		return pPart(el, "pers") + pPart(el, "num") + pPart(el, "voice") + pPart(el, "tense") + pPart(el, "mood") 
+		return (pos, pPart(el, "pers") + pPart(el, "num") + pPart(el, "voice") + pPart(el, "tense") + pPart(el, "mood")) 
 	elif pos == "adjective":
-		return pPart(el, "decl") + pPart(el, "case") + pPart(el, "gend") + pPart(el, "num") + pPart(el, "comp")
+		return (pos, pPart(el, "decl") + pPart(el, "case") + pPart(el, "gend") + pPart(el, "num") + pPart(el, "comp"))
 	elif pos == "pronoun":
-		return pPart(el, "case") + pPart(el, "gend") + pPart(el, "num")
+		return (pos, pPart(el, "case") + pPart(el, "gend") + pPart(el, "num"))
 	else:
-		return ""
+		return None
 
 
 def pPart(elem, part):
@@ -180,21 +187,32 @@ def pPart(elem, part):
 
 
 def findMatch():
-	with open('iip_smr_web_app/libs/wordlist/corrected_latin.csv') as csv_file:
-		csv_reader = csv.reader(csv_file, delimiter=",")
-		line_count = 0
+	with requests.Session() as s:
+		download = s.get(settings_app.LATIN_CSV_URL)
+		decoded = download.content.decode('utf-8')
+		csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
+		line_count = 1
 		curtext = ""
 		textrows = []
 		for row in csv_reader:
-			if line_count == 10:
+			if line_count == 5:
+				xmlString = row[XML1]
+				pos = row[LATIN_POS1]
+				match = row[LATIN_POS2]
 				try:
-					root = ET.ElementTree(ET.fromstring(row[XML1])).getroot()
+					root = ET.ElementTree(ET.fromstring(xmlString)).getroot()
+					first = None
 					for elem in root.findall("word/entry/infl"):
-						print(parseByPos(elem))
-				except Exception as e: 
-					print("error")
-					print(e)
-					return ""
+						if first is None:
+							first = elem
+						if checkMatch(elem, pos, match):
+							print(parseByPos(elem))
+					if first is None:
+						print("")
+					else:
+						print(parseByPos(first))
+				except Exception as e:
+						print(e) 
 			line_count += 1
 
 def formatNPOS(posdic):
