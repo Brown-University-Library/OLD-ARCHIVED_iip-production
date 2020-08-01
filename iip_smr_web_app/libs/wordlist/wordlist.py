@@ -135,7 +135,7 @@ def getXML1POS(xmlString, pos, match):
 		else:
 			return parseByPos(first)
 	except Exception as e:
-		print(e) 
+		#print(e) 
 		return None
 
 def checkMatch(el, pos, match):

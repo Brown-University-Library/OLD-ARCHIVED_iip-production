@@ -51,3 +51,7 @@ p#atoz {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
+
+a > b {
+	color: #00455D;
+}

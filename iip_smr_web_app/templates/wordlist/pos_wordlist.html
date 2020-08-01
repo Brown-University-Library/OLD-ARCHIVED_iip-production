@@ -71,7 +71,8 @@
                 <td colspan="2">
                 <button type="button" class="btn btn-primary" 
                 id="buttog{{forloop.counter}}" onclick="collapseToggle(this)">+</button>
-                <b>{{word.lemma}}</b> {{word.pos}} ({{word.count}})
+                <a href="http://www.perseus.tufts.edu/hopper/resolveform?type=exact&lookup={{word.lemma}}&lang=la"
+                target="_blank"><b>{{word.lemma}}</b></a> {{word.pos}} ({{word.count}})
                 </td>
             </tr>
             {% for k, v in word.forms.items %}
