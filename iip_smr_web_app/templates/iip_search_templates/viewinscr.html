@@ -198,28 +198,32 @@ function ImgError(source){
           {% else %}
           Not Available
           {%endif%}
-
-
         </p>
-
-
-
 
 
         <p><span class="short_header"><span style="font-weight: bold;">Place Found:</span></span>&nbsp;&nbsp;
-
-          {%if i.place_found%}
-
-          {{i.place_found|placeClean}}
-
-          {% else %}
-          Not Available
-          {%endif%}
+            {%if i.place_found%}
+                {{i.place_found|placeClean}}
+            {% else %}
+                Not Available
+            {%endif%}
         </p>
 
+        <p><span class="short_header"><span style="font-weight: bold;">Place Found:</span></span>&nbsp;&nbsp;
+            {% if i.placeMenu %}
+                {{ i.placeMenu.0 }}
+            {% else %}
+                Not Available
+            {%endif%}
+        </p>
 
-
-
+        <p><span class="short_header"><span style="font-weight: bold;">Current Location:</span></span>&nbsp;&nbsp;
+            {% if i.provenance %}
+                {{ i.provenance.0 }}
+            {% else %}
+                Not Available
+            {%endif%}
+        </p>
 
 
         <p>
