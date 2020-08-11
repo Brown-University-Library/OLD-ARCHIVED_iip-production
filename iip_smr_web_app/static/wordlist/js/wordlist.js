@@ -80,20 +80,45 @@ function posFilter() {
 
 
 function langSelect(option) {
-	if(option == "Latin") {
+	if(option == "Latinnew" || option == "Latinold") {
+		data = requestLang(option)
+		$("#latin-table").html(data)
 		$("#latin-table").show()
-		if(!bolded) {
-			boldKWIC()
-			bolded = true
-		}
+		boldKWIC()
 		$("#in-progress").hide()
-	} else if (option == "Greek" || option == "Hebrew"){
+	}else if (option == "Greek" || option == "Hebrew"){
 		$("#latin-table").hide()
 		$("#in-progress").show()
 	} else {
 		$("#latin-table").hide()
 		$("#in-progress").hide()
 	}
+}
+
+function requestLang(lang) {
+
+	requrl = "/wordlist/"
+	retdata = null
+
+	if(lang == "Latinold") {
+		requrl += "old_latin_data"
+	} else if (lang == "Latinnew") {
+		requrl += "new_latin_data"
+	}
+
+	$.ajax({
+		url: requrl,
+		type: 'get',
+		async: false,
+		success: function(data) {
+			retdata = data
+		},
+		failure: function(data) {
+			console.log("failure")
+			retdata = null
+		}
+	});
+	return retdata
 }
 
 function collapseToggle(obj) {
