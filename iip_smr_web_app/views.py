@@ -20,15 +20,24 @@ from iip_smr_web_app.libs.proxy_helper import rewrite
 from iip_smr_web_app.libs.version_helper import Versioner
 from iip_smr_web_app.libs.view_xml_helper import XmlPrepper
 from iip_smr_web_app.libs.wordlist.wordlist import get_latin_words_pos
+from iip_smr_web_app.libs.wordlist.wordlist import get_latin_words_pos_new
 
 
 log = logging.getLogger(__name__)
 versioner = Versioner()
 
 def wordlist(request):
+    return render(request, "wordlist/wordlist.html")
+
+def wordlist_old(request):
     words = get_latin_words_pos()
     context = {"words": words}
-    return render(request, "wordlist/wordlist.html", context)
+    return render(request, "wordlist/pos_wordlist.html", context)
+
+def wordlist_new(request):
+    words = get_latin_words_pos_new()
+    context = {"words": words}
+    return render(request, "wordlist/pos_wordlist.html", context)
 
 def latinword(request, word_id):
     word_info = get_latin_word(word_id)
@@ -326,6 +335,7 @@ def viewinscr(request, inscrid):
             q = s.query(qstring)
         except:
             q = s.query('*:*', **args)
+        log.debug( f'q, ``{pprint.pformat(q.__dict__)}``' )
         return q
 
     def _update_viewinscr_display_status( request, q ):

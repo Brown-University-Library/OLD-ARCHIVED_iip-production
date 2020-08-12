@@ -11,6 +11,8 @@ admin.autodiscover()
 urlpatterns = [
 
     url(r'^wordlist/$', views.wordlist, name='wordslist_url'),
+    url(r'^wordlist/new_latin_data/$', views.wordlist_new, name='wordslist_url'),
+    url(r'^wordlist/old_latin_data/$', views.wordlist_old, name='wordslist_url'),
     url(r'^wordlist/latinword/(?P<word_id>.*)/$', views.latinword, name='latinword_url'),
 
     url(r'^admin/', include(admin.site.urls)),
