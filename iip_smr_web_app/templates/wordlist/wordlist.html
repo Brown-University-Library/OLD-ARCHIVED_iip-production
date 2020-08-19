@@ -7,6 +7,10 @@
 {% load staticfiles %}
  <link href='{% static 'wordlist/css/wordlist.css' %}' rel="stylesheet"/>
 
+ <script>
+ var root_url = "{{request.get_host}}"
+ </script>
+
 {% endblock %}
 
 
