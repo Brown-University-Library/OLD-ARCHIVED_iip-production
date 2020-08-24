@@ -231,6 +231,12 @@ tei-unclear {
     text-emphasis-position: under; */
 }
 
+tei-unclear[cert='low']::after {
+    content" "(?)";
+    unicode-bidi: bidi-override;
+    direction: ltr;
+}
+
 /* see tei-choice for tei-unclear inside tei-choice */
 
 tei-hi[rend='superscript'] {
