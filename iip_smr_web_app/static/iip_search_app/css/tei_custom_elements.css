@@ -108,13 +108,13 @@ tei-del::after {
 
 tei-g::before {
   content: "((";
-  nicode-bidi: bidi-override;
+  unicode-bidi: bidi-override;
   direction: ltr;
 }
 
 tei-g::after {
   content: "))";
-  nicode-bidi: bidi-override;
+  unicode-bidi: bidi-override;
   direction: ltr;
 }
 
@@ -159,20 +159,20 @@ tei-gap[reason="illegible"][unit="character"][quantity="2"]::before {
   content: "..";
 }
 
-
-tei-gap[reason="lost"][unit="character"][quantity="1"]::before {
-  content: "[-]";
-}
-
-tei-gap[reason="lost"][unit="character"][quantity="2"]::before {
-  content: "[--]";
-}
-
 tei-gap[reason="lost"][unit="character"][quantity]::before {
     content: "[- " attr(quantity) " char. -]";
     unicode-bidi: bidi-override;
     direction: ltr;
   }
+
+  tei-gap[reason="lost"][unit="character"][quantity="1"]::before {
+    content: "[-]";
+  }
+
+  tei-gap[reason="lost"][unit="character"][quantity="2"]::before {
+    content: "[--]";
+  }
+
 
 tei-gap[reason="lost"][unit="character"][quantity][precision="low"]::before {
         content: "[?- ca. " attr(quantity) " char. -]";
@@ -185,7 +185,7 @@ tei-gap[reason="lost"][unit="character"][quantity][precision="low"]::before {
         unicode-bidi: bidi-override;
         direction: ltr;
       }
-      
+
 tei-gap[reason="lost"][unit="line"][quantity="1"]::before {
         content: "[-]";
       }
