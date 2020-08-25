@@ -108,10 +108,14 @@ tei-del::after {
 
 tei-g::before {
   content: "((";
+  unicode-bidi: bidi-override;
+  direction: ltr;
 }
 
 tei-g::after {
   content: "))";
+  unicode-bidi: bidi-override;
+  direction: ltr;
 }
 
 tei-g:empty::before {
@@ -156,31 +160,40 @@ tei-gap[reason="illegible"][unit="character"][quantity="2"]::before {
 }
 
 tei-gap[reason="lost"][unit="character"][quantity]::before {
-    content: "[-" attr(quantity) "chars. -]";
+    content: "[- " attr(quantity) " char. -]";
     unicode-bidi: bidi-override;
     direction: ltr;
   }
 
-tei-gap[reason="lost"][unit="character"][quantity="1"]::before {
-  content: "[-]";
-}
+  tei-gap[reason="lost"][unit="character"][quantity="1"]::before {
+    content: "[-]";
+  }
 
-tei-gap[reason="lost"][unit="character"][quantity="2"]::before {
-  content: "[--]";
-}
+  tei-gap[reason="lost"][unit="character"][quantity="2"]::before {
+    content: "[--]";
+  }
 
 
-tei-gap[reason="lost"][unit="character"][quantity] [precision="low"]::before {
-        content: "[?- ca. " attr(quantity) "char. -]";
+tei-gap[reason="lost"][unit="character"][quantity][precision="low"]::before {
+        content: "[?- ca. " attr(quantity) " char. -]";
         unicode-bidi: bidi-override;
         direction: ltr;
       }
 
-tei-gap[reason="lost"][unit="line"][quantity]::before {
-  content: "[-" attr(quantity) "lin. -]";
-  unicode-bidi: bidi-override;
-  direction: ltr;
-}
+      tei-gap[reason="lost"][unit="line"][quantity]::before {
+        content: "[- " attr(quantity) " lin. -]";
+        unicode-bidi: bidi-override;
+        direction: ltr;
+      }
+
+tei-gap[reason="lost"][unit="line"][quantity="1"]::before {
+        content: "[-]";
+      }
+
+tei-gap[reason="lost"][unit="line"][quantity="2"]::before {
+        content: "[--]";
+      }
+
 
 tei-gap[reason="illegible"][unit="character"][atLeast]::before {
   content: "[. " attr(atLeast) "-" attr(atMost) " chars. .]";
@@ -189,13 +202,13 @@ tei-gap[reason="illegible"][unit="character"][atLeast]::before {
 }
 
 tei-gap[reason="lost"][unit="character"][atLeast]::before {
-  content: "[- " attr(atLeast) "-" attr(atMost) "chars. -]";
+  content: "[- " attr(atLeast) "-" attr(atMost) " chars. -]";
   unicode-bidi: bidi-override;
   direction: ltr;
 }
 
 tei-gap[reason="lost"][unit="line"][atLeast]::before {
-  content: "[-" attr(atLeast) "-" attr(atMost) "lin. -]";
+  content: "[- " attr(atLeast) "-" attr(atMost) " lin. -]";
   unicode-bidi: bidi-override;
   direction: ltr;
 }
@@ -216,6 +229,12 @@ tei-unclear {
     /*text-decoration-style: dotted;*/
     /* text-emphasis-style: dot;
     text-emphasis-position: under; */
+}
+
+tei-unclear[cert='low']::after {
+    content" "(?)";
+    unicode-bidi: bidi-override;
+    direction: ltr;
 }
 
 /* see tei-choice for tei-unclear inside tei-choice */
