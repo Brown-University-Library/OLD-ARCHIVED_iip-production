@@ -8,7 +8,8 @@
  <link href='{% static 'wordlist/css/wordlist.css' %}' rel="stylesheet"/>
 
  <script>
- var root_url = "{{request.get_host}}"
+ var latin_old = "{% url 'wordslist_url_old' %}"
+ var latin_new = "{% url 'wordslist_url_new' %}"
  </script>
 
 {% endblock %}
