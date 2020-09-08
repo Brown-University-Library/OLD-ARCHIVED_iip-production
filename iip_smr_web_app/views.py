@@ -315,6 +315,7 @@ def viewinscr(request, inscrid):
             q = s.query(qstring)
         except:
             q = s.query('*:*', **args)
+        log.debug( f'q, ``{pprint.pformat(q.__dict__)}``' )
         return q
 
     def _update_viewinscr_display_status( request, q ):
