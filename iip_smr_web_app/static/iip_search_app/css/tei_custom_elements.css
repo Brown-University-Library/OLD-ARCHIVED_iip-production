@@ -66,6 +66,16 @@ so as to be contained in p elements with class attributes "transcription", etc *
     text-transform: uppercase;
 }
 
+tei-choice > tei-unclear:first-child::after {
+ content: "/";
+}
+
+/* easier to do this as a special case in Hebrew, as the XML element that is
+2nd Hebrew word counts as the first element. */
+[lang="heb"] > tei-choice > tei-unclear:first-child::before {
+ content: "/";
+}
+
 tei-damage {
 
 }
@@ -98,20 +108,20 @@ tei-del::after {
 
 tei-g::before {
   content: "((";
-}
-
-tei-g::after {
-  content: "))";
-}
-
-tei-g:empty::before {
-  content: "((" attr(type) "))";
   unicode-bidi: bidi-override;
   direction: ltr;
 }
 
-tei-g:empty::after {
-  ;
+tei-g::after {
+  content: "))";
+  unicode-bidi: bidi-override;
+  direction: ltr;
+}
+
+tei-g:empty::before {
+  content: "((" attr(type);
+  unicode-bidi: bidi-override;
+  direction: ltr;
 }
 
 tei-gap[reason="illegible"][unit="character"][extent="unknown"]::before {
@@ -130,49 +140,77 @@ tei-gap[reason="illegible"][unit="line"][extent="unknown"]::before {
 tei-gap[reason="lost"][unit="line"][extent="unknown"]::before {
   content: "-----";
 }
-/*  one two or three ill. characters, use one two or three dots
-otherwise parenthsis with number */
+/*  one two (or three) ill. characters, use one two (or three) dots
+otherwise parenthsis with number. Note that CSS rule for quantities unspecified
+has to be before the rules with specified @units. Otherwise it is the rule
+that selects. */
+
+tei-gap[reason="illegible"][unit="character"][quantity]::before {
+    content: "[. " attr(quantity) " char. .]";
+    unicode-bidi: bidi-override;
+    direction: ltr;
+}
 
 tei-gap[reason="illegible"][unit="character"][quantity="1"]::before {
-  content: "."
+  content: ".";
 }
 
 tei-gap[reason="illegible"][unit="character"][quantity="2"]::before {
-  content: ".."
-}
-
-tei-gap[reason="illegible"][unit="character"][quantity]::before {
-    content: "[. " attr(quantity) " chars. .]"
-}
-
-tei-gap[reason="lost"][unit="character"][quantity="1"]::before {
-  content: "[-]"
-}
-
-tei-gap[reason="lost"][unit="character"][quantity="2"]::before {
-  content: "[--]"
+  content: "..";
 }
 
 tei-gap[reason="lost"][unit="character"][quantity]::before {
-    content: "[-" attr(quantity) "char. -]"}
+    content: "[- " attr(quantity) " char. -]";
+    unicode-bidi: bidi-override;
+    direction: ltr;
+  }
 
-tei-gap[reason="lost"][unit="character"][quantity] [precision="low"]::before {
-        content: "[- ca. " attr(quantity) "char. -]"}
+  tei-gap[reason="lost"][unit="character"][quantity="1"]::before {
+    content: "[-]";
+  }
 
-tei-gap[reason="lost"][unit="line"][quantity]::before {
-  content: "[-" attr(quantity) lin. "-]"
-}
+  tei-gap[reason="lost"][unit="character"][quantity="2"]::before {
+    content: "[--]";
+  }
+
+
+tei-gap[reason="lost"][unit="character"][quantity][precision="low"]::before {
+        content: "[?- ca. " attr(quantity) " char. -]";
+        unicode-bidi: bidi-override;
+        direction: ltr;
+      }
+
+      tei-gap[reason="lost"][unit="line"][quantity]::before {
+        content: "[- " attr(quantity) " lin. -]";
+        unicode-bidi: bidi-override;
+        direction: ltr;
+      }
+
+tei-gap[reason="lost"][unit="line"][quantity="1"]::before {
+        content: "[-]";
+      }
+
+tei-gap[reason="lost"][unit="line"][quantity="2"]::before {
+        content: "[--]";
+      }
+
 
 tei-gap[reason="illegible"][unit="character"][atLeast]::before {
-  content: "[." attr(atLeast) "-" attr(atMost) " chars. .]"
+  content: "[. " attr(atLeast) "-" attr(atMost) " chars. .]";
+  unicode-bidi: bidi-override;
+  direction: ltr;
 }
 
 tei-gap[reason="lost"][unit="character"][atLeast]::before {
-  content: "[- " attr(atLeast) "-" attr(atMost) "chars. -]"
+  content: "[- " attr(atLeast) "-" attr(atMost) " chars. -]";
+  unicode-bidi: bidi-override;
+  direction: ltr;
 }
 
 tei-gap[reason="lost"][unit="line"][atLeast]::before {
-  content: "[-" attr(atLeast) "-" attr(atMost) "lin. -]"
+  content: "[- " attr(atLeast) "-" attr(atMost) " lin. -]";
+  unicode-bidi: bidi-override;
+  direction: ltr;
 }
 
 /* need to add @cert rules for gap */
@@ -192,6 +230,14 @@ tei-unclear {
     /* text-emphasis-style: dot;
     text-emphasis-position: under; */
 }
+
+tei-unclear[cert='low']::after {
+    content" "(?)";
+    unicode-bidi: bidi-override;
+    direction: ltr;
+}
+
+/* see tei-choice for tei-unclear inside tei-choice */
 
 tei-hi[rend='superscript'] {
     vertical-align: super;
@@ -215,7 +261,7 @@ tei-hi[rend='ligature'] {
 }
 
 tei-space[quantity][unit='character']::before {
-    content: " (vac." attr(quantity) ") ";
+    content: " (vac. " attr(quantity) ") ";
     unicode-bidi: bidi-override;
     direction: ltr;
 }
@@ -240,16 +286,35 @@ tei-note::after {
     content: "*/";
 }
 
-tei-supplied::before {
+tei-supplied[reason="lost"]::before {
     content: "[";
 }
 
-tei-supplied::after {
+tei-supplied[reason="lost"]::after {
     content: "]";
 }
 
-tei-supplied[cert='low']::after {
+tei-supplied[reason="lost"][cert='low']::after {
     content: "?]";
+}
+
+tei-supplied[reason="omitted"]::before {
+    content: "<";
+}
+
+tei-supplied[reason="omitted"]::after {
+    content: ">";
+}
+
+tei-supplied[reason="omitted"][cert='low']::after {
+    content: "?>";
+}
+tei-supplied[reason="subaudible"]::before {
+    content: "\(";
+}
+
+tei-supplied[reason="subaudible"]::after {
+    content: "\)";
 }
 
 tei-surplus::before {
