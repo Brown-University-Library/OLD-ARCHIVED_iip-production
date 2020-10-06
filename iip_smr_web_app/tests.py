@@ -70,9 +70,17 @@ class UrlTest( TestCase ):
 
     def test_about_selection__resources_menu(self):
         """ Checks `about` landing page resources menu -- when one of the about sub-options is in the url. """
-        response = self.client.get( '/about/about/why_inscription/' )
+        log.debug( 'starting test' )
+        ## add data to test-db
+        why_inscription_static_page = models.StaticPage( slug='why_inscription', title='Why Inscription' )
+        why_inscription_static_page.save()
+        bib_static_page = models.StaticPage( slug='bibliography', title='Bibliography' )
+        bib_static_page.save()
+        ## now the test
+        response = self.client.get( '/about/why_inscription/' )
         expecteds = [ b'Bibliography', b'Conventional Transcription Symbols', b'Glossary', b'Guide to Searching', b'Timeline', b'Wordlist Beta' ]
         html = response.content
+        log.debug( f'html, ``{html}``' )
         self.assertEqual( bytes, type(html) )
         for expected in expecteds:
             try:
@@ -106,10 +114,15 @@ class UrlTest( TestCase ):
 
     def test_resources_selection__resources_menu(self):
         """ Checks `resources` page resources menu -- when one of the resources sub-options is in the url. """
+        ## add entry to test-db
+        bib_static_page = models.StaticPage( slug='bibliography', title='Bibliography' )
+        bib_static_page.save()
+        ## now the test
         response = self.client.get( '/resources/bibliography/' )
         expecteds = [ b'Bibliography', b'Conventional Transcription Symbols', b'Glossary', b'Guide to Searching', b'Timeline', b'Wordlist Beta' ]
         html = response.content
         self.assertEqual( bytes, type(html) )
+        log.debug( f'html, ``{html}``' )
         for expected in expecteds:
             try:
                 self.assertTrue( expected in html )
