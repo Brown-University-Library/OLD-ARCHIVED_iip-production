@@ -31,6 +31,7 @@ DOCUMENTATION_URL = os.environ['IIP_SMR__DOCUMENTATION_URL']
 LATIN_CSV_URL = "https://raw.githubusercontent.com/Brown-University-Library/iip-word-lists/master/new-version/corrected_latin.csv"
 LATIN_CSV_NEW_URL = "https://raw.githubusercontent.com/Brown-University-Library/iip-word-lists/master/new-version/Step%204%20New%20Output.csv"
 
+
 ## proxy ##
 
 FETCH_DIR_URL= os.environ['IIP_SMR__FETCH_URL_ROOT_DIR']
