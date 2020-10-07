@@ -28,8 +28,8 @@ URL_SCHEME = os.environ['IIP_SMR__URL_SCHEME']  # 'http' or, on production, 'htt
 
 DOCUMENTATION_URL = os.environ['IIP_SMR__DOCUMENTATION_URL']
 
-LATIN_CSV_URL = "https://raw.githubusercontent.com/Brown-University-Library/iip-word-lists/master/new%20version%20test/corrected_latin.csv"
-LATIN_CSV_NEW_URL = "https://raw.githubusercontent.com/Brown-University-Library/iip-word-lists/master/new%20version%20test/Step%204%20New%20Output.csv"
+LATIN_CSV_URL = "https://raw.githubusercontent.com/Brown-University-Library/iip-word-lists/master/new-version/corrected_latin.csv"
+LATIN_CSV_NEW_URL = "https://raw.githubusercontent.com/Brown-University-Library/iip-word-lists/master/new-version/Step%204%20New%20Output.csv"
 
 
 ## proxy ##
