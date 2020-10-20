@@ -85,7 +85,7 @@ def get_latin_words_pos_new():
                 if curtext != row[LATIN_TEXT + NEWBUFF]:
                     go_through_text_new(textrows, words)
                     curtext = row[LATIN_TEXT + NEWBUFF]
-                    textrows = []
+                    textrows = [row]
                 else:
                     textrows.append(row)
             line_count += 1
