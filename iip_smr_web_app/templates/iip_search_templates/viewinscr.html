@@ -209,13 +209,17 @@ function ImgError(source){
             {%endif%}
         </p>
 
+        <!-- No longer needed
         <p><span class="short_header"><span style="font-weight: bold;">Place Found:</span></span>&nbsp;&nbsp;
+            {% comment %}
             {% if i.placeMenu %}
                 {{ i.placeMenu.0 }}
             {% else %}
                 Not Available
             {%endif%}
+            {% endcomment %}
         </p>
+        -->
 
         <p><span class="short_header"><span style="font-weight: bold;">Current Location:</span></span>&nbsp;&nbsp;
             {% if i.provenance %}
