@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Word Lists</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;		
+		}
+		body {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			overflow-y: hidden;		
+		}		
+		#tabs {
+			height: 50px;
+			background-color: lightgrey;
+			display: flex;
+					
+		}
+		.tab {
+			height: 100%;
+			display: flex;
+			text-align: center;
+			align-items: center;
+			justify-content: center;
+			width: 100px;
+			cursor: pointer; 
+			cursor: hand;
+		}
+		#view {
+			width: calc(100% - 20px);
+			height: calc(100% - 50px);
+			margin: 0;
+			padding: 0;
+			outline: none;
+			border: 0px;	
+		}
+		.pane {
+			height: 100%;
+			width: 100%;
+			outline: none;
+			border: 0px;
+		}
+	</style>
+</head>
+<body>
+	<div id="tabs">
+		<div class="tab" onclick="switchTab('grc')">Greek</div>
+		<div class="tab" onclick="switchTab('la')">Latin</div>
+		<div class="tab" onclick="switchTab('heb')">Hebrew</div>	
+		<div class="tab" onclick="switchTab('arc')">Aramaic</div>
+	</div>	
+	<div id="view">
+		<iframe id="pane_grc" class="pane" src="wordlist_grc.html"></iframe>
+		<iframe id="pane_la" class="pane" src="wordlist_la.html"></iframe>
+		<iframe id="pane_heb" class="pane" src="wordlist_heb.html"></iframe>
+		<iframe id="pane_arc" class="pane" src="wordlist_arc.html"></iframe>
+	</div>
+	<script type="text/javascript">
+		console.log(document.body.clientWidth);
+		view = document.getElementById("view");
+		view.style.width = document.body.clientWidth+"px";
+		theTabs = Array.from(document.getElementsByClassName("tab"));
+		panes = Array.from(document.getElementsByClassName("pane"));
+		console.log(tabs);
+				
+		function switchTab(lang) {
+			for (let i = 0; i < panes.length; i++) {
+				panes[i].style.display = "none";
+				panes[i].style.visibility = "hidden";
+			}
+			document.getElementById("pane_" + lang).style.display = "block";
+			document.getElementById("pane_" + lang).style.visibility = "visible";
+			updateSelection(lang);
+		}
+		function updateSelection(lang) {
+			for (let i = 0; i < theTabs.length; i++) {
+				theTabs[i].style.backgroundColor = "lightgrey";
+			}			
+			switch(lang) {
+				case "grc":
+					theTabs[0].style.backgroundColor = "white";		
+					break;		
+				case "la":
+					theTabs[1].style.backgroundColor = "white";
+					break;
+				case "heb":
+					theTabs[2].style.backgroundColor = "white";
+					break;
+				case "arc":
+					theTabs[3].style.backgroundColor = "white";
+					break;
+			}		
+		}
+		switchTab("la");
+	</script>
+</body>
+</html>

@@ -96,6 +96,13 @@ def count_words(words):
 		counted.append(lemma_dict)
 	return counted
 
+def get_doubletree_data():
+	dirname = os.path.dirname(__file__)
+	filename = os.path.join(dirname, 'latin_doubletree_data.txt')
+	with open(filename, 'r') as file:
+	    data = file.read()
+	    return data
+
 
 def go_through_text(text_rows, words):
 	row_len = len(text_rows)
