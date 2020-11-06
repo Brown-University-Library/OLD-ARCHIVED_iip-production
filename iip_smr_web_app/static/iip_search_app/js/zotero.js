@@ -140,27 +140,37 @@ $(document).ready(function(){
         $(this).click(function(event){
                 event.preventDefault();
 
+                console.log( "in facetLink-livequery(); `this`, ", this );  // logs `a#Coastal Plain.facetLink`
+                console.log( "in facetLink-livequery(); `this` as stringified object, ", JSON.stringify(this) );  // hmm, logs `{}`
                 var isDisplayStatus = /display_status:.*/;
-                console.log( "in facetLink-livequery; isDisplayStatus, ", isDisplayStatus );
+                console.log( "in facetLink-livequery(); isDisplayStatus, ", isDisplayStatus );
 
-                console.log( "qstring, ", qstring );
+                console.log( "in facetLink-livequery(); qstring, ", qstring );
 
-                //split the qstring into clauses
-                var split_qstring = qstring.split(/\s+(?:AND|OR)\s+/);
-                console.log( "in facetLink-livequery; split_qstring, ", split_qstring );
-                console.log( "split_qstring as stringified object, ", JSON.stringify(split_qstring) );
 
-                var newQStringParts = [];
+                // -- this wasn't working; it was changing the pre-existing search-results "OR"s to "AND"s
 
-                for (var i = 0; i < split_qstring.length; i++) {
-                    if (!isDisplayStatus.test(split_qstring[i])) {
-                        newQStringParts.push(split_qstring[i]);
-                    }
-                }
-                newQStringParts.push($(this).attr('href') +':"'+$(this).attr('id') + '"');
+                // -- split the qstring into clauses
+                // var split_qstring = qstring.split(/\s+(?:AND|OR)\s+/);
+                // console.log( "in facetLink-livequery(); split_qstring, ", split_qstring );
+                // console.log( "in facetLink-livequery(); split_qstring as stringified object, ", JSON.stringify(split_qstring) );
 
-                var q_url = "?q="+newQStringParts.join(" AND ") + "&resultsPage=1";
-                console.log( "in facetLink-livequery; q_url, ", q_url );
+                // var newQStringParts = [];
+
+                // for (var i = 0; i < split_qstring.length; i++) {
+                //     if (!isDisplayStatus.test(split_qstring[i])) {
+                //         newQStringParts.push(split_qstring[i]);
+                //     }
+                // }
+
+                // console.log( "in facetLink-livequery(); newQStringParts after for-loop, as stringified object, ", JSON.stringify(newQStringParts) );
+                // newQStringParts.push($(this).attr('href') +':"'+$(this).attr('id') + '"');
+                // var q_url = "?q="+newQStringParts.join(" AND ") + "&resultsPage=1";
+                // console.log( "in facetLink-livequery(); q_url, ", q_url );
+
+
+                // -- new q_url construction...
+                var q_url = "foo";
 
                 //Load the new results page
                 // window.location.search = "?q="+newQStringParts.join(" AND ") + "&resultsPage=1";
