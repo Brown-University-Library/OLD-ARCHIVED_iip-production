@@ -141,7 +141,7 @@ $(document).ready(function(){
                 event.preventDefault();
 
                 console.log( "in facetLink-livequery(); `this`, ", this );  // logs `a#Coastal Plain.facetLink`
-                console.log( "in facetLink-livequery(); `this` as stringified object, ", JSON.stringify(this) );  // hmm, logs `{}`
+                // console.log( "in facetLink-livequery(); `this` as stringified object, ", JSON.stringify(this) );  // hmm, logs `{}`
                 var isDisplayStatus = /display_status:.*/;
                 console.log( "in facetLink-livequery(); isDisplayStatus, ", isDisplayStatus );
 
@@ -169,8 +169,14 @@ $(document).ready(function(){
                 // console.log( "in facetLink-livequery(); q_url, ", q_url );
 
 
+                // -- remove ```display_status:(approved)%20AND%20```
+
+
                 // -- new q_url construction...
-                var q_url = "foo";
+                var new_facet = $(this).attr('href') +':"'+ $(this).attr('id') + '"';
+                console.log( "in facetLink-livequery(); new_facet, ", new_facet );
+                var q_url = "?q=" + qstring + " AND " + new_facet;
+                console.log( "in facetLink-livequery(); q_url, ", q_url );
 
                 //Load the new results page
                 // window.location.search = "?q="+newQStringParts.join(" AND ") + "&resultsPage=1";
