@@ -170,12 +170,14 @@ $(document).ready(function(){
 
 
                 // -- remove ```display_status:(approved)%20AND%20```
-
+                var cleaned_qstring = qstring.replace( "display_status:(approved) AND ", "" );
+                console.log( "in facetLink-livequery(); cleaned_qstring, ", cleaned_qstring );
 
                 // -- new q_url construction...
                 var new_facet = $(this).attr('href') +':"'+ $(this).attr('id') + '"';
                 console.log( "in facetLink-livequery(); new_facet, ", new_facet );
-                var q_url = "?q=" + qstring + " AND " + new_facet;
+                // var q_url = "?q=" + qstring + " AND " + new_facet;
+                var q_url = "?q=" + cleaned_qstring + " AND " + new_facet;
                 console.log( "in facetLink-livequery(); q_url, ", q_url );
 
                 //Load the new results page
