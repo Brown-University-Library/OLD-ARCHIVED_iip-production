@@ -8,7 +8,14 @@
 {% block body %}
 
     {% load staticfiles %}
-<script charset="utf-8"  type="module" src='{% static 'wordlist/web/doubletreejs/d3.min.js"></script>
+
+<!-- <script charset="utf-8"  type="module" src='{% static 'wordlist/web/doubletreejs/d3.min.js"></script> -->
+
+<script charset="utf-8" src='{% static "wordlist/web//doubletreejs/d3.min.js" %}' type="text/javascript"></script>
+
+    <!-- <script src='{% static "iip_search_app/js/CETEI.js" %}' type="text/javascript"></script> -->
+
+
 <script charset="utf-8"  src='{% static 'wordlist/web/doubletreejs/classListSubstitute.min.js' %}'></script>
 <script charset="utf-8"  src='{% static 'wordlist/web/doubletreejs/DoubleTree.min.js' %}'></script>
 <script charset="utf-8"  src='{% static 'wordlist/web/doubletreejs/Trie.min.js' %}'></script>
@@ -19,24 +26,24 @@
 <link rel="stylesheet" href='{% static 'wordlist/web/doubletreejs/doubletree.css'% }'>
 
 
-    <div id="container">  
+    <div id="container">
             <div id="doubletree"></div>
             <div id="results"></div>
     </div>
-    
+
         <!-- Load all the javascript -->
-    
-        <!-- initialize -->  
-    <script>  
+
+        <!-- initialize -->
+    <script>
             //get text and set root of doubletree
 
         newText = "{{data}}"
-         
+
         //set up doubletre
-        currRt = "{{lemma}}"; 
+        currRt = "{{lemma}}";
 
         showTokenExtras = false;
         setUpDT(newText, currRt);
     </script>
-    
+
 {% endblock %}
