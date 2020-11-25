@@ -1,4 +1,8 @@
-import 'doubletree-kwic.js'
+
+function sayHi() {
+  console.log("hi :)")
+}
+
 function setUpDT(text, cur) {
     filters = {"left":[], "right":[]};
     
