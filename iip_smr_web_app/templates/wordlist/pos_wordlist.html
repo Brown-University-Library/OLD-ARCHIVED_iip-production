@@ -72,7 +72,7 @@
                 id="buttog{{forloop.counter}}" onclick="collapseToggle(this)">+</button>
                 <b>{{word.lemma}}</b> {{word.pos}} ({{word.count}})
                 <a href="http://www.perseus.tufts.edu/hopper/resolveform?type=exact&lookup={{word.lemma}}&lang=la"
-                target="_blank">[d]</a> 
+                target="_blank"><img class="dictionary-icon" src='{% static 'wordlist/dictionary.png' %}'/></a> <a href="/wordlist/latinword/doubletree/{{word.lemma}}/{{word.pos}}">[tree]</a>
                 </td>
             </tr>
             {% for k, v in word.forms.items %}

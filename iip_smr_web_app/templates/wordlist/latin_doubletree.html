@@ -1,0 +1,42 @@
+{% extends 'about/base.html' %}
+
+{% block extra_css %}
+
+<link href="{{ STATIC_URL }}iip_search_app/css/general2.css" media="all" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block body %}
+
+    {% load staticfiles %}
+<script charset="utf-8"  type="module" src='{% static 'wordlist/web/doubletreejs/d3.min.js"></script>
+<script charset="utf-8"  src='{% static 'wordlist/web/doubletreejs/classListSubstitute.min.js' %}'></script>
+<script charset="utf-8"  src='{% static 'wordlist/web/doubletreejs/DoubleTree.min.js' %}'></script>
+<script charset="utf-8"  src='{% static 'wordlist/web/doubletreejs/Trie.min.js' %}'></script>
+<script charset="utf-8"  src='{% static 'wordlist/web/doubletreejs/TextHash.min.js' %}'></script>
+<script charset="utf-8"  src='{% static 'wordlist/web/doubletreejs/doubletree-kwic.js' %}'></script>
+<script charset="utf-8"  src='{% static 'wordlist/web/doubletreejs/doubletree-kwic-extras.js' %}'></script>
+<script charset="utf-8"  src='{% static 'wordlist/web/doubletreejs/doubletree-tagged-setup.js' %}'></script>
+<link rel="stylesheet" href='{% static 'wordlist/web/doubletreejs/doubletree.css'% }'>
+
+
+    <div id="container">  
+            <div id="doubletree"></div>
+            <div id="results"></div>
+    </div>
+    
+        <!-- Load all the javascript -->
+    
+        <!-- initialize -->  
+    <script>  
+            //get text and set root of doubletree
+
+        newText = "{{data}}"
+         
+        //set up doubletre
+        currRt = "{{lemma}}"; 
+
+        showTokenExtras = false;
+        setUpDT(newText, currRt);
+    </script>
+    
+{% endblock %}
