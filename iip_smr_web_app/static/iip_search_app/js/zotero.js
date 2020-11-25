@@ -39,7 +39,7 @@ async function add_citation(ztag) {
                 links_array.push(href);
                 total_links_array[ztag] = href;
                 console.log("DEBUG:b.bib", typeof(targets_html));
-                targets_html.append(b.bib);   
+                targets_html.append(b.bib);
                 // $(".csl-entry", targets_html).css( 'cursor', 'pointer' );
                 // $(".csl-entry", targets_html).on('click', function() {
                 //     location.href = href;
@@ -49,7 +49,7 @@ async function add_citation(ztag) {
         } else {
             targets_html.innerHTML = "Not found: " + ztag;
         }
-        
+
         console.log(targets_html);
         //iterating over each html node child
         //index, specific node
@@ -72,7 +72,7 @@ async function add_citation(ztag) {
                     $(".csl-entry", d).append("<div style='display:inline; margin-left:.5em;'><span>(inscription. " + n + ")</span></div>");
                 } else {
                     $(".csl-entry", d).append("<div style='display:inline; margin-left:.5em;'><span>("+ntype + " " + n + ")</span></div>");
-                }                
+                }
             };
 
             id = id_dict[i];
@@ -106,7 +106,7 @@ function add_cita_bibl() {
     }
     console.log('final_parts_html', final_parts_html);
     console.log('total_links_array', typeof(total_links_array));
-    
+
     for (let i_link = 0; i_link < Object.entries(total_links_array).length; i_link++) {
         parent_div_ztag = $(final_parts_html[i_link]).parent().attr('bibl')
         link_href = total_links_array[parent_div_ztag];
@@ -133,26 +133,56 @@ $(document).ready(function(){
             $(this).toggleClass('facetMenuOpened');
             $(this).next('ul').toggle('30');
             });
-        });            
+        });
     });
 
     $('.facetLink').livequery(function(){
         $(this).click(function(event){
                 event.preventDefault();
-                var isDisplayStatus = /display_status:.*/;
-                //split the qstring into clauses
-                var split_qstring = qstring.split(/\s+(?:AND|OR)\s+/);
-                var newQStringParts = [];
 
-                for (var i = 0; i < split_qstring.length; i++) {
-                    if (!isDisplayStatus.test(split_qstring[i])) {
-                        newQStringParts.push(split_qstring[i]);
-                    }
-                }
-                newQStringParts.push($(this).attr('href') +':"'+$(this).attr('id') + '"');
+                console.log( "in facetLink-livequery(); `this`, ", this );  // logs `a#Coastal Plain.facetLink`
+                // console.log( "in facetLink-livequery(); `this` as stringified object, ", JSON.stringify(this) );  // hmm, logs `{}`
+                var isDisplayStatus = /display_status:.*/;
+                console.log( "in facetLink-livequery(); isDisplayStatus, ", isDisplayStatus );
+
+                console.log( "in facetLink-livequery(); qstring, ", qstring );
+
+
+                // -- this wasn't working; it was changing the pre-existing search-results "OR"s to "AND"s
+
+                // -- split the qstring into clauses
+                // var split_qstring = qstring.split(/\s+(?:AND|OR)\s+/);
+                // console.log( "in facetLink-livequery(); split_qstring, ", split_qstring );
+                // console.log( "in facetLink-livequery(); split_qstring as stringified object, ", JSON.stringify(split_qstring) );
+
+                // var newQStringParts = [];
+
+                // for (var i = 0; i < split_qstring.length; i++) {
+                //     if (!isDisplayStatus.test(split_qstring[i])) {
+                //         newQStringParts.push(split_qstring[i]);
+                //     }
+                // }
+
+                // console.log( "in facetLink-livequery(); newQStringParts after for-loop, as stringified object, ", JSON.stringify(newQStringParts) );
+                // newQStringParts.push($(this).attr('href') +':"'+$(this).attr('id') + '"');
+                // var q_url = "?q="+newQStringParts.join(" AND ") + "&resultsPage=1";
+                // console.log( "in facetLink-livequery(); q_url, ", q_url );
+
+
+                // -- remove ```display_status:(approved)%20AND%20```
+                var cleaned_qstring = qstring.replace( "display_status:(approved) AND ", "" );
+                console.log( "in facetLink-livequery(); cleaned_qstring, ", cleaned_qstring );
+
+                // -- new q_url construction...
+                var new_facet = $(this).attr('href') +':"'+ $(this).attr('id') + '"';
+                console.log( "in facetLink-livequery(); new_facet, ", new_facet );
+                // var q_url = "?q=" + qstring + " AND " + new_facet;
+                var q_url = "?q=" + cleaned_qstring + " AND " + new_facet;
+                console.log( "in facetLink-livequery(); q_url, ", q_url );
 
                 //Load the new results page
-                window.location.search = "?q="+newQStringParts.join(" AND ") + "&resultsPage=1";
+                // window.location.search = "?q="+newQStringParts.join(" AND ") + "&resultsPage=1";
+                window.location.search = q_url;
         });
     });
 });
@@ -227,7 +257,7 @@ $(document).ready(function(){
 //       // this is for bibls
 //       $("div.biblToRetrieve").each(function () {
 //         console.log('Activated!', this);
-    
+
 //         var bspan = $(this).find('ul')[0];
 //         b = bspan.innerHTML.trim();
 //         console.log("DEBUG:\tb\t\t\t\t\t", b);
@@ -235,7 +265,7 @@ $(document).ready(function(){
 //         var new_html;
 //         let reference = '';
 
-//         this.attributes.class.value = ""; 
+//         this.attributes.class.value = "";
 //         if (pages.length !== 0) {
 //           reference += "(";
 //         }

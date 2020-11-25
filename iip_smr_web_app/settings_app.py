@@ -35,7 +35,7 @@ LATIN_CSV_NEW_URL = "https://raw.githubusercontent.com/Brown-University-Library/
 ## proxy ##
 
 FETCH_DIR_URL= os.environ['IIP_SMR__FETCH_URL_ROOT_DIR']
-if FETCH_DIR_URL[-1:] is not '/':  # since the server may or may not result in the '/', let's make the setting predictable
+if FETCH_DIR_URL[-1:] != '/':  # since the server may or may not result in the '/', let's make the setting predictable
     FETCH_DIR_URL = '%s/' % FETCH_DIR_URL
 
 

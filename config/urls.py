@@ -25,12 +25,13 @@ urlpatterns = [
 
     # url( r'^info/(?P<info_id>.*)/$', views.info, name='info_url' ),
     url( r'^info/$',  views.version, name='version_url' ),
+    url( r'^version/$',  views.version, name='version_url' ),
 
     url( r'^about/(?P<info_id>.*)/$', views.info, name='info_url' ),
 
-    url( r'^resources/word_labs/$', views.proxy, name='proxy_url' ),
-    url( r'^presources/word_labs/doubletree-data.txt/$', views.proxy_doubletree, name='proxy_doubletree_url' ),
-    url( r'^resources/word_labs/(?P<slug>.*)/$', views.proxy, name='proxy_param_url' ),
+    # url( r'^resources/word_labs/$', views.proxy, name='proxy_url' ),
+    # url( r'^presources/word_labs/doubletree-data.txt/$', views.proxy_doubletree, name='proxy_doubletree_url' ),
+    # url( r'^resources/word_labs/(?P<slug>.*)/$', views.proxy, name='proxy_param_url' ),
 
     url( r'^resources/(?P<info_id>.*)/$', views.resources_general, name='resources_general_url' ),
 
