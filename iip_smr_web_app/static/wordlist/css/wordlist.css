@@ -56,6 +56,10 @@ img.dictionary-icon {
     height: 20px;
 }
 
+img.tree-icon {
+    height: 20px;
+}
+
 a > b {
 	color: #00455D;
 }
