@@ -72,8 +72,8 @@
                 id="buttog{{forloop.counter}}" onclick="collapseToggle(this)">+</button>
                 <b>{{word.lemma}}</b> {{word.pos}} ({{word.count}})
                 <a href="http://www.perseus.tufts.edu/hopper/resolveform?type=exact&lookup={{word.lemma}}&lang=la"
-                target="_blank"><img class="dictionary-icon" src='{% static "wordlist/dictionary.png" %}'/></a> 
-                <a href="/wordlist/latinword/doubletree/{{word.lemma}}/{{word.pos}}" target="_blank">
+                target="_blank"><img class="dictionary-icon" src='{% static "wordlist/dictionary.png" %}'/></a>
+                <a href="{% url 'latin_doubletree_url' word.lemma word.pos %}" target="_blank">
                 <img class="tree-icon" src='{% static "wordlist/tree-icon.png" %}'/></a>
                 </td>
             </tr>
@@ -86,7 +86,7 @@
                         <tr class="level1 tog{{forloop.parentloop.parentloop.counter}}">
                     {% endif %}
                     <td class="kwic">{{kwic.0}} 
-                    (<a href="{% url 'inscription_url' kwic.1 %}">{{kwic.1}}</a>)</td>
+                    (<a href="{% url 'inscription_url' kwic.1 %}" target="_blank">{{kwic.1}}</a>)</td>
                     </tr>
                 {% endfor %}
             {% endfor %}
