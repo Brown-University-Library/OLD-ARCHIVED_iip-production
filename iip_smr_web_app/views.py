@@ -35,7 +35,8 @@ def wordlist_old(request):
 
 def wordlist_new(request):
     words = get_latin_words_pos_new()
-    context = {"words": words}
+    data = "hi"
+    context = {"words": words, "doubletree_data": json.dumps(data)}
     return render(request, "wordlist/pos_wordlist.html", context)
 
 def latin_doubletree(request, lemma, pos):
