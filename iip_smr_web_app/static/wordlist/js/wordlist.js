@@ -78,6 +78,10 @@ function posFilter() {
 	}
 }
 
+function doubletreeClick() {
+	console.log("double tree click :o)")
+}
+
 
 function langSelect(option) {
 	if(option == "Latinnew" || option == "Latinold") {
@@ -128,4 +132,8 @@ function collapseToggle(obj) {
 		button.html("+")
 		$(togclass).hide()
 	}
+}
+
+function treeClick(obj) {
+	console.log(obj)
 }

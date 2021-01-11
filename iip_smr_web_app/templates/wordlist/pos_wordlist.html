@@ -2,6 +2,15 @@
 
 {% load staticfiles %}
  <link href='{% static 'wordlist/css/wordlist.css' %}' rel="stylesheet"/>
+ <link href='{% static 'wordlist/css/doubletree.css' %}' rel="stylesheet"/>
+<script charset="utf-8" src='{% static "wordlist/web/doubletreejs/d3.min.js" %}' type="text/javascript"></script>
+ <script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/classListSubstitute.min.js" %}' type="text/javascript"></script>
+<script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/DoubleTree.min.js" %}'></script>
+<script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/Trie.min.js" %}' type="text/javascript"></script>
+<script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/TextHash.min.js" %}' type="text/javascript"></script>
+<script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/doubletree-kwic.js" %}' type="text/javascript"></script>
+<script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/doubletree-kwic-extras.js" %}' type="text/javascript"></script>
+<script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/doubletree-tagged-setup.js" %}' type="text/javascript"></script>
 {% endblock %}
 {% block body %}
 
@@ -19,6 +28,9 @@
         {% endfor %}
         ]
     </p>
+
+    <div id="doubletree">
+    </div>
 
     <div id="posfilter">
         <h5> Part of Speech Filter:</h5>
@@ -74,7 +86,7 @@
                 <a href="http://www.perseus.tufts.edu/hopper/resolveform?type=exact&lookup={{word.lemma}}&lang=la"
                 target="_blank"><img class="dictionary-icon" src='{% static "wordlist/dictionary.png" %}'/></a>
                 <a href="{% url 'latin_doubletree_url' word.lemma word.pos %}" target="_blank">
-                <img class="tree-icon" src='{% static "wordlist/tree-icon.png" %}'/></a>
+                <img class="tree-icon" src='{% static "wordlist/tree-icon.png" %}' onclick="treeClick('{{word.lemma}}/{{word.pos}}')" /></a>
                 </td>
             </tr>
             {% for k, v in word.forms.items %}
