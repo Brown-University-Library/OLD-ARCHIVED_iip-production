@@ -135,8 +135,11 @@ function collapseToggle(obj) {
 }
 
 function treeClick(obj, counter) {
-	$("#doubletreerow").remove()
-	if(currRt !== obj) {
+	dbtreerow = $("#doubletreerow")
+	if(dbtreerow.length > 0 && currRt == obj) {
+		dbtreerow.remove();
+	} else {
+		dbtreerow.remove();
 		const togclass = "." + "tog" + counter;
 		$(togclass).last().after('<tr id="doubletreerow"><td colspan="2"><div id="doubletree"></div></td></tr>')
 		drawDT(treeData, obj);
