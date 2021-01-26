@@ -139,6 +139,6 @@ function treeClick(obj, counter) {
 	if(currRt !== obj) {
 		const togclass = "." + "tog" + counter;
 		$(togclass).last().after('<tr id="doubletreerow"><td colspan="2"><div id="doubletree"></div></td></tr>')
-		setUpDT(treeData, obj);
+		drawDT(treeData, obj);
 	}
 }
