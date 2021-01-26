@@ -1,24 +1,23 @@
-console.log("db kiwc extras")
-function sayHi() {
-  console.log("hi :)")
-}
-
 function setUpDT(text, cur) {
     filters = {"left":[], "right":[]};
-    
+    currRt = cur;
+    w = 600
     if (! newText ) {
       newText = text;
-      currRt = cur;
       //document.getElementById("toUse").value = currRt;
     }
     textInfo = new textmodel.TextHash( newText, caseSensitive, fieldNames, fieldDelim, distinguishingFieldsArray, baseField );
     uniqItems = textInfo.getUniqItemsWithCounts();
     
     if (! textInfo.containsItem(currRt)) {
-      var which = Math.round( uniqItems.length/2 );
-      currRt = uniqItems[ which ].replace(/\t.+$/,"");
+      //var which = Math.round( uniqItems.length/2 );
+      //currRt = uniqItems[ which ].replace(/\t.+$/,"");
       //document.getElementById("toUse").value = currRt;
+      alert("word not found")
+      return;
     }
+    console.log("setup w: " + w)
+    console.log("fieldDelim: " + fieldDelim)
     
     var arrays = textInfo.getItem(currRt, context, null, false, null, null, punc);
     dt = new doubletree.DoubleTree();

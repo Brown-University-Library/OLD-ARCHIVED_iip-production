@@ -31,6 +31,10 @@ td>.btn {
 	margin-right: 6px;
 }
 
+#latin-pos-table {
+	table-layout: fixed
+}
+
 #latin-pos-table .formentry {
     padding-left: 40px;
 }
@@ -58,8 +62,10 @@ img.dictionary-icon {
 
 img.tree-icon {
     height: 20px;
+    cursor: pointer;
 }
 
 a > b {
 	color: #00455D;
 }
+

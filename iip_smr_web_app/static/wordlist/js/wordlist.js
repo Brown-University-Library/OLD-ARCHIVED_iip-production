@@ -134,6 +134,11 @@ function collapseToggle(obj) {
 	}
 }
 
-function treeClick(obj) {
-	console.log(obj)
+function treeClick(obj, counter) {
+	$("#doubletreerow").remove()
+	if(currRt !== obj) {
+		const togclass = "." + "tog" + counter;
+		$(togclass).last().after('<tr id="doubletreerow"><td colspan="2"><div id="doubletree"></div></td></tr>')
+		setUpDT(treeData, obj);
+	}
 }
