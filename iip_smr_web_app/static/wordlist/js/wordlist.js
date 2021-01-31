@@ -71,11 +71,6 @@ function posFilter() {
 	}
 }
 
-function doubletreeClick() {
-	console.log("double tree click :o)")
-}
-
-
 function langSelect(option) {
 	if(option == "Latinnew" || option == "Latinold") {
 		requestLang(option)
@@ -128,6 +123,9 @@ function collapseToggle(obj) {
 }
 
 function treeClick(obj, counter) {
+	if(obj.indexOf(" | ") > -1) {
+		obj = obj.replace(" | ", "|")
+	}
 	dbtreerow = $("#doubletreerow")
 	if(dbtreerow.length > 0 && currRt == obj) {
 		dbtreerow.remove();
