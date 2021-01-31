@@ -34,7 +34,7 @@
         {% for word in words %}
             {% ifchanged word.lemma.0 %} 
                 {% if not forloop.first %}|{% endif %}
-            <a class="alphalink">{{word.lemma.0}}</a>  {% endifchanged %}
+            <a class="alphalink" onClick="alphaClick(event)">{{word.lemma.0}}</a>  {% endifchanged %}
         {% endfor %}
         ]
     </p>

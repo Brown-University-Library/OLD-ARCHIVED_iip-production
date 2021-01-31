@@ -2,7 +2,6 @@ var bolded = false
 
 $(window).load(function() {
 	langSelect($('#language').find(":selected").val())
-	addAtoZLinks()
 });
 
 function boldKWIC() {
@@ -24,16 +23,10 @@ function boldKWIC() {
 	}
 }
 
-function addAtoZLinks() {
-	var links = $(".alphalink")
-	var i
-	for(i = 0; i < links.length; i++) {
-		var link = $(links[i])
-		link.click(function(event) {
-			const letter = $(event.target).html()
-			findAndScroll(letter)
-		})
-	}
+
+function alphaClick(event) {
+	const letter = $(event.target).html()
+	findAndScroll(letter)
 }
 
 function findAndScroll(letter) {
@@ -41,7 +34,7 @@ function findAndScroll(letter) {
 	for (var r = 0, row; row = table.rows[r]; r++) {
 		if($(row).attr('class').includes("level0") && 
 			$(row).find("b").html()[0] == letter) {
-			offset = row.getBoundingClientRect().top - 80;
+			offset = row.getBoundingClientRect().top - 100;
 			window.scrollTo({
 				top: offset
 			});

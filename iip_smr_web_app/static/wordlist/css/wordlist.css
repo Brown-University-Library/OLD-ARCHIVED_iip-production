@@ -47,6 +47,10 @@ p#atoz {
 	font-size: 15px;
 }
 
+a.alphalink {
+	cursor: pointer;
+}
+
 #posfilter {
 	background-color: lightgray;
 	padding: 10px;
