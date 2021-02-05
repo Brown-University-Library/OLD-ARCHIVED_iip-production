@@ -169,6 +169,9 @@ def go_through_text_new(text_rows, words):
     for x in range(0, row_len):
         row = text_rows[x]
         lemma = row[LATIN_LEMMA + NEWBUFF].lower()
+        if lemma.find("|") > -1:
+            lemma = lemma.replace("|", " | ")
+
         pos1 = row[LATIN_POS1 + NEWBUFF]
         latext = row[LATIN_TEXT + NEWBUFF]
         #getting pos info
