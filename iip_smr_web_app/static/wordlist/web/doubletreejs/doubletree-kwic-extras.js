@@ -26,7 +26,6 @@ function drawDT(text, cur) {
     filters = {"left":[], "right":[]};
     currRt = cur;
     if (! newText || ! dt) {
-        console.log(text)
         newText = text;
         textInfo = new textmodel.TextHash( newText, caseSensitive, fieldNames, fieldDelim, distinguishingFieldsArray, baseField );
         uniqItems = textInfo.getUniqItemsWithCounts();
@@ -34,9 +33,6 @@ function drawDT(text, cur) {
     w = 600 
     
     if (! textInfo.containsItem(currRt)) {
-      //var which = Math.round( uniqItems.length/2 );
-      //currRt = uniqItems[ which ].replace(/\t.+$/,"");
-      //document.getElementById("toUse").value = currRt;
       alert("word not found")
       return;
     }

@@ -71,6 +71,7 @@ textmodel.TextHash = function(string, caseSensitive, fldNames, fldDelim, disting
     if (this.useRecords) {
         string = string.replace(/\s*\n\n+/g, " " + kRecDelim + " ");  //i.e. treat kRecDelim as a token
     }
+    
     this.items = string.replace(/\s*\n\s*/g," ").trim().split(" "); //array of the items (tokens)
     
     this.itemObjs = []; //object representations of the items. For now duplicating items, but maybe we can combine them

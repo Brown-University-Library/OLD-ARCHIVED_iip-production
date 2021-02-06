@@ -34,14 +34,16 @@ def wordlist_old(request):
     return render(request, "wordlist/pos_wordlist.html", context)
 
 def wordlist_new(request):
-    words = get_latin_words_pos_new()
-    data = get_doubletree_data()
+    wordlist_data = get_latin_words_pos_new()
+    words = wordlist_data["lemmas"]
+    data = wordlist_data["db_list"]
     context = {"words": words, "doubletree_data": json.dumps(data)}
     return render(request, "wordlist/pos_wordlist.html", context)
 
 def wordlist_latin(request):
-    words = get_latin_words_pos_new()
-    data = get_doubletree_data()
+    wordlist_data = get_latin_words_pos_new()
+    words = wordlist_data["lemmas"]
+    data = wordlist_data["db_list"]
     context = {"words": words, "doubletree_data": json.dumps(data)}
     return render(request, "wordlist/latin_wordlist.html", context)
 
