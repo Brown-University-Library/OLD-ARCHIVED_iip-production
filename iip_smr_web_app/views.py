@@ -45,26 +45,31 @@ def wordlist_birkin_root( request ):
 
 def wordlist_birkin_language( request, language ):
     log.debug( f'\n\nstarting wordlist_birkin_language(), with language, ``{language}``' )
+    words = {}
+    data = {}
     if language not in ['latin', 'greek', 'hebrew']:  # go back to the language-selection url
-        resp = render( request, "wordlist/wordlist_birkin_root.html", data_dct )
+        redirect_url = reverse( 'wordslist_birkin_root_url' )
+        log.debug( f'redirect_url, ``{redirect_url}``' )
+        resp = HttpResponseRedirect( redirect_url )
     else:
         if language == 'latin':
             words = get_latin_words_pos_new()
             data = get_doubletree_data()
         elif language == 'greek':  # todo
-            words = {}
-            data = {}
+            pass
         else:  # 'hebrew'; todo
-            words = {}
-            data = {}
-    context = {"words": words, "doubletree_data": json.dumps(data), 'language': language}
-    return render( request, "wordlist/wordlist_birkin_language.html", context )  # return render(request, "wordlist/pos_wordlist.html", context)
+            pass
+        context = {"words": words, "doubletree_data": json.dumps(data), 'language': language}
+        resp = render( request, "wordlist/wordlist_birkin_language.html", context )  # return render(request, "wordlist/pos_wordlist.html", context)
+    return resp
+
 
 ## just a demo
 def wordlist_birkin_include_demo( request, language=None ):
     log.debug( f'\n\nstarting wordlist_birkin_include_demo(), with language, ``{language}``' )
     context = {'foo': 'bar', 'language': language}
     return render( request, "wordlist/wordlist_birkin_include_example_root.html", context )  # return render(request, "wordlist/pos_wordlist.html", context)
+
 
 ## ----------------------------------------
 
