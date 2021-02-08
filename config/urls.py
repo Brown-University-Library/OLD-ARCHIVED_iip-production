@@ -10,6 +10,16 @@ admin.autodiscover()
 
 urlpatterns = [
 
+    ## m- my suggested architecture...
+    url(r'^wordlist_birkin/(?P<language>.*)/$', views.wordlist_birkin_language, name='wordlist_birkin_language_url'),
+    url(r'^wordlist_birkin/$', views.wordlist_birkin_root, name='wordslist_birkin_root_url'),
+
+    ## include demo
+    url(r'^wordlist_birkin_include_demo/$', views.wordlist_birkin_include_demo, name='wordlist_birkin_include_demo_url'),
+    url(r'^wordlist_birkin_include_demo/(?P<language>.*)/$', views.wordlist_birkin_include_demo, name='wordlist_birkin_include_demo_url'),
+
+    ###
+
     url(r'^wordlist/$', views.wordlist, name='wordslist_url'),
     url(r'^wordlist/new_latin_data$', views.wordlist_new, name='wordslist_url_new'),
     url(r'^wordlist/old_latin_data$', views.wordlist_old, name='wordslist_url_old'),

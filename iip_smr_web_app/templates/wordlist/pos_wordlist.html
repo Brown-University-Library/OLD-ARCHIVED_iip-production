@@ -13,7 +13,7 @@
 
     <p align="center" id="atoz"> [
         {% for word in words %}
-            {% ifchanged word.lemma.0 %} 
+            {% ifchanged word.lemma.0 %}
                 {% if not forloop.first %}|{% endif %}
             <a class="alphalink" onClick="alphaClick(event)">{{word.lemma.0}}</a>  {% endifchanged %}
         {% endfor %}
@@ -68,7 +68,7 @@
         {% for word in words %}
             <tr class="level0 pos{{word.2}}">
                 <td colspan="2">
-                <button type="button" class="btn btn-primary" 
+                <button type="button" class="btn btn-primary"
                 id="buttog{{forloop.counter}}" onclick="collapseToggle(this)">+</button>
                 <b>{{word.lemma}}</b> {{word.pos}} ({{word.count}})
                 <a href="http://www.perseus.tufts.edu/hopper/resolveform?type=exact&lookup={{word.lemma}}&lang=la"
@@ -79,13 +79,13 @@
             </tr>
             {% for k, v in word.forms.items %}
                 <tr class="level1 tog{{forloop.parentloop.counter}}">
-                <td rowspan={{v.kwics|length}} class="formentry">{{v.form}} 
+                <td rowspan={{v.kwics|length}} class="formentry">{{v.form}}
                 {{v.pos}} ({{v.count}})</td>
                 {% for kwic in v.kwics %}
                     {% if not forloop.first %}
                         <tr class="level1 tog{{forloop.parentloop.parentloop.counter}}">
                     {% endif %}
-                    <td class="kwic">{{kwic.0}} 
+                    <td class="kwic">{{kwic.0}}
                     (<a href="{% url 'inscription_url' kwic.1 %}" target="_blank">{{kwic.1}}</a>)</td>
                     </tr>
                 {% endfor %}
@@ -95,8 +95,8 @@
 
     <br><br>
 
-	
+
     </div>
 
-    
+
 {% endblock %}
