@@ -4,7 +4,8 @@
 
 {% block extra_css %}
 
-    <link href="{{ STATIC_URL }}iip_search_app/css/general2.css" media="all" rel="stylesheet" type="text/css" />
+    <!-- {# <link href="{{ STATIC_URL }}iip_search_app/css/general2.css" media="all" rel="stylesheet" type="text/css" /> #} -->
+    <link href="{% static 'iip_search_app/css/general2.css' rel="stylesheet" type="text/css" />
     <link href='{% static 'wordlist/css/wordlist.css' %}' rel="stylesheet"/>
 
     <link href='{% static 'wordlist/css/doubletree.css' %}' rel="stylesheet"/>
@@ -71,7 +72,4 @@
 
 
 {% block extra_js %}
-
-    <!-- {# <script src='{% static 'wordlist/js/wordlist.js' %}'></script> #} -->
-
 {% endblock extra_js %}
