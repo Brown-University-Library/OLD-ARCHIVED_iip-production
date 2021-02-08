@@ -3,6 +3,20 @@
 
 
 {% block extra_css %}
+
+    <link href="{% static 'iip_search_app/css/general2.css' rel="stylesheet" type="text/css" />
+    <link href="{% static 'wordlist/css/wordlist.css' %}" rel="stylesheet"/>
+
+    <link href="{% static 'wordlist/css/doubletree.css' %}" rel="stylesheet"/>
+    <script charset="utf-8" src='{% static "wordlist/web/doubletreejs/d3.min.js" %}' type="text/javascript"></script>
+    <script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/classListSubstitute.min.js" %}' type="text/javascript"></script>
+    <script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/DoubleTree.min.js" %}'></script>
+    <script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/Trie.min.js" %}' type="text/javascript"></script>
+    <script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/TextHash.min.js" %}' type="text/javascript"></script>
+    <script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/doubletree-kwic.js" %}' type="text/javascript"></script>
+    <script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/doubletree-kwic-extras.js" %}' type="text/javascript"></script>
+    <script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/doubletree-tagged-setup.js" %}' type="text/javascript"></script>
+
 {% endblock extra_css %}
 
 
