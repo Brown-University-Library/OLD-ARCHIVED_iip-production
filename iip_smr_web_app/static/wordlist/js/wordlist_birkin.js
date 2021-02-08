@@ -32,7 +32,7 @@ function alphaClick(event) {
 function findAndScroll(letter) {
 	var table = document.getElementById("latin-pos-table");
 	for (var r = 0, row; row = table.rows[r]; r++) {
-		if($(row).attr('class').includes("level0") && 
+		if($(row).attr('class').includes("level0") &&
 			$(row).find("b").html()[0] == letter) {
 			offset = row.getBoundingClientRect().top - 100;
 			window.scrollTo({
@@ -84,31 +84,33 @@ function langSelect(option) {
 	}
 }
 
-function requestLang(lang) {
 
-	requrl = ""
+// function requestLang(lang) {
 
-	if(lang == "Latinold") {
-		requrl = latin_old
-	} else if (lang == "Latinnew") {
-		requrl = latin_new
-	}
+// 	requrl = ""
 
-	console.log(requrl)
+// 	if(lang == "Latinold") {
+// 		requrl = latin_old
+// 	} else if (lang == "Latinnew") {
+// 		requrl = latin_new
+// 	}
 
-	$.ajax({
-		url: requrl,
-		type: 'get',
-		success: function(data) {
-			$("#latin-table").html(data)
-			$("#latin-table").show()
-			boldKWIC()
-		},
-		failure: function(data) {
-			console.log("failure")
-		}
-	});
-}
+// 	console.log(requrl)
+
+// 	$.ajax({
+// 		url: requrl,
+// 		type: 'get',
+// 		success: function(data) {
+// 			$("#latin-table").html(data)
+// 			$("#latin-table").show()
+// 			boldKWIC()
+// 		},
+// 		failure: function(data) {
+// 			console.log("failure")
+// 		}
+// 	});
+// }
+
 
 function collapseToggle(obj) {
 	var button = $(obj)

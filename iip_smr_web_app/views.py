@@ -25,6 +25,50 @@ from iip_smr_web_app.libs.wordlist.wordlist import get_latin_words_pos, get_lati
 log = logging.getLogger(__name__)
 versioner = Versioner()
 
+
+## m- my suggested wordlist architecture...
+
+
+def wordlist_birkin_root( request ):
+    log.debug( '\n\nstarting wordlist_birkin_root()' )
+    # log.debug( f'request.GET, ``{pprint.pformat(request.GET)}``' )
+    language = request.GET.get( 'language', None )
+    if language and language in ['latin']:
+        redirect_url = reverse( 'wordlist_birkin_language_url',  kwargs={'language': language} )
+        log.debug( f'redirect_url, ``{redirect_url}``' )
+        resp = HttpResponseRedirect( redirect_url )
+    else:
+        data_dct = { 'foo': 'bar' }
+        resp = render( request, "wordlist/wordlist_birkin_root.html", data_dct )
+    return resp
+
+
+def wordlist_birkin_language( request, language ):
+    log.debug( f'\n\nstarting wordlist_birkin_language(), with language, ``{language}``' )
+    if language not in ['latin', 'greek', 'hebrew']:  # go back to the language-selection url
+        resp = render( request, "wordlist/wordlist_birkin_root.html", data_dct )
+    else:
+        if language == 'latin':
+            words = get_latin_words_pos_new()
+            data = get_doubletree_data()
+        elif language == 'greek':  # todo
+            words = {}
+            data = {}
+        else:  # 'hebrew'; todo
+            words = {}
+            data = {}
+    context = {"words": words, "doubletree_data": json.dumps(data), 'language': language}
+    return render( request, "wordlist/wordlist_birkin_language.html", context )  # return render(request, "wordlist/pos_wordlist.html", context)
+
+## just a demo
+def wordlist_birkin_include_demo( request, language=None ):
+    log.debug( f'\n\nstarting wordlist_birkin_include_demo(), with language, ``{language}``' )
+    context = {'foo': 'bar', 'language': language}
+    return render( request, "wordlist/wordlist_birkin_include_example_root.html", context )  # return render(request, "wordlist/pos_wordlist.html", context)
+
+## ----------------------------------------
+
+
 def wordlist(request):
     return render(request, "wordlist/wordlist.html")
 
@@ -35,9 +79,15 @@ def wordlist_old(request):
 
 def wordlist_new(request):
     words = get_latin_words_pos_new()
-    data = "hi"
+    data = get_doubletree_data()
     context = {"words": words, "doubletree_data": json.dumps(data)}
     return render(request, "wordlist/pos_wordlist.html", context)
+
+def wordlist_latin(request):
+    words = get_latin_words_pos_new()
+    data = get_doubletree_data()
+    context = {"words": words, "doubletree_data": json.dumps(data)}
+    return render(request, "wordlist/latin_wordlist.html", context)
 
 def latin_doubletree(request, lemma, pos):
     data = get_doubletree_data()

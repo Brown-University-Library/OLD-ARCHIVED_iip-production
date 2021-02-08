@@ -1,4 +1,3 @@
-console.log("doubletree tagged setup")
 function setup() {
 
   var canRead = window.File && window.FileReader && window.FileList;
