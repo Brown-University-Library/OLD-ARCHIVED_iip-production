@@ -2,6 +2,7 @@ var bolded = false
 
 $(window).load(function() {
 	langSelect($('#language').find(":selected").val())
+	boldKWIC()
 });
 
 function boldKWIC() {
