@@ -49,8 +49,9 @@ def wordlist_birkin_language( request, language ):
         resp = render( request, "wordlist/wordlist_birkin_root.html", data_dct )
     else:
         if language == 'latin':
-            words = get_latin_words_pos_new()
-            data = get_doubletree_data()
+            wordlist_data = get_latin_words_pos_new()
+            words = wordlist_data["lemmas"]
+            data = wordlist_data["db_list"]
         elif language == 'greek':  # todo
             words = {}
             data = {}
