@@ -73,16 +73,8 @@ function posFilter() {
 }
 
 function langSelect(option) {
-	if(option == "Latinnew" || option == "Latinold") {
-		requestLang(option)
-		$("#in-progress").hide()
-	}else if (option == "Greek" || option == "Hebrew"){
-		$("#latin-table").hide()
-		$("#in-progress").show()
-	} else {
-		$("#latin-table").hide()
-		$("#in-progress").hide()
-	}
+	if(option != "")
+		window.location.href = base_url + option
 }
 
 function requestLang(lang) {

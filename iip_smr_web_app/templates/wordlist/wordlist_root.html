@@ -8,8 +8,7 @@
  <link href='{% static 'wordlist/css/wordlist.css' %}' rel="stylesheet"/>
 
  <script>
- var latin_old = "{% url 'wordslist_url_old' %}"
- var latin_new = "{% url 'wordslist_url_new' %}"
+ var base_url = "{% url 'wordslist_url' %}"
  </script>
 
 {% endblock %}
@@ -21,15 +20,15 @@
     <div class="container text-center">
 
 
-    <br><br><br><br><h1>WORDLIST:</h1><br>
+    <br><br><br><br><h1>{% if language %}{{language | upper}} {% endif %}WORDLIST</h1><br>
 
     <label for="language">Choose a language:</label>
 
     <select id="language" onChange="langSelect(this.value)">
         <option value="" disabled selected>Select</option>
-        <option value="Latinnew">Latin</option>
-        <option value="Greek">Greek</option>
-        <option value="Hebrew">Hebrew</option>
+        <option value="latin">Latin</option>
+        <option value="greek">Greek</option>
+        <option value="hebrew">Hebrew</option>
     </select>
 
     {% if language == 'latin' %}
