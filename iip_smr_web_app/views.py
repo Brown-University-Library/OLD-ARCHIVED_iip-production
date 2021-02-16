@@ -53,8 +53,9 @@ def wordlist_birkin_language( request, language ):
         resp = HttpResponseRedirect( redirect_url )
     else:
         if language == 'latin':
-            words = get_latin_words_pos_new()
-            data = get_doubletree_data()
+            wordlist_data = get_latin_words_pos_new()
+            words = wordlist_data["lemmas"]
+            data = wordlist_data["db_list"]
         elif language == 'greek':  # todo
             pass
         else:  # 'hebrew'; todo
@@ -74,8 +75,19 @@ def wordlist_birkin_include_demo( request, language=None ):
 ## ----------------------------------------
 
 
-def wordlist(request):
-    return render(request, "wordlist/wordlist.html")
+def wordlist(request, language=None):
+    if language == 'latin':
+        wordlist_data = get_latin_words_pos_new()
+        words = wordlist_data["lemmas"]
+        data = wordlist_data["db_list"]
+    elif language == 'greek':  # todo
+        words = {}
+        data = {}
+    else:  # 'hebrew'; todo
+        words = {}
+        data = {}
+    context = {"words": words, "doubletree_data": json.dumps(data), 'language': language}
+    return render(request, "wordlist/wordlist_root.html", context)
 
 def wordlist_old(request):
     words = get_latin_words_pos()

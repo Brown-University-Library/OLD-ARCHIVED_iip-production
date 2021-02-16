@@ -108,30 +108,11 @@ def count_words(words):
     return counted
 
 def get_doubletree_data():
-    with requests.Session() as s:
-        log.debug( f'LATIN_CSV_NEW_URL, ``{settings_app.LATIN_CSV_NEW_URL}``')
-        download = s.get(settings_app.LATIN_CSV_NEW_URL)
-        log.debug( f'download, ``{download}``' )
-        decoded = download.content.decode('utf-8')
-        csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
-        curtextname = ""
-        curtexts = []
-        line_count = 0
-        textrows = []
-        for row in csv_reader:
-            row_word = row[LATIN_LEMMA + NEWBUFF]
-            if line_count > 0 and len(row_word) > 0 and row_word[:1] != "?":
-                if curtext != row[LATIN_TEXT + NEWBUFF]:
-                    go_through_text_new(textrows, words)
-                    curtext = row[LATIN_TEXT + NEWBUFF]
-                    textrows = [row]
-
-                lemma = row[LATIN_LEMMA + NEWBUFF].upper()
-                pos1 = row[LATIN_POS1 + NEWBUFF].upper()
-                curtexts.append(lemma + "/" + pos1)
-
-            line_count += 1
-    return "\n\n".join(textrows)
+    dirname = os.path.dirname(__file__)    
+    filename = os.path.join(dirname, 'latin_doubletree_data.txt')
+    with open(filename, 'r') as file:
+        data = file.read()
+        return data
 
 
 def go_through_text(text_rows, words):
