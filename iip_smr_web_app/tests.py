@@ -133,6 +133,20 @@ class UrlTest( TestCase ):
     # testing resources menu - end
     # ----------------------------
 
+    # ----------------------------
+    # testing viewinscr
+    # ----------------------------
+
+    def test_view_inscription_for_greek(self):
+        """ Checks `viewinscr` for Language: Greek. """
+        response = self.client.get( '/viewinscr/abur0001/' )
+        self.assertTrue( b'Greek' in response.content )
+
+    def test_view_inscription_for_armenian(self):
+        """ Checks `viewinscr` for Language: Armenian. """
+        response = self.client.get( '/viewinscr/jeru0557/' )
+        self.assertTrue( b'Armenian' in response.content )
+
     ## end class UrlTest
 
 
