@@ -22,13 +22,27 @@ def cleanDates(value):
 
 vocab_request = requests.get("http://cds.library.brown.edu/projects/iip/include_taxonomies.xml")
 vocab = ET.fromstring(vocab_request.content)
+
+# vocab_dict = {
+#     "grc":"Greek",
+#     "he":"Hebrew",
+#     "la":"Latin",
+#     "arc":"Aramaic",
+#     "x-unknown":"Unknown",
+# }
+
+## re <https://github.com/Brown-University-Library/iip-production/issues/106>
 vocab_dict = {
     "grc":"Greek",
     "he":"Hebrew",
     "la":"Latin",
     "arc":"Aramaic",
+    "xcl":"Armenian",
+    "geo":"Georgian",
+    "syc":"Syriac",
     "x-unknown":"Unknown",
 }
+
 for tax in vocab.findall('{http://www.tei-c.org/ns/1.0}taxonomy'):
     for e in tax.findall('{http://www.tei-c.org/ns/1.0}category'):
         name = e.attrib['{http://www.w3.org/XML/1998/namespace}id']
