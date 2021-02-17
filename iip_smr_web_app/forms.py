@@ -89,13 +89,27 @@ class SearchForm( forms.Form ):
         # self.fields['religion'] = forms.MultipleChoiceField(required=False, choices=self.religions, widget=forms.CheckboxSelectMultiple)
         self.fields['religion'] = forms.MultipleChoiceField(required=False, choices=self.religions, widget=forms.CheckboxSelectMultiple(attrs={'class': 'styled'}))
         #
+
+        # self.languages_dict = {
+        #     "he":"Hebrew",
+        #     "la": "Latin",
+        #     "grc": "Greek",
+        #     "arc": "Aramaic",
+        #     "x-unknown":"Unknown"
+        #     }
+
+        ## re <https://github.com/Brown-University-Library/iip-production/issues/106>
         self.languages_dict = {
+            "grc":"Greek",
             "he":"Hebrew",
-            "la": "Latin",
-            "grc": "Greek",
-            "arc": "Aramaic",
-            "x-unknown":"Unknown"
+            "la":"Latin",
+            "arc":"Aramaic",
+            "xcl":"Armenian",
+            "geo":"Georgian",
+            "syc":"Syriac",
+            "x-unknown":"Unknown",
             }
+
         self.languages = make_vocab_list(self.languages_dict, sorted( common.facetResults('language').keys()))
         # self.fields['language'] = forms.MultipleChoiceField(required=False, choices=self.languages, widget=forms.CheckboxSelectMultiple)
         self.fields['language'] = forms.MultipleChoiceField(required=False, choices=self.languages, widget=forms.CheckboxSelectMultiple())
