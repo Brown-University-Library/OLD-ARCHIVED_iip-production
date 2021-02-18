@@ -1,29 +1,46 @@
-
-function sayHi() {
-  console.log("hi :)")
-}
-
 function setUpDT(text, cur) {
     filters = {"left":[], "right":[]};
-    
+    currRt = cur;
     if (! newText ) {
       newText = text;
-      currRt = cur;
       //document.getElementById("toUse").value = currRt;
     }
     textInfo = new textmodel.TextHash( newText, caseSensitive, fieldNames, fieldDelim, distinguishingFieldsArray, baseField );
     uniqItems = textInfo.getUniqItemsWithCounts();
     
     if (! textInfo.containsItem(currRt)) {
-      var which = Math.round( uniqItems.length/2 );
-      currRt = uniqItems[ which ].replace(/\t.+$/,"");
+      //var which = Math.round( uniqItems.length/2 );
+      //currRt = uniqItems[ which ].replace(/\t.+$/,"");
       //document.getElementById("toUse").value = currRt;
+      alert("word not found")
+      return;
     }
     
     var arrays = textInfo.getItem(currRt, context, null, false, null, null, punc);
     dt = new doubletree.DoubleTree();
     dt.init("#doubletree").visWidth(w).handlers(handlers).showTokenExtra(showTokenExtras).sortFun(sortFun).filters(filters); //.basicStyles({"branch":{"stroke":"pink"}});
     dt.setupFromArrays(arrays[0], arrays[1], arrays[2], caseSensitive, fieldNames, fieldDelim, distinguishingFieldsArray);	  
+}
+
+function drawDT(text, cur) {
+    filters = {"left":[], "right":[]};
+    currRt = cur;
+    if (! newText || ! dt) {
+        newText = text;
+        textInfo = new textmodel.TextHash( newText, caseSensitive, fieldNames, fieldDelim, distinguishingFieldsArray, baseField );
+        uniqItems = textInfo.getUniqItemsWithCounts();
+    }
+    w = 600 
+    
+    if (! textInfo.containsItem(currRt)) {
+      alert("word not found")
+      return;
+    }
+    
+    var arrays = textInfo.getItem(currRt, context, null, false, null, null, punc);
+    dt = new doubletree.DoubleTree();
+    dt.init("#doubletree").visWidth(w).handlers(handlers).showTokenExtra(showTokenExtras).sortFun(sortFun).filters(filters); //.basicStyles({"branch":{"stroke":"pink"}});
+    dt.setupFromArrays(arrays[0], arrays[1], arrays[2], caseSensitive, fieldNames, fieldDelim, distinguishingFieldsArray);    
 }
 
 //sets doubletree to having data with root newRt

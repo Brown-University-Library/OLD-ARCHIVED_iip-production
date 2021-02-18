@@ -79,20 +79,21 @@ def get_latin_words_pos_new():
         line_count = 0
         curtext = ""
         textrows = []
+        dbwords = []
         for row in csv_reader:
             row_word = row[LATIN_LEMMA + NEWBUFF]
             if line_count > 0 and len(row_word) > 0 and row_word[:1] != "?":
                 if curtext != row[LATIN_TEXT + NEWBUFF]:
-                    go_through_text_new(textrows, words)
+                    go_through_text_new(textrows, words, dbwords)
                     curtext = row[LATIN_TEXT + NEWBUFF]
                     textrows = [row]
                 else:
                     textrows.append(row)
             line_count += 1
-        go_through_text_new(textrows, words)
+        go_through_text_new(textrows, words, dbwords)
         sorted_words = {k: v for k, v in sorted(words.items(), key = lambda item: item)}
-        #findMatch()
-        return count_words(sorted_words)
+        mapped_db = map(lambda x: "\n".join(x), dbwords)
+        return {"lemmas": count_words(sorted_words), "db_list": "\n\n\n".join(mapped_db)}
 
 def count_words(words):
     counted = []
@@ -107,11 +108,11 @@ def count_words(words):
     return counted
 
 def get_doubletree_data():
-	dirname = os.path.dirname(__file__)
-	filename = os.path.join(dirname, 'latin_doubletree_data.txt')
-	with open(filename, 'r') as file:
-	    data = file.read()
-	    return data
+    dirname = os.path.dirname(__file__)    
+    filename = os.path.join(dirname, 'latin_doubletree_data.txt')
+    with open(filename, 'r') as file:
+        data = file.read()
+        return data
 
 
 def go_through_text(text_rows, words):
@@ -164,11 +165,16 @@ def go_through_text(text_rows, words):
             words[lemma_string] = {"lemma": lemma, "pos": pos1, "forms": {pos_string: forms} }
 
 
-def go_through_text_new(text_rows, words):
+def go_through_text_new(text_rows, words, dbwords):
+    dbwordlist = []
     row_len = len(text_rows)
+
     for x in range(0, row_len):
         row = text_rows[x]
         lemma = row[LATIN_LEMMA + NEWBUFF].lower()
+        if lemma.find("|") > -1:
+            lemma = lemma.replace("|", " | ")
+
         pos1 = row[LATIN_POS1 + NEWBUFF]
         latext = row[LATIN_TEXT + NEWBUFF]
         #getting pos info
@@ -186,6 +192,11 @@ def go_through_text_new(text_rows, words):
 
         pos_string = row[LATIN_WORD + NEWBUFF]+ " (" + pos2 + ")"
         lemma_string = lemma + " " + pos1
+
+        #adding to doubletree list
+        dbwordlist.append(row[LATIN_LEMMA + NEWBUFF].upper() + "/" + pos1)
+
+
         form = row[LATIN_WORD + NEWBUFF]
         KWICstr = ""
         for y in range(x - KWIC_BUFF, x + KWIC_BUFF + 1):
@@ -206,7 +217,7 @@ def go_through_text_new(text_rows, words):
         else:
             forms = {"form": form, "pos": pos2, "kwics": [KWIC]}
             words[lemma_string] = {"lemma": lemma, "pos": pos1, "forms": {pos_string: forms} }
-
+    dbwords.append(dbwordlist)
 
 def getXML1POS(xmlString, pos, match):
     try:

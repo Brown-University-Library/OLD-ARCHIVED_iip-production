@@ -2,7 +2,6 @@ var bolded = false
 
 $(window).load(function() {
 	langSelect($('#language').find(":selected").val())
-	boldKWIC()
 });
 
 function boldKWIC() {
@@ -33,7 +32,7 @@ function alphaClick(event) {
 function findAndScroll(letter) {
 	var table = document.getElementById("latin-pos-table");
 	for (var r = 0, row; row = table.rows[r]; r++) {
-		if($(row).attr('class').includes("level0") && 
+		if($(row).attr('class').includes("level0") &&
 			$(row).find("b").html()[0] == letter) {
 			offset = row.getBoundingClientRect().top - 100;
 			window.scrollTo({
@@ -73,35 +72,45 @@ function posFilter() {
 }
 
 function langSelect(option) {
-	if(option != "")
-		window.location.href = base_url + option
-}
-
-function requestLang(lang) {
-
-	requrl = ""
-
-	if(lang == "Latinold") {
-		requrl = latin_old
-	} else if (lang == "Latinnew") {
-		requrl = latin_new
+	if(option == "Latinnew" || option == "Latinold") {
+		requestLang(option)
+		$("#in-progress").hide()
+	}else if (option == "Greek" || option == "Hebrew"){
+		$("#latin-table").hide()
+		$("#in-progress").show()
+	} else {
+		$("#latin-table").hide()
+		$("#in-progress").hide()
 	}
-
-	console.log(requrl)
-
-	$.ajax({
-		url: requrl,
-		type: 'get',
-		success: function(data) {
-			$("#latin-table").html(data)
-			$("#latin-table").show()
-			boldKWIC()
-		},
-		failure: function(data) {
-			console.log("failure")
-		}
-	});
 }
+
+
+// function requestLang(lang) {
+
+// 	requrl = ""
+
+// 	if(lang == "Latinold") {
+// 		requrl = latin_old
+// 	} else if (lang == "Latinnew") {
+// 		requrl = latin_new
+// 	}
+
+// 	console.log(requrl)
+
+// 	$.ajax({
+// 		url: requrl,
+// 		type: 'get',
+// 		success: function(data) {
+// 			$("#latin-table").html(data)
+// 			$("#latin-table").show()
+// 			boldKWIC()
+// 		},
+// 		failure: function(data) {
+// 			console.log("failure")
+// 		}
+// 	});
+// }
+
 
 function collapseToggle(obj) {
 	var button = $(obj)
