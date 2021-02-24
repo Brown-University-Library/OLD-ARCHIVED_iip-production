@@ -12,7 +12,7 @@ urlpatterns = [
 
     url(r'^wordlist/$', views.wordlist, name='wordslist_url'),
     url(r'^wordlist/(?P<language>.*)/$', views.wordlist, name='wordslist_url'),
-    
+
     url(r'^admin/', include(admin.site.urls)),
     url( r'^login/$',  views.login, name='login_url' ),
     url( r'^logout/$',  views.logout, name='logout_url' ),

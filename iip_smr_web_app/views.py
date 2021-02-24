@@ -27,19 +27,18 @@ versioner = Versioner()
 
 
 def wordlist(request, language=None):
+    words = {}
+    data = {}
     if language == 'latin':
         wordlist_data = get_latin_words_pos_new()
         words = wordlist_data["lemmas"]
         data = wordlist_data["db_list"]
     elif language == 'greek':  # todo
-        words = {}
-        data = {}
+        pass
     else:  # 'hebrew'; todo
-        words = {}
-        data = {}
+        pass
     context = {"words": words, "doubletree_data": json.dumps(data), 'language': language}
     return render(request, "wordlist/wordlist_root.html", context)
-
 
 
 ## proxy start ##

@@ -11,6 +11,7 @@ log = logging.getLogger(__name__)
 
 LATIN_TEXT = 0
 LATIN_WORDNUM = 1
+LATIN_NUMBER = 6
 LATIN_WORD = 7
 LATIN_POS1 = 8
 LATIN_POS2 = 9
@@ -88,6 +89,7 @@ def go_through_text_new(text_rows, words, dbwords):
 
     for x in range(0, row_len):
         row = text_rows[x]
+
         lemma = row[LATIN_LEMMA + NEWBUFF].lower()
         if lemma.find("|") > -1:
             lemma = lemma.replace("|", " | ")
