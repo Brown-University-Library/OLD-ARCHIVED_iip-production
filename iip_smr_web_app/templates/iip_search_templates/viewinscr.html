@@ -98,6 +98,8 @@ function ImgError(source){
             <a href="{{image_url_base}}{{filename}}" class="highslide " onclick="return hs.expand(this)"
                 title="{{caption}}">
                 <img width="200" src="{{image_url_base}}{{filename}}" alt="Highslide JS" title="Click to enlarge">
+                <br/>
+                {{caption}}
             </a>
         {% empty %}
             <img src='{{image_url}}' onerror="ImgError(this)" style="max-width: 400px;" >
@@ -521,6 +523,10 @@ return this.nodeType === Node.TEXT_NODE;
 <script type="text/javascript">
 
   hs.graphicsDir = '{% static "iip_search_app/highslide/graphics/" %}'
+  
+  hs.align = 'center';
+  hs.captionEval = 'this.a.title';
+  hs.captionOverlay.position = 'below';
 </script>
 <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
