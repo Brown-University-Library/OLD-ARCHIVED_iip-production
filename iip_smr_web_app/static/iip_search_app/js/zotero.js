@@ -39,7 +39,9 @@ async function add_citation(ztag) {
                 links_array.push(href);
                 total_links_array[ztag] = href;
                 console.log("DEBUG:b.bib", typeof(targets_html));
-                targets_html.append(b.bib);
+		newbib = b.bib.replace(/\ \(IIP-\d{3}.*?\)/, '');
+                console.log("DEBUG: b.bib before/after", b.bib, newbib);
+                targets_html.append(newbib);
                 // $(".csl-entry", targets_html).css( 'cursor', 'pointer' );
                 // $(".csl-entry", targets_html).on('click', function() {
                 //     location.href = href;
