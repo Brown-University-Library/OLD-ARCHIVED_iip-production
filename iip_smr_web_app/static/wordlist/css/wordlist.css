@@ -1,0 +1,71 @@
+.table {
+   margin: auto;
+   width: 50% !important; 
+}
+
+table th {
+   text-align: center; 
+}
+
+#latin-table{
+	display: none;
+}
+
+#latin-pos-table td {
+    border: none;
+}
+
+#latin-pos-table>tbody>tr.level0>td{
+	padding-top: 20px;
+}
+
+td>.btn {
+	padding: 5px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	border-radius: 8px;
+	margin-right: 6px;
+}
+
+#latin-pos-table {
+	table-layout: fixed
+}
+
+#latin-pos-table .formentry {
+    padding-left: 40px;
+}
+
+.level1 {
+	display: none;
+}
+
+p#atoz {
+	font-size: 15px;
+}
+
+a.alphalink {
+	cursor: pointer;
+}
+
+#posfilter {
+	background-color: lightgray;
+	padding: 10px;
+	width: 200px;
+	margin: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+img.dictionary-icon {
+    height: 20px;
+}
+
+img.tree-icon {
+    height: 20px;
+    cursor: pointer;
+}
+
+a > b {
+	color: #00455D;
+}
+

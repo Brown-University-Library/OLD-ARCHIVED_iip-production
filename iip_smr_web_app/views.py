@@ -19,10 +19,26 @@ from iip_smr_web_app.libs import ajax_snippet
 from iip_smr_web_app.libs.proxy_helper import rewrite
 from iip_smr_web_app.libs.version_helper import Versioner
 from iip_smr_web_app.libs.view_xml_helper import XmlPrepper
+from iip_smr_web_app.libs.wordlist.wordlist import  get_latin_words_pos_new
 
 
 log = logging.getLogger(__name__)
 versioner = Versioner()
+
+
+def wordlist(request, language=None):
+    words = {}
+    data = {}
+    if language == 'latin':
+        wordlist_data = get_latin_words_pos_new()
+        words = wordlist_data["lemmas"]
+        data = wordlist_data["db_list"]
+    elif language == 'greek':  # todo
+        pass
+    else:  # 'hebrew'; todo
+        pass
+    context = {"words": words, "doubletree_data": json.dumps(data), 'language': language}
+    return render(request, "wordlist/wordlist_root.html", context)
 
 
 ## proxy start ##
@@ -315,6 +331,7 @@ def viewinscr(request, inscrid):
             q = s.query(qstring)
         except:
             q = s.query('*:*', **args)
+        log.debug( f'q, ``{pprint.pformat(q.__dict__)}``' )
         return q
 
     def _update_viewinscr_display_status( request, q ):
@@ -340,7 +357,7 @@ def viewinscr(request, inscrid):
             'biblTranslation' : specific_sources['translation'],
             'biblioFull': False,
             'view_xml_url': view_xml_url,
-            }
+        }
         return_str = ajax_snippet.render_block_to_string( 'iip_search_templates/viewinscr.html', 'viewinscr', context )
         return_response = HttpResponse( return_str )
         return return_response
@@ -349,6 +366,12 @@ def viewinscr(request, inscrid):
         """ Returns view-inscription response-object for regular GET.
             Called by viewinscr() """
         log.debug( u'in _prepare_viewinscr_plain_get_response(); starting' )
+        image_range = [range(len(i['image_filename'])) for i in q][0]
+        inscr = [i for i in q][0]
+        
+        image_dict = {inscr['image_filename'][i]: inscr['image_caption'][i] 
+                        for i in range(len(inscr['image_filename']))}
+
         context = {
             'inscription': q,
             'z_ids': z_bibids,
@@ -363,7 +386,9 @@ def viewinscr(request, inscrid):
             'view_xml_url': view_xml_url,
             'current_url': current_url,
             'image_url':  "https://github.com/Brown-University-Library/iip-images/raw/master/" + inscrid + ".jpg",
-            'image_caption': image_caption
+            'image_url_base': "https://github.com/Brown-University-Library/iip-images/raw/master/",
+            'image_caption': image_caption,
+            'image_dict': image_dict,
             }
         log.debug( f'context, ```{pprint.pformat(context)}```' )
         return_response = render( request, u'iip_search_templates/viewinscr.html', context )
