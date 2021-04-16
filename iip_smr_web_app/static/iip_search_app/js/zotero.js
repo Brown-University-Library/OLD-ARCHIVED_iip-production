@@ -22,8 +22,9 @@ async function add_citation(ztag) {
 
     let links_array = new Array();
     var req = new XMLHttpRequest();
-    req.open("GET", "https://api.zotero.org/groups/" + GROUP + "/items?tag=" + ztag + "&include=bib" + "&style=apa", true);
-    console.log("https://api.zotero.org/groups/" + GROUP + "/items?tag=" + ztag + "&include=bib" + "&style=apa", true);
+    var zapiurl = "https://api.zotero.org/groups/" + GROUP + "/items?tag=" + ztag + "&include=bib";
+    req.open("GET", zapiurl, true);
+    console.log(zapiurl);
     req.setRequestHeader("Zotero-API-Version", "3");
     req.onload = function() {
         //bibs response from api call
