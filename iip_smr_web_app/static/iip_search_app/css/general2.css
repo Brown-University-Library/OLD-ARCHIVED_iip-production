@@ -717,3 +717,13 @@ tr.bibliography {
     font-size: 1.2em;
     font-weight: bold;
 }
+
+
+/*---------------- Highslide Gallery --------------*/
+.insText a.highslide {
+	display: inline-block;	
+}
+
+.highslide-caption {
+	background-color: white;
+}

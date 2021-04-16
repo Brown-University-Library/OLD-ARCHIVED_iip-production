@@ -357,7 +357,7 @@ def viewinscr(request, inscrid):
             'biblTranslation' : specific_sources['translation'],
             'biblioFull': False,
             'view_xml_url': view_xml_url,
-            }
+        }
         return_str = ajax_snippet.render_block_to_string( 'iip_search_templates/viewinscr.html', 'viewinscr', context )
         return_response = HttpResponse( return_str )
         return return_response
@@ -366,6 +366,12 @@ def viewinscr(request, inscrid):
         """ Returns view-inscription response-object for regular GET.
             Called by viewinscr() """
         log.debug( u'in _prepare_viewinscr_plain_get_response(); starting' )
+        image_range = [range(len(i['image_filename'])) for i in q][0]
+        inscr = [i for i in q][0]
+        
+        image_dict = {inscr['image_filename'][i]: inscr['image_caption'][i] 
+                        for i in range(len(inscr['image_filename']))}
+
         context = {
             'inscription': q,
             'z_ids': z_bibids,
@@ -380,7 +386,9 @@ def viewinscr(request, inscrid):
             'view_xml_url': view_xml_url,
             'current_url': current_url,
             'image_url':  "https://github.com/Brown-University-Library/iip-images/raw/master/" + inscrid + ".jpg",
-            'image_caption': image_caption
+            'image_url_base': "https://github.com/Brown-University-Library/iip-images/raw/master/",
+            'image_caption': image_caption,
+            'image_dict': image_dict,
             }
         log.debug( f'context, ```{pprint.pformat(context)}```' )
         return_response = render( request, u'iip_search_templates/viewinscr.html', context )
