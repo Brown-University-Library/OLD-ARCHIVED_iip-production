@@ -370,7 +370,7 @@ def viewinscr(request, inscrid):
         inscr = [i for i in q][0]
         
         image_dict = {inscr['image_filename'][i]: inscr['image_caption'][i] 
-                        for i in range(len(inscr['image_filename']))}
+                        for i in range(len(inscr['image_filename'])) if inscr['image_filename'][i].strip() != ''}
 
         context = {
             'inscription': q,
