@@ -93,8 +93,8 @@ function ImgError(source){
 
     <div id="details">
       <div class="insText" id="{{ i.inscription_id }}">
+	<h4>Images:</h4>
         {% for filename, caption in image_dict.items %}
-            {% if forloop.first %}<h4>Images:</h4>{% endif %}
             <a href="{{image_url_base}}{{filename}}" class="highslide " onclick="return hs.expand(this)"
                 title="{{caption}}">
                 <img width="200" src="{{image_url_base}}{{filename}}" alt="Highslide JS" title="Click to enlarge">
@@ -102,7 +102,7 @@ function ImgError(source){
                 {{caption}}
             </a>
         {% empty %}
-            <img src='{{image_url}}' onerror="ImgError(this)" style="max-width: 400px;" >
+            <img src='https://github.com/Brown-University-Library/iip_smr_web_project/raw/zak/iip_smr_web_app/static/resources/img/noimg.png' style="width: 150px;" >
         {% endfor %}
 
         {% if image_caption %}
