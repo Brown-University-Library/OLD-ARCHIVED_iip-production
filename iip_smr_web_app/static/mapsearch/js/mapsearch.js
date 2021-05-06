@@ -721,7 +721,18 @@ var satelite_tile = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y
   accessToken: 'pk.eyJ1IjoiZGs1OCIsImEiOiJjajQ4aHd2MXMwaTE0MndsYzZwaG1sdmszIn0.VFRnx3NR9gUFBKBWNhhdjw'
 });
 
-$('#overlay_satelite').click(function () {
+// $('#overlay_satelite').click(function () {
+//   if (mymap.hasLayer(base_tile)) {
+//     mymap.removeLayer(base_tile);
+//     satelite_tile.addTo(mymap);
+//     console.log("satelite view on");
+//   } else {
+//     mymap.removeLayer(satelite_tile);
+//     base_tile.addTo(mymap);
+//     console.log("satelite view off");
+//   }
+// });
+
   if (mymap.hasLayer(base_tile)) {
     mymap.removeLayer(base_tile);
     satelite_tile.addTo(mymap);
@@ -731,7 +742,6 @@ $('#overlay_satelite').click(function () {
     base_tile.addTo(mymap);
     console.log("satelite view off");
   }
-});
 
 
 

@@ -11,6 +11,7 @@ log = logging.getLogger(__name__)
 
 LATIN_TEXT = 0
 LATIN_WORDNUM = 1
+LATIN_NUMBER = 6
 LATIN_WORD = 7
 LATIN_POS1 = 8
 LATIN_POS2 = 9
@@ -39,31 +40,6 @@ MOODDICT = {"IND": "indicative", "PTC": "participle", "IMP": "imperative", "SUB"
 #   pos: pos information about the form
 #   kwics: list of duples of the form, first index is kwic, second is inscrp id]
 # (kwics and inscription ids should correspond to each other)
-def get_latin_words_pos():
-
-    with requests.Session() as s:
-        download = s.get(settings_app.LATIN_CSV_URL)
-        log.debug( f'download, ``{download}``' )
-        decoded = download.content.decode('utf-8')
-        words = {}
-        csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
-        line_count = 0
-        curtext = ""
-        textrows = []
-        for row in csv_reader:
-            row_word = row[LATIN_LEMMA]
-            if line_count > 0 and len(row_word) > 0 and row_word[:1] != "?":
-                if curtext != row[LATIN_TEXT]:
-                    go_through_text(textrows, words)
-                    curtext = row[LATIN_TEXT]
-                    textrows = []
-                else:
-                    textrows.append(row)
-            line_count += 1
-        go_through_text(textrows, words)
-        sorted_words = {k: v for k, v in sorted(words.items(), key = lambda item: item)}
-        #findMatch()
-        return count_words(sorted_words)
 
 def get_latin_words_pos_new():
 
@@ -79,20 +55,21 @@ def get_latin_words_pos_new():
         line_count = 0
         curtext = ""
         textrows = []
+        dbwords = []
         for row in csv_reader:
             row_word = row[LATIN_LEMMA + NEWBUFF]
             if line_count > 0 and len(row_word) > 0 and row_word[:1] != "?":
                 if curtext != row[LATIN_TEXT + NEWBUFF]:
-                    go_through_text_new(textrows, words)
+                    go_through_text_new(textrows, words, dbwords)
                     curtext = row[LATIN_TEXT + NEWBUFF]
                     textrows = [row]
                 else:
                     textrows.append(row)
             line_count += 1
-        go_through_text_new(textrows, words)
+        go_through_text_new(textrows, words, dbwords)
         sorted_words = {k: v for k, v in sorted(words.items(), key = lambda item: item)}
-        #findMatch()
-        return count_words(sorted_words)
+        mapped_db = map(lambda x: "\n".join(x), dbwords)
+        return {"lemmas": count_words(sorted_words), "db_list": "\n\n\n".join(mapped_db)}
 
 def count_words(words):
     counted = []
@@ -106,62 +83,17 @@ def count_words(words):
         counted.append(lemma_dict)
     return counted
 
-
-def go_through_text(text_rows, words):
+def go_through_text_new(text_rows, words, dbwords):
+    dbwordlist = []
     row_len = len(text_rows)
+
     for x in range(0, row_len):
         row = text_rows[x]
-        lemma = row[LATIN_LEMMA].lower()
-        pos1 = row[LATIN_POS1]
-        latext = row[LATIN_TEXT]
-        #getting pos info
-        pos2 = getXML2POS(row[XML2])
-        if pos2 is None:
-            pos2 = getXML1POS(row[XML1], pos1, row[LATIN_POS2])
-            if pos2 is None:
-                pos2 = row[LATIN_POS2].lower()
-                if pos2 == "":
-                    pos2 = "undefined"
-            else:
-                pos1 = pos2[0]
-                pos2 = pos2[1]
-                if pos1 in REVPOSDICT:
-                    pos1 = REVPOSDICT.get(pos1)
-        else:
-            pos1 = pos2[0]
-            pos2 = pos2[1]
-            if pos1 in REVPOSDICT:
-                    pos1 = REVPOSDICT.get(pos1)
 
-        pos_string = row[LATIN_WORD]+ " (" + pos2 + ")"
-        lemma_string = lemma + " " + pos1
-        form = row[LATIN_WORD]
-        KWICstr = ""
-        for y in range(x - KWIC_BUFF, x + KWIC_BUFF + 1):
-            if y >= 0 and y < row_len:
-                KWICstr += " " + text_rows[y][LATIN_WORD]
-
-        incp_id = row[LATIN_TEXT][:-4]
-        KWIC = [KWICstr, incp_id]
-
-        lemma_dict = words.get(lemma_string)
-        if lemma_dict is not None:
-            form_dict = lemma_dict.get("forms").get(pos_string)
-            if form_dict is not None:
-                form_dict.get("kwics").append(KWIC)
-            else:
-                form = {"form": form, "pos": pos2, "kwics": [KWIC]}
-                lemma_dict["forms"][pos_string] = form
-        else:
-            forms = {"form": form, "pos": pos2, "kwics": [KWIC]}
-            words[lemma_string] = {"lemma": lemma, "pos": pos1, "forms": {pos_string: forms} }
-
-
-def go_through_text_new(text_rows, words):
-    row_len = len(text_rows)
-    for x in range(0, row_len):
-        row = text_rows[x]
         lemma = row[LATIN_LEMMA + NEWBUFF].lower()
+        if lemma.find("|") > -1:
+            lemma = lemma.replace("|", " | ")
+
         pos1 = row[LATIN_POS1 + NEWBUFF]
         latext = row[LATIN_TEXT + NEWBUFF]
         #getting pos info
@@ -179,6 +111,11 @@ def go_through_text_new(text_rows, words):
 
         pos_string = row[LATIN_WORD + NEWBUFF]+ " (" + pos2 + ")"
         lemma_string = lemma + " " + pos1
+
+        #adding to doubletree list
+        dbwordlist.append(row[LATIN_LEMMA + NEWBUFF].upper() + "/" + pos1)
+
+
         form = row[LATIN_WORD + NEWBUFF]
         KWICstr = ""
         for y in range(x - KWIC_BUFF, x + KWIC_BUFF + 1):
@@ -199,7 +136,7 @@ def go_through_text_new(text_rows, words):
         else:
             forms = {"form": form, "pos": pos2, "kwics": [KWIC]}
             words[lemma_string] = {"lemma": lemma, "pos": pos1, "forms": {pos_string: forms} }
-
+    dbwords.append(dbwordlist)
 
 def getXML1POS(xmlString, pos, match):
     try:
@@ -294,10 +231,4 @@ def findMatch():
                 except Exception as e:
                         print(e)
             line_count += 1
-
-def formatNPOS(posdic):
-    return ""
-
-def formatVPOS(posdic):
-    return ""
 

@@ -1,0 +1,23 @@
+table {
+	border-collapse: collapse;
+}
+th {
+	text-align: left;
+	border: none;
+}
+th, td {
+	padding: 3px;
+	padding-right: 3ch;
+}
+td {
+	border: 1px solid grey;
+}
+#letterNavigation {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom; 10px;
+}
+#letterNavigation a {
+	padding: 5px;
+}
+

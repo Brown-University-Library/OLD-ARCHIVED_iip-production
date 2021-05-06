@@ -2,7 +2,7 @@ var bolded = false
 
 $(window).load(function() {
 	langSelect($('#language').find(":selected").val())
-	addAtoZLinks()
+	boldKWIC()
 });
 
 function boldKWIC() {
@@ -24,16 +24,10 @@ function boldKWIC() {
 	}
 }
 
-function addAtoZLinks() {
-	var links = $(".alphalink")
-	var i
-	for(i = 0; i < links.length; i++) {
-		var link = $(links[i])
-		link.click(function(event) {
-			const letter = $(event.target).html()
-			findAndScroll(letter)
-		})
-	}
+
+function alphaClick(event) {
+	const letter = $(event.target).html()
+	findAndScroll(letter)
 }
 
 function findAndScroll(letter) {
@@ -41,7 +35,7 @@ function findAndScroll(letter) {
 	for (var r = 0, row; row = table.rows[r]; r++) {
 		if($(row).attr('class').includes("level0") && 
 			$(row).find("b").html()[0] == letter) {
-			offset = row.getBoundingClientRect().top - 80;
+			offset = row.getBoundingClientRect().top - 100;
 			window.scrollTo({
 				top: offset
 			});
@@ -78,18 +72,9 @@ function posFilter() {
 	}
 }
 
-
 function langSelect(option) {
-	if(option == "Latinnew" || option == "Latinold") {
-		requestLang(option)
-		$("#in-progress").hide()
-	}else if (option == "Greek" || option == "Hebrew"){
-		$("#latin-table").hide()
-		$("#in-progress").show()
-	} else {
-		$("#latin-table").hide()
-		$("#in-progress").hide()
-	}
+	if(option != "")
+		window.location.href = base_url + option
 }
 
 function requestLang(lang) {
@@ -127,5 +112,20 @@ function collapseToggle(obj) {
 	} else {
 		button.html("+")
 		$(togclass).hide()
+	}
+}
+
+function treeClick(obj, counter) {
+	if(obj.indexOf(" | ") > -1) {
+		obj = obj.replace(" | ", "|")
+	}
+	dbtreerow = $("#doubletreerow")
+	if(dbtreerow.length > 0 && currRt == obj) {
+		dbtreerow.remove();
+	} else {
+		dbtreerow.remove();
+		const togclass = "." + "tog" + counter;
+		$(togclass).last().after('<tr id="doubletreerow"><td colspan="2"><div id="doubletree"></div></td></tr>')
+		drawDT(treeData, obj);
 	}
 }

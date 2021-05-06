@@ -11,10 +11,6 @@ table th {
 	display: none;
 }
 
-#in-progress {
-	display: none;
-}
-
 #latin-pos-table td {
     border: none;
 }
@@ -31,6 +27,10 @@ td>.btn {
 	margin-right: 6px;
 }
 
+#latin-pos-table {
+	table-layout: fixed
+}
+
 #latin-pos-table .formentry {
     padding-left: 40px;
 }
@@ -43,6 +43,10 @@ p#atoz {
 	font-size: 15px;
 }
 
+a.alphalink {
+	cursor: pointer;
+}
+
 #posfilter {
 	background-color: lightgray;
 	padding: 10px;
@@ -52,6 +56,16 @@ p#atoz {
 	margin-bottom: 20px;
 }
 
+img.dictionary-icon {
+    height: 20px;
+}
+
+img.tree-icon {
+    height: 20px;
+    cursor: pointer;
+}
+
 a > b {
 	color: #00455D;
 }
+

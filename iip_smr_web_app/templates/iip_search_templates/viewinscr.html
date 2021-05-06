@@ -51,7 +51,7 @@
 {%block viewinscr%}
 <script type="text/javascript">
 function ImgError(source){
-    source.src = "https://github.com/Brown-University-Library/iip_smr_web_project/raw/zak/iip_smr_web_app/static/resources/img/noimg.png";
+    source.src = "{% static "/resources/img/noimg.png" %}";
     source.onerror = "";
     source.width = "150";
     return true;
@@ -59,13 +59,13 @@ function ImgError(source){
 
 </script>
 
-
 <div class="container story-wrapper">
 
   <div id="single_inscription">
 
     {% for i in inscription %}
 
+<!--Inscription: {{i}}-->
     {% autoescape off %}
     <div class="resultTitle">
       <p style="clear: both"><span class="short_header">{{i.inscription_id|upper}} - {{i.short_description}}</span>
@@ -92,19 +92,18 @@ function ImgError(source){
     <br><br>
 
     <div id="details">
-
       <div class="insText" id="{{ i.inscription_id }}">
-        {% if i.imageSource and biblioFull %}
-        <h4>Images:</h4>
-        {% for im in i.imageSource %}
-        <a href="{{im}}" class="highslide " onclick="return hs.expand(this)">
-          <img width="200" src="{{im}}" alt="Highslide JS" title="Click to enlarge">
-        </a>
+        {% for filename, caption in image_dict.items %}
+            {% if forloop.first %}<h4>Images:</h4>{% endif %}
+            <a href="{{image_url_base}}{{filename}}" class="highslide " onclick="return hs.expand(this)"
+                title="{{caption}}">
+                <img width="200" src="{{image_url_base}}{{filename}}" alt="Highslide JS" title="Click to enlarge">
+                <br/>
+                {{caption}}
+            </a>
+        {% empty %}
+            <img src='{{image_url}}' onerror="ImgError(this)" style="max-width: 400px;" >
         {% endfor %}
-        {% else %}
-
-        <img src='{{image_url}}' onerror="ImgError(this)" style="max-width: 400px;" >
-        {% endif %}
 
         {% if image_caption %}
         <div class="image_caption">{{ image_caption }}</div>
@@ -524,6 +523,10 @@ return this.nodeType === Node.TEXT_NODE;
 <script type="text/javascript">
 
   hs.graphicsDir = '{% static "iip_search_app/highslide/graphics/" %}'
+  
+  hs.align = 'center';
+  hs.captionEval = 'this.a.title';
+  hs.captionOverlay.position = 'below';
 </script>
 <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

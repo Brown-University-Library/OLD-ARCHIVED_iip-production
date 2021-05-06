@@ -1,0 +1,80 @@
+body {
+	margin: 5px;
+	font-family: sans-serif;
+}
+
+ul {
+	column-width: 20ch;
+}
+a {
+	color: #476757;
+	transition: all 0.3s ease 0s;
+}
+a:focus, a:hover {
+	color: #b1af89;
+}
+.kwic-container {
+	display: flex;
+	justify-content: center;
+}
+.kwic {
+	color: blue;
+	text-align: center;
+}
+.kwic-prec {
+	text-align: right;
+}
+#all-wrapper {
+	max-width: 1002px;
+	margin: 0px auto 0px auto;
+	position: relative;
+	border: 1px solid black;
+	padding: 5px 5px 5px 5px;
+}
+.expand-button {
+	text-decoration: none;
+	font-size: 75%;
+}
+
+#doubletree-container {
+	background-image: url('doubletree.svg'); 
+	background-size: cover;
+	height: 96px; 
+	width: 96px; 
+	position: absolute; 
+	top: 5px; 
+	right: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	font-weight: bold;
+}
+#doubletree-container a {
+	text-decoration: none;
+}
+
+#occurrences {
+	width: 100%;	
+	
+}
+.grey-box {
+	margin: -5px;
+	border-top: 1px solid black;
+	background: #e9e9e9 !important;
+	padding: 5px;
+}
+.info-box {
+	text-align: left;
+	background: #D9E3D0;
+	border-bottom: 1px solid black;	
+	padding: 3px 10px 10px 10px;
+	margin: -5px 0px 0px -5px;
+	width: calc(100% - 10px);
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin-top: .3em;
+	margin-bottom: .3em;
+}
+
