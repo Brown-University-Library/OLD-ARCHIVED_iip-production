@@ -90,10 +90,15 @@ class SearchForm( forms.Form ):
         self.fields['religion'] = forms.MultipleChoiceField(required=False, choices=self.religions, widget=forms.CheckboxSelectMultiple(attrs={'class': 'styled'}))
         #
         self.languages_dict = {
+            "geo": "Georgian",
             "he":"Hebrew",
+            "heb": "Hebrew",
             "la": "Latin",
             "grc": "Greek",
             "arc": "Aramaic",
+            "phn": "Phoenician",
+            "syc": "Syriac",
+            "xcl": "Armenian",
             "x-unknown":"Unknown"
             }
         self.languages = make_vocab_list(self.languages_dict, sorted( common.facetResults('language').keys()))
