@@ -119,7 +119,7 @@ tei-g::after {
 }
 
 tei-g:empty::before {
-  content: "((" attr(type);
+  content: "((" attr(ref);
   unicode-bidi: bidi-override;
   direction: ltr;
 }
