@@ -51,7 +51,7 @@
 {%block viewinscr%}
 <script type="text/javascript">
 function ImgError(source){
-    source.src = "https://github.com/Brown-University-Library/iip_smr_web_project/raw/zak/iip_smr_web_app/static/resources/img/noimg.png";
+    source.src = "{% static "/resources/img/noimg.png" %}";
     source.onerror = "";
     source.width = "150";
     return true;

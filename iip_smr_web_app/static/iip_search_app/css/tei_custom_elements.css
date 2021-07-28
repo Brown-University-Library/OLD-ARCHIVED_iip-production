@@ -119,17 +119,21 @@ tei-g::after {
 }
 
 tei-g:empty::before {
-  content: "((" attr(type);
+  content: "((" attr(ref);
   unicode-bidi: bidi-override;
   direction: ltr;
 }
 
 tei-gap[reason="illegible"][unit="character"][extent="unknown"]::before {
   content: "[...]";
+  unicode-bidi: bidi-override;
+  direction: ltr;
 }
 
 tei-gap[reason="lost"][unit="character"][extent="unknown"]::before {
   content: "[---]";
+  unicode-bidi: bidi-override;
+  direction: ltr;
 }
 
 /*  doesn't appear in IIP at this point. Doesn't make sense, really
@@ -139,6 +143,8 @@ tei-gap[reason="illegible"][unit="line"][extent="unknown"]::before {
 
 tei-gap[reason="lost"][unit="line"][extent="unknown"]::before {
   content: "-----";
+  unicode-bidi: bidi-override;
+  direction: ltr;
 }
 /*  one two (or three) ill. characters, use one two (or three) dots
 otherwise parenthsis with number. Note that CSS rule for quantities unspecified
