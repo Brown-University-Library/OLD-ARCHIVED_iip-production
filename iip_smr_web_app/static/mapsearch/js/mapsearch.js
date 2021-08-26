@@ -59,13 +59,21 @@ var base_tile = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.pn
 }).addTo(mymap);
 
 async function requestFacetNums(ops_request, request_url) {
+  //console.log('requestFacetNums', ops_request, request_url)
   content_array = new Array();
-  for (let field in ops_request) {
-    await $.ajax({
-      url: request_url + field,
-      dataType: 'json',
-      success: function (data) {
-        // console.log("DEGUG@Yang@3\t", field, JSON.stringify(data.facet_counts.facet_fields[field]));
+
+  //Make sure we're not asking for item-level data here. 
+  //TODO: Refactor this script and use a less hacky way to do this.
+  request_url = request_url.replace(/rows=\d+&/, 'rows=0&');
+  request_url += Object.keys(ops_request).join('&facet.field=');
+
+  await $.ajax({
+    url: request_url,
+    dataType: 'json',
+    success: function (data) {
+      // console.log("DEGUG@Yang@3\t", field, JSON.stringify(data.facet_counts.facet_fields[field]));
+      
+      for (field in ops_request) {
         let raw_array = data.facet_counts.facet_fields[field];
         let key_value_dict = {};
         // console.log(raw_array);
@@ -73,13 +81,16 @@ async function requestFacetNums(ops_request, request_url) {
           key_value_dict[raw_array[i]] = raw_array[i + 1];
         }
         content_array.push(key_value_dict);
+        //console.log('requestFacetNums output:', raw_array, key_value_dict);
       }
-    });
-  }
+    }
+  });
+  
   return content_array;
 }
 
 async function initializeFacetNums(request_url, date_query) {
+  console.log('debug', 'initializeFacetNums', request_url, date_query);
   let ops_request = {
     // place: ' OR ',
     type: ' OR ',
@@ -108,7 +119,7 @@ async function initializeFacetNums(request_url, date_query) {
     }
   }
   let content_array = await requestFacetNums(ops_request, request_url);
-  // console.log("DEBUG@initializeFacetNums request_url", request_url);
+  console.log("DEBUG@initializeFacetNums request_url", request_url);
   // console.log("DEBUG@initializeFacetNums", content_array);
   facet_nums_request = Object.assign({}, content_array[0], content_array[1],
     content_array[2], content_array[3], content_array[4], content_array[5]);
@@ -882,5 +893,5 @@ $(':checkbox').each(function () {
 
 createLocationsDict();
 
-var FACET_NUMBER_QUERY_API = ''
+var FACET_NUMBER_QUERY_API = '';
 
