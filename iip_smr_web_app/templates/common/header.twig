@@ -1,0 +1,38 @@
+{% load static %}
+
+<header class="headerExternal
+  {% if header_dark %}
+    -dark
+  {% else %}
+    -light
+  {% endif %}
+" data-html2canvas-ignore="true">
+  <div class="headerExternalDefault">
+    <div class="headerExternalSite">
+      <a class="headerLogo" href="/"></a>
+      <button class="visible block md:hidden headerExternalButton headerExternalSiteMenuButton menuButton showMenuButton" href="/">
+        <svg viewbox="0 0 30 30">
+          <path
+            d="M13.0518223,24.12 C13.8486533,24.12 14.4946125,24.7708056 14.4946125,25.5586857 L14.4946125,25.8973143 C14.4946125,26.6918785 13.8530946,27.336 13.0518223,27.336 L1.4427902,27.336 C0.645959177,27.336 0,26.6851944 0,25.8973143 L0,25.5586857 C0,24.7641215 0.641517873,24.12 1.4427902,24.12 L13.0518223,24.12 Z M27.5516448,12.864 C28.3455984,12.864 28.989225,13.5148056 28.989225,14.3026857 L28.989225,14.6413143 C28.989225,15.4358785 28.3430988,16.08 27.5516448,16.08 L1.43758018,16.08 C0.643626568,16.08 0,15.4291944 0,14.6413143 L0,14.3026857 C0,13.5081215 0.646126216,12.864 1.43758018,12.864 L27.5516448,12.864 Z M27.5516448,1.608 C28.3455984,1.608 28.989225,2.25880559 28.989225,3.04668573 L28.989225,3.38531427 C28.989225,4.17987846 28.3430988,4.824 27.5516448,4.824 L1.43758018,4.824 C0.643626568,4.824 0,4.17319441 0,3.38531427 L0,3.04668573 C0,2.25212154 0.646126216,1.608 1.43758018,1.608 L27.5516448,1.608 Z"
+            id="path-1"></path>
+        </svg>
+      </button>
+      <button class="visible block md:hidden headerExternalButton headerExternalSiteMenuButton hideMenuButton" href="/">
+        <i class="mdi mdi-close"></i>
+      </button>
+
+      <a class="headerExternalSiteArchiveTitle" href="/">
+        <img src="{% static 'common/images/iip_logo.png' %}"/>
+      </a>
+    </div>
+
+    {% include 'common/menu.twig' %}
+
+    <div class="headerMenu">
+      <div class="headerMenuInner">
+        {% include 'common/mega-menu.twig' %}
+      </div>
+    </div>
+  </div>
+</div>
+</header>
