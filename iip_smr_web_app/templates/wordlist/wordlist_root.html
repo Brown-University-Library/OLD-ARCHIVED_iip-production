@@ -1,4 +1,4 @@
-{% extends 'about/base.html' %}
+{% extends 'common/base.twig' %}
 
 
 {% block extra_css %}
@@ -40,16 +40,16 @@
         </div>
     {% endif %}
 
-    
+
     </div>
 
     <br><br><br>
-    
+
 {% endblock %}
 
 {% block extra_js %}
 
-{% load staticfiles %}  
+{% load staticfiles %}
     <script src='{% static 'wordlist/js/wordlist.js' %}'></script>
 
 {% endblock %}

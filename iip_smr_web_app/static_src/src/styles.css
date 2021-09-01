@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Silk Serif';
+    src: local('Silk Serif Regular'), local('Silk-Serif-Regular'),
+        url('/wp-content/themes/orpheus/static/fonts/SilkSerif-Regular/SilkSerif-Regular.woff2') format('woff2'),
+        url('/wp-content/themes/orpheus/static/fonts/SilkSerif-Regular/SilkSerif-Regular.woff') format('woff'),
+        url('/wp-content/themes/orpheus/static/fonts/SilkSerif-Regular/SilkSerif-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+@font-face {
+    font-family: 'Staff';
+    src: local('Staff'),
+        url('/wp-content/themes/orpheus/static/fonts/Staff/Staff-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+@font-face {
+    font-family: 'Staff Light';
+    src: local('Staff Light'),
+        url('/wp-content/themes/orpheus/static/fonts/Staff/Staff-Light.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+  }
+@font-face {
+    font-family: 'Staff Medium';
+    src: local('Staff Medium'),
+        url('/wp-content/themes/orpheus/static/fonts/Staff/Staff-Medium.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+  }
+
+:root {
+  --primary-color: #87806C;
+  --secondary-color: #666256;
+  --light-color: '#F2EEEA';
+  --accent-color: '#959A92';
+  --theme-color-100': '#F2EEEA';
+  --theme-color-200': '#E4E1D9';
+  --theme-color-gray': '#C7C7C7';
+  --theme-color-500': '#87806C';
+  --theme-color-700': '#666256';
+  --theme-color-900': '#1A1919';
+}
+
+
+#ctf.ctf-masonry .ctf-header {
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+  background: #E4E1D9;
+  padding: 0.5rem 1rem 1rem;
+  border-radius: 10px;
+}
+
+#ctf.ctf-masonry .ctf-header-link {
+  display: flex;
+  align-items: center;
+}
+
+#ctf.ctf-masonry .ctf-item {
+  background: #E4E1D9;
+  border-radius: 10px;
+  text-align: left;
+}
+
+#ctf.ctf-masonry .ctf-more {
+  background: #E4E1D9 !important;
+  border-radius: 10px;
+  max-width: 220px;
+  width: 90%;
+  text-transform: uppercase;
+  margin: 1rem auto 0 !important;
+  font-size: 10px !important;
+  padding: 1rem !important;
+  font-weight: bold;
+}
+
+#ctf.ctf-masonry, #ctf.ctf-masonry .ctf-tweet-items {
+  text-align: center;
+}
+.homeCover.cover {
+  min-height: 88vh !important;
+  align-items: flex-start;
+}
+
+.chsCover .coverContent h2.subtitle {
+  padding-top: 6rem;
+}
+
+body.logged-in.admin-bar .headerExternal {
+  top:33px;
+}
+
+.iip-cover-height {
+  height: 98vh;
+  min-height: 50rem;
+}
+
+.iip-cover-inner-shadow {
+  box-shadow: inset 0 0 40px 0px rgba(0, 0, 0, 1);
+}
+
+.iip-hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform: scale(1.1);
+  filter: blur(12px);
+  opacity: 0.5;
+}
+
+.is-loaded .iip-hero-background {
+  opacity: 1;
+  transition: opacity 2s ease-out,transform 5s ease-out, filter 2s ease-out;
+  filter: blur(0);
+  transform: scale(1);
+}
+
+.iip-hero-hr {
+  transition: width 800ms ease-out 500ms;
+  width: 0px;
+  opacity:0;
+}
+
+.is-loaded .iip-hero-hr {
+  width: 20rem;
+  opacity: 1;
+}
+
+.is-loaded .iip-hero-title {
+  transition: opacity 800ms ease-out 500ms,transform 800ms ease-out 500ms,text-shadow 800ms ease-out 500ms;
+  opacity: 1;
+  transform: scale(1);
+  text-shadow: 0 0 0px #222;
+}
+
+.iip-hero-title {
+  transform: scale(1);
+  opacity: 0;
+  color: rgba(255,255,255,0);
+  text-shadow: 0 0 20px #222;
+}
+
+.featured-inscription .featured-inscription-caption {
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+}
+
+.featured-inscription .featured-inscription-image {
+  opacity: 0.9;
+  transition: opacity 100ms ease-in-out;
+}
+
+.featured-inscription:hover .featured-inscription-caption {
+  opacity: 1;
+}
+
+.featured-inscription:hover .featured-inscription-image {
+  opacity: 1;
+}
+
+.featured-inscription-sm .featured-inscription-image {
+  width: 100%;
+  height: 20rem;
+}
+
+.featured-inscription-lg .featured-inscription-image {
+  width: 100%;
+  height: 28rem;
+}
