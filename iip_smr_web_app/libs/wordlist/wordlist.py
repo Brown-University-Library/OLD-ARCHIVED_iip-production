@@ -23,7 +23,10 @@ NEWBUFF = 3
 KWIC_BUFF = 2
 
 POSDICT = {"ADV": "adverb", "V": "verb", "N": "noun", "PREP": "preposition", "CC": "conjunction", "ADJ": "adjective"}
-REVPOSDICT = {"noun": "N", "verb": "V", "adjective": "ADJ", "adverb": "ADV"}
+
+#I just can't even with this -atb 9/8/21
+#REVPOSDICT = {"noun": "N", "verb": "V", "adjective": "ADJ", "adverb": "ADV"}
+REVPOSDICT = {v: k for k, v in POSDICT.items()}
 MOODDICT = {"IND": "indicative", "PTC": "participle", "IMP": "imperative", "SUB": "subjunctive"}
 
 
@@ -42,7 +45,9 @@ MOODDICT = {"IND": "indicative", "PTC": "participle", "IMP": "imperative", "SUB"
 # (kwics and inscription ids should correspond to each other)
 
 def get_latin_words_pos_new():
-
+    """
+    Parse the Latin word list csv into a 
+    """
     log.debug( 'start' )
 
     with requests.Session() as s:
@@ -203,6 +208,7 @@ def pPart(elem, part):
         return str
 
 
+# This does not seem to be called from anywhere. It's also the only reference to settings_app.LATIN_CSV_URL
 def findMatch():
     with requests.Session() as s:
         download = s.get(settings_app.LATIN_CSV_URL)
