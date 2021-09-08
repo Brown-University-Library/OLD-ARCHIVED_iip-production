@@ -93,7 +93,10 @@
             {% for k, v in word.forms.items %}
                 <tr class="level1 tog{{forloop.parentloop.counter}}">
                 <td rowspan={{v.kwics|length}} class="formentry">{{v.form}} 
-                {{v.pos}} ({{v.count}})</td>
+                {% if v.pos != 'undefined' %}
+                    {{v.pos}} 
+                {% endif %}
+                ({{v.count}})</td>
                 {% for kwic in v.kwics %}
                     {% if not forloop.first %}
                         <tr class="level1 tog{{forloop.parentloop.parentloop.counter}}">
