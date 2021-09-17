@@ -2102,7 +2102,7 @@ bshe0006.xml,3,2,2,domino,la,0,domino,N,dat,dominus,"<words>
 <stemtype>us_i</stemtype>
 </infl>
 ",HONORIFIC,
-bshe0006.xml,4,2,2,nostro,la,0,nostro,POSS,,noster,"<words>
+bshe0006,4,2,2,nostro,la,0,nostro,POSS,,noster,"<words>
 <word>
 <form xml:lang=""lat"">nostro</form>
 <entry>
