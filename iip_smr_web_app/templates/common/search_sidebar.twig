@@ -1,0 +1,253 @@
+<div id="filter-menu" class="fixed top-0 left-0 w-72 h-full pt-16 py-12 px-0 bg-theme-200 z-40">
+
+	<form action="../results/" method="post" class="overflow-y-scroll w-100 h-full pb-20">
+		{% csrf_token %}
+
+		<div id="search_tips" class="px-6 my-2">
+			<a class="text-theme-700 uppercase underline hover:no-underline font-sans text-xs font-thin tracking-widest " href="/guide-to-searching">Guide to Searching</a>
+		</div>
+
+		<div class="px-6">
+			<div class="mt-4">
+				<div class="">
+					<div>
+						<label class="" for="text">
+							<span class="text-md font-bold text-theme-800">
+								Text/translation
+							</span>
+						</label>
+					</div>
+					<div>
+						{{ form.text }}
+					</div>
+				</div>
+				<div>
+					<div class="hidden">
+						<p>Enter here any English, Latin, Greek, Hebrew or Aramaic string to search our records of original-language transcriptions and English translations. Use Unicode to search in Greek, Hebrew, or Aramaic. Accent marks are not necessary to
+							search Greek. This tool searches whole words only; you might want to try multiple versions (e.g. declensions) of a word.
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="mt-4">
+				<div>
+					<div>
+						{{ form.metadata.errors }}
+						<label for="metadata">
+							<span class="text-md font-bold text-theme-800">
+								Description/Place/ID
+							</span>
+						</label>
+					</div>
+					<div>
+						{{ form.metadata }}
+					</div>
+				</div>
+				<div>
+					<div class="hidden">
+						<p>
+							This field searches all metadata -- information about the text and context of an inscription not accounted for in other search fields, such as the specific location of an artifact and scholarly comments on its inscription. Searching
+							"synagogue" will bring up any inscription documented to have been found in a synagogue (but not those explicitly mentioning a synagogue; for that use the Text/Translation search); searching "daughter" will bring up any inscription
+							whose
+							content is thought to refer to a daughter as discussed in its scholarly publication (in other words, information which would appear as a "Note" on our results page). This field also searches by inscription ID (such as "kede0002").
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="mt-4">
+				<div>
+					<div>
+						{{ form.figure.errors }}
+						<label for="figure">
+							<span class="text-md font-bold text-theme-800">
+								Figures
+							</span>
+						</label>
+					</div>
+					<div>
+						{{ form.figure }}
+					</div>
+				</div>
+				<div>
+					<div class=" hidden">
+						<p>Search any whole-word string in our database of figures that accompany inscribed texts. (Examples: cross, bird, frame, woman, etc.)
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class=" px-6 my-4 flex w-100">
+			<label class=" text-md tracking-widest w-16 font-bold text-theme-800">From</label>
+			<div class="flex">
+				{{ form.notBefore }} {{ form.afterDateEra}}
+			</div>
+		</div>
+		<div class=" px-6 mb-4 flex w-100">
+			<label class=" text-md tracking-widest w-16 font-bold text-theme-800">To</label>
+			<div class="flex">
+				{{ form.notAfter }} {{ form.beforeDateEra}}
+			</div>
+		</div>
+
+
+		<div class="accordionMenuItem border-t border-theme-100 border-solid">
+			<div class="accordionMenuToggle flex items-center justify-between py-2 px-6 cursor-pointer hover:bg-theme-100">
+				<span class="text-md font-bold text-theme-800">
+					Location
+				</span>
+				<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+				</svg>
+			</div>
+			<div class="accordionMenu hidden flex flex-col p-6">
+				<div class="p-6">
+					<span class="select-multiple" style="padding-bottom: 7px;">select multiple: disabled
+					</span>
+					<div id="place-filter" class="filter-co">
+						{% for field in form.place %}
+						<div class="checkbox checkbox-default">
+							{{field}}
+						</div>
+						{% endfor %}
+						<!-- {{ form.place }} -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="accordionMenuItem border-t border-theme-100 border-solid">
+			<div class="accordionMenuToggle flex items-center justify-between py-2 px-6 cursor-pointer hover:bg-theme-100">
+				<span class="text-md font-bold text-theme-800">
+					Type of Inscription
+				</span>
+				<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+				</svg>
+			</div>
+			<div class="accordionMenu hidden flex flex-col p-6">
+				<div class="select-multiple">
+					<p>select multiple: </p>
+					{{ form.type_ }}
+				</div>
+				<div id="type-filter" class="filter-container">
+					{% for field in form.type %}
+					<div class="checkbox checkbox-default">
+						{{field}}
+					</div>
+					{% endfor %}
+					<!-- {{ form.type.errors}} {{ form.type }} -->
+				</div>
+			</div>
+		</div>
+		<div class="accordionMenuItem border-t border-theme-100 border-solid">
+			<div class="accordionMenuToggle flex items-center justify-between py-2 px-6 cursor-pointer hover:bg-theme-100">
+				<span class="text-md font-bold text-theme-800">
+					Physical Type
+				</span>
+				<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+				</svg>
+			</div>
+			<div class="accordionMenu hidden flex flex-col p-6">
+				<div class="select-multiple">
+					<p>select multiple: </p>
+					{{ form.physical_type_ }}
+				</div>
+				<div id="physical_type-filter" class="filter-container">
+					{% for field in form.physical_type %}
+					<div class="checkbox checkbox-default">
+						{{field}}
+					</div>
+					{% endfor %}
+					<!-- {{ form.physical_type.errors}} {{ form.physical_type }} -->
+				</div>
+			</div>
+		</div>
+		<div class="accordionMenuItem border-t border-theme-100 border-solid">
+			<div class="accordionMenuToggle flex items-center justify-between py-2 px-6 cursor-pointer hover:bg-theme-100">
+				<span class="text-md font-bold text-theme-800">
+					Language
+				</span>
+				<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+				</svg>
+			</div>
+			<div class="accordionMenu hidden flex flex-col p-6">
+				<div class="select-multiple">
+					<p>select multiple: </p>
+					{{ form.language_}}
+				</div>
+				<div id="language-filter" class="filter-container">
+					{% for field in form.language %}
+					<div class="checkbox checkbox-default">
+						{{field}}
+					</div>
+					{% endfor %}
+					<!-- {{ form.language.errors}} {{ form.language }} -->
+				</div>
+			</div>
+		</div>
+		<div class="accordionMenuItem border-t border-theme-100 border-solid">
+			<div class="accordionMenuToggle flex items-center justify-between py-2 px-6 cursor-pointer hover:bg-theme-100">
+				<span class="text-md font-bold text-theme-800">
+					Religion
+				</span>
+				<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+				</svg>
+			</div>
+			<div class="accordionMenu hidden flex flex-col p-6">
+				<div class="select-multiple">
+					<p>select multiple: </p>
+					{{ form.religion_ }}
+				</div>
+				<div id="religion-filter" class="filter-container">
+					{% for field in form.religion %}
+					<div class="checkbox checkbox-default">
+						{{field}}
+					</div>
+					{% endfor %}
+					<!-- {{ form.religion.errors}} {{ form.religion }} -->
+				</div>
+				{% if session_authz_info.authorized %}
+				<strong>
+					Display Status:
+				</strong>
+				<p>
+					{{ form.display_statuses.errors}} {{ form.display_status }}
+				</p>
+				{% endif %}
+			</div>
+		</div>
+		<div class="accordionMenuItem border-t border-theme-100 border-solid">
+			<div class="accordionMenuToggle flex items-center justify-between py-2 px-6 cursor-pointer hover:bg-theme-100">
+				<span class="text-md font-bold text-theme-800">
+					Material
+				</span>
+				<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+				</svg>
+			</div>
+			<div class="accordionMenu hidden flex flex-col p-6">
+				<div class="select-multiple">
+					<p>select multiple: </p>
+					{{ form.material_ }}
+				</div>
+				<div id="material-filter" class="filter-container">
+					{% for field in form.material %}
+					<div class="checkbox checkbox-default">
+						{{field}}
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+		<div class="flex flex-wrap items-start justify-start  fixed left-0 bottom-0 py-4 px-6 w-72 bg-theme-200">
+			<input type="submit" class="text-white uppercase font-sans text-xs font-thin tracking-widest rounded-sm bg-theme-700 border-theme-700 text-center m-0.5 w-24" value="Search"></input>
+			<!--input class="text-theme-700 uppercase font-sans text-xs font-thin tracking-widest rounded-sm bg-theme-200 border-theme-700 m-0.5 w-32" type="button" value="Text Search" id="advanced_detail"></input-->
+			<input type="button" class="text-theme-700 uppercase font-sans text-xs font-thin tracking-widest rounded-sm bg-theme-200 border-theme-700 m-0.5 w-24" value="Reset" id="reset"></input>
+		</div>
+	</form>
+
+</div>

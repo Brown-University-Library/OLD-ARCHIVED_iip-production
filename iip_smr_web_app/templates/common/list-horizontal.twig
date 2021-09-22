@@ -1,0 +1,11 @@
+<div class="py-8">
+  {% include "common/list-info.twig" %}
+
+  <div class="flex items-start justify-start flex-nowrap flex-shrink-0 overflow-x-scroll pt-8 pl-8 lg:pl-16 pr-48">
+
+    {% for item in items %}
+      {% include "common/tease.twig" %}
+    {% endfor %}
+
+  </div>
+</div>

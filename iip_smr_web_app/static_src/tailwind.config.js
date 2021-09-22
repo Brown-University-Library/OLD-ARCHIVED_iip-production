@@ -68,7 +68,8 @@ module.exports = {
         'theme-900': '#1A1919',
       },
       fontFamily: {
-        sans: ['Staff', ...defaultTheme.fontFamily.sans],
+        sans: ['Staff Light', ...defaultTheme.fontFamily.sans],
+        sans_bold: ['Staff Medium ', ...defaultTheme.fontFamily.sans],
         serif: ['Silk Serif', ...defaultTheme.fontFamily.serif],
       },
       height: {
@@ -80,6 +81,9 @@ module.exports = {
       },
       minHeight: {
         '190': '50rem',
+      },
+      cursor: {
+        'zoom-in': 'zoom-in',
       },
     },
   },

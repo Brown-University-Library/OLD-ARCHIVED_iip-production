@@ -5,45 +5,47 @@
 @font-face {
     font-family: 'Silk Serif';
     src: local('Silk Serif Regular'), local('Silk-Serif-Regular'),
-        url('/wp-content/themes/orpheus/static/fonts/SilkSerif-Regular/SilkSerif-Regular.woff2') format('woff2'),
-        url('/wp-content/themes/orpheus/static/fonts/SilkSerif-Regular/SilkSerif-Regular.woff') format('woff'),
-        url('/wp-content/themes/orpheus/static/fonts/SilkSerif-Regular/SilkSerif-Regular.ttf') format('truetype');
+        url('/static/fonts/SilkSerif-Regular/SilkSerif-Regular.woff2') format('woff2'),
+        url('/static/fonts/SilkSerif-Regular/SilkSerif-Regular.woff') format('woff'),
+        url('/static/fonts/SilkSerif-Regular/SilkSerif-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
   }
 @font-face {
     font-family: 'Staff';
     src: local('Staff'),
-        url('/wp-content/themes/orpheus/static/fonts/Staff/Staff-Regular.ttf') format('truetype');
+        url('/static/fonts/Staff/Staff-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
   }
 @font-face {
     font-family: 'Staff Light';
     src: local('Staff Light'),
-        url('/wp-content/themes/orpheus/static/fonts/Staff/Staff-Light.ttf') format('truetype');
+        url('/static/fonts/Staff/Staff-Light.ttf') format('truetype');
     font-weight: 100;
     font-style: normal;
   }
 @font-face {
     font-family: 'Staff Medium';
     src: local('Staff Medium'),
-        url('/wp-content/themes/orpheus/static/fonts/Staff/Staff-Medium.ttf') format('truetype');
+        url('/static/fonts/Staff/Staff-Medium.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
   }
 
+
 :root {
   --primary-color: #87806C;
   --secondary-color: #666256;
-  --light-color: '#F2EEEA';
-  --accent-color: '#959A92';
-  --theme-color-100': '#F2EEEA';
-  --theme-color-200': '#E4E1D9';
-  --theme-color-gray': '#C7C7C7';
-  --theme-color-500': '#87806C';
-  --theme-color-700': '#666256';
-  --theme-color-900': '#1A1919';
+  --light-color: #F2EEEA;
+  --accent-color: #959A92;
+  --theme-color-100: #F2EEEA;
+  --theme-color-200: #E4E1D9;
+  --theme-color-gray: #C7C7C7;
+  --theme-color-500: #87806C;
+  --theme-color-700: #666256;
+  --theme-color-800: #6E6855;
+  --theme-color-900: #1A1919;
 }
 
 
@@ -173,4 +175,19 @@ body.logged-in.admin-bar .headerExternal {
 .featured-inscription-lg .featured-inscription-image {
   width: 100%;
   height: 28rem;
+}
+
+#id_notBefore, #id_notAfter {
+  margin-right: 0.25rem;
+}
+
+#id_afterDateEra, #id_beforeDateEra {
+  display: flex;
+}
+
+#id_afterDateEra li, #id_beforeDateEra li {
+  margin-left: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
