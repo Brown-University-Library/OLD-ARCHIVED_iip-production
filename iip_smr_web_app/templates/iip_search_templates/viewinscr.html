@@ -99,7 +99,7 @@
       <div class="w-full px-16 max-w-7xl mx-auto" id="{{ i.inscription_id }}">
         <div class="w-full flex flex-nowrap">
 
-          <div class="flex flex-col w-2/3">
+          <div class="flex flex-col w-2/3 px-16">
             <div class="pb-8">
               <label class="font-sans_bold uppercase text-xs text-gray-500">Diplomatic <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
               <p class="font-serif text-3xl">{% if i.diplomatic %}{{i.diplomatic}}{% else %}<span class="font-sans text-lg text-gray-500">No diplomatic</span>{% endif %}</p>
@@ -143,11 +143,11 @@
 
         </div>
 
-        <div class="w-full">
-          <h1 class="font-sans text-2xl ">
+        <div class="w-full mt-4 px-16">
+          <h1 class="font-sans text-2xl mb-2">
             {{i.inscription_id|upper}}
           </h1>
-          <p>
+          <p class="max-w-prose">
             {{i.description}}
           </p>
         </div>
@@ -461,8 +461,10 @@
 
         </div>
       </div>
+      <!--
       {% include 'common/list-horizontal.twig' with list_title="Related Inscriptions" items="xxxx" label="Inscriptions" more_link="/mapsearch/" %}
       {% include 'common/list-horizontal.twig' with list_title="Stories that mention this Inscription" items="xx" label="Stories" more_link="/mapsearch/" %}
+      -->``
     </div>
   </div>
 </div>

@@ -8,7 +8,7 @@
 
 <div class="flex flex-center justify-start w-full my-2" id="{{inscription.inscription_id}}">
     <a href="../viewinscr/{{inscription.inscription_id}}" class="w-1/6 pr-1 flex-shrink-0">
-        <img src="https://github.com/Brown-University-Library/iip-images/raw/master/{{inscription.inscription_id}}.jpg"  onerror="ImgError(this)" class="w-24 h-24">
+        <img src="https://github.com/Brown-University-Library/iip-images/raw/master/{{inscription.inscription_id}}.jpg"  onerror="ImgError(this)" class="w-24 h-24 object-cover">
         <!--a class="" href="{% url 'xml_url' inscription.inscription_id %}">[View in XML]</a-->
     </a>
 
