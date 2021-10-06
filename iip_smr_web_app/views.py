@@ -27,6 +27,7 @@ versioner = Versioner()
 
 
 def wordlist(request, language=None):
+    log.debug( '\n\nstarting wordlist()' )
     words = {}
     data = {}
     if language == 'latin':
@@ -38,7 +39,13 @@ def wordlist(request, language=None):
     else:  # 'hebrew'; todo
         pass
     context = {"words": words, "doubletree_data": json.dumps(data), 'language': language}
-    return render(request, "wordlist/wordlist_root.html", context)
+
+    if request.GET.get('format', '') == 'json':
+        log.debug( 'returning json' )
+        resp = HttpResponse( json.dumps(context, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
+    else:
+        resp = render(request, "wordlist/wordlist_root.html", context)
+    return resp
 
 
 ## proxy start ##
