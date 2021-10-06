@@ -1,5 +1,6 @@
 import csv
 import logging
+import pprint
 import os
 import requests
 from iip_smr_web_app import settings_app
@@ -74,7 +75,11 @@ def get_latin_words_pos_new():
         go_through_text_new(textrows, words, dbwords)
         sorted_words = {k: v for k, v in sorted(words.items(), key = lambda item: item)}
         mapped_db = map(lambda x: "\n".join(x), dbwords)
-        return {"lemmas": count_words(sorted_words), "db_list": "\n\n\n".join(mapped_db)}
+        # return {"lemmas": count_words(sorted_words), "db_list": "\n\n\n".join(mapped_db)}
+        return_data = {"lemmas": count_words(sorted_words), "db_list": "\n\n\n".join(mapped_db)}
+        log.debug( f'lemmas dct, ``{pprint.pformat(return_data["lemmas"])}``' )
+        log.debug( f'db_list dct, ``{pprint.pformat(return_data["db_list"])}``' )
+        return return_data
 
 def count_words(words):
     counted = []
