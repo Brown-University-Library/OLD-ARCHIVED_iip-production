@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    {% load staticfiles %}
+    <link href='{% static "about/css/mobile-menu.css" %}' rel='stylesheet'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    {%block queryCapture %}{%endblock%}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
+  rel="stylesheet" type='text/css'>
+    <link href='{% static "about/css/footer.css" %}' rel="stylesheet">
+    <link href='{% static "about/css/style.css" %}' rel="stylesheet">
+     <script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-3203647-22', 'auto');
+ ga('send', 'pageview');
+
+</script>
+
+    {% block extra_css %}
+    {% endblock %}
+    <style type="text/css">
+        h2{
+            font-weight: 700;
+        }
+
+        @media (max-width: 991px) {
+            .navbar-header {
+                float: none;
+            }
+            .navbar-toggle {
+                display: block;
+            }
+            .navbar-collapse {
+                border-top: 1px solid transparent;
+                box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+            }
+            .navbar-collapse.collapse {
+                display: none!important;
+            }
+            .navbar-nav {
+                float: none!important;
+                margin: 7.5px -15px;
+            }
+            .navbar-nav>li {
+                float: none;
+            }
+            .navbar-nav>li>a {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            .navbar-text {
+                float: none;
+                margin: 15px 0;
+            }
+            /* since 3.1.0 */
+            .navbar-collapse.collapse.in {
+                display: block!important;
+            }
+            .collapsing {
+                overflow: hidden!important;
+            }
+        }
+
+    </style>>
+
+</head>
+<body style="font-family: Helvetica, Arial, sans-serif; color: #333333;">
+    <div id="main-wrapper">
+
+        <!-- Page Preloader -->
+        <div id="preloader">
+            <div id="status">
+                <div class="status-mes"></div>
+            </div>
+        </div>
+
+
+        <div class="uc-mobile-menu-pusher">
+
+            <div class="content-wrapper">
+                <nav class="navbar m-menu navbar-default navbar-fixed-top">
+                    <div class="container">
+
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                    data-target="#navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="{% url 'index_url' %}"><img src='{% static "iip_search_app/images/logo3.png" %}' alt="" style="height:65px; padding-bottom: 20px;"></a>
+                        </div>
+
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="#navbar-collapse-1">
+
+
+                            <ul class="nav navbar-nav navbar-right main-nav" style="margin-right: 100px;">
+
+                                {% with url_name=request.resolver_match.url_name %}
+
+
+                                <li class="dropdown {% if url_name == 'why_inscription_url' or url_name == 'project_description_url' or url_name == 'documentation_url' or url_name == 'api_url' or url_name == 'funding_url' or url_name == 'team_url' or url_name == 'copyright_url' %}active{% endif %}">
+                                    <a href="{% url 'why_inscription_url' %}" class="dropdown-toggle" type="button" data-toggle="dropdown">About
+                                    <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                      <li><a href="{% url 'why_inscription_url' %}">Why Inscriptions?</a></li>
+                                      <li><a href="{% url 'project_description_url' %}">Project Description</a></li>
+                                      <li><a href="{% url 'documentation_url' %}">Documentation</a></li>
+                                      <li><a href="{% url 'api_url' %}">APIs</a></li>
+                                      <li><a href="{% url 'funding_url' %}">Funding</a></li>
+                                      <li><a href="{% url 'team_url' %}">Team</a></li>
+                                      <li><a href="{% url 'copyright_url' %}">Copyright</a></li>
+                                    </ul>
+                                </li>
+                                <li class="{% if url_name == 'mapsearch_url' %}active{% endif %}"><a href="{% url 'mapsearch_url' %}">Search</a></li>
+                                <li class="{% if url_name == 'stories_url' %}active{% endif %}"><a href="{% url 'stories_url' %}">Stories</a></li>
+                                <li class="dropdown {% if url_name == 'bibliography_url' or url_name == 'timeline_url' or url_name == 'guide_to_searching_url' or url_name == 'glossary_url' or url_name == 'conventional_transcription_symbols_url' %}active{% endif %}">
+                                    <a href="{% url 'bibliography_url' %}" class="dropdown-toggle" data-toggle="dropdown">Resources
+                                    <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                      <li><a href="{% url 'bibliography_url' %}">Bibliography</a></li>
+                                      <li><a href="{% url 'conventional_transcription_symbols_url' %}">Conventional Transcription Symbols</a></li>
+                                      <li><a href="{% url 'glossary_url' %}">Glossary</a></li>
+                                      <li><a href="{% url 'guide_to_searching_url' %}">Guide to Searching</a></li>
+                                      <li><a href="{% url 'timeline_url' %}">Timeline</a></li>
+                                      <li><a href="{% url 'wordslist_url' %}">Wordlist Beta</a></li>
+                                    </ul>
+                                </li>
+                                <li class="{% if url_name == 'contact_url' %}active{% endif %}"><a href="{% url 'contact_url' %}">Contact<br></a></li>
+                                {% endwith %}
+                            </ul>
+                        </div>
+                <!-- .navbar-collapse -->
+                    </div>
+            <!-- .container -->
+                </nav>
+        <!-- .nav -->
+
+
+
+                {% block body %}{% endblock %}
+
+                {%block content%}{% endblock %}
+
+                {%block viewinscr%}{% endblock %}
+
+
+                <footer class="footer">
+
+                    <!-- Footer Widget Section -->
+                    <div class="footer-widget-section">
+                        <div class="container text-center">
+                            <div class="row">
+                                <div class="col-sm-6 footer-block">
+                                    <div class="footer-widget widget_text">
+                                        <h3>Inscriptions of Israel/Palestine</h3>
+
+                                        <p style="text-align: center; color: rgb(150, 149, 149);">
+                                            A fully searchable digitized collection of inscriptions<br/>from the Israel/Palestine region.
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- /.col-sm-4 -->
+
+                                <div class="col-sm-6 footer-block last">
+                                    <div class="footer-widget widget_text">
+                                        <h3>Contact Us</h3>
+                                        <p style="text-align: center; color: rgb(150, 149, 149);">
+                                            Providence, Rhode Island 02912, USA<br>
+                                            @ 2018 Brown University <br>
+                                            Connect: <a href="mailto:iip@brown.edu">IIP@brown.edu</a>
+                                        </p>
+
+                                        <a href="https://www.brown.edu">
+                                            <img style="width: 50px;" src="{% static "iip_search_app/images/logo_brown.png" %}" alt="Brown University" />
+                                        </a>
+                                        &nbsp;&nbsp;
+
+                                         <div style="max-width: 50px; display:inline-block; overflow-wrap: break-word;">
+            <a href="http://library.brown.edu/cds" style="color: white; font-weight:bold; width: 150px; display:block;">
+             <div style="position: relative; top:.8em; left:1em; ">  Center for Digital Scholarship </div>
+                {# <img style="width: 80px;" src="{% static "iip_search_app/images/cds_logo.png" %}" alt="Brown University Library" /> #}
+            </a>
+        </div>
+                                        {#  <img style="width: 50px;" src="{% static "iip_search_app/images/cds_logo.png" %}" alt="Brown University Library" /> #}
+                                        Center for Digital Scholarship
+                                        </a>
+                                        &nbsp;&nbsp;
+
+                                    </div>
+                                </div>
+                                <!-- /.col-sm-4 -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.Footer Widget Section -->
+
+                    <div class="copyright-section">
+                        <div class="container clearfix">
+                            <ul class="list-inline pull-right">
+                                {% with url_name=request.resolver_match.url_name %}
+                                    <li class="{% if url_name == 'why_inscription_url' or url_name == 'project_description_url' or url_name == 'documentation_url' or url_name == 'api_url' or url_name == 'funding_url' or url_name == 'team_url' or url_name == 'copyright_url' %}active{% endif %}"><a href="{% url 'why_inscription_url' %}">About</a></li>
+                                    <li class="{% if url_name == 'mapsearch_url' %}active{% endif %}"><a href="{% url 'mapsearch_url' %}">Search</a></li>
+                                    <li class="{% if url_name == 'stories_url' %}active{% endif %}"><a href="{% url 'stories_url' %}">Stories</a></li>
+                                    <li class="{% if url_name == 'bibliography_url' or url_name == 'timeline_url' or url_name == 'guide_to_searching_url' or url_name == 'glossary_url' or url_name == 'conventional_transcription_symbols_url' %}active{% endif %}"><a href="{% url 'bibliography_url' %}">Resources<br></a></li>
+                                    <li class="{% if url_name == 'contact_url' %}active{% endif %}"><a href="{% url 'contact_url' %}">Contact<br></a></li>
+                                   {% endwith %}
+                            </ul>
+                        </div>
+                        <!-- .container -->
+                    </div>
+                    <!-- .copyright-section -->
+                </footer>
+                <!-- .footer -->
+            </div>
+    <!-- .content-wrapper -->
+        </div>
+    <!-- .offcanvas-pusher -->
+
+        <div class="uc-mobile-menu uc-mobile-menu-effect">
+            <button type="button" class="close" aria-hidden="true" data-toggle="offcanvas"
+                    id="uc-mobile-menu-close-btn">&times;</button>
+            <div>
+                <div>
+                    <ul id="menu">
+                        {% with url_name=request.resolver_match.url_name %}
+                        <li class="{% if url_name == 'why_inscription_url' or url_name == 'project_description_url' or url_name == 'documentation_url' or url_name == 'api_url' or url_name == 'funding_url' or url_name == 'team_url' or url_name == 'copyright_url' %}active{% endif %}"><a href="{% url 'why_inscription_url' %}">About</a></li>
+                        <li class="{% if url_name == 'mapsearch_url' %}active{% endif %}"><a href="{% url 'mapsearch_url' %}">Search</a></li>
+                        <li class="{% if url_name == 'stories_url' %}active{% endif %}"><a href="{% url 'stories_url' %}">Stories</a></li>
+                        <li class="{% if url_name == 'bibliography_url' or url_name == 'timeline_url' or url_name == 'guide_to_searching_url' or url_name == 'glossary_url' or url_name == 'conventional_transcription_symbols_url' %}active{% endif %}"><a href="{% url 'bibliography_url' %}">Resources<br></a></li>
+                        <li class="{% if url_name == 'contact_url' %}active{% endif %}"><a href="{% url 'contact_url' %}">Contact<br></a></li>
+                        {% endwith %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- .uc-mobile-menu -->
+    </div>
+
+
+</body>
+
+<script src='{% static 'about/js/jquery-2.1.4.min.js' %}'></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+    <script src='{% static 'about/js/mobile-menu.js' %}'></script>
+    <script src='{% static 'about/js/base.js' %}'></script>
+
+
+    {% block extra_js %}
+    {% endblock %}
+
+</html>

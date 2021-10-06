@@ -1,0 +1,7 @@
+{% if menu %}
+  <ul class="headerExternalNav">
+    {% for item in menu.items %}
+      {% include 'common/menu-item.twig' %}
+    {% endfor %}
+  </ul>
+{% endif %}

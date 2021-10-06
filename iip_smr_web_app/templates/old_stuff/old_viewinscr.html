@@ -1,0 +1,109 @@
+{% extends "iip_search_templates/old_base.html" %}
+{% load iipCustomFilters %}
+
+{%block viewinscr%}
+
+
+<div id="single_inscription">
+
+  {% for i in inscription %}
+
+    {% autoescape off %}
+
+    <div class="resultTitle">
+      <p style="clear: both"><span class="short_header">{{i.inscription_id|upper}} - {{i.short_description}}</span></p>
+    </div>
+
+    {% if session_authz_info.authorized %}
+      <div id="action_buttons">
+        <form action="{{ current_url }}" method="POST">{% csrf_token %}
+          <p>( current display status: '{{ chosen_display_status }}' )</p>
+          <p>New Status:</p>
+          {% ifequal chosen_display_status 'to_approve' %}
+            <input type="submit" name="action_button" value="Approved" /> <input type="submit" name="action_button" value="To Correct" />
+          {% endifequal %}
+          {% ifequal chosen_display_status 'approved' %}
+            <input type="submit" name="action_button" value="To Correct" />
+          {% endifequal %}
+          {% ifequal chosen_display_status 'to_correct' %}
+            <input type="submit" name="action_button" value="To Approve" />
+          {% endifequal %}
+        </form>
+      </div>
+    {% endif %}  {% comment %}end of '''if session_authz_info.authorized'''{% endcomment %}
+
+    <div id="details">
+
+      <div class="insText" id="{{ i.inscription_id }}">
+        <h4>Diplomatic:</h4>
+        <p class="diplomatic">{%if i.diplomatic%}{{i.diplomatic}}{%else%}No diplomatic{%endif%}</p>
+        <h4>Transcription:</h4>
+        <p class="transcription">{%if i.transcription%}{{i.transcription}}{%else%}No transcription{%endif%}</p>
+        <h4>Translation:</h4>
+        <p class="translation">{%if i.translation%}{{i.translation}}{%else%}No translation{%endif%}</p>
+        {% if i.imageSource and biblioFull %}
+        <h4>Images:</h4>
+          {% for im in i.imageSource %}
+            <a href="{{im}}" class="highslide " onclick="return hs.expand(this)">
+              <img width="200" src="{{im}}" alt="Highslide JS" title="Click to enlarge">
+            </a>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <div class="insMetadata">
+        {% if i.image %}
+          <p class="thumbnail">
+          {% for thumb in i.image %}
+            <a href="/django_z_media/iip_z_media/inscription_images/display_size/{{thumb}}.jpg"><img src="/django_z_media/iip_z_media/inscription_images/thumbnails/{{thumb}}_t.jpg"/></a><br />
+          {% endfor %}
+          </p>
+        {% endif %}
+        <p><strong>Language{% if i.language_display|length > 0 and i.language|length > 0 %}s{% endif %}:</strong>&nbsp;&nbsp;{%if i.language_display%}{%for l in i.language_display%}{{l}}{% if not forloop.last %},&nbsp;{% endif %}{%endfor%}{%else%}{%for l in i.language%}{{l}}{% if not forloop.last %},&nbsp;{% endif %}{%endfor%}}{%endif%}</p>
+        <p><strong>Dimensions:</strong>&nbsp;&nbsp;{%if i.dimensions%}{{i.dimensions}}{%endif%}</p>
+        <p><strong>Date:</strong>&nbsp;&nbsp;{%if i.notBefore%}{{i.notBefore|cleanDates}} to {{i.notAfter|cleanDates}}{%endif%}</p>
+        <p><strong>Place found:</strong>&nbsp;&nbsp;{%if i.place_found%}{{i.place_found}}{%endif%}</p>
+        <p><strong>Note:</strong>&nbsp;&nbsp;{%if i.description%}{{i.description}}{%endif%}</p>
+        <p><strong>Figures:</strong>&nbsp;&nbsp;{%for f in i.figure%}{{f}}<br />{%endfor%}</p>
+
+        {%if biblDiplomatic %}<p><strong>Source of Diplomatic:&nbsp;</strong><span id="diplomatic" class="biblToRetrieve" bibl='{{biblDiplomatic.0}}' ntype='{{biblDiplomatic.1}}' n='{{biblDiplomatic.2}}'>{{biblDiplomatic}}</span>{% endif %}
+        {%if biblTranscription %}<p><strong>Source of Transcription:&nbsp;</strong><span id="transcription" class="biblToRetrieve" bibl='{{biblTranscription.0}}' ntype='{{biblTranscription.1}}' n='{{biblTranscription.2}}'>{{biblTranscription}}</span>{% endif %}
+        {%if biblTranslation %}<p><strong>Source of Translation:&nbsp;</strong><span id="translation" class="biblToRetrieve" bibl='{{biblTranslation.0}}' ntype='{{biblTranslation.1}}' n='{{biblTranslation.2}}'>{{biblTranslation}}</span>{% endif %}
+        
+          <p style="{% if not biblioFull %}display: none;{% endif %}"><strong>Bibliography:</strong>&nbsp;&nbsp;
+          <ol style="{% if not biblioFull %}display: none;{% endif %}">
+          {% for b,l in z_ids.items %}
+            <li class="biblToRetrieve">
+            <span class='z_id' bibl='{{b}}'>{{b}}</span>
+            <ul style="list-style-type: initial;">
+            {% for ntype,n in l %}
+              <li>{% if ntype == 'insc' %}insc. {% elif ntype == 'page' %}p. {% else %}{{ntype}} {% endif %}{{n}}</li>
+            {%endfor%}
+            </ul>
+            </li>
+          {%endfor%}
+          </ol>
+          </p>
+      </div>  <!-- end of div class="insMetadata" -->
+
+      <div style="clear:both"></div>
+
+      {%if not biblioFull %}<div id="permalink"><a href="../viewinscr/{{i.inscription_id}}/">Link to this inscription</a></div>{%endif%}
+
+      <div id="viewXml"><a href="{{ view_xml_url }}">View XML</a></div>
+
+    </div>  <!-- end div id="details" -->
+    {% endautoescape %}
+    {%if biblioFull %}
+    <script type="text/javascript">
+      $(".z_id").each(function(i, item) {
+        add_citation($(item).attr("bibl"));
+      });
+      $("[bibl=ms]").html("Supplied by Michael Satlow.");
+    </script>
+    {%endif%}
+  {%endfor%}  {% comment %} end of '''for i in inscription''' {% endcomment %}
+
+</div> <!-- end div id="single_inscription" -->
+
+{%endblock%}

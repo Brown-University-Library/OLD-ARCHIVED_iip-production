@@ -11,3 +11,4 @@ git+https://github.com/birkin/shellvars-py.git
 git+https://github.com/agpar/solrpy.git
 PyMySQL==0.8.0
 requests==2.21.0
+django-tailwind==0.6.1

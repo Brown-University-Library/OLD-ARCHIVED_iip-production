@@ -17,9 +17,8 @@ f5f3dd	sand (background)
 html,body {
 	margin:0px;
 	font-family:Helvetica,Arial,Sans-serif;
-	background-image:url('../images/left_bg_darker.jpg');
 	background-repeat:repeat-y;
-	background-color:#f5f3dd;
+	background-color: #F2EEEA;
 	height:100%;
 	}
 
@@ -401,7 +400,7 @@ display: inline;
     margin-left: 3em;
 }
 
-#single_inscription tei-p {   
+#single_inscription tei-p {
     counter-reset: lines;
     counter-increment: lines;
 }

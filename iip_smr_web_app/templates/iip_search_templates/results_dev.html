@@ -1,4 +1,4 @@
-{% extends 'about/base.html' %}
+{% extends 'common/base.twig' %}
 {% load staticfiles %}
 {% load iipCustomFilters %}
 
@@ -47,40 +47,47 @@
 
 {% block content %}
 
-    <div class="container story-wrapper">
+    <div class="">
 
-        <div id="paginated_results">
+        <div id="" class="pl-80 pt-32 pb-32 pr-8 w-screen overflow-hidden">
 
-            <div class='col-md-10'>
+            <div class=''>
 
                 {% autoescape off %}
 
                 <!-- <span class="search_results_header">Your search for {{dispQstring}} yielded {{pages.count}} results</span> -->
-                <span class="search_results_header">Your search for `{{dispQstring}}` yielded {{ results_count }} result{{ results_count|pluralize }}</span>
+								<div class="flex items-end justify-between">
+	                <h1 class="font-serif text-3xl ">{{ results_count }} inscription{{ results_count|pluralize }}</h1>
+									<!--a href="/TODO-guide-to-searching-link" class="uppercase font-sans text-sm text-theme-700 underline hover:no-underline">
+										Guide to Searching
+									</a-->
+								</div>
+
+								<div class="flex items-end justify-between mb-2">
+	                <h2 class="">{{dispQstring}}</h2>
+									<div class="flex justify-end items-center">
+										<div class="flex justify-start items-center">
+											<label class="uppercase font-sans_bold text-xs text-theme-700 mr-2 pt-2">
+												Sort
+											</label>
+											<select class="font-sans text-sm bg-transparent border-none w-20 text-gray-600 underline hover:no-underline mr-2">
+												<option>Title</option>
+											</select>
+										</div>
+										<a href="/mapsearch/?q=*">
+											<i class="mdi mdi-view-grid-outline text-theme-500 text-lg mr-2" ></i>
+										</a>
+										<a href="/mapsearch/?q=*">
+											<i class="mdi mdi-view-list text-theme-700 text-lg" ></i>
+										</a>
+									</div>
+								</div>
+
+
 
                 {% if iipResult %}
 
-                <div class="page_list">
-                    Results pages:
-                    {% for pg in pages %}
-                    <a href='./?q={{ initial_qstring|urlencode }}&resultsPage={{pg}}' {%ifequal pg resultsPage%}style="font-size: 1.3em"{%endifequal%}>{{pg}}</a>&nbsp;
-                    {% endfor %}
-                </div>
-
-                {% endif %}
-
-                {% if iipResult %}
-
-                <br>
-
-                <div class="col-md-11" style="border:solid #333333 5px; font-size: 15px;">
-                    The texts of the inscriptions are displayed using a modified form of what is known as the Leiden convention.  We have modified it in line with display limitations.  Note that the actual underlying text in the XML files are tagged according to the TEI/Epidoc conventions which are then translated into the typography displayed here. <br><br>Please refer to the <a href="{% url 'conventional_transcription_symbols_url' %}">Conventional Transcription Symbols</a> to view popular symbols and tags used.
-                </div>
-
-                <div class="row"></div>
-                <div class="row"></div>
-
-                <table id="search_results">
+                <div id="search_results" class="border-t border-theme-200 border-solid pt-8 mt-4 pb-16">
 
                     <script type="text/javascript">
                         var inscription_list = [];
@@ -92,113 +99,33 @@
                     </script>
                     -->
 
-                    <tbody>
+                    <div class="flex flex-col w-full">
+											<div class="flex flex-center justify-start w-full">
+												<label class="uppercase font-sans_bold text-xs text-gray-600 w-1/6">
+												</label>
+												<label class="uppercase font-sans_bold text-xs text-gray-600 w-1/6">
+													Title
+												</label>
+												<label class="uppercase font-sans_bold text-xs text-gray-600 w-1/6">
+													Language
+												</label>
+												<label class="uppercase font-sans_bold text-xs text-gray-600 w-1/6">
+													Date
+												</label>
+												<label class="uppercase font-sans_bold text-xs text-gray-600 w-1/6">
+													Transcription
+												</label>
+												<label class="uppercase font-sans_bold text-xs text-gray-600 w-1/6">
+													Translation
+												</label>
+											</div>
 
                     {% for inscription in iipResult %}
-
-                        <!-- TEMP comment -- start of inscription data -->
-
-                        <div class="single_inscription_stuff">
-
-                            <script type="text/javascript">
-                                inscription_list.push("{{inscription.inscription_id}}");
-                            </script>
-
-                            <!-- inscription header row -->
-                        	<tr class="short_result resultTitle descColumn" id="{{inscription.inscription_id}}">
-
-                                <td class="resultTitle" colspan="4" style="padding-left: 0px;">
-                                    <hr class="style-one">
-                                    <span class="short_header resultTitle">
-                                      <a href="../viewinscr/{{inscription.inscription_id}}" target="_blank">  {{inscription.inscription_id|upper}}  {{inscription.short_description}} </a>
-                                    </span>
-                                </td>
-                            </tr>
-
-                            <!-- inscription data row -->
-                            <tr class="single_inscription_data_row">
-
-                                <!-- image cell -->
-                                <td class="col-md-2" style="padding-left: 0px;">
-                                    <br/>
-                                    <img src="https://github.com/Brown-University-Library/iip-images/raw/master/{{inscription.inscription_id}}.jpg"  onerror="ImgError(this)" style= "width: 150px; height: 120px;">
-                                    <br/>
-                                    <br/>
-                                    <a class="xml_url" href="{% url 'xml_url' inscription.inscription_id %}">[View in XML]</a>
-                                </td>
-
-                                <!-- transcription cell -->
-                                <td class="textColumn transcription col-md-3">
-                                    <span class="short_header"><span style="font-weight: bold;">Transcription:</span> <br>
-                                    </span>
-                                </td>
-
-                                <!-- translation cell -->
-                                <td class="textColumn translation col-md-3">
-                                    <span class="short_header"><span style="font-weight: bold;">Translation:</span> <br>
-                                    {% comment %}
-                                    {% if inscription.translation %}
-                                        {{inscription.translation|truncatewords_html:25}}
-                                    {% else %}
-                                        [no translation]
-                                    {% endif %}
-                                    {% endcomment %}
-                                    </span>
-                                </td>
-
-                                <!-- language/date/dimension cell -->
-                                <td class="col-md-3">
-                                    <span style="font-weight: bold;">Languages:</span>
-
-                                    {% if inscription.language_display|length > 0 and inscription.language|length > 0 %}
-                                    {% endif %}
-                                    {%if inscription.language_display%}
-                                        {%for l in inscription.language_display%}
-                                            {{l}}
-                                            {% if not forloop.last %},&nbsp;
-                                            {% endif %}
-                                        {%endfor%}
-                                    {%elif inscription.language%}
-                                        {%for l in inscription.language%}
-                                            {{l}}
-                                            {% if not forloop.last %},&nbsp;
-                                            {% endif %}
-                                        {%endfor%}
-                                    {% else %}
-                                    Not available
-                                    {%endif%}<br>
-
-                                    <span style="font-weight: bold;">Date:</span>
-                                    {%if inscription.notBefore%}
-                                        {{inscription.notBefore|cleanDates}} to {{inscription.notAfter|cleanDates}}
-                                    {% else %}
-                                    Not Available
-                                    {%endif%} <br>
-
-                                    <span style="font-weight: bold;">Dimension:</span>
-                                    {% if inscription.dimensions %}
-                                    {{inscription.dimensions}}
-                                    {% else %}
-                                    Not Available
-                                    {% endif %}<br>
-                                </td>
-
-                                <!-- image cell -->
-                                <td class="col-md-2">
-                                    <div id="maplet{{inscription.inscription_id}}" style="width:100px; height:100px;"></div>
-                                </td>
-
-
-                            </tr>
-
-                        </div> <!-- end of <div class="single_inscription_stuff"> -->
-
-                        <!-- TEMP comment -- end of inscription data -->
-
+											{% include 'common/tease-inscription.twig' %}
                     {% endfor %}
-                    </tbody>
+                    </div>
 
-                </table>
+                </div>
 
                 {% endif %} {# end of ```{% if iipResult %}``` #}
 
@@ -225,27 +152,10 @@
 
                 {% endautoescape %}
 
-            </div>  <!-- end <div class='col-md-10'> -->
+            </div>  <!-- end <div class=''> -->
 
 
             {% block facets %}
-
-                <div id="narrow_results" class='col-md-3'>
-                    <h4><a href="{% url 'mapsearch_url' %}">New search</a></h4>
-                	<h4>Narrow results</h4>
-                		<ul class="narrow_results_list">
-                            {% for field,items in facets.items %}
-                           <li class="facetHeaderText facetMenuClosed">{{field|underscoreToSpace|upper}}</li>
-                           <ul>
-                                {% for f,v in items.items|vocabSort %}
-                                 {% if f and v %}
-                                    <li><a class="facetLink" href="{{field}}" id="{{f}}">{{f|tax}}</a>&nbsp;({{v}})</li>
-                                 {% endif %}
-                                {%endfor%}
-                            </ul>
-                            {%endfor%}
-                		</ul>
-                </div>
 
             {% endblock %}
 
@@ -254,7 +164,13 @@
 
     </div>  <!-- end of <div class="container story-wrapper"> -->
 
+{% include 'common/search_sidebar.twig' %}
+
+
 {% endblock %} {# end of `content` block #}
+{% block 'footer' %}
+{% endblock %}
+
 
 
 {% block extra_js %}
