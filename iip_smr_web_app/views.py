@@ -188,7 +188,7 @@ def results( request ):
     ## view starts here
 
     log_id = common.get_log_identifier( request.session )
-    log.info( 'id, `%s`; starting views.results()' % log_id )
+    log.info( '\n\nid, `%s`; starting views.results()' % log_id )
     if not u'authz_info' in request.session:
         request.session[u'authz_info'] = { u'authorized': False }
 
@@ -234,34 +234,42 @@ def results( request ):
     elif request.is_ajax():  # user has requested another page, a facet, etc.
         log.debug( 'request.is_axax() is True' )
         return HttpResponse( _get_ajax_unistring(request) )
-    else:  # regular GET, no params
-        log.debug( 'GET, no params, show search form' )
-        return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
-
-    # if request.method == 'GET' and request.GET.get('q', None) != None:
-    #     log.debug( 'GET, with params, hit solr and show results' )
-    #     context_dct = _get_results_context(request, log_id)
-
-    #     # log.debug( f'context_dct-iipResult, ```{context_dct["iipResult"]}```' )  # solr.paginator.SolrPage -- <https://github.com/search5/solrpy/>
-    #     iipResult_dct = context_dct['iipResult'].result
-    #     iipResult_page_lst = context_dct["iipResult"].paginator.page_range
-    #     iipResult_count = context_dct["iipResult"].paginator.count
-    #     context_dct['iipResult'] = iipResult_dct
-    #     context_dct['pages'] = iipResult_page_lst
-    #     context_dct['results_count'] = iipResult_count
-
-    #     if request.GET.get('format', '') == 'json':
-    #         log.debug( 'returning json' )
-    #         resp = HttpResponse( json.dumps(context_dct, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
-    #     else:
-    #         resp = render( request, 'iip_search_templates/results_dev.html', context_dct )
-    #     return resp
-    # elif request.is_ajax():  # user has requested another page, a facet, etc.
-    #     log.debug( 'request.is_axax() is True' )
-    #     return HttpResponse( _get_ajax_unistring(request) )
     # else:  # regular GET, no params
     #     log.debug( 'GET, no params, show search form' )
     #     return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
+
+    else:  # regular GET, no params
+        log.debug( 'GET, no params, show search form' )
+        context = _get_searchform_context( request, log_id )
+        assert type(context) == dict
+        # return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
+        if request.GET.get('format', '') == 'json':
+            log.debug( 'returning json' )
+            context['settings_app'] = 'removed'
+            initial_form = context['form']
+            assert repr( type(initial_form) ) == "<class 'iip_smr_web_app.forms.SearchForm'>"
+            log.debug( f'initial_form.__dict__, ``{pprint.pformat(initial_form.__dict__)}``' )
+            dictish_form = initial_form.__dict__
+            assert type(dictish_form) == dict
+            jsonizable_dct = {}
+            for (key, val) in dictish_form.items():
+                try:
+                    log.debug( f'trying key, ``{key}``' )
+                    json.dumps( dictish_form[key] )
+                    jsonizable_dct[key] = val
+                except:
+                    # if key == 'material_tax':
+                    if '_tax' in key:
+                        # log.debug( f'material_tax, ``{pprint.pformat(val.text)}``' )
+                        jsonizable_dct[key] = val.text
+                    else:
+                        log.warning( f'key, ``{key}`` not jsonizable' )
+                        jsonizable_dct[key] = repr(val)
+            context['form'] = jsonizable_dct
+            resp = HttpResponse( json.dumps(context, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
+        else:
+            resp = render( request, 'mapsearch/mapsearch.html', context )
+        return resp
 
     ## end def results()
 
