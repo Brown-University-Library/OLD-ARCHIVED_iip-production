@@ -186,3 +186,33 @@ class SearchForm( forms.Form ):
                     if(v != ''): response += u"(%s:%s)" % (f,v)
         log.debug( f'response, ```{response}```' )
         return response
+
+    def dictify( self ):
+        log.debug( 'starting dictify()' )
+        # log.debug( f'type(vars(self)), ``{type(vars(self))}``' )
+        self_dict = vars(self)
+        assert type( self_dict ) == dict
+        new_dict = {}
+        for (key, val) in self_dict.items():
+            try:
+                json.dumps(self_dict[key])
+                new_dict[key] = val
+            except:
+                log.debug( f'key, ``{key}`` not jsonizable' )
+                new_key = f'{key}_REPR'
+                new_dict[new_key] = repr(val)
+        try:
+            field_output = self.as_p()
+            import django
+            # assert type(field_output) == str, type(field_output)
+            assert type(field_output) == django.utils.safestring.SafeText, type( field_output)
+            new_dict['field_output'] = field_output
+        except Exception as e:
+            err = f'problem processing `fields`, ``{e}``'
+            log.exception( err )
+            raise Exception( err )
+
+        log.debug( f'new_dict, ``{pprint.pformat(new_dict)}``' )
+        return new_dict
+
+    ## end class SearchForm()

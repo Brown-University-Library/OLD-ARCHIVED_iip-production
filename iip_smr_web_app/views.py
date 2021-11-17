@@ -246,26 +246,12 @@ def results( request ):
         if request.GET.get('format', '') == 'json':
             log.debug( 'returning json' )
             context['settings_app'] = 'removed'
-            initial_form = context['form']
-            assert repr( type(initial_form) ) == "<class 'iip_smr_web_app.forms.SearchForm'>"
-            log.debug( f'initial_form.__dict__, ``{pprint.pformat(initial_form.__dict__)}``' )
-            dictish_form = initial_form.__dict__
-            assert type(dictish_form) == dict
-            jsonizable_dct = {}
-            for (key, val) in dictish_form.items():
-                try:
-                    log.debug( f'trying key, ``{key}``' )
-                    json.dumps( dictish_form[key] )
-                    jsonizable_dct[key] = val
-                except:
-                    # if key == 'material_tax':
-                    if '_tax' in key:
-                        # log.debug( f'material_tax, ``{pprint.pformat(val.text)}``' )
-                        jsonizable_dct[key] = val.text
-                    else:
-                        log.warning( f'key, ``{key}`` not jsonizable' )
-                        jsonizable_dct[key] = repr(val)
-            context['form'] = jsonizable_dct
+
+            frm = context['form']
+            dictified_form = frm.dictify()
+            assert type(dictified_form) == dict
+            context['form'] = dictified_form
+
             resp = HttpResponse( json.dumps(context, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
         else:
             resp = render( request, 'mapsearch/mapsearch.html', context )
