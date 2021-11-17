@@ -1,0 +1,36 @@
+<h1>context...</h1>
+
+<p>contains 'admin_links', form', 'session_authz_info', and 'settings_app' data. </p>
+
+<hr/>
+
+<h2>admin_links...</h2>
+
+<pre>{{ admin_links }}</pre>
+
+<hr/>
+
+
+<h2>form – place...</h2>
+
+{% for plc in form.place %}
+<pre>{{ plc }}</pre>
+{% endfor %}
+
+<hr/>
+
+
+<h2>form – fields...</h2>
+
+{% for field in form.fields %}
+<pre>{{ field }}</pre>
+{% endfor %}
+
+<hr/>
+
+
+<h2>form – all...</h2>
+
+<pre>{{ form }}</pre>
+
+<hr/>

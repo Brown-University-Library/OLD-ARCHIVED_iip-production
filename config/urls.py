@@ -28,6 +28,8 @@ urlpatterns = [
     url( r'^results/$',  views.results, name='results_url' ),
 
     url(r'^mapsearch/$', views.results, name='mapsearch_url' ),
+    url(r'^mapsearch_b/$', views.results_b, name='mapsearch_url_b' ),
+
     url(r'^mapsearch/load_layers/$', views.load_layers, name='load_layers'),
 
     url( r'^$',  RedirectView.as_view(pattern_name='mapsearch_url') ),
