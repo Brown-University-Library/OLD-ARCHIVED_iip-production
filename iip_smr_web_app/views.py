@@ -167,6 +167,9 @@ def results_b( request ):
         # form = forms.SearchForm()  # an unbound form
         form = forms.SearchForm({'type_':'or', 'physical_type_':'or', 'language_':'or', 'religion_':'or', 'material_':'or'})  # an unbound form
         log.debug( 'form, `%s`' % repr(form) )
+        log.debug( f'form.__dict__, ``{pprint.pformat(form.__dict__)}``' )
+        log.debug( f'dir(form), ``{pprint.pformat(dir(form))}``' )
+        log.debug( f'vars(form), ``{pprint.pformat(vars(form))}``' )
         # place_field_object = form.fields['place']
         # place_field_object.choices = [(item, item) for item in sorted( common.facetResults('placeMenu').keys()) if item]
         # form.fields['place'] = place_field_object
