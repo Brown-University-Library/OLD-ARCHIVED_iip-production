@@ -45,6 +45,7 @@ MOODDICT = {"IND": "indicative", "PTC": "participle", "IMP": "imperative", "SUB"
 #   kwics: list of duples of the form, first index is kwic, second is inscrp id]
 # (kwics and inscription ids should correspond to each other)
 
+
 def get_latin_words_pos_new():
     """
     Parse the Latin word list csv into a
@@ -87,40 +88,48 @@ def get_latin_words_pos_new():
         log.debug( f'db_list dct, ``{pprint.pformat(return_data["db_list"])}``' )
         return return_data
 
-# def get_latin_words_pos_new():
-#     """
-#     Parse the Latin word list csv into a
-#     """
-#     log.debug( 'start' )
 
-#     with requests.Session() as s:
-#         log.debug( f'LATIN_CSV_NEW_URL, ``{settings_app.LATIN_CSV_NEW_URL}``' )
-#         download = s.get(settings_app.LATIN_CSV_NEW_URL)
-#         log.debug( f'download, ``{download}``' )
-#         decoded = download.content.decode('utf-8')
-#         words = {}
-#         csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
-#         line_count = 0
-#         curtext = ""
-#         textrows = []
-#         dbwords = []
-#         for row in csv_reader:
-#             row_word = row[LATIN_LEMMA + NEWBUFF]
-#             if line_count > 0 and len(row_word) > 0 and row_word[:1] != "?":
-#                 if curtext != row[LATIN_TEXT + NEWBUFF]:
-#                     go_through_text_new(textrows, words, dbwords)
-#                     curtext = row[LATIN_TEXT + NEWBUFF]
-#                     textrows = [row]
-#                 else:
-#                     textrows.append(row)
-#             line_count += 1
-#         go_through_text_new(textrows, words, dbwords)
-#         sorted_words = {k: v for k, v in sorted(words.items(), key = lambda item: item)}
-#         mapped_db = map(lambda x: "\n".join(x), dbwords)
-#         return_data = {"lemmas": count_words(sorted_words), "db_list": "\n\n\n".join(mapped_db)}
-#         log.debug( f'lemmas dct, ``{pprint.pformat(return_data["lemmas"])}``' )
-#         log.debug( f'db_list dct, ``{pprint.pformat(return_data["db_list"])}``' )
-#         return return_data
+def get_greek_words_pos():
+    """
+    Parse the Greek word list csv into a
+    """
+    log.debug( 'start' )
+
+    with requests.Session() as s:
+        log.debug( f'GREEK_CSV_NEW_URL, ``{settings_app.GREEK_CSV_NEW_URL}``' )
+        download = s.get(settings_app.GREEK_CSV_NEW_URL)
+        log.debug( f'download, ``{download}``' )
+        decoded = download.content.decode('utf-8')
+        words = {}
+        csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
+        line_count = 0
+        curtext = ""
+        textrows = []
+        dbwords = []
+        for row in csv_reader:
+            log.debug( f'row, ``{row}``' )
+            row_word = row[LATIN_LEMMA + NEWBUFF]
+            if line_count > 0 and len(row_word) > 0 and row_word[:1] != "?":
+                if curtext != row[LATIN_TEXT + NEWBUFF]:
+                    go_through_text_new(textrows, words, dbwords)
+                    curtext = row[LATIN_TEXT + NEWBUFF]
+                    textrows = [row]
+                else:
+                    textrows.append(row)
+            line_count += 1
+            ## TEMP (for debugging) -------------
+            # if line_count > 10:
+            #     break
+            ## ----------------------------------
+        log.debug( f'textrows, ``{textrows}``' )
+        log.debug( f'dbwords, ``{dbwords}``' )
+        go_through_text_new(textrows, words, dbwords)
+        sorted_words = {k: v for k, v in sorted(words.items(), key = lambda item: item)}
+        mapped_db = map(lambda x: "\n".join(x), dbwords)
+        return_data = {"lemmas": count_words(sorted_words), "db_list": "\n\n\n".join(mapped_db)}
+        log.debug( f'lemmas dct, ``{pprint.pformat(return_data["lemmas"])}``' )
+        log.debug( f'db_list dct, ``{pprint.pformat(return_data["db_list"])}``' )
+        return return_data
 
 
 def count_words(words):
