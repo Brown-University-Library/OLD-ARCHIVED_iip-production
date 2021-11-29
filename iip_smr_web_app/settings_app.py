@@ -32,6 +32,9 @@ LATIN_CSV_URL = "https://raw.githubusercontent.com/Brown-University-Library/iip-
 #LATIN_CSV_NEW_URL = "https://raw.githubusercontent.com/Brown-University-Library/iip-word-lists/master/new-version/latinoutput_nounique.csv"
 LATIN_CSV_NEW_URL = "https://raw.githubusercontent.com/Brown-University-Library/iip-word-lists/master/new-version/CSV.output.June.16.modified.csv"
 
+# GREEK_CSV_NEW_URL = 'https://github.com/Brown-University-Library/iip-word-lists/blob/master/new-version/grc-21-11-23.csv'
+GREEK_CSV_NEW_URL = 'https://raw.githubusercontent.com/Brown-University-Library/iip-word-lists/master/new-version/grc-21-11-23.csv'
+
 ## proxy ##
 
 FETCH_DIR_URL= os.environ['IIP_SMR__FETCH_URL_ROOT_DIR']
