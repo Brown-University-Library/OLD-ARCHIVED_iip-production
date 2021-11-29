@@ -19,27 +19,38 @@
 
     <div class="container text-center">
 
+        <br><br><br><br><h1>{% if language %}{{language | upper}} {% endif %}WORDLIST</h1><br>
 
-    <br><br><br><br><h1>{% if language %}{{language | upper}} {% endif %}WORDLIST</h1><br>
+        <label for="language">Choose a language:</label>
 
-    <label for="language">Choose a language:</label>
+        <select id="language" onChange="langSelect(this.value)">
+            <option value="" disabled selected>Select</option>
+            <option value="latin">Latin</option>
+            <option value="greek">Greek</option>
+            <option value="hebrew">Hebrew</option>
+        </select>
 
-    <select id="language" onChange="langSelect(this.value)">
-        <option value="" disabled selected>Select</option>
-        <option value="latin">Latin</option>
-        <option value="greek">Greek</option>
-        <option value="hebrew">Hebrew</option>
-    </select>
+        {% comment %}
+        {% if language == 'latin' %}
+            {% include "wordlist/latin_wordlist.html" %}
+        {% elif language %}
+            <div id="in-progress">
+                <br>
+                <h3>In Progress...</h3>
+            </div>
+        {% endif %}
+        {% endcomment %}
 
-    {% if language == 'latin' %}
-        {% include "wordlist/latin_wordlist.html" %}
-    {% elif language %}
-        <div id="in-progress">
-            <br>
-            <h3>In Progress...</h3>
-        </div>
-    {% endif %}
-
+        {% if language == 'latin' %}
+            {% include "wordlist/latin_wordlist.html" %}
+        {% elif language == 'greek' %}
+            {% include "wordlist/latin_wordlist.html" %}
+        {% elif language %}
+            <div id="in-progress">
+                <br>
+                <h3>In Progress...</h3>
+            </div>
+        {% endif %}
     
     </div>
 
