@@ -20,10 +20,33 @@ from iip_smr_web_app.libs.proxy_helper import rewrite
 from iip_smr_web_app.libs.version_helper import Versioner
 from iip_smr_web_app.libs.view_xml_helper import XmlPrepper
 from iip_smr_web_app.libs.wordlist.wordlist import  get_latin_words_pos_new
+from iip_smr_web_app.libs.wordlist.wordlist import  get_greek_words_pos
 
 
 log = logging.getLogger(__name__)
 versioner = Versioner()
+
+
+# def wordlist(request, language=None):
+#     log.debug( '\n\nstarting wordlist()' )
+#     words = {}
+#     data = {}
+#     if language == 'latin':
+#         wordlist_data = get_latin_words_pos_new()
+#         words = wordlist_data["lemmas"]
+#         data = wordlist_data["db_list"]
+#     elif language == 'greek':  # todo
+#         pass
+#     else:  # 'hebrew'; todo
+#         pass
+#     context = {"words": words, "doubletree_data": json.dumps(data), 'language': language}
+
+#     if request.GET.get('format', '') == 'json':
+#         log.debug( 'returning json' )
+#         resp = HttpResponse( json.dumps(context, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
+#     else:
+#         resp = render(request, "wordlist/wordlist_root.html", context)
+#     return resp
 
 
 def wordlist(request, language=None):
@@ -34,8 +57,11 @@ def wordlist(request, language=None):
         wordlist_data = get_latin_words_pos_new()
         words = wordlist_data["lemmas"]
         data = wordlist_data["db_list"]
-    elif language == 'greek':  # todo
-        pass
+    elif language == 'greek':  # testing
+        wordlist_data = get_greek_words_pos()
+        words = wordlist_data["lemmas"]
+        data = wordlist_data["db_list"]
+        # return HttpResponse( 'greek handling coming' )
     else:  # 'hebrew'; todo
         pass
     context = {"words": words, "doubletree_data": json.dumps(data), 'language': language}
