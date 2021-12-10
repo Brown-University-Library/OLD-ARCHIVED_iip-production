@@ -79,8 +79,9 @@ def get_latin_words_pos_new():
             #     break
             ## ----------------------------------
         log.debug( f'textrows, ``{textrows}``' )
-        log.debug( f'dbwords, ``{dbwords}``' )
-        go_through_text_new(textrows, words, dbwords)
+        log.debug( f'dbwords before 2nd gothrough(), ``{dbwords}``' )
+        go_through_text_new(textrows, words, dbwords)  # adds one list-entry to dbwords
+        log.debug( f'dbwords after 2nd gothrough(), ``{dbwords}``' )
         sorted_words = {k: v for k, v in sorted(words.items(), key = lambda item: item)}
         mapped_db = map(lambda x: "\n".join(x), dbwords)
         return_data = {"lemmas": count_words(sorted_words), "db_list": "\n\n\n".join(mapped_db)}
@@ -122,14 +123,46 @@ def get_greek_words_pos():
             #     break
             ## ----------------------------------
         log.debug( f'textrows, ``{textrows}``' )
-        log.debug( f'dbwords, ``{dbwords}``' )
-        go_through_text_new(textrows, words, dbwords)
+        log.debug( f'dbwords before 2nd gothrough(), ``{dbwords}``' )
+        go_through_text_new(textrows, words, dbwords)  # adds one list-entry to dbwords
+        log.debug( f'dbwords after 2nd gothrough(), ``{dbwords}``' )
         sorted_words = {k: v for k, v in sorted(words.items(), key = lambda item: item)}
+
+        alphabet_list = make_alphabet_list( sorted_words )
+
         mapped_db = map(lambda x: "\n".join(x), dbwords)
         return_data = {"lemmas": count_words(sorted_words), "db_list": "\n\n\n".join(mapped_db)}
         log.debug( f'lemmas dct, ``{pprint.pformat(return_data["lemmas"])}``' )
         log.debug( f'db_list dct, ``{pprint.pformat(return_data["db_list"])}``' )
         return return_data
+
+    ## end def get_greek_words_pos()
+
+
+
+
+def make_alphabet_list( sorted_words ):
+    alph_lst = []
+    for (i, entry) in enumerate(sorted_words):
+        log.debug( f'entry, ``{entry}``; i, ``{i}``' )
+        if i > 20:
+            break
+
+    ## from <https://stackoverflow.com/a/62899722>
+    initial_sorted_words = sorted_words
+    resulting_sorted_words = []
+    import unicodedata as ud
+    for (i, entry) in enumerate(initial_sorted_words):
+        log.debug( f'initial-entry, ``{entry}``; i, ``{i}``' )
+        d = {ord('\N{COMBINING ACUTE ACCENT}'):None}  # "The d translation table lists Unicode ordinal translations...in this case, deleting the diacritic."
+        # new_entry = ud.normalize('NFD', entry).upper().translate(d)
+        new_entry = ud.normalize('NFD', entry).translate(d)
+        log.debug( f'subsequent-entry, ``{new_entry}``; i, ``{i}``' )
+        if i > 20:
+            break
+    return alph_lst
+
+
 
 
 def count_words(words):
