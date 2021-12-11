@@ -1,9 +1,7 @@
 """
 Resources:
 - <https://www.py4u.net/discuss/10187>
-
-- <https://ianwscott.blog/2015/04/30/python-programming-proper-alphabetical-sorting-for-polytonic-greek/>
-- <https://stackoverflow.com/a/62899722>
+- <https://www.programcreek.com/python/example/4364/unicodedata.combining>
 """
 
 import pprint, unicodedata
