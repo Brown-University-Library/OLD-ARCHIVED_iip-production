@@ -1,0 +1,137 @@
+
+
+{% block extra_css %}
+
+<link href="{{ STATIC_URL }}iip_search_app/css/general2.css" media="all" rel="stylesheet" type="text/css" />
+{% load staticfiles %}
+ <link href='{% static 'wordlist/css/wordlist.css' %}' rel="stylesheet"/>
+  <link href='{% static 'wordlist/css/doubletree.css' %}' rel="stylesheet"/>
+<script charset="utf-8" src='{% static "wordlist/web/doubletreejs/d3.min.js" %}' type="text/javascript"></script>
+ <script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/classListSubstitute.min.js" %}' type="text/javascript"></script>
+<script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/DoubleTree.min.js" %}'></script>
+<script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/Trie.min.js" %}' type="text/javascript"></script>
+<script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/TextHash.min.js" %}' type="text/javascript"></script>
+<script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/doubletree-kwic.js" %}' type="text/javascript"></script>
+<script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/doubletree-kwic-extras.js" %}' type="text/javascript"></script>
+<script charset="utf-8"  src='{% static "wordlist/web/doubletreejs/doubletree-tagged-setup.js" %}' type="text/javascript"></script>
+
+{% endblock %}
+
+
+
+{% block body %}
+
+
+    <br><br>
+
+    <div class="container text-left">
+
+    <p align="center" id="atoz"> old: [
+        {% for word in words %}
+            {% ifchanged word.lemma.0 %} 
+                {% if not forloop.first %}|{% endif %}
+            <a class="alphalink" onClick="alphaClick(event)">{{word.lemma.0}}</a>  {% endifchanged %}
+        {% endfor %}
+        ]
+    </p>
+
+    <p align="center" id="atoz"> new: [
+        {% for character, link_word in key_lemma_ordered_dct.items %}
+            {% if not forloop.first %}|{% endif %}
+            <a class="alphalink" onClick="alphaClick(event)">{{ character }}</a>
+        {% endfor %}
+        ]
+    </p>
+
+    <div id="posfilter">
+        <h5> Part of Speech Filter:</h5>
+        <div class="form-group">
+            <div class="form-check">
+                <input class="form-check-input pos-filter" type="checkbox" value="N" id="nouncheck">
+                <label class="form-check-label" for="nouncheck">
+                    Noun
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input pos-filter" type="checkbox" value="V" id="verbcheck">
+                <label class="form-check-label" for="verbcheck">
+                    Verb
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input pos-filter" type="checkbox" value="ADJ" id="adjcheck">
+                <label class="form-check-label" for="adjcheck">
+                    Adjective
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input pos-filter" type="checkbox" value="ADV" id="advcheck">
+                <label class="form-check-label" for="advcheck">
+                    Adverb
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input pos-filter" type="checkbox" value="PREP" id="prepcheck">
+                <label class="form-check-label" for="prepcheck">
+                    Preposition
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input pos-filter" type="checkbox" value="CC" id="cccheck">
+                <label class="form-check-label" for="cccheck">
+                    Conjunction
+                </label>
+            </div>
+            <button type="submit" onClick="posFilter()" class="btn btn-primary mb-2">Submit</button>
+        </div>
+    </div>
+
+    <table class="table" id="latin-pos-table">
+        {% for word in words %}
+            <tr class="level0 pos{{word.2}}">
+                <td colspan="2">
+                <button type="button" class="btn btn-primary" 
+                id="buttog{{forloop.counter}}" onclick="collapseToggle(this)">+</button>
+                <b>{{word.lemma}}</b> {{word.pos}} ({{word.count}})
+                <a href="http://www.perseus.tufts.edu/hopper/resolveform?type=exact&lookup={{word.lemma}}&lang=la"
+                target="_blank"><img class="dictionary-icon" src='{% static "wordlist/dictionary.png" %}'/></a>
+                <img class="tree-icon" src='{% static "wordlist/tree-icon.png" %}' onclick="treeClick('{{word.lemma}}/{{word.pos}}', '{{forloop.counter}}')" />
+                </td>
+            </tr>
+            {% for k, v in word.forms.items %}
+                <tr class="level1 tog{{forloop.parentloop.counter}}">
+                <td rowspan={{v.kwics|length}} class="formentry">{{v.form}} 
+                {% if v.pos != 'undefined' %}
+                    {{v.pos}} 
+                {% endif %}
+                ({{v.count}})</td>
+                {% for kwic in v.kwics %}
+                    {% if not forloop.first %}
+                        <tr class="level1 tog{{forloop.parentloop.parentloop.counter}}">
+                    {% endif %}
+                    <td class="kwic">{{kwic.0}} 
+                    (<a href="{% url 'inscription_url' kwic.1 %}" target="_blank">{{kwic.1}}</a>)</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    </table>
+
+    <br><br>
+
+	
+    </div>
+    <br><br><br>
+
+    <script>
+    	treeData = "{{doubletree_data}}"
+    	showTokenExtras = false;
+        console.log("ending script")
+    </script>
+    
+{% endblock %}
+
+{% block extra_js %}
+
+
+{% endblock %}
