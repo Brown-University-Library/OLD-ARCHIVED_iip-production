@@ -6,21 +6,28 @@ Resources:
 """
 
 import pprint, unicodedata
+from operator import itemgetter
 
 ## source list ----------------------------------
 initial_greek_word_list = [
-    'aiαι',
-    'eιρύσ',
-    'άδκα',
-    'ἀβάβη',
+    'ὧδε',
+    'ἥμος',
     'ἃμα',
+    'ἀβάβη',
+    'ὥσπερ',
     'έρισα',
+    'ί',
+    'ἐπί',
+    'ἵνδω',
+    'ἠλίας',
     'ἒνθα',
-    'ί' ,
+    'ἡαρίβος',
+    'ὠσείς',
     'ἲησοῦς',
-    'α',
+    'α', 
     ]
-print( f'initial_greek_word_list, ``{pprint.pformat(initial_greek_word_list)}``' )
+print( f'initial_greek_word_list, ``{initial_greek_word_list}``' )
+# simplistically_sorted = sorted( initial_greek_word_list )
 
 ## build no-diactritics -------------------------
 ''' Below is a line: ```nfkd_form = unicodedata.normalize('NFKD', entry)```.
@@ -56,7 +63,7 @@ print( f'initial_greek_word_list, ``{pprint.pformat(initial_greek_word_list)}``'
     Also below is the code: ```... if not unicodedata.combining(c)```, when building the no_diacritics version of the word.
     Diacritics have a 'combining class'. So this code creates the no_diacritics version of the word by looping through the denormalized characters, and ignoring ones that are diacritics.
 '''
-enhanced_word_list = []
+dct_list = []
 for entry in initial_greek_word_list:
     print( f'\nentry, ``{entry}``' )
     # print( f'first-entry-character, ``{entry[0]}``' )
@@ -72,9 +79,32 @@ for entry in initial_greek_word_list:
         'first_character_original': entry[0],
         'first_character_no_diacritics': no_diacritics[0],
     }
-    enhanced_word_list.append( data_dct )
-print( f'enhanced_word_list, ``{pprint.pformat(enhanced_word_list)}``' )
+    dct_list.append( data_dct )
+print( f'dct_list, ``{pprint.pformat(dct_list)}``' )
 
-## sort no-diacritics
+## sort no-diacritics ---------------------------
+normalized_sorted_greek_word_list = sorted( dct_list, key=itemgetter('word_no_diacritics') )
+assert type(normalized_sorted_greek_word_list[0]) == dict
+# print( f'normalized_sorted_greek_word_list, ``{pprint.pformat(normalized_sorted_greek_word_list)}``' )
+final_sorted = []
+for dct in normalized_sorted_greek_word_list:
+    final_sorted.append( dct['word_original'] )
+print( f'initial_greek_word_list, ``{initial_greek_word_list}``' )
+# print( f'simplistically_sorted, ``{simplistically_sorted}``' )
+print( f'final_sorted, ``{final_sorted}``' )
+
+## final letter/linkage dct --------------------
+results = {}
+for normalized_dct in normalized_sorted_greek_word_list:
+    assert type( normalized_dct ) == dict
+    potential_key = normalized_dct['first_character_no_diacritics']
+    print( f'potential_key, ``{potential_key}``' )
+    if potential_key in results.keys():
+        print( 'potential key already exists' )
+        pass
+    else:
+        print( 'potential key new' )
+        results[potential_key] = normalized_dct['word_original']
+print( f'results, ``{pprint.pformat(results)}``' )
 
 # coming
