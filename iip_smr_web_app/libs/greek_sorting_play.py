@@ -93,18 +93,36 @@ print( f'initial_greek_word_list, ``{initial_greek_word_list}``' )
 # print( f'simplistically_sorted, ``{simplistically_sorted}``' )
 print( f'final_sorted, ``{final_sorted}``' )
 
-## final letter/linkage dct --------------------
-results = {}
+# ## final letter/linkage dct --------------------
+# results = {}
+# for normalized_dct in normalized_sorted_greek_word_list:
+#     assert type( normalized_dct ) == dict
+#     potential_key = normalized_dct['first_character_no_diacritics']
+#     print( f'potential_key, ``{potential_key}``' )
+#     if potential_key in results.keys():
+#         print( 'potential key already exists' )
+#         pass
+#     else:
+#         print( 'potential key new' )
+#         results[potential_key] = normalized_dct['word_original']
+# print( f'results, ``{results}``' )
+# print( f'results, ``{pprint.pformat(results)}``' )
+
+## final letter/linkage ordered-dict
+from collections import OrderedDict
+results_od = OrderedDict( [] )
 for normalized_dct in normalized_sorted_greek_word_list:
-    assert type( normalized_dct ) == dict
     potential_key = normalized_dct['first_character_no_diacritics']
     print( f'potential_key, ``{potential_key}``' )
-    if potential_key in results.keys():
+    if potential_key in results_od.keys():
         print( 'potential key already exists' )
         pass
     else:
         print( 'potential key new' )
-        results[potential_key] = normalized_dct['word_original']
-print( f'results, ``{pprint.pformat(results)}``' )
+        results_od[potential_key] = normalized_dct['word_original']
+print( f'results_od, ``{results_od}``' )
+print( f'results_od, ``{pprint.pformat(results_od)}``' )
+
+
 
 # coming
