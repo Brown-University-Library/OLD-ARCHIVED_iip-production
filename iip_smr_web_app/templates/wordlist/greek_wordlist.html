@@ -26,6 +26,7 @@
 
     <div class="container text-left">
 
+    {% comment %}
     <p align="center" id="atoz"> old: [
         {% for word in words %}
             {% ifchanged word.lemma.0 %} 
@@ -34,7 +35,8 @@
         {% endfor %}
         ]
     </p>
-
+    {% endcomment %}
+    
     <p align="center" id="atoz"> new: [
         {% for character, link_word in key_lemma_ordered_dct.items %}
             {% if not forloop.first %}|{% endif %}
