@@ -36,8 +36,8 @@
         ]
     </p>
     {% endcomment %}
-    
-    <p align="center" id="atoz"> new: [
+
+    <p align="center" id="atoz">[
         {% for character, link_word in key_lemma_ordered_dct.items %}
             {% if not forloop.first %}|{% endif %}
             <a class="alphalink" onClick="alphaClick(event)">{{ character }}</a>
