@@ -30,7 +30,6 @@ KWIC_BUFF = 2
 
 POSDICT = {"ADV": "adverb", "V": "verb", "N": "noun", "PREP": "preposition", "CC": "conjunction", "ADJ": "adjective"}
 
-#I just can't even with this -atb 9/8/21
 #REVPOSDICT = {"noun": "N", "verb": "V", "adjective": "ADJ", "adverb": "ADV"}
 REVPOSDICT = {v: k for k, v in POSDICT.items()}
 MOODDICT = {"IND": "indicative", "PTC": "participle", "IMP": "imperative", "SUB": "subjunctive"}
@@ -95,68 +94,6 @@ def get_latin_words_pos_new():
         return return_data
 
     ## end def get_latin_words_pos_new()
-
-
-# def get_greek_words_pos():
-#     """
-#     Parse the Greek word list csv into json data.
-#     """
-#     log.debug( 'start' )
-
-#     with requests.Session() as s:
-#         log.debug( f'GREEK_CSV_NEW_URL, ``{settings_app.GREEK_CSV_NEW_URL}``' )
-#         download = s.get(settings_app.GREEK_CSV_NEW_URL)
-#         log.debug( f'download, ``{download}``' )
-#         decoded = download.content.decode('utf-8')
-#         words = {}
-#         csv_reader = csv.reader(decoded.splitlines(), delimiter=",")
-#         line_count = 0
-#         curtext = ""
-#         textrows = []
-#         dbwords = []
-#         for row in csv_reader:
-#             log.debug( f'row, ``{row}``' )
-#             row_word = row[LATIN_LEMMA + NEWBUFF]
-#             log.debug( f'row_word, ``{row_word}``' )
-#             if line_count > 0 and len(row_word) > 0 and row_word[:1] != "?":
-#                 if curtext != row[LATIN_TEXT + NEWBUFF]:
-#                     go_through_text_new(textrows, words, dbwords)
-#                     curtext = row[LATIN_TEXT + NEWBUFF]
-#                     textrows = [row]
-#                 else:
-#                     textrows.append(row)
-#             line_count += 1
-#             ## TEMP (for debugging) -------------
-#             if line_count > 100:
-#                 break
-#             ## ----------------------------------
-#         log.debug( f'textrows, ``{textrows}``' )
-#         log.debug( f'dbwords before 2nd gothrough(), ``{dbwords}``' )
-#         go_through_text_new(textrows, words, dbwords)  # adds one list-entry to dbwords
-#         log.debug( f'dbwords after 2nd gothrough(), ``{dbwords}``' )
-#         sorted_words = {k: v for k, v in sorted(words.items(), key = lambda item: item)}
-
-#         # alphabet_list = make_alphabet_list( sorted_words )
-
-#         mapped_db = map(lambda x: "\n".join(x), dbwords)
-#         return_data = {"lemmas": count_words(sorted_words), "db_list": "\n\n\n".join(mapped_db)}
-#         log.debug( f'lemmas dct, ``{pprint.pformat(return_data["lemmas"])}``' )
-        
-#         lemmas_lst = []
-#         for lemma_dct in return_data['lemmas']:
-#             assert type(lemma_dct) == dict
-#             log.debug( f'lemma_dct, ``{lemma_dct}``' )
-#             lemma = lemma_dct['lemma']
-#             assert type( lemma ) == str
-#             if lemma not in lemmas_lst:
-#                 lemmas_lst.append( lemma )
-#         key_lemma_ordered_dct = make_key_lemma_dct( lemmas_lst )
-#         return_data['key_lemma_ordered_dct'] = key_lemma_ordered_dct
-                
-#         log.debug( f'return_data, ``{pprint.pformat(return_data)}``' )
-#         return return_data
-
-#     ## end def get_greek_words_pos()
 
 
 def get_greek_words_pos():
@@ -228,21 +165,6 @@ def get_greek_words_pos():
         log.debug( f'better_sorted_words_dct, ``{pprint.pformat(better_sorted_words_dct)}``' )
 
         sorted_words = better_sorted_words_dct
-
-        # log.debug( f'initial words.keys(), ``{pprint.pformat(words.keys())}``')
-        # for (key, val) in words.items():
-        #     log.debug
-        #     log.debug( f'val, ``{val}``' )
-        #     lemma = val['lemma']
-        #     lemma_nfkd_form = unicodedata.normalize('NFKD', lemma)
-        #     assert type(lemma_nfkd_form) == str  
-        #     no_diacritics_lemma = ''.join( [c for c in lemma_nfkd_form if not unicodedata.combining(c)] )
-        #     val['lemma_no_diacritics'] = no_diacritics_lemma
-        # log.debug( f'updated words, ``{words}``' )
-
-        # normalized_sorted_greek_word_list = sorted( normalized_lemma_list, key=itemgetter('lemma_no_diacritics') )
-
-
 
         mapped_db = map(lambda x: "\n".join(x), dbwords)
         return_data = {"lemmas": count_words(sorted_words), "db_list": "\n\n\n".join(mapped_db)}
