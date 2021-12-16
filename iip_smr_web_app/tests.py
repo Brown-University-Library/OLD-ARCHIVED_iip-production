@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from collections import OrderedDict
 import json, logging, pprint
+# from typing import OrderedDict
 
 import requests
 from iip_smr_web_app import common, models, settings_app
@@ -9,6 +11,50 @@ from django.test import Client, TestCase
 
 log = logging.getLogger(__name__)
 
+
+class GreekWordsTest (TestCase):
+    """Checks sorting of greek words. """
+
+    # def test_sort_greek_words(self):
+
+
+    def test_make_key_lemma_dct(self):
+        """ Given list of greek words,
+            returns an OrderedDict where the keys are a sorted unique list of letters without diacritics,
+            and the value for each key is the word the key-character will link to.
+            An example (using English with no diacritics to illustrate the linkage point)...
+            - given the wordlist [ 'rose', 'bore', 'red', 'bid' ]
+            - the returned data would be OrderedDict([ ('b', 'bid'), ('r', 'red') ])
+              ...because in a list of sorted words, 'bid' is the first 'b' word, etc. """
+        from iip_smr_web_app.libs.wordlist import wordlist
+        unsorted_words = [
+            'ὧδε',
+            'ἥμος',
+            'ἃμα',
+            'ἀβάβη',
+            'ὥσπερ',
+            'έρισα',
+            'ί',
+            'ἐπί',
+            'ἵνδω',
+            'ἠλίας',
+            'ἒνθα',
+            'ἡαρίβος',
+            'ὠσείς',
+            'ἲησοῦς',
+            'α', 
+            ]
+        sorted_words = wordlist.make_key_lemma_dct( unsorted_words )
+        self.assertEqual( 
+            OrderedDict([
+                ('α', 'α'), 
+                ('ε', 'ἒνθα'), 
+                ('η', 'ἡαρίβος'), 
+                ('ι', 'ί'), 
+                ('ω', 'ὧδε')
+            ]),
+            sorted_words
+         )
 
 class UrlTest( TestCase ):
     """ Checks urls. """
