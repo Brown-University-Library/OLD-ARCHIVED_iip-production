@@ -187,6 +187,35 @@ def get_greek_words_pos():
     ## end def get_greek_words_pos()
 
 
+def sort_greek_words( words_lst ):
+    """ Runs the normal-form, non-diacritic sort.
+        Returns back sorted list of original words. 
+        Note: this function is not actually used!
+        - Possible TODO: refactor wordlist.make_key_lemma_dct() to use the sort_greek_words() function.
+        - For now, this function -- and it's test -- serve to illustrate a method for performing the sort -- which is used in make_key_lemma_dct(). """
+    assert type(words_lst) == list
+    normalized_word_dct_lst = []
+    for word in words_lst:
+        nfkd_form = unicodedata.normalize('NFKD', word)
+        assert type(nfkd_form) == str  
+        no_diacritics = ''.join( [c for c in nfkd_form if not unicodedata.combining(c)] )
+        normalized_word_dct = {
+            'original': word,
+            'no_diacritics': no_diacritics,
+        }
+        normalized_word_dct_lst.append( normalized_word_dct )
+    log.debug( f'normalized_word_dct_lst, ``{normalized_word_dct_lst}``' )
+    ## sort no-diacritics ----------------------------
+    normalized_sorted_word_dct_lst = sorted( normalized_word_dct_lst, key=itemgetter('no_diacritics') )
+    assert type( normalized_sorted_word_dct_lst ) == list
+    log.debug( f'normalized_sorted_greek_word_list, ``{normalized_sorted_word_dct_lst}``' )
+    sorted_words = []
+    for normalized_word_dct in normalized_sorted_word_dct_lst:
+        sorted_words.append( normalized_word_dct['original'] )
+    log.debug( f'sorted_words, ``{pprint.pformat(sorted_words)}``' )
+    return sorted_words
+
+
 def make_key_lemma_dct( lemmas_lst ):
     """ Converts list of lemmas into an ordered-dict where the key is an initial non-diacritic letter, and the value is the first matching lemma.
         Return brief example ``OrderedDict([('α', 'α'), ('ε', 'ἒνθα'), ('η', 'ἡαρίβος'), ('ι', 'ί'), ('ω', 'ὧδε')])``
