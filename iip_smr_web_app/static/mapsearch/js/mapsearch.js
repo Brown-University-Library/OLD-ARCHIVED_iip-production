@@ -187,6 +187,7 @@ async function createPointsLayer(url) {
   console.log('DEBUG@createPointsLayer: url', url);
   console.log('DEBUG@createPointsLayer: date_query', date_query);
   facet_nums_request = await initializeFacetNums(url, date_query);
+  console.log(facet_nums_request)
 
   $.getJSON(url, function (data) {
     console.log(data['grouped']['city_pleiades']['matches']);
@@ -304,7 +305,7 @@ async function createPointsLayer(url) {
         });
       }
     });
-
+    
     filterByDateRange();
     points_layer.addTo(mymap);
     $('input:checkbox').removeAttr('disabled')
@@ -419,6 +420,7 @@ function updateDateFieldValue(slider_value, checkbox_id) {
 
 
 function parseDateYear(year) {
+  var result;
   if (year.includes('BCE')) {
     result = -1 * parseInt(year.slice(0, -4));
   } else if (year.includes('CE')) {
@@ -432,7 +434,10 @@ function filterByDateRangeNumbers() {
   var date2 = $('#slider-range > #custom-handle-high').text();
   date1 = parseDateYear(date1);
   date2 = parseDateYear(date2);
-  date_query = `(notBefore:[${date1} TO 10000]) AND (notAfter:[-10000 TO ${date2}])`;
+  var date_query = '(notBefore:[-600 TO 10000]) AND (notAfter:[-10000 TO 650])';
+  if (date1 && date2) {
+    date_query = `(notBefore:[${date1} TO 10000]) AND (notAfter:[-10000 TO ${date2}])`;
+  }
   return date_query;
 }
 
@@ -883,4 +888,3 @@ $(':checkbox').each(function () {
 createLocationsDict();
 
 var FACET_NUMBER_QUERY_API = ''
-
