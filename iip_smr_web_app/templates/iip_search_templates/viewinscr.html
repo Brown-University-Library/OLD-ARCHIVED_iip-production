@@ -98,21 +98,24 @@
     <div id="" class="my-32">
       <div class="w-full px-16 max-w-7xl mx-auto" id="{{ i.inscription_id }}">
         <div class="w-full flex flex-nowrap">
-
           <div class="flex flex-col w-2/3 px-16">
+            <h1 class="font-sans text-2xl mb-4">
+              {{i.inscription_id|upper}} - {{inscription.short_description}}
+            </h1>
+
             <div class="pb-8">
               <label class="font-sans_bold uppercase text-xs text-gray-500">Diplomatic <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
-              <p class="font-serif text-3xl">{% if i.diplomatic %}{{i.diplomatic}}{% else %}<span class="font-sans text-lg text-gray-500">No diplomatic</span>{% endif %}</p>
+            <p class="font-serif text-3xl">{% if i.diplomatic and i.diplomatic.strip|length %}{{i.diplomatic}}{% else %}<span class="font-sans text-lg text-gray-500">No diplomatic</span>{% endif %}</p>
             </div>
 
             <div class="pb-8">
               <label class="font-sans_bold uppercase text-xs text-gray-500">Transcription <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
-              <p class="font-serif text-4xl">{% if i.transcription %}{{i.transcription}}{% else %}<span class="font-sans text-lg text-gray-500">No transcription</span>{% endif %}</p>
+            <p class="font-serif text-4xl">{% if i.transcription and i.transcription.strip|length %}{{i.transcription}}{% else %}<span class="font-sans text-lg text-gray-500">No transcription</span>{% endif %}</p>
             </div>
 
             <div class="pb-8">
               <label class="font-sans_bold uppercase text-xs text-gray-500">Translation <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
-              <p class="font-serif text-3xl">{% if i.translation %}{{i.translation}}{% else %}<span class="font-sans text-lg text-gray-500">No translation</span>{% endif %}</p>
+            <p class="font-serif text-3xl">{% if i.translation and i.translation.strip|length %}{{i.translation}}{% else %}<span class="font-sans text-lg text-gray-500">No translation</span>{% endif %}</p>
             </div>
 
           </div>
@@ -144,9 +147,7 @@
         </div>
 
         <div class="w-full mt-4 px-16">
-          <h1 class="font-sans text-2xl mb-2">
-            {{i.inscription_id|upper}}
-          </h1>
+
           <p class="max-w-prose">
             {{i.description}}
           </p>
@@ -221,6 +222,9 @@
 
               <div id="maplet{{i.inscription_id}}" class="hidden"></div>
 
+              NOTE
+
+              Add back in maplet
 
 
               <label class="font-sans_bold uppercase text-xs text-gray-500">Place Found</label>
@@ -236,7 +240,7 @@
           </div>
           <div class="max-w-7xl px-16 my-4 mx-auto">
 
-            <!-- No longer needed
+            <!-- NOTE No longer needed
         <p><span class="short_header"><span style="font-weight: bold;">Place Found:</span></span>&nbsp;&nbsp;
             {% comment %}
             {% if i.placeMenu %}
@@ -432,9 +436,26 @@
       </form>
   </div> -->
 
+            <h2>
+            Cite This Inscription
+            </h2>
+
+            <p class="pb-2">
+            IIP is committed to the idea that the public good is best served by keeping our data free for use and reuse.  You can cite and use this inscription under the terms of the  Creative Commons Attribution-NonCommercial 4.0 International License.   Note also that all images are either in the public domain or used with permission, and unless noted we do not hold copyright to them. For permission to reuse the images, please contact the copyright holder, noted in the illustration credit.
+            </p>
+
+            <p class="pb-2">
+            The project can be cited as:
+            Satlow, Michael L., ed.  2002 - . “Inscriptions of Israel/Palestine.” Brown University. <a href="https://doi.org/10.26300/PZ1D-ST89">https://doi.org/10.26300/PZ1D-ST89</a>
+            </p>
+
+            <p class="pb-2">
+            This inscription can be cited as:
+            "Inscriptions of Israel/Palestine," [inscription id],[today's date]. https:doi.org/10.26300/pz1d-st89/[inscription id].
+            </p>
 
 
-            <div class="w-full px-16 mt-4 mx-0">
+            <!--div class="w-full px-16 mt-4 mx-0">
               <div id="disqus_thread"></div>
               <script>
                 /**
@@ -457,7 +478,7 @@
               <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
             </div>
 
-          </div>
+          </div-->
 
         </div>
       </div>
