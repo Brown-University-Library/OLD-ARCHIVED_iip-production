@@ -133,8 +133,9 @@
                                 Not available
                                 {%endif%}<br>
 
+                                <!-- NOTE if notBefore == notAfter don't display -->
                                 <span style="font-weight: bold;">Date:</span>
-                                {%if inscription.notBefore%}
+                                {% if inscription.notBefore and inscription.notBefore != inscription.notAfter %}
                                     {{inscription.notBefore|cleanDates}} to {{inscription.notAfter|cleanDates}}
                                 {% else %}
                                 Not Available
