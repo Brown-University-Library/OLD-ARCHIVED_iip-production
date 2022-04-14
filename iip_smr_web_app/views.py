@@ -125,6 +125,7 @@ def wordlist(request, language=None):
 
 ## search and results ##
 
+
 def results( request ):
     """ Handles /results/ GET, POST, and ajax-GET. """
     def _get_results_context( request, log_id ):
@@ -161,19 +162,20 @@ def results( request ):
 
         return context
 
-    def _get_ajax_unistring( request ):
-        """ Returns unicode string based on ajax update.
-            Called by results() """
-        log_id = common.get_log_identifier(request.session)
-        log.info( 'id, `%s`; starting' % log_id )
-        initial_qstring = request.GET.get( u'qstring', u'*:*' )
-        updated_qstring = common.updateQstring( initial_qstring, request.session[u'authz_info'], log_id )[u'modified_qstring']
-        resultsPage = int( request.GET[u'resultsPage'] )
-        context = common.paginateRequest(
-            qstring=updated_qstring, resultsPage=resultsPage, log_id=log_id )
+    ## TODO: delete after 2022-June-14
+    # def _get_ajax_unistring( request ):
+    #     """ Returns unicode string based on ajax update.
+    #         Called by results() """
+    #     log_id = common.get_log_identifier(request.session)
+    #     log.info( 'id, `%s`; starting' % log_id )
+    #     initial_qstring = request.GET.get( u'qstring', u'*:*' )
+    #     updated_qstring = common.updateQstring( initial_qstring, request.session[u'authz_info'], log_id )[u'modified_qstring']
+    #     resultsPage = int( request.GET[u'resultsPage'] )
+    #     context = common.paginateRequest(
+    #         qstring=updated_qstring, resultsPage=resultsPage, log_id=log_id )
 
-        return_str = ajax_snippet.render_block_to_string(u'iip_search_templates/results.html', u'content', context)
-        return unicode( return_str )
+    #     return_str = ajax_snippet.render_block_to_string(u'iip_search_templates/results.html', u'content', context)
+    #     return unicode( return_str )
 
     def _get_searchform_context( request, log_id ):
         """ Returns correct context for GET.
@@ -243,14 +245,142 @@ def results( request ):
         else:
             resp = render( request, 'iip_search_templates/results_dev.html', context_dct )
         return resp
-    elif request.is_ajax():  # user has requested another page, a facet, etc.
-        log.debug( 'request.is_axax() is True' )
-        return HttpResponse( _get_ajax_unistring(request) )
+    # elif request.is_ajax():  # user has requested another page, a facet, etc.
+    #     log.debug( 'request.is_axax() is True' )
+    #     return HttpResponse( _get_ajax_unistring(request) )
     else:  # regular GET, no params
         log.debug( 'GET, no params, show search form' )
         return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
 
     ## end def results()
+
+
+# def results( request ):
+#     """ Handles /results/ GET, POST, and ajax-GET. """
+#     def _get_results_context( request, log_id ):
+#         """ Returns correct context for POST.
+#             Called by results() """
+#         log.debug( 'starting' )
+#         context = {}
+#         request.encoding = u'utf-8'
+
+#         form = forms.SearchForm( request.POST )  # form bound to the POST data
+
+#         resultsPage = 1
+#         qstring_provided = None
+#         if request.method == u'GET':
+#             qstring_provided = request.GET.get("q", None)
+#             resultsPage = int(request.GET.get('resultsPage', resultsPage))
+
+#         if form.is_valid() or qstring_provided:
+#             initial_qstring = ""
+#             if qstring_provided:
+#                 initial_qstring = qstring_provided
+#             else:
+#                 initial_qstring = form.generateSolrQuery()
+
+#             updated_qstring = common.updateQstring(
+#                 initial_qstring=initial_qstring, session_authz_dict=request.session['authz_info'], log_id=common.get_log_identifier(request.session) )['modified_qstring']
+#             context = common.paginateRequest( qstring=updated_qstring, resultsPage=resultsPage, log_id=common.get_log_identifier(request.session) )
+#             log.debug( 'context, ```%s```' % pprint.pformat(context) )
+#             context[u'session_authz_info'] = request.session[u'authz_info']
+#             context[u'admin_links'] = common.make_admin_links( session_authz_dict=request.session[u'authz_info'], url_host=request.get_host(), log_id=log_id )
+#             context[u'initial_qstring'] = initial_qstring
+#         log.debug( 'context.keys(), ```%s```' % pprint.pformat(sorted(context.keys())) )
+#         log.debug( 'type(context), `%s`' % type(context) )
+
+#         return context
+
+#     def _get_ajax_unistring( request ):
+#         """ Returns unicode string based on ajax update.
+#             Called by results() """
+#         log_id = common.get_log_identifier(request.session)
+#         log.info( 'id, `%s`; starting' % log_id )
+#         initial_qstring = request.GET.get( u'qstring', u'*:*' )
+#         updated_qstring = common.updateQstring( initial_qstring, request.session[u'authz_info'], log_id )[u'modified_qstring']
+#         resultsPage = int( request.GET[u'resultsPage'] )
+#         context = common.paginateRequest(
+#             qstring=updated_qstring, resultsPage=resultsPage, log_id=log_id )
+
+#         return_str = ajax_snippet.render_block_to_string(u'iip_search_templates/results.html', u'content', context)
+#         return unicode( return_str )
+
+#     def _get_searchform_context( request, log_id ):
+#         """ Returns correct context for GET.
+#             Called by results() """
+#         log.debug( '_get_searchform_context() starting' )
+#         if not u'authz_info' in request.session:
+#             request.session[u'authz_info'] = { u'authorized': False }
+#         # form = SearchForm()  # an unbound form
+#         # form = forms.SearchForm()  # an unbound form
+#         form = forms.SearchForm({'type_':'or', 'physical_type_':'or', 'language_':'or', 'religion_':'or', 'material_':'or'})  # an unbound form
+#         log.debug( 'form, `%s`' % repr(form) )
+#         # place_field_object = form.fields['place']
+#         # place_field_object.choices = [(item, item) for item in sorted( common.facetResults('placeMenu').keys()) if item]
+#         # form.fields['place'] = place_field_object
+#         context = {
+#             u'form': form,
+#             u'session_authz_info': request.session[u'authz_info'],
+#             u'settings_app': settings_app,
+#             u'admin_links': common.make_admin_links( session_authz_dict=request.session[u'authz_info'], url_host=request.get_host(), log_id=log_id )
+#             }
+#         log.debug( 'context, ```%s```' % pprint.pformat(context) )
+#         return context
+
+#     ## view starts here
+
+#     log_id = common.get_log_identifier( request.session )
+#     log.info( 'id, `%s`; starting views.results()' % log_id )
+#     if not u'authz_info' in request.session:
+#         request.session[u'authz_info'] = { u'authorized': False }
+
+#     if request.method == u'POST': # form has been submitted by user
+#         log.debug( 'POST, search-form was submitted by user' )
+#         request.encoding = u'utf-8'
+#         form = forms.SearchForm(request.POST)
+#         if not form.is_valid():
+#             log.debug( 'form not valid, redirecting')
+#             redirect_url = '%s://%s%s?q=*:*' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse('mapsearch_url') )
+#             log.debug( 'redirect_url for non-valid form, ```%s```' % redirect_url )
+#             return HttpResponseRedirect( redirect_url )
+#         qstring = form.generateSolrQuery()
+#         if qstring == '':
+#             qstring = '*'
+#         log.debug( f'qstring, ```{qstring}```' )
+#         redirect_url = '%s://%s%s?q=%s' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse('mapsearch_url'), qstring )
+#         log.debug( 'redirect_url for valid form, ```%s```' % redirect_url )
+#         return HttpResponseRedirect( redirect_url )
+
+#     if request.method == 'GET' and request.GET.get('q', None) != None:
+#         log.debug( 'GET, with params, hit solr and show results' )
+#         context_dct = _get_results_context(request, log_id)
+
+#         # log.debug( f'context_dct-iipResult, ```{context_dct["iipResult"]}```' )  # solr.paginator.SolrPage -- <https://github.com/search5/solrpy/>
+#         iipResult_dct = {}
+#         iipResult_page_lst = []
+#         iipResult_count = 0
+#         if context_dct['iipResult']:  # will be '' if no results are found
+#             iipResult_dct = context_dct['iipResult'].result
+#             iipResult_page_lst = context_dct["iipResult"].paginator.page_range
+#             iipResult_count = context_dct["iipResult"].paginator.count
+#         context_dct['iipResult'] = iipResult_dct
+#         context_dct['pages'] = iipResult_page_lst
+#         context_dct['results_count'] = iipResult_count
+
+#         if request.GET.get('format', '') == 'json':
+#             log.debug( 'returning json' )
+#             resp = HttpResponse( json.dumps(context_dct, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
+#         else:
+#             resp = render( request, 'iip_search_templates/results_dev.html', context_dct )
+#         return resp
+#     elif request.is_ajax():  # user has requested another page, a facet, etc.
+#         log.debug( 'request.is_axax() is True' )
+#         return HttpResponse( _get_ajax_unistring(request) )
+#     else:  # regular GET, no params
+#         log.debug( 'GET, no params, show search form' )
+#         return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
+
+#     ## end def results()
 
 
 ## view inscription ##
@@ -324,7 +454,7 @@ def viewinscr(request, inscrid):
         try:
             q = s.query(qstring)
         except:
-            q = s.query('*:*', **args)
+            q = s.query('*:*', **args) # type: ignore
         log.debug( f'q, ``{pprint.pformat(q.__dict__)}``' )
         return q
 
@@ -463,11 +593,33 @@ def login( request ):
               response = HttpResponseRedirect( request.GET['next'] )
             else:
                 redirect_url = u'%s://%s%s' % (
-                    request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'mapsearch_url',) )
-            response = HttpResponseRedirect( redirect_url )
+                    request.META[u'wsgi.url_scheme'], 
+                    request.get_host(), 
+                    reverse(u'mapsearch_url',) 
+                    )
+                response = HttpResponseRedirect( redirect_url )
         else:
             response = HttpResponseForbidden( '403 / Forbidden; unauthorized user' )
         return response
+
+    ## TODO: delete after 2022-June-14
+    # def _make_response( request, log_id ):
+    #     """ Takes request;
+    #             examines session['authz_info'];
+    #             returns a response object to caller.
+    #         Called by login(). """
+    #     log.info( u'in views._make_response(); id, %s; starting' % log_id )
+    #     if request.session['authz_info']['authorized'] == True:
+    #         if 'next' in request.GET:
+    #           response = HttpResponseRedirect( request.GET['next'] )
+    #         else:
+    #             redirect_url = u'%s://%s%s' % (
+    #                 request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'mapsearch_url',) )
+    #         response = HttpResponseRedirect( redirect_url )
+    #     else:
+    #         response = HttpResponseForbidden( '403 / Forbidden; unauthorized user' )
+    #     return response
+
     ## init
     log_id = common.get_log_identifier( request.session )
     log.info( u'in login(); id, %s; starting' % log_id )
@@ -560,6 +712,8 @@ def edit_info( request ):
 
 
 ###SAM
+
+
 # def about(request):
 #     return render(request, 'about/about.html')
 
@@ -728,11 +882,12 @@ def individual_story(request, story_id):
     num_relevantInscriptions = 0
     image_url = []
 
+    inscription_boolean = False
 
     for item in story_page.relevant_inscription_id.split(','):
         num_relevantInscriptions += 1
         url = 'https://library.brown.edu/search/solr_pub/iip/?start=0&rows=100&indent=on&wt=json&q=inscription_id%3A%22' + item.lower() + '%22'
-
+        
         with urllib.request.urlopen(url) as response:
             inscription_boolean = False
             s = response.read()
@@ -787,435 +942,7 @@ def individual_story(request, story_id):
 
     return render(request, 'stories/individual_story.html', context)
 
-
+    ## end def individual_story()
 
 
 ###ENDSAM
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### Old search function (needs its unique url i.e. /results/[OLD]/?q=*)
-
-# def old_results( request ):
-#     """ Handles /results/ GET, POST, and ajax-GET. """
-#     def _get_results_context( request, log_id ):
-#         """ Returns correct context for POST.
-#             Called by results() """
-#         log.debug( 'starting' )
-#         context = {}
-#         request.encoding = u'utf-8'
-
-#         form = old_forms.SearchForm( request.POST )  # form bound to the POST data
-
-#         resultsPage = 1
-#         qstring_provided = None
-#         if request.method == u'GET':
-#             qstring_provided = request.GET.get("q", None)
-#             resultsPage = int(request.GET.get('resultsPage', resultsPage))
-
-#         if form.is_valid() or qstring_provided:
-#             initial_qstring = ""
-#             if qstring_provided:
-#                 initial_qstring = qstring_provided
-#             else:
-#                 initial_qstring = form.generateSolrQuery()
-
-#             updated_qstring = common.updateQstring(
-#                 initial_qstring=initial_qstring, session_authz_dict=request.session['authz_info'], log_id=common.get_log_identifier(request.session) )['modified_qstring']
-#             context = common.paginateRequest( qstring=updated_qstring, resultsPage=resultsPage, log_id=common.get_log_identifier(request.session) )
-#             log.debug( 'context, ```%s```' % pprint.pformat(context) )
-#             context[u'session_authz_info'] = request.session[u'authz_info']
-#             context[u'admin_links'] = common.make_admin_links( session_authz_dict=request.session[u'authz_info'], url_host=request.get_host(), log_id=log_id )
-#             context[u'initial_qstring'] = initial_qstring
-#         log.debug( 'context.keys(), ```%s```' % pprint.pformat(sorted(context.keys())) )
-#         log.debug( 'type(context), `%s`' % type(context) )
-
-
-
-#         # results = context['iipResult']
-#         # log.debug( 'type(results), `%s`' % type(results) )
-#         # for (i, result) in enumerate(results.object_list):
-#         #     log.debug( 'type(result), `%s`' % type(result) )
-#         #     log.debug( 'result, `%s`' % result )
-#         #     if i > 0:
-#         #         break
-#         #     1/0
-
-
-#         return context
-
-#     def _get_ajax_unistring( request ):
-#         """ Returns unicode string based on ajax update.
-#             Called by results() """
-#         log_id = common.get_log_identifier(request.session)
-#         log.info( 'id, `%s`; starting' % log_id )
-#         initial_qstring = request.GET.get( u'qstring', u'*:*' )
-#         updated_qstring = common.updateQstring( initial_qstring, request.session[u'authz_info'], log_id )[u'modified_qstring']
-#         resultsPage = int( request.GET[u'resultsPage'] )
-#         context = common.paginateRequest(
-#             qstring=updated_qstring, resultsPage=resultsPage, log_id=log_id )
-#         return_str = ajax_snippet.render_block_to_string(u'iip_search_templates/old_results.html', u'content', context)
-#         return unicode( return_str )
-
-#     def _get_searchform_context( request, log_id ):
-#         """ Returns correct context for GET.
-#             Called by results() """
-#         log.debug( '_get_searchform_context() starting' )
-#         if not u'authz_info' in request.session:
-#             request.session[u'authz_info'] = { u'authorized': False }
-#         # form = SearchForm()  # an unbound form
-#         form = old_forms.SearchForm()  # an unbound form
-#         log.debug( 'form, `%s`' % repr(form) )
-#         # place_field_object = form.fields['place']
-#         # place_field_object.choices = [(item, item) for item in sorted( common.facetResults('placeMenu').keys()) if item]
-#         # form.fields['place'] = place_field_object
-#         context = {
-#             u'form': form,
-#             u'session_authz_info': request.session[u'authz_info'],
-#             u'settings_app': settings_app,
-#             u'admin_links': common.make_admin_links( session_authz_dict=request.session[u'authz_info'], url_host=request.get_host(), log_id=log_id )
-#             }
-#         log.debug( 'context, ```%s```' % pprint.pformat(context) )
-#         return context
-#     log_id = common.get_log_identifier( request.session )
-#     log.info( 'id, `%s`; starting' % log_id )
-#     if not u'authz_info' in request.session:
-#         request.session[u'authz_info'] = { u'authorized': False }
-#     if request.method == u'POST': # form has been submitted by user
-#         log.debug( 'POST, search-form was submitted by user' )
-#         request.encoding = u'utf-8'
-#         form = old_forms.SearchForm(request.POST)
-#         if not form.is_valid():
-#             log.debug( 'form not valid, redirecting')
-#             redirect_url = '%s://%s%s?q=*:*' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'results_url') )
-#             log.debug( 'redirect_url for non-valid form, ```%s```' % redirect_url )
-#             return HttpResponseRedirect( redirect_url )
-#         qstring = form.generateSolrQuery()
-#         # e.g. http://library.brown.edu/cds/projects/iip/results?q=*:*
-#         redirect_url = '%s://%s%s?q=%s' % ( request.META[u'wsgi.url_scheme'], request.get_host(), reverse(u'results_url'), qstring )
-#         log.debug( 'redirect_url for valid form, ```%s```' % redirect_url )
-#         return HttpResponseRedirect( redirect_url )
-#     if request.method == u'GET' and request.GET.get(u'q', None) != None:
-#         log.debug( 'GET, with params, hit solr and show results' )
-#         return render( request, u'iip_search_templates/old_results.html', _get_results_context(request, log_id) )
-#     elif request.is_ajax():  # user has requested another page, a facet, etc.
-#         log.debug( 'request.is_axax() is True' )
-#         return HttpResponse( _get_ajax_unistring(request) )
-#     else:  # regular GET, no params
-#         log.debug( 'GET, no params, show search form' )
-#         return render( request, u'iip_search_templates/search_form.html', _get_searchform_context(request, log_id) )
-
-
-
-# ## view inscription ##
-
-# old_biblRegex = re.compile(r'bibl=(.*)\.xml\|nType=(.*)\|n=(.*)')
-
-# def old_viewinscr(request, inscrid):
-#     """ Handles view-inscription GET with new Javascript and Zotero bibliography. """
-
-#     def _bib_tuple_or_none(s):
-#         t = old_biblRegex.match(s)
-#         if t:
-#             return t.groups()
-#         elif s == "ms":
-#             return ("ms", None, None)
-#         else:
-#             return None
-
-#     # Prepare an inscription
-#     def _prepare_viewinscr_get_data (request, inscrid):
-#         """ Prepares data for regular or ajax GET.
-#                 Returns a tuple of vars.
-#             Called by viewinscr(). """
-#         log.debug( u'in _prepare_viewinscr_get_data(); starting' )
-#         log_id = common.get_log_identifier( request.session )
-#         q = _call_viewinsc_solr( inscrid )  # The results of the solr query to find the inscription. q.results is list of dictionaries of values.
-#         current_display_status = _update_viewinscr_display_status( request, q )
-#         z_bibids_initial = [_bib_tuple_or_none(x) for x in q.results[0]['bibl']]
-#         z_bibids = {}
-#         log.debug( f'z_bibids_initial, ```{z_bibids_initial}```' )
-#         for entry in z_bibids_initial:
-#             if not entry:
-#                 continue
-#             bibid, ntype, n = entry
-#             if(not bibid in z_bibids):
-#                 z_bibids[bibid] = []
-#             if(not (ntype, n) in z_bibids[bibid]):
-#                 #append ntype
-#                 z_bibids[bibid].append((ntype, n))
-#         specific_sources = dict()
-#         specific_sources['transcription'] = _bib_tuple_or_none(q.results[0]['biblTranscription'][0]) if 'biblTranscription' in q.results[0] else ""
-#         specific_sources['translation'] = _bib_tuple_or_none(q.results[0]['biblTranslation'][0]) if 'biblTranslation' in q.results[0] else ""
-#         specific_sources['diplomatic'] = _bib_tuple_or_none(q.results[0]['biblDiplomatic'][0]) if 'biblDiplomatic' in q.results[0] else ""
-
-#         view_xml_url = u'%s://%s%s' % (  request.META[u'wsgi.url_scheme'],  request.get_host(),  reverse(u'xml_url', kwargs={u'inscription_id':inscrid})  )
-#         current_url = u'%s://%s%s' % (  request.META[u'wsgi.url_scheme'],  request.get_host(),  reverse(u'inscription_url', kwargs={u'inscrid':inscrid})  )
-#         return ( q, z_bibids, specific_sources, current_display_status, view_xml_url, current_url )
-
-#     def _setup_viewinscr( request ):
-#         """ Takes request;
-#                 updates session with authz_info and log_id;
-#                 returns log_id.
-#             Called by viewinscr() """
-#         log.debug( u'in _setup_viewinscr(); starting' )
-#         if not u'authz_info' in request.session:
-#             request.session[u'authz_info'] = { u'authorized': False }
-#         log_id = common.get_log_identifier( request.session )
-#         return log_id
-
-#     def _call_viewinsc_solr( inscription_id ):
-#         """ Hits solr with inscription-id.
-#                 Returns a solrpy query-object.
-#             Called by _prepare_viewinscr_get_data(). """
-#         s = solr.SolrConnection( settings_app.SOLR_URL )
-#         qstring = u'inscription_id:%s' % inscription_id
-#         try:
-#             q = s.query(qstring)
-#         except:
-#             q = s.query('*:*', **args)
-#         return q
-
-#     def _update_viewinscr_display_status( request, q ):
-#         """ Takes request and solrypy query object.
-#                 Updates session  display-status.
-#                 Returns current display-status.
-#             Called by _prepare_viewinscr_get_data(). """
-#         current_display_status = u'init'
-#         if int( q.numFound ) > 0:
-#             current_display_status = q.results[0]['display_status']
-#             request.session['current_display_status'] = current_display_status
-#         return current_display_status
-
-#     def _prepare_viewinscr_ajax_get_response( q, z_bibids, specific_sources, view_xml_url ):
-#         """ Returns view-inscription response-object for ajax GET.
-#             Called by viewinscr() """
-#         log.debug( u'in _prepare_viewinscr_ajax_get_response(); starting' )
-#         context = {
-#             'inscription': q,
-#             'z_ids': z_bibids,
-#             'biblDiplomatic' : specific_sources['diplomatic'],
-#             'biblTranscription' : specific_sources['transcription'],
-#             'biblTranslation' : specific_sources['translation'],
-#             'biblioFull': False,
-#             'view_xml_url': view_xml_url }
-#         log.debug( f'z_bibids, ```{z_bibids}```' )
-#         return_str = ajax_snippet.render_block_to_string( 'iip_search_templates/old_viewinscr.html', 'viewinscr', context )
-#         return_response = HttpResponse( return_str )
-#         return return_response
-
-#     def _prepare_viewinscr_plain_get_response( q, z_bibids, specific_sources, current_display_status, inscrid, request, view_xml_url, current_url, log_id ):
-#         """ Returns view-inscription response-object for regular GET.
-#             Called by viewinscr() """
-#         log.debug( u'in _prepare_viewinscr_plain_get_response(); starting' )
-#         context = {
-#             'inscription': q,
-#             'z_ids': z_bibids,
-#             'biblDiplomatic' : specific_sources['diplomatic'],
-#             'biblTranscription' : specific_sources['transcription'],
-#             'biblTranslation' : specific_sources['translation'],
-#             'biblioFull': True,
-#             'chosen_display_status': current_display_status,
-#             'inscription_id': inscrid,
-#             'session_authz_info': request.session['authz_info'],
-#             'admin_links': common.make_admin_links( session_authz_dict=request.session[u'authz_info'], url_host=request.get_host(), log_id=log_id ),
-#             'view_xml_url': view_xml_url,
-#             'current_url': current_url,
-#             }
-#         # log.debug( u'in _prepare_viewinscr_plain_get_response(); context, %s' % pprint.pformat(context) )
-#         return_response = render( request, u'iip_search_templates/old_viewinscr.html', context )
-#         return return_response
-
-#     log_id = _setup_viewinscr( request )
-#     log.info( u'in viewinscr(); id, %s; starting' % log_id )
-#     ( q, z_bibids, specific_sources, current_display_status, view_xml_url, current_url ) = _prepare_viewinscr_get_data( request, inscrid )
-#     if request.is_ajax():
-#         return_response = _prepare_viewinscr_ajax_get_response( q, z_bibids, specific_sources, view_xml_url )
-#     else:
-#         return_response = _prepare_viewinscr_plain_get_response( q, z_bibids, specific_sources, current_display_status, inscrid, request, view_xml_url, current_url, log_id )
-#     return return_response

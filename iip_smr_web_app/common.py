@@ -89,7 +89,7 @@ def queryCleanup(qstring):
 
 ## paginateRequest
 
-def paginateRequest( qstring, resultsPage, log_id):
+def paginateRequest( qstring, resultsPage, log_id) -> dict:
     """ Executes solr query on qstring and returns solr.py paginator object, and paginator.page object for given page, and facet-count dict.
         Called by: (views.iip_results()) views._get_POST_context() and views._get_ajax_unistring(). """
     log.debug( 'qstring, `%s`; resultsPage, `%s`' % (qstring, resultsPage) )
@@ -102,8 +102,27 @@ def paginateRequest( qstring, resultsPage, log_id):
         dispQstring = queryCleanup( qstring )
         return {'pages': p, 'iipResult': pg, 'qstring':qstring, 'resultsPage': resultsPage, 'facets':f, 'dispQstring': dispQstring}
     except Exception as e:
-        log.error( 'id, %s; exception, %s' % (log_id, repr(e)) )
-        return False
+        # log.error( 'id, %s; exception, %s' % (log_id, repr(e)) )
+        log.exception( f'id, ``{log_id}``; Problem paginating; error, ``{repr(e)}``; processing will continue' )
+        return {}
+
+
+## TODO: delete after 2022-June-14
+# def paginateRequest( qstring, resultsPage, log_id):
+#     """ Executes solr query on qstring and returns solr.py paginator object, and paginator.page object for given page, and facet-count dict.
+#         Called by: (views.iip_results()) views._get_POST_context() and views._get_ajax_unistring(). """
+#     log.debug( 'qstring, `%s`; resultsPage, `%s`' % (qstring, resultsPage) )
+#     ( s, q ) = _run_paginator_main_query( qstring, log_id )             # gets solr object and query object
+#     fq = _run_paginator_facet_query( s, qstring, log_id )               # gets facet-query object
+#     ( p, pg ) = _run_paginator_page_query( q, resultsPage, log_id )     # gets paginator object and paginator-page object
+#     f = _run_paginator_facet_counts( fq )                               # gets facet-counts dict
+#     # log.debug( 'f, ```%s```' % f )
+#     try:
+#         dispQstring = queryCleanup( qstring )
+#         return {'pages': p, 'iipResult': pg, 'qstring':qstring, 'resultsPage': resultsPage, 'facets':f, 'dispQstring': dispQstring}
+#     except Exception as e:
+#         log.error( 'id, %s; exception, %s' % (log_id, repr(e)) )
+#         return False
 
 def _run_paginator_main_query( qstring, log_id ):
     """ Performs a lookup on the query-string; returns solr object and query object.
