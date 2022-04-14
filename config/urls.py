@@ -21,12 +21,12 @@ urlpatterns = [
     url( r'^viewinscr/(?P<inscrid>.*)/$', views.viewinscr, name='inscription_url'),
     url( r'^view_xml/(?P<inscription_id>.*)/$', views.view_xml, name='xml_url' ),
 
-    # url( r'^info/(?P<info_id>.*)/$', views.info, name='info_url' ),
     url( r'^info/$',  views.version, name='version_url' ),
     url( r'^version/$',  views.version, name='version_url' ),
 
     url( r'^about/(?P<info_id>.*)/$', views.info, name='info_url' ),
 
+    ## TODO: delete after 2022-June-14
     # url( r'^resources/word_labs/$', views.proxy, name='proxy_url' ),
     # url( r'^presources/word_labs/doubletree-data.txt/$', views.proxy_doubletree, name='proxy_doubletree_url' ),
     # url( r'^resources/word_labs/(?P<slug>.*)/$', views.proxy, name='proxy_param_url' ),

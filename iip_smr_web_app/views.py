@@ -11,7 +11,8 @@ from django.contrib.auth import logout as django_logout
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render, render_to_response
+# from django.shortcuts import get_object_or_404, render, render_to_response
+from django.shortcuts import get_object_or_404, render
 from iip_smr_web_app import common, models, settings_app
 from iip_smr_web_app import forms
 from iip_smr_web_app import old_forms
@@ -25,28 +26,6 @@ from iip_smr_web_app.libs.wordlist.wordlist import  get_greek_words_pos
 
 log = logging.getLogger(__name__)
 versioner = Versioner()
-
-
-# def wordlist(request, language=None):
-#     log.debug( '\n\nstarting wordlist()' )
-#     words = {}
-#     data = {}
-#     if language == 'latin':
-#         wordlist_data = get_latin_words_pos_new()
-#         words = wordlist_data["lemmas"]
-#         data = wordlist_data["db_list"]
-#     elif language == 'greek':  # todo
-#         pass
-#     else:  # 'hebrew'; todo
-#         pass
-#     context = {"words": words, "doubletree_data": json.dumps(data), 'language': language}
-
-#     if request.GET.get('format', '') == 'json':
-#         log.debug( 'returning json' )
-#         resp = HttpResponse( json.dumps(context, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
-#     else:
-#         resp = render(request, "wordlist/wordlist_root.html", context)
-#     return resp
 
 
 def wordlist(request, language=None):
@@ -79,89 +58,67 @@ def wordlist(request, language=None):
     return resp
 
 
-# def wordlist(request, language=None):
-#     log.debug( '\n\nstarting wordlist()' )
-#     words = {}
-#     data = {}
-#     if language == 'latin':
-#         wordlist_data = get_latin_words_pos_new()
-#         words = wordlist_data["lemmas"]
-#         data = wordlist_data["db_list"]
-#     elif language == 'greek':  # testing
-#         wordlist_data = get_greek_words_pos()
-#         words = wordlist_data["lemmas"]
-#         data = wordlist_data["db_list"]
-#         # return HttpResponse( 'greek handling coming' )
-#     else:  # 'hebrew'; todo
-#         pass
-#     context = {"words": words, "doubletree_data": json.dumps(data), 'language': language}
-#     if request.GET.get('format', '') == 'json':
-#         log.debug( 'returning json' )
-#         resp = HttpResponse( json.dumps(context, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
-#     else:
-#         resp = render(request, "wordlist/wordlist_root.html", context)
-#     return resp
-
-
 ## proxy start ##
 
-def proxy( request, slug=None ):
-    """ Handles resources/labs/etc urls """
-    log.debug( 'slug, `%s`' % slug )
-    log.debug( 'request.__dict__, ```%s```' % pprint.pformat(request.__dict__) )
-    gets = request.GET
-    log.debug( 'gets, `%s`' % gets )
-    fetch_url = settings_app.FETCH_DIR_URL  # includes trailing slash
-    proxy_url = reverse( 'proxy_url' )  # includes trailing slash
-    log.debug( 'proxy_url, `%s`' % proxy_url )
-    js_rewrite_url = '%s%s' % ( fetch_url, 'doubletreejs/' )
-    if slug:
-        fetch_url = '%s%s' % ( fetch_url, urllib.parse.unquote_plus(slug) )
-    if gets:
-        r = requests.get( fetch_url, params=gets )
-    else:
-        r = requests.get( fetch_url )
-    log.debug( 'r.url, ```%s```' % r.url )
-    raw = r.content.decode( 'utf-8' )
-    log.debug( 'raw, ```%s```' % raw )
+## TODO: delete after 2022-June-14
+# def proxy( request, slug=None ):
+#     """ Handles resources/labs/etc urls """
+#     log.debug( 'slug, `%s`' % slug )
+#     log.debug( 'request.__dict__, ```%s```' % pprint.pformat(request.__dict__) )
+#     gets = request.GET
+#     log.debug( 'gets, `%s`' % gets )
+#     fetch_url = settings_app.FETCH_DIR_URL  # includes trailing slash
+#     proxy_url = reverse( 'proxy_url' )  # includes trailing slash
+#     log.debug( 'proxy_url, `%s`' % proxy_url )
+#     js_rewrite_url = '%s%s' % ( fetch_url, 'doubletreejs/' )
+#     if slug:
+#         fetch_url = '%s%s' % ( fetch_url, urllib.parse.unquote_plus(slug) )
+#     if gets:
+#         r = requests.get( fetch_url, params=gets )
+#     else:
+#         r = requests.get( fetch_url )
+#     log.debug( 'r.url, ```%s```' % r.url )
+#     raw = r.content.decode( 'utf-8' )
+#     log.debug( 'raw, ```%s```' % raw )
 
-    rewritten = rewrite( raw, proxy_url, js_rewrite_url )
+#     rewritten = rewrite( raw, proxy_url, js_rewrite_url )
 
-    # rewritten = raw.replace(
-    #     'href="../', 'href="%s' % proxy_url )
-    # rewritten = rewritten.replace(
-    #     '<script src="doubletreejs/', '<script src="%s' % js_rewrite_url )
-    # rewritten = rewritten.replace(
-    #     'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%sdoubletree-data.txt"' % proxy_url )
-    # rewritten = rewritten.replace(
-    #     'src="../index_search.js"', 'src="http://127.0.0.1:8000/resources/word_labs/index_search.js/"' )
-    # rewritten = rewritten.replace(
-    #     'src="../levenshtein.min.js"', 'src="http://127.0.0.1:8000/resources/word_labs/levenshtein.min.js/"' )
-    # rewritten = rewritten.replace(
-    #     '<!DOCTYPE HTML>', '' )
-    # rewritten = rewritten.replace(
-    #     '<html>', '', 2 )
+#     # rewritten = raw.replace(
+#     #     'href="../', 'href="%s' % proxy_url )
+#     # rewritten = rewritten.replace(
+#     #     '<script src="doubletreejs/', '<script src="%s' % js_rewrite_url )
+#     # rewritten = rewritten.replace(
+#     #     'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%sdoubletree-data.txt"' % proxy_url )
+#     # rewritten = rewritten.replace(
+#     #     'src="../index_search.js"', 'src="http://127.0.0.1:8000/resources/word_labs/index_search.js/"' )
+#     # rewritten = rewritten.replace(
+#     #     'src="../levenshtein.min.js"', 'src="http://127.0.0.1:8000/resources/word_labs/levenshtein.min.js/"' )
+#     # rewritten = rewritten.replace(
+#     #     '<!DOCTYPE HTML>', '' )
+#     # rewritten = rewritten.replace(
+#     #     '<html>', '', 2 )
 
-    # log.debug( 'rewritten, ```%s```' % rewritten )
-    if request.META['PATH_INFO'][-5:] == '.xml/':
-        resp = HttpResponse( rewritten, content_type='application/xml; charset=utf-8' )
-    elif request.META['PATH_INFO'][-5:] == '.css/':
-        resp = HttpResponse( rewritten, content_type='text/css; charset=utf-8' )
-    elif request.META['PATH_INFO'][-4:] == '.js/':
-        resp = HttpResponse( rewritten, content_type='application/javascript; charset=utf-8' )
-    else:
-        # resp = HttpResponse( rewritten )
-        context = {
-            'title': 'Word Labs -- under active development',
-            'html_content': rewritten }
-        resp = render( request, 'resources/proxy.html', context )
-    return resp
+#     # log.debug( 'rewritten, ```%s```' % rewritten )
+#     if request.META['PATH_INFO'][-5:] == '.xml/':
+#         resp = HttpResponse( rewritten, content_type='application/xml; charset=utf-8' )
+#     elif request.META['PATH_INFO'][-5:] == '.css/':
+#         resp = HttpResponse( rewritten, content_type='text/css; charset=utf-8' )
+#     elif request.META['PATH_INFO'][-4:] == '.js/':
+#         resp = HttpResponse( rewritten, content_type='application/javascript; charset=utf-8' )
+#     else:
+#         # resp = HttpResponse( rewritten )
+#         context = {
+#             'title': 'Word Labs -- under active development',
+#             'html_content': rewritten }
+#         resp = render( request, 'resources/proxy.html', context )
+#     return resp
 
-def proxy_doubletree( request ):
-    log.debug( 'starting' )
-    url = '%s%s' % ( settings_app.FETCH_DIR_URL, 'doubletree-data.txt' )
-    r = requests.get( url )
-    return HttpResponse( r.content )
+## TODO: delete after 2022-June-14
+# def proxy_doubletree( request ):
+#     log.debug( 'starting' )
+#     url = '%s%s' % ( settings_app.FETCH_DIR_URL, 'doubletree-data.txt' )
+#     r = requests.get( url )
+#     return HttpResponse( r.content )
 
 ## proxy end ##
 
@@ -292,31 +249,6 @@ def results( request ):
     else:  # regular GET, no params
         log.debug( 'GET, no params, show search form' )
         return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
-
-    # if request.method == 'GET' and request.GET.get('q', None) != None:
-    #     log.debug( 'GET, with params, hit solr and show results' )
-    #     context_dct = _get_results_context(request, log_id)
-
-    #     # log.debug( f'context_dct-iipResult, ```{context_dct["iipResult"]}```' )  # solr.paginator.SolrPage -- <https://github.com/search5/solrpy/>
-    #     iipResult_dct = context_dct['iipResult'].result
-    #     iipResult_page_lst = context_dct["iipResult"].paginator.page_range
-    #     iipResult_count = context_dct["iipResult"].paginator.count
-    #     context_dct['iipResult'] = iipResult_dct
-    #     context_dct['pages'] = iipResult_page_lst
-    #     context_dct['results_count'] = iipResult_count
-
-    #     if request.GET.get('format', '') == 'json':
-    #         log.debug( 'returning json' )
-    #         resp = HttpResponse( json.dumps(context_dct, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
-    #     else:
-    #         resp = render( request, 'iip_search_templates/results_dev.html', context_dct )
-    #     return resp
-    # elif request.is_ajax():  # user has requested another page, a facet, etc.
-    #     log.debug( 'request.is_axax() is True' )
-    #     return HttpResponse( _get_ajax_unistring(request) )
-    # else:  # regular GET, no params
-    #     log.debug( 'GET, no params, show search form' )
-    #     return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
 
     ## end def results()
 
@@ -488,8 +420,6 @@ def api_wrapper( request ):
     resp['Access-Control-Allow-Origin'] = "*"
 
     return resp
-
-    # resp = HttpResponse( json.dumps(context, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
 
 
 ## login ##
