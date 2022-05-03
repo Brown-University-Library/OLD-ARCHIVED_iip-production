@@ -22,6 +22,7 @@ module.exports = {
 
     /*  Templates within theme app (<tailwind_app_name>/templates), e.g. base.html. */
     '../templates/**/*.twig',
+    '../templates/**/*.html',
 
     /*
      * Main templates directory of the project (BASE_DIR/templates).
