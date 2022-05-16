@@ -132,8 +132,11 @@ async function createLocationsDict() {
   console.log('DEBUG@createLocationsDict facet_nums_request', facet_nums_request);
   var promises = [];
   console.log( "LOCATIONS_URL, " + LOCATIONS_URL );
+  console.log( "BASE_URL, " + BASE_URL );
   $.getJSON(LOCATIONS_URL, function (data) {
     $.each(data.facet_counts.facet_fields.city_pleiades, function (index, value) {
+      console.log( "index, " + index );
+      console.log( "value, " + value );
       if (index % 2 === 0) {
         if (value.slice(-6) === "380758") {
           console.log("The 9-digit pleiades ID still has not been corrected.");
