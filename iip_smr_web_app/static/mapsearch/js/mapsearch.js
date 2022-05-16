@@ -195,6 +195,7 @@ async function addFiltersToUrl() {
 // creates the points layer that shows up on the map
 // url: the url to get the point data from
 async function createPointsLayer(url) {
+  console.log( "starting createPointsLayer() with url, " + url );
   $('input:checkbox').attr('disabled', true)
   points_layer.clearLayers();
   date_query = filterByDateRangeNumbers();
