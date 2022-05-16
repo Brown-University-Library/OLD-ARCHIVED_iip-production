@@ -5,6 +5,7 @@
   "scripts": {
     "start": "npm run dev",
     "build": "npm run build:clean && npm run build:postcss && npm run build:cleancss",
+    "build:prod": "NODE_ENV=production npm run build --prod",
     "build:clean": "rimraf ../static/css/dist",
     "build:postcss": "cross-env NODE_ENV=production postcss --config . --map false --output ../static/css/dist/styles.css ./src/styles.css",
     "build:cleancss": "cleancss -o ../static/css/dist/styles.css ../static/css/dist/styles.css",
