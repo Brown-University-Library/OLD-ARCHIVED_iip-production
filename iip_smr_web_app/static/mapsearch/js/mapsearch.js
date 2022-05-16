@@ -131,6 +131,7 @@ async function createLocationsDict() {
   facet_nums_request = await initializeFacetNums('default');
   console.log('DEBUG@createLocationsDict facet_nums_request', facet_nums_request);
   var promises = [];
+  console.log( "LOCATIONS_URL, " + LOCATIONS_URL );
   $.getJSON(LOCATIONS_URL, function (data) {
     $.each(data.facet_counts.facet_fields.city_pleiades, function (index, value) {
       if (index % 2 === 0) {
