@@ -435,6 +435,7 @@ function parseDateYear(year) {
   } else if (year.includes('CE')) {
     result = parseInt(year.slice(0, -3));
   }
+  console.log( "year, " + year );
   return result;
 }
 
