@@ -195,6 +195,7 @@ async function addFiltersToUrl() {
 // creates the points layer that shows up on the map
 // url: the url to get the point data from
 async function createPointsLayer(url) {
+  console.log( "starting createPointsLayer() with url, " + url );
   $('input:checkbox').attr('disabled', true)
   points_layer.clearLayers();
   date_query = filterByDateRangeNumbers();
@@ -433,24 +434,55 @@ function updateDateFieldValue(slider_value, checkbox_id) {
 }
 
 
+// function parseDateYear(year) {
+//   if (year.includes('BCE')) {
+//     result = -1 * parseInt(year.slice(0, -4));
+//   } else if (year.includes('CE')) {
+//     result = parseInt(year.slice(0, -3));
+//   }
+//   console.log( "year, " + year );
+//   return result;
+// }
+
+
 function parseDateYear(year) {
   if (year.includes('BCE')) {
     result = -1 * parseInt(year.slice(0, -4));
   } else if (year.includes('CE')) {
     result = parseInt(year.slice(0, -3));
+  } else {
+    result = null;
   }
   console.log( "year, " + year );
   return result;
 }
 
+
+// function filterByDateRangeNumbers() {
+//   var date1 = $('#slider-range > #custom-handle-low').text();
+//   var date2 = $('#slider-range > #custom-handle-high').text();
+//   date1 = parseDateYear(date1);
+//   date2 = parseDateYear(date2);
+//   date_query = `(notBefore:[${date1} TO 10000]) AND (notAfter:[-10000 TO ${date2}])`;
+//   return date_query;
+// }
+
+
 function filterByDateRangeNumbers() {
   var date1 = $('#slider-range > #custom-handle-low').text();
   var date2 = $('#slider-range > #custom-handle-high').text();
   date1 = parseDateYear(date1);
+  if (date1 == null) {
+    date1 = -600;
+  }
   date2 = parseDateYear(date2);
+  if (date2 == null) {
+    date2 = 650;
+  }
   date_query = `(notBefore:[${date1} TO 10000]) AND (notAfter:[-10000 TO ${date2}])`;
   return date_query;
 }
+
 
 function filterByDateRange() {
   var low = $('#slider-range').slider("option", "values")[0];
