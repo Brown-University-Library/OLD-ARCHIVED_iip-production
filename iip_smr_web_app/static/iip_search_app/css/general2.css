@@ -162,7 +162,7 @@ ul {
 	} */
 a:visited {
 	text-decoration:underline;
-	color:#476757;
+	/* color:#476757; */
 	}
 a:hover {
 	text-decoration:underline;
