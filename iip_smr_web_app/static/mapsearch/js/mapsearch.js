@@ -62,7 +62,7 @@ async function requestFacetNums(ops_request, request_url) {
   //console.log('requestFacetNums', ops_request, request_url)
   content_array = new Array();
 
-  //Make sure we're not asking for item-level data here. 
+  //Make sure we're not asking for item-level data here.
   //TODO: Refactor this script and use a less hacky way to do this.
   request_url = request_url.replace(/rows=\d+&/, 'rows=0&');
   request_url += Object.keys(ops_request).join('&facet.field=');
@@ -72,7 +72,7 @@ async function requestFacetNums(ops_request, request_url) {
     dataType: 'json',
     success: function (data) {
       // console.log("DEGUG@Yang@3\t", field, JSON.stringify(data.facet_counts.facet_fields[field]));
-      
+
       for (field in ops_request) {
         let raw_array = data.facet_counts.facet_fields[field];
         let key_value_dict = {};
@@ -85,7 +85,7 @@ async function requestFacetNums(ops_request, request_url) {
       }
     }
   });
-  
+
   return content_array;
 }
 
@@ -520,10 +520,10 @@ function filterByDateRange() {
       //   console.log( "num_in_range, " + num_in_range );
       // }
 
-      if ((inscr['notBefore'] >= low && inscr['notBefore'] <= high)
-        || (inscr['notAfter'] <= high && inscr['notAfter'] >= low)) {
-        num_in_range += 1;
-      }
+      // if ((inscr['notBefore'] >= low && inscr['notBefore'] <= high)
+      //   || (inscr['notAfter'] <= high && inscr['notAfter'] >= low)) {
+      num_in_range += 1;
+      // }
     }
 
     if (num_in_range === 0) {
@@ -931,4 +931,3 @@ $(':checkbox').each(function () {
 createLocationsDict();
 
 var FACET_NUMBER_QUERY_API = '';
-
