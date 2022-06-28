@@ -906,11 +906,17 @@ $('#reset').click(function () {
     religion: ' OR ',
     material: ' OR ',
   }
+  $("#id_notBefore").val("");
+  $("#id_notAfter").val("");
+  $("#id_text").val("");
+  $("#id_metadata").val("");
+  $("#id_figure").val("");
   $('#map-inscriptions-box ul').empty();
   $("#slider-range").slider('values', 0, -600);
   handle1.text("600 BCE");
   $("#slider-range").slider('values', 1, 650);
   handle2.text("650 CE");
+
   createPointsLayer(BASE_URL);
 });
 
