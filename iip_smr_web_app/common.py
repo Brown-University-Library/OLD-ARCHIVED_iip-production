@@ -16,21 +16,18 @@ def facetResults( facet ):
     """ Returns dict of { facet_value_a: count_of_facet_value_a_entries }. """
     log.debug( 'facet, `%s`' % facet )
     try:
-        # s = solr.SolrConnection( settings_app.SOLR_URL )
-        # q = s.select( u'*:*', **{u'facet':u'true',u'facet.field':facet,u'rows':u'0',u'facet.limit':u'-1', u'facet.mincount':u'1'} )
-        # log.debug( 'q, ```%s```' % q )
-        # facet_count_dict =q.facet_counts[u'facet_fields'][facet]
-        # return facet_count_dict
         s = solr.SolrConnection( settings_app.SOLR_URL )
+        log.debug( f's.__dict__, ``{pprint.pformat(s.__dict__)}``' )
         params = {u'facet':u'true',u'facet.field':facet,u'rows':u'0',u'facet.limit':u'-1', u'facet.mincount':u'1'}
+        log.debug( f'params, ``{pprint.pformat(params)}``' )
         q = s.select( u'*:*', **params )
-        # log.debug( 'q.__dict__, ```%s```' % pprint.pformat(q.__dict__) )
+        log.debug( 'q.__dict__, ```%s```' % pprint.pformat(q.__dict__) )
         facet_count_dict =q.facet_counts[u'facet_fields'][facet]
+        log.debug( f'facet_count_dict, ``{pprint.pformat(ffacet_count_dict)}``' )
         return facet_count_dict
     except Exception as e:
-        log.error( 'test' )
-        # raise Exception( str(e) )
-        log.error( 'in common.facetResults(); exception, %s' % str(e) )
+        log.exception( 'Problem with solr query; traceback follows' )
+        raise Exception( repr(e) )
 
 def get_log_identifier( request_session=None ):
     """ Returns a log_identifier unicode_string.
