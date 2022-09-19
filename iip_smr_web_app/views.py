@@ -537,8 +537,11 @@ def api_wrapper( request ):
     old_params = dict(request.GET)
     log.debug( f'old_params, ``{pprint.pformat(old_params)}``' )
     params = dict([(x.replace('.', '_'), old_params[x] if len(old_params[x]) > 1 else old_params[x][0]) for x in old_params])
+    log.debug( f'updated-params, ``{pprint.pformat(params)}``' )
     params['wt'] = 'json'
+    log.debug( f'updated-params-with-wt, ``{pprint.pformat(params)}``' )
     if('q' in params and params['q']): params['q'] += " AND display_status:approved"
+    log.debug( f'updated-params-with-display, ``{pprint.pformat(params)}``' )
     s = solr.SolrConnection( settings_app.SOLR_URL )
 
     r = s.raw_query(**params)
@@ -546,6 +549,8 @@ def api_wrapper( request ):
 
     unicode_r = r.decode( 'utf-8' )
     log.debug( f'type(unicode_r), ``{type(unicode_r)}``' )
+
+    log.debug( f'unicode_r, ``{unicode_r}``' )
 
     # resp = HttpResponse( str(r), content_type="application/json" )
     resp = HttpResponse( unicode_r, content_type='application/javascript; charset=utf-8' )
