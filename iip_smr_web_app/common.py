@@ -23,7 +23,7 @@ def facetResults( facet ):
         q = s.select( u'*:*', **params )
         log.debug( 'q.__dict__, ```%s```' % pprint.pformat(q.__dict__) )
         facet_count_dict =q.facet_counts[u'facet_fields'][facet]
-        log.debug( f'facet_count_dict, ``{pprint.pformat(ffacet_count_dict)}``' )
+        log.debug( f'facet_count_dict, ``{pprint.pformat(facet_count_dict)}``' )
         return facet_count_dict
     except Exception as e:
         log.exception( 'Problem with solr query; traceback follows' )
