@@ -77,11 +77,12 @@ async function requestFacetNums(ops_request, request_url) {
   request_url += Object.keys(ops_request).join('&facet.field=');
 
   await $.ajax({
+    
     url: request_url,
     dataType: 'json',
     success: function (data) {
       // console.log("DEGUG@Yang@3\t", field, JSON.stringify(data.facet_counts.facet_fields[field]));
-      
+      console.log( timestamp(), "[requestFacetNums()]", "foo" );
       for (field in ops_request) {
         let raw_array = data.facet_counts.facet_fields[field];
         let key_value_dict = {};
@@ -94,7 +95,7 @@ async function requestFacetNums(ops_request, request_url) {
       }
     }
   });
-  
+  // console.log( timestamp(), "[requestFacetNums()]", "bar" );
   return content_array;
 }
 
