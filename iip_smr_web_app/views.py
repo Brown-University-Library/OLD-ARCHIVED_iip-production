@@ -533,6 +533,7 @@ def viewinscr(request, inscrid):
 ## api ##
 
 def api_wrapper( request ):
+    log.debug( 'starting api_wrapper()' )
     old_params = dict(request.GET)
     params = dict([(x.replace('.', '_'), old_params[x] if len(old_params[x]) > 1 else old_params[x][0]) for x in old_params])
     params['wt'] = 'json'
@@ -546,6 +547,7 @@ def api_wrapper( request ):
     log.debug( f'type(unicode_r), ``{type(unicode_r)}``' )
 
     # resp = HttpResponse( str(r), content_type="application/json" )
+    log.debug( f'unicode_r, ``{unicode_r}``' )
     resp = HttpResponse( unicode_r, content_type='application/javascript; charset=utf-8' )
     resp['Access-Control-Allow-Origin'] = "*"
 
