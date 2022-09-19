@@ -1,3 +1,11 @@
+// for console.logging
+function timestamp() {
+    let d = new Date();
+    let time_string = d.toLocaleTimeString();
+    return time_string;
+};
+
+
 // GLOBAL VARS
 
 /* base url for getting all inscriptions */
@@ -128,6 +136,7 @@ async function initializeFacetNums(request_url, date_query) {
 
 // Called on map initialization to create map of pleiades urls to coordinate points
 async function createLocationsDict() {
+  console.log( timestamp(), "[createLocationsDict()]", "starting; about to call initializeFacetNums()" );
   facet_nums_request = await initializeFacetNums('default');
   console.log('DEBUG@createLocationsDict facet_nums_request', facet_nums_request);
   var promises = [];
