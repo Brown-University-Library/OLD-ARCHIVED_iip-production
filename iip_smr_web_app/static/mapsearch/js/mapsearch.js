@@ -68,6 +68,7 @@ var base_tile = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.pn
 
 async function requestFacetNums(ops_request, request_url) {
   //console.log('requestFacetNums', ops_request, request_url)
+  console.log( timestamp(), "[requestFacetNums()]", "starting" );
   content_array = new Array();
 
   //Make sure we're not asking for item-level data here. 
