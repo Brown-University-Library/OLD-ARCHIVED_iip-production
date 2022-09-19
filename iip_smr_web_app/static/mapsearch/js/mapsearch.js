@@ -1,19 +1,32 @@
+// for console.logging
+function timestamp() {
+    let d = new Date();
+    let text = d.toLocaleTimeString();
+    return text;
+};
+
+// console.log( "aa" );
+// console.log( timestamp(), "- some message", "blah" );
+// console.log( "bb" );
+
+
 // GLOBAL VARS
 
 /* base url for getting all inscriptions */
 // var BASE_URL = 'https://library.brown.edu/cds/projects/iip/api/?start=0&rows=6000&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language,language_display,religion,material&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*';
 // Note: API_URL is set in `mapsearch.html`` template, just before mapsearch.js is loaded
 var BASE_URL = API_URL + "?start=0&rows=6000&indent=on&fl=inscription_id,region,city,city_geo,notBefore,notAfter,placeMenu,type,physical_type,language,language_display,religion,material&wt=json&group=true&group.field=city_pleiades&group.limit=-1&q=*:*";
-console.log( "BASE_URL: ", BASE_URL );
+console.log( timestamp(), "- BASE_URL: ", BASE_URL );
 
 /* url for applying filters to base url */
 var FILTERS_URL = BASE_URL.concat("&fq=");
+console.log( timestamp(), "- FILTERS_URL: ", FILTERS_URL );
 
 /* url for getting all pleiades urls from database */
 // var LOCATIONS_URL = 'https://library.brown.edu/cds/projects/iip/api/?q=*:*&%3A*&start=0&rows=0&indent=on&facet=on&facet.field=city_pleiades&wt=json';
 // Note: API_URL is set in `mapsearch.html`` template, just before mapsearch.js is loaded
 var LOCATIONS_URL = API_URL + "?q=*:*&%3A*&start=0&rows=0&indent=on&facet=on&facet.field=city_pleiades&wt=json";
-console.log( "LOCATIONS_URL: ", LOCATIONS_URL );
+console.log( timestamp(), "- LOCATIONS_URL: ", LOCATIONS_URL );
 
 // layer of points for inscriptions on map
 var points_layer = L.layerGroup();
@@ -60,18 +73,23 @@ var base_tile = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.pn
 
 async function requestFacetNums(ops_request, request_url) {
   //console.log('requestFacetNums', ops_request, request_url)
+  console.log( timestamp(), "[requestFacetNums]", "starting" );
+  console.log( timestamp(), "[requestFacetNums]", "ops_request param,", ops_request );
+  console.log( timestamp(), "[requestFacetNums]", "request_url param,", request_url );
+
   content_array = new Array();
 
   //Make sure we're not asking for item-level data here. 
   //TODO: Refactor this script and use a less hacky way to do this.
   request_url = request_url.replace(/rows=\d+&/, 'rows=0&');
   request_url += Object.keys(ops_request).join('&facet.field=');
+  console.log( timestamp(), "[requestFacetNums]", "updated-request_url param,", request_url );
 
   await $.ajax({
     url: request_url,
     dataType: 'json',
     success: function (data) {
-      // console.log("DEGUG@Yang@3\t", field, JSON.stringify(data.facet_counts.facet_fields[field]));
+      console.log("DEGUG@Yang@3\t", field, JSON.stringify(data.facet_counts.facet_fields[field]));
       
       for (field in ops_request) {
         let raw_array = data.facet_counts.facet_fields[field];
@@ -81,16 +99,21 @@ async function requestFacetNums(ops_request, request_url) {
           key_value_dict[raw_array[i]] = raw_array[i + 1];
         }
         content_array.push(key_value_dict);
-        //console.log('requestFacetNums output:', raw_array, key_value_dict);
+        console.log('requestFacetNums output:', raw_array, key_value_dict);
       }
     }
   });
   
+  console.log( timestamp(), "[requestFacetNums]", "returning content_array,", content_array );
   return content_array;
 }
 
 async function initializeFacetNums(request_url, date_query) {
-  console.log('debug', 'initializeFacetNums', request_url, date_query);
+  // console.log('debug', 'initializeFacetNums', request_url, date_query);
+  console.log( timestamp(), "[initializeFacetNums()]", "starting" );
+  console.log( timestamp(), "[initializeFacetNums()]", "request_url, ", request_url );
+  console.log( timestamp(), "[initializeFacetNums()]", "date_query, ", date_query );
+
   let ops_request = {
     // place: ' OR ',
     type: ' OR ',
@@ -103,7 +126,7 @@ async function initializeFacetNums(request_url, date_query) {
   if (request_url === 'default') {
     // request_url = 'https://library.brown.edu/cds/projects/iip/api/?start=0&rows=0&indent=on&fl=type&q=*:*&facet=on&facet.field=';
     request_url = API_URL + "?start=0&rows=0&indent=on&fl=type&q=*:*&facet=on&facet.field=";  // API_URL is set in `mapsearch.html`` template, just before mapsearch.js is loaded
-    console.log( "initializeFacetNums() request_url: ", request_url );
+    console.log( timestamp(), "[initializeFacetNums()]", "request_url now,", request_url );
   } else {
     if (date_query === '(notBefore:[-600 TO 10000]) AND (notAfter:[-10000 TO 650])') {
       // this is the default date range, so query should be null
@@ -111,15 +134,19 @@ async function initializeFacetNums(request_url, date_query) {
     }
     if (request_url.includes('q=*:*')) {
       request_url = request_url.replace('q=*:*', 'q=' + date_query);
+      console.log( timestamp(), "[initializeFacetNums()]", "request_url now,", request_url );
     }
     if (!request_url.includes('facet=on&facet.field=')) {
-      console.log("facet=on&facet.field= not in request_url, program will add these.");
+      console.log( timestamp(), "[initializeFacetNums()]", "facet=on&facet.field= not in request_url, adding these." );
       request_url = request_url + '&facet=on&facet.field=';
-      // you shall always keep "facet.field=" in the ending of the query url
+      console.log( timestamp(), "[initializeFacetNums()]", "request_url now,", request_url );
+      // you shall always keep "facet.field=" in the ending of the query url -- BJD 2022-Sep-19: why?
     }
   }
+  console.log( timestamp(), "[initializeFacetNums()]", "final request_url,", request_url );
+  console.log( timestamp(), "[initializeFacetNums()]", "about to call `requestFacetNums()`" );
   let content_array = await requestFacetNums(ops_request, request_url);
-  console.log("DEBUG@initializeFacetNums request_url", request_url);
+  // console.log("DEBUG@initializeFacetNums request_url", request_url);
   // console.log("DEBUG@initializeFacetNums", content_array);
   facet_nums_request = Object.assign({}, content_array[0], content_array[1],
     content_array[2], content_array[3], content_array[4], content_array[5]);
@@ -128,6 +155,7 @@ async function initializeFacetNums(request_url, date_query) {
 
 // Called on map initialization to create map of pleiades urls to coordinate points
 async function createLocationsDict() {
+  console.log( timestamp(), "[createLocationsDict()]", "starting; about to call initializeFacetNums()" );
   facet_nums_request = await initializeFacetNums('default');
   console.log('DEBUG@createLocationsDict facet_nums_request', facet_nums_request);
   var promises = [];
@@ -747,7 +775,7 @@ var satelite_tile = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y
   if (mymap.hasLayer(base_tile)) {
     mymap.removeLayer(base_tile);
     satelite_tile.addTo(mymap);
-    console.log("satelite view on");
+    console.log( timestamp(), "- satelite view on");
   } else {
     mymap.removeLayer(satelite_tile);
     base_tile.addTo(mymap);
@@ -891,7 +919,10 @@ $(':checkbox').each(function () {
   $(this).prop('checked', false);
 });
 
+
+console.log( timestamp(), "about to call `createLocationsDict()`")
 createLocationsDict();
 
 var FACET_NUMBER_QUERY_API = '';
+
 
