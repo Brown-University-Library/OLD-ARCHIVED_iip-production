@@ -2,7 +2,8 @@
 function timestamp() {
     let d = new Date();
     let time_string = d.toLocaleTimeString();
-    return time_string;
+    // return time_string;
+    return "debug";
 };
 
 
@@ -104,7 +105,9 @@ async function requestFacetNums(ops_request, request_url) {
 
 async function initializeFacetNums(request_url, date_query) {
   console.log( timestamp(), "[initializeFacetNums()]", "starting" );
-  console.log('debug', 'initializeFacetNums', request_url, date_query);
+  console.log( timestamp(), "[initializeFacetNums()]", "request_url", request_url );
+  console.log( timestamp(), "[initializeFacetNums()]", "date_query", date_query );
+  // console.log('debug', 'initializeFacetNums', request_url, date_query);
   let ops_request = {
     // place: ' OR ',
     type: ' OR ',
@@ -762,7 +765,8 @@ var satelite_tile = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y
   if (mymap.hasLayer(base_tile)) {
     mymap.removeLayer(base_tile);
     satelite_tile.addTo(mymap);
-    console.log("satelite view on");
+    // console.log("satelite view on");
+    console.log( timestamp(), "[gobal]", "satelite view on"  );
   } else {
     mymap.removeLayer(satelite_tile);
     base_tile.addTo(mymap);
