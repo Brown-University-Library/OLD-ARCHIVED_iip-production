@@ -82,7 +82,7 @@ async function requestFacetNums(ops_request, request_url) {
     dataType: 'json',
     success: function (data) {
       // console.log("DEGUG@Yang@3\t", field, JSON.stringify(data.facet_counts.facet_fields[field]));
-      console.log( timestamp(), "[requestFacetNums()]", "data,", data );  // NOTE: if this is logged, processing will stop.
+      console.log( timestamp(), "[requestFacetNums()]", "data,", data );
       for (field in ops_request) {
         let raw_array = data.facet_counts.facet_fields[field];
         let key_value_dict = {};
