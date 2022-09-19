@@ -79,6 +79,7 @@ async function requestFacetNums(ops_request, request_url) {
   //TODO: Refactor this script and use a less hacky way to do this.
   request_url = request_url.replace(/rows=\d+&/, 'rows=0&');
   request_url += Object.keys(ops_request).join('&facet.field=');
+  console.log( timestamp(), "[requestFacetNums()]", "request_url:", request_url );
 
   await $.ajax({
     
