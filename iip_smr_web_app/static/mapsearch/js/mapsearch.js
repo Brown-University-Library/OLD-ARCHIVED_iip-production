@@ -98,6 +98,7 @@ async function requestFacetNums(ops_request, request_url) {
 }
 
 async function initializeFacetNums(request_url, date_query) {
+  console.log( timestamp(), "[initializeFacetNums()]", "starting" );
   console.log('debug', 'initializeFacetNums', request_url, date_query);
   let ops_request = {
     // place: ' OR ',
