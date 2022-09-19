@@ -533,7 +533,9 @@ def viewinscr(request, inscrid):
 ## api ##
 
 def api_wrapper( request ):
+    log.debug( 'starting api_wrapper()' )
     old_params = dict(request.GET)
+    log.debug( f'old_params, ``{pprint.pformat(old_params)}``' )
     params = dict([(x.replace('.', '_'), old_params[x] if len(old_params[x]) > 1 else old_params[x][0]) for x in old_params])
     params['wt'] = 'json'
     if('q' in params and params['q']): params['q'] += " AND display_status:approved"
