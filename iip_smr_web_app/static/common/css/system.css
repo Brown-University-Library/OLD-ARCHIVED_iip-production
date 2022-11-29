@@ -7859,6 +7859,10 @@ header.-menuVisible .headerExternalButton svg {
   display: none;
 }
 
+.headerMenuItem {
+  padding-bottom: 1rem;
+}
+
 .home header .headerMenuItem {
   display: block;
 }
@@ -8197,7 +8201,7 @@ header.-showSearch {
   background-color: #fff;
   min-width: 180px;
   position: absolute;
-  top: 3.5em;
+  top: 2.5em;
   left: 0px;
   text-align: left;
   display: none;
