@@ -19,7 +19,7 @@ DEBUG = json.loads( os.environ['IIP_SMR__DEBUG_JSON'] )  # will be True or False
 
 ADMINS = json.loads( os.environ['IIP_SMR__ADMINS_JSON'] )
 
-ALLOWED_HOSTS = json.loads( os.environ.get(u'IIP_SMR__ALLOWED_HOSTS', '["127.0.0.1"]') )  # list
+ALLOWED_HOSTS = json.loads( os.environ.get(u'IIP_SMR__ALLOWED_HOSTS', '["127.0.0.1","0.0.0.0",".inscriptionsisraelpalestine.org"]') )  # list
 
 INSTALLED_APPS = [
     'django.contrib.admin',
