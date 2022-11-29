@@ -147,9 +147,8 @@ table{
 html,body {
 	margin:0px;
 	font-family:Helvetica,Arial,Sans-serif;
-	background-image:url('../images/left_bg_darker.jpg');
 	background-repeat:repeat-y;
-	background-color:#f5f3dd;
+	background-color:#F2EEEA;
 	overflow-y: auto;
 	}
 
@@ -157,13 +156,13 @@ ul {
     list-style: none;
     }
 
-a:link {
+/* a:link {
 	text-decoration:none;
 	color:#476757;
-	}
+	} */
 a:visited {
 	text-decoration:underline;
-	color:#476757;
+	/* color:#476757; */
 	}
 a:hover {
 	text-decoration:underline;
@@ -721,7 +720,7 @@ tr.bibliography {
 
 /*---------------- Highslide Gallery --------------*/
 .insText a.highslide {
-	display: inline-block;	
+	display: inline-block;
 }
 
 .highslide-caption {

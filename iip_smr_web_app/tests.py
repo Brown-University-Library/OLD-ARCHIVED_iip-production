@@ -17,28 +17,28 @@ class UrlTest( TestCase ):
         """ Checks '/root_url redirect (no appended slash)'. """
         response = self.client.get( '' )  # project root part of url is assumed
         self.assertEqual( 302, response.status_code )  # permanent redirect
-        redirect_url = response._headers['location'][1]
+        redirect_url: str = response['location']
         self.assertEqual(  '/index/', redirect_url )
 
     def test_root_url_slash(self):
         """ Checks '/root_url/ redirect (with appended slash)'. """
         response = self.client.get( '/' )  # project root part of url is assumed
         self.assertEqual( 302, response.status_code )  # permanent redirect
-        redirect_url = response._headers['location'][1]
+        redirect_url: str = response['location']
         self.assertEqual(  '/index/', redirect_url )
 
     def test_mapsearch_form(self):
         """ Checks 'mapsearch' form. """
         response = self.client.get( '/mapsearch/' )
         self.assertEqual( 200, response.status_code )
-        self.assertTrue(  b'the search box' in response.content )
+        self.assertTrue(  b'the search box' in response.content )  # type: ignore
 
     def test_mapsearch_results(self):
         """ Checks 'mapsearch' results. """
         response = self.client.get( '/mapsearch/?q=(material:lead)' )
         self.assertEqual( 200, response.status_code )
-        self.assertTrue(  b'caes0501' in response.content.lower() )
-        self.assertTrue(  b'caesarea, 6th-7th century' in response.content.lower() )
+        self.assertTrue(  b'caes0501' in response.content.lower() )  # type: ignore
+        self.assertTrue(  b'caesarea, 6th-7th century' in response.content.lower() )  # type: ignore
 
     def test_mapsearch_results_data(self):
         """ Checks 'mapsearch' results json. """
@@ -46,7 +46,7 @@ class UrlTest( TestCase ):
         self.assertEqual( 200, response.status_code )
         is_json = False
         try:
-            json.loads( response.content )
+            json.loads( response.content )  # type: ignore
             is_json = True
         except:
             log.exception( 'not json!' )
@@ -60,7 +60,7 @@ class UrlTest( TestCase ):
         """ Checks `about` landing page resources menu. """
         response = self.client.get( '/about/' )
         expecteds = [ b'Bibliography', b'Conventional Transcription Symbols', b'Glossary', b'Guide to Searching', b'Timeline', b'Wordlist Beta' ]
-        html = response.content
+        html = response.content  # type: ignore
         self.assertEqual( bytes, type(html) )
         for expected in expecteds:
             try:
@@ -79,7 +79,7 @@ class UrlTest( TestCase ):
         ## now the test
         response = self.client.get( '/about/why_inscription/' )
         expecteds = [ b'Bibliography', b'Conventional Transcription Symbols', b'Glossary', b'Guide to Searching', b'Timeline', b'Wordlist Beta' ]
-        html = response.content
+        html = response.content  # type: ignore
         log.debug( f'html, ``{html}``' )
         self.assertEqual( bytes, type(html) )
         for expected in expecteds:
@@ -92,7 +92,7 @@ class UrlTest( TestCase ):
         """ Checks `search` landing page resources menu. """
         response = self.client.get( '/mapsearch/' )
         expecteds = [ b'Bibliography', b'Conventional Transcription Symbols', b'Glossary', b'Guide to Searching', b'Timeline', b'Wordlist Beta' ]
-        html = response.content
+        html = response.content  # type: ignore
         self.assertEqual( bytes, type(html) )
         for expected in expecteds:
             try:
@@ -104,7 +104,7 @@ class UrlTest( TestCase ):
         """ Checks `stories` landing page resources menu. """
         response = self.client.get( '/stories/' )
         expecteds = [ b'Bibliography', b'Conventional Transcription Symbols', b'Glossary', b'Guide to Searching', b'Timeline', b'Wordlist Beta' ]
-        html = response.content
+        html = response.content  # type: ignore
         self.assertEqual( bytes, type(html) )
         for expected in expecteds:
             try:
@@ -120,7 +120,7 @@ class UrlTest( TestCase ):
         ## now the test
         response = self.client.get( '/resources/bibliography/' )
         expecteds = [ b'Bibliography', b'Conventional Transcription Symbols', b'Glossary', b'Guide to Searching', b'Timeline', b'Wordlist Beta' ]
-        html = response.content
+        html = response.content  # type: ignore
         self.assertEqual( bytes, type(html) )
         log.debug( f'html, ``{html}``' )
         for expected in expecteds:

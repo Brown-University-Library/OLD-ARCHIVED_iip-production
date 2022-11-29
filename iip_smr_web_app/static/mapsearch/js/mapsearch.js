@@ -59,13 +59,21 @@ var base_tile = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.pn
 }).addTo(mymap);
 
 async function requestFacetNums(ops_request, request_url) {
+  //console.log('requestFacetNums', ops_request, request_url)
   content_array = new Array();
-  for (let field in ops_request) {
-    await $.ajax({
-      url: request_url + field,
-      dataType: 'json',
-      success: function (data) {
-        // console.log("DEGUG@Yang@3\t", field, JSON.stringify(data.facet_counts.facet_fields[field]));
+
+  //Make sure we're not asking for item-level data here.
+  //TODO: Refactor this script and use a less hacky way to do this.
+  request_url = request_url.replace(/rows=\d+&/, 'rows=0&');
+  request_url += Object.keys(ops_request).join('&facet.field=');
+
+  await $.ajax({
+    url: request_url,
+    dataType: 'json',
+    success: function (data) {
+      // console.log("DEGUG@Yang@3\t", field, JSON.stringify(data.facet_counts.facet_fields[field]));
+
+      for (field in ops_request) {
         let raw_array = data.facet_counts.facet_fields[field];
         let key_value_dict = {};
         // console.log(raw_array);
@@ -73,13 +81,16 @@ async function requestFacetNums(ops_request, request_url) {
           key_value_dict[raw_array[i]] = raw_array[i + 1];
         }
         content_array.push(key_value_dict);
+        //console.log('requestFacetNums output:', raw_array, key_value_dict);
       }
-    });
-  }
+    }
+  });
+
   return content_array;
 }
 
 async function initializeFacetNums(request_url, date_query) {
+  console.log('debug', 'initializeFacetNums', request_url, date_query);
   let ops_request = {
     // place: ' OR ',
     type: ' OR ',
@@ -108,7 +119,7 @@ async function initializeFacetNums(request_url, date_query) {
     }
   }
   let content_array = await requestFacetNums(ops_request, request_url);
-  // console.log("DEBUG@initializeFacetNums request_url", request_url);
+  console.log("DEBUG@initializeFacetNums request_url", request_url);
   // console.log("DEBUG@initializeFacetNums", content_array);
   facet_nums_request = Object.assign({}, content_array[0], content_array[1],
     content_array[2], content_array[3], content_array[4], content_array[5]);
@@ -120,8 +131,12 @@ async function createLocationsDict() {
   facet_nums_request = await initializeFacetNums('default');
   console.log('DEBUG@createLocationsDict facet_nums_request', facet_nums_request);
   var promises = [];
+  console.log( "LOCATIONS_URL, " + LOCATIONS_URL );
+  console.log( "BASE_URL, " + BASE_URL );
   $.getJSON(LOCATIONS_URL, function (data) {
     $.each(data.facet_counts.facet_fields.city_pleiades, function (index, value) {
+      console.log( "index, " + index );
+      console.log( "value, " + value );
       if (index % 2 === 0) {
         if (value.slice(-6) === "380758") {
           console.log("The 9-digit pleiades ID still has not been corrected.");
@@ -180,6 +195,7 @@ async function addFiltersToUrl() {
 // creates the points layer that shows up on the map
 // url: the url to get the point data from
 async function createPointsLayer(url) {
+  console.log( "starting createPointsLayer() with url, " + url );
   $('input:checkbox').attr('disabled', true)
   points_layer.clearLayers();
   date_query = filterByDateRangeNumbers();
@@ -418,23 +434,55 @@ function updateDateFieldValue(slider_value, checkbox_id) {
 }
 
 
+// function parseDateYear(year) {
+//   if (year.includes('BCE')) {
+//     result = -1 * parseInt(year.slice(0, -4));
+//   } else if (year.includes('CE')) {
+//     result = parseInt(year.slice(0, -3));
+//   }
+//   console.log( "year, " + year );
+//   return result;
+// }
+
+
 function parseDateYear(year) {
   if (year.includes('BCE')) {
     result = -1 * parseInt(year.slice(0, -4));
   } else if (year.includes('CE')) {
     result = parseInt(year.slice(0, -3));
+  } else {
+    result = null;
   }
+  console.log( "year, " + year );
   return result;
 }
+
+
+// function filterByDateRangeNumbers() {
+//   var date1 = $('#slider-range > #custom-handle-low').text();
+//   var date2 = $('#slider-range > #custom-handle-high').text();
+//   date1 = parseDateYear(date1);
+//   date2 = parseDateYear(date2);
+//   date_query = `(notBefore:[${date1} TO 10000]) AND (notAfter:[-10000 TO ${date2}])`;
+//   return date_query;
+// }
+
 
 function filterByDateRangeNumbers() {
   var date1 = $('#slider-range > #custom-handle-low').text();
   var date2 = $('#slider-range > #custom-handle-high').text();
   date1 = parseDateYear(date1);
+  if (date1 == null) {
+    date1 = -600;
+  }
   date2 = parseDateYear(date2);
+  if (date2 == null) {
+    date2 = 650;
+  }
   date_query = `(notBefore:[${date1} TO 10000]) AND (notAfter:[-10000 TO ${date2}])`;
   return date_query;
 }
+
 
 function filterByDateRange() {
   var low = $('#slider-range').slider("option", "values")[0];
@@ -472,10 +520,10 @@ function filterByDateRange() {
       //   console.log( "num_in_range, " + num_in_range );
       // }
 
-      if ((inscr['notBefore'] >= low && inscr['notBefore'] <= high)
-        || (inscr['notAfter'] <= high && inscr['notAfter'] >= low)) {
-        num_in_range += 1;
-      }
+      // if ((inscr['notBefore'] >= low && inscr['notBefore'] <= high)
+      //   || (inscr['notAfter'] <= high && inscr['notAfter'] >= low)) {
+      num_in_range += 1;
+      // }
     }
 
     if (num_in_range === 0) {
@@ -858,11 +906,17 @@ $('#reset').click(function () {
     religion: ' OR ',
     material: ' OR ',
   }
+  $("#id_notBefore").val("");
+  $("#id_notAfter").val("");
+  $("#id_text").val("");
+  $("#id_metadata").val("");
+  $("#id_figure").val("");
   $('#map-inscriptions-box ul').empty();
   $("#slider-range").slider('values', 0, -600);
   handle1.text("600 BCE");
   $("#slider-range").slider('values', 1, 650);
   handle2.text("650 CE");
+
   createPointsLayer(BASE_URL);
 });
 
@@ -882,5 +936,4 @@ $(':checkbox').each(function () {
 
 createLocationsDict();
 
-var FACET_NUMBER_QUERY_API = ''
-
+var FACET_NUMBER_QUERY_API = '';

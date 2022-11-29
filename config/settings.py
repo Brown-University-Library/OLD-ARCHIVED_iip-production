@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'markdown_deux',
     'pagedown',
     'iip_smr_web_app',
+    'tailwind',
     ]
 
 MIDDLEWARE = [
@@ -131,8 +132,6 @@ MARKDOWN_DEUX_STYLES = {
 
 
 
+TAILWIND_APP_NAME = 'iip_smr_web_app'
 
 ##
-
-
-

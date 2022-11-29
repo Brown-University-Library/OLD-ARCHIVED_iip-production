@@ -1,0 +1,16 @@
+<ul>
+  <li>
+    <h4>
+      <a target="{{ item.target }}" href="{{ item.link }}">{{ item.title }}</a>
+    </h4>
+  </li>
+
+  {% for child in item.children %}
+    <li>
+      <a href="{{child.link}}">
+        {{child.title}}
+      </a>
+    </li>
+  {% endfor %}
+
+</ul>

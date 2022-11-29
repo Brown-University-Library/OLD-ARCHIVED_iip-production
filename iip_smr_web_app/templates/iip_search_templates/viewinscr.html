@@ -1,74 +1,78 @@
-{% extends "about/base.html" %}
+{% extends 'common/base.twig' %}
 {% load iipCustomFilters %}
 
 
 {% block extra_css %}
 
-    {% load staticfiles %}
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link href='{% static "iip_search_app/css/general2.css"%}' media="all" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href='{% static "iip_search_app/css/tei_custom_elements.css" %}'/>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
-        integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
-        crossorigin=""/>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+{% load staticfiles %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href='{% static "iip_search_app/css/general2.css"%}' media="all" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href='{% static "iip_search_app/css/tei_custom_elements.css" %}' />
+<link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ==" crossorigin="" />
+<link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
-    <style>
-        ul {
-            list-style-type:none;
-        }
-        ol li::before {
-            content: counter(counter) ". ";
-            position:relative;
-            left:-2em;
-            top:1.5em;
-        }
-        ol {
-            list-style: none;
-            counter-reset: counter;
-        }
-        ol li {
-            counter-increment: counter;
-        }
-        .short_header{
-            margin-bottom:1em;
-        }
-        .insMetadata {
-            line-height: 1.5em;
-        }
-        .csl-entry{
-            line-height: 1.5em;
-        }
-        div.image_caption {
-            font-style: italic
-        }
-    </style>
+<style>
+  ul {
+    list-style-type: none;
+  }
+
+  ol li::before {
+    content: counter(counter) ". ";
+    position: relative;
+    left: -2em;
+    top: 1.5em;
+  }
+
+  ol {
+    list-style: none;
+    counter-reset: counter;
+  }
+
+  ol li {
+    counter-increment: counter;
+  }
+
+  .short_header {
+    margin-bottom: 1em;
+  }
+
+  .insMetadata {
+    line-height: 1.5em;
+  }
+
+  .csl-entry {
+    line-height: 1.5em;
+  }
+
+  div.image_caption {
+    font-style: italic
+  }
+</style>
 
 {% endblock %}
 
 
-{%block viewinscr%}
+{% block viewinscr %}
 <script type="text/javascript">
-function ImgError(source){
-    source.src = "{% static "/resources/img/noimg.png" %}";
+  function ImgError(source) {
+    source.src = "{% static " / resources / img / noimg.png " %}";
     source.onerror = "";
     source.width = "150";
     return true;
   }
-
 </script>
 
-<div class="container story-wrapper">
+<div class="">
 
-  <div id="single_inscription">
+  <div id="">
 
     {% for i in inscription %}
 
-<!--Inscription: {{i}}-->
+    <!--Inscription: {{i}}-->
     {% autoescape off %}
-    <div class="resultTitle">
-      <p style="clear: both"><span class="short_header">{{i.inscription_id|upper}} - {{i.short_description}}</span>
+    <div class="">
+      <p><span class="">{{i.inscription_id|upper}} - {{i.short_description}}</span>
     </div>
 
     {% if session_authz_info.authorized %}
@@ -87,287 +91,314 @@ function ImgError(source){
         {% endifequal %}
       </form>
     </div>
-    {% endif %}  {% comment %}end of '''if session_authz_info.authorized'''{% endcomment %}
+    {% endif %} {% comment %}end of '''if session_authz_info.authorized'''{% endcomment %}
 
     <br><br>
 
-    <div id="details">
-      <div class="insText" id="{{ i.inscription_id }}">
-	<h4>Images:</h4>
-        {% for filename, caption in image_dict.items %}
-            <a href="{{image_url_base}}{{filename}}" class="highslide " onclick="return hs.expand(this)"
-                title="{{caption}}">
-                <img width="200" src="{{image_url_base}}{{filename}}" alt="Highslide JS" title="Click to enlarge">
-                <br/>
-                {{caption}}
+    <div id="" class="my-32">
+      <div class="w-full px-16 max-w-7xl mx-auto" id="{{ i.inscription_id }}">
+        <div class="w-full flex flex-nowrap">
+          <div class="flex flex-col w-2/3 px-16">
+            <h1 class="font-sans text-2xl mb-4">
+              {{i.inscription_id|upper}} - {{inscription.short_description}}
+            </h1>
+
+            <div class="pb-8">
+              <label class="font-sans_bold uppercase text-xs text-gray-500">Diplomatic <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
+            <p class="font-serif text-3xl">{% if i.diplomatic and i.diplomatic.strip|length %}{{i.diplomatic}}{% else %}<span class="font-sans text-lg text-gray-500">No diplomatic</span>{% endif %}</p>
+            </div>
+
+            <div class="pb-8">
+              <label class="font-sans_bold uppercase text-xs text-gray-500">Transcription <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
+            <p class="font-serif text-4xl">{% if i.transcription and i.transcription.strip|length %}{{i.transcription}}{% else %}<span class="font-sans text-lg text-gray-500">No transcription</span>{% endif %}</p>
+            </div>
+
+            <div class="pb-8">
+              <label class="font-sans_bold uppercase text-xs text-gray-500">Translation <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
+            <p class="font-serif text-3xl">{% if i.translation and i.translation.strip|length %}{{i.translation}}{% else %}<span class="font-sans text-lg text-gray-500">No translation</span>{% endif %}</p>
+            </div>
+
+          </div>
+          <div class="w-1/3">
+            {% for filename, caption in image_dict.items %}
+            <a href="{{image_url_base}}{{filename}}" class="block w-full cursor-zoom-in opacity-100 hover:opacity-80 transition-opacity" onclick="return hs.expand(this)" title="{{caption}}">
+              <img width="w-full object-contain " style="max-height:66vh" src="{{image_url_base}}{{filename}}" alt="Highslide JS" title="Click to enlarge">
+              <br />
+              {{caption}}
             </a>
-        {% empty %}
-            <img src='https://github.com/Brown-University-Library/iip_smr_web_project/raw/zak/iip_smr_web_app/static/resources/img/noimg.png' style="width: 150px;" >
-        {% endfor %}
+            {% empty %}
+            <img src='https://github.com/Brown-University-Library/iip_smr_web_project/raw/zak/iip_smr_web_app/static/resources/img/noimg.png' style="width: 150px;">
+            {% endfor %}
 
-        {% if image_caption %}
-        <div class="image_caption">{{ image_caption }}</div>
-        {% endif %}
+            {% if image_caption %}
+            <div class="">{{ image_caption }}</div>
+            {% endif %}
 
-        <br><br>
-
-        <span class="short_header"><span style="font-weight: bold;">Diplomatic:</span></span>
-
-        <p class="diplomatic">{%if i.diplomatic%}{{i.diplomatic}}{%else%}No diplomatic{%endif%}</p>
-
-        <span class="short_header"><span style="font-weight: bold;">Transcription:</span></span>
-
-        <p class="transcription">{%if i.transcription%}{{i.transcription}}{%else%}No transcription{%endif%}</p>
-
-
-        <span class="short_header"><span style="font-weight: bold;">Translation:</span></span>
+            {% if i.image %}
+            <p class="">
+              {% for thumb in i.image %}
+              <a href="/django_z_media/iip_z_media/inscription_images/display_size/{{thumb}}.jpg"><img onerror="ImgError(this)" src="/django_z_media/iip_z_media/inscription_images/thumbnails/{{thumb}}_t.jpg" /></a><br />
+              {% endfor %}
+            </p>
+            {% endif %}
+          </div>
 
 
+        </div>
+
+        <div class="w-full mt-4 px-16">
+
+          <p class="max-w-prose">
+            {{i.description}}
+          </p>
+        </div>
+
+        <div class="w-full">
+          <div class="max-w-7 py-10 px-16 my-8 mx-auto flex flex-nowrap justify-around items-center" style="background:#e0e0e0;">
+            <div class="flex flex-col w-1/4">
+              <!-- {% if i.language_display|length > 0 and i.language|length > 0 %}s{% endif %}: -->
+              <label class="font-sans_bold uppercase text-xs text-gray-500">Languages</label>
 
 
-        <p class="translation">{%if i.translation%}{{i.translation}}{%else%}No translation{%endif%}</p>
-      </div>
-
-      <div class="insMetadata">
-        {% if i.image %}
-        <p class="thumbnail">
-          {% for thumb in i.image %}
-          <a href="/django_z_media/iip_z_media/inscription_images/display_size/{{thumb}}.jpg"><img
-              onerror="ImgError(this)"
-              src="/django_z_media/iip_z_media/inscription_images/thumbnails/{{thumb}}_t.jpg" /></a><br />
-          {% endfor %}
-        </p>
-        {% endif %}
-
-
-        <script type="text/javascript">
-          var inscription_list = ["{{i.inscription_id}}"];
-        </script>
-
-        <script src='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
-        <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
-          integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
-          crossorigin=""></script>
-        <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
-
-        <script type="text/javascript"> var API_URL = "{% url 'api_wrapper' %}"; </script>  <!-- used by maplet.js -->
-        <script type="text/javascript" src='{% static "iip_search_app/js/maplet.js" %}'></script>
-
-
-        <div id="maplet{{i.inscription_id}}" style="width: 100px; height: 100px; float: right; padding: 15px;"></div>
-
-        <p><!-- {% if i.language_display|length > 0 and i.language|length > 0 %}s{% endif %}: -->
-          <span class="short_header"><span style="font-weight: bold;">Languages:</span></span>
-          &nbsp;&nbsp;
-
-          {%if i.language_display%}
-          {%for l in i.language_display%}
-          {{l}}
-          {% if not forloop.last %},&nbsp;
-          {% endif %}
-          {%endfor%}
-          {%elif i.language%}
-          {%for l in i.language%}
-          {{l}}
-          {% if not forloop.last %},&nbsp;
-          {% endif %}
-          {%endfor%}}
-          {% else %}
-          Not Available
-          {%endif%}
-        </p>
-
-
-
-        <p><span class="short_header"><span style="font-weight: bold;">Dimensions:</span></span>&nbsp;&nbsp;
-
-
-          {%if i.dimensions%}
-          {{i.dimensions}}
-          {% else %}
-          Not Available
-          {%endif%}
-        </p>
-
-
-        <p><span class="short_header"><span style="font-weight: bold;">Date:</span></span>&nbsp;&nbsp;
-
-          {%if i.notBefore%}
-          {{i.notBefore|cleanDates}} to {{i.notAfter|cleanDates}}
-          {% else %}
-          Not Available
-          {%endif%}
-        </p>
-
-
-        <p><span class="short_header"><span style="font-weight: bold;">Place Found:</span></span>&nbsp;&nbsp;
-            {%if i.place_found%}
-                {{i.place_found|placeClean}}
-            {% else %}
+              <p>
+                {% if i.language_display %}
+                {% for l in i.language_display %}
+                {{l}}
+                {% if not forloop.last %},&nbsp;
+                {% endif %}
+                {% endfor %}
+                {% elif i.language %}
+                {% for l in i.language %}
+                {{l}}
+                {% if not forloop.last %},&nbsp;
+                {% endif %}
+                {% endfor %}}
+                {% else %}
                 Not Available
-            {%endif%}
-        </p>
+                {% endif %}
+              </p>
+            </div>
 
-        <!-- No longer needed
+            <div class="flex flex-col w-1/4">
+              <label class="font-sans_bold uppercase text-xs text-gray-500">Dimensions</label>
+
+
+              <p>
+                {% if i.dimensions %}
+                {{i.dimensions}}
+                {% else %}
+                Not Available
+                {% endif %}
+              </p>
+            </div>
+
+
+            <div class="flex flex-col w-1/4">
+              <label class="font-sans_bold uppercase text-xs text-gray-500">Date</label>
+
+              <p>
+                {% if i.notBefore %}
+                {{i.notBefore|cleanDates}} to {{i.notAfter|cleanDates}}
+                {% else %}
+                Not Available
+                {% endif %}
+              </p>
+            </div>
+
+            <script type="text/javascript">
+              var inscription_list = ["{{i.inscription_id}}"];
+            </script>
+
+            <div class="flex flex-col w-1/4">
+              <script src='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+              <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js" integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg==" crossorigin=""></script>
+              <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+
+              <script type="text/javascript">
+                var API_URL = "{% url 'api_wrapper' %}";
+              </script> <!-- used by maplet.js -->
+              <script type="text/javascript" src='{% static "iip_search_app/js/maplet.js" %}'></script>
+
+
+              <div id="maplet{{i.inscription_id}}" class="hidden"></div>
+
+              NOTE
+
+              Add back in maplet
+
+
+              <label class="font-sans_bold uppercase text-xs text-gray-500">Place Found</label>
+              <p>
+                {% if i.place_found %}
+                {{i.place_found|placeClean}}
+                {% else %}
+                Not Available
+                {% endif %}
+              </p>
+            </div>
+
+          </div>
+          <div class="max-w-7xl px-16 my-4 mx-auto">
+
+            <!-- NOTE No longer needed
         <p><span class="short_header"><span style="font-weight: bold;">Place Found:</span></span>&nbsp;&nbsp;
             {% comment %}
             {% if i.placeMenu %}
                 {{ i.placeMenu.0 }}
             {% else %}
                 Not Available
-            {%endif%}
+            {% endif %}
             {% endcomment %}
         </p>
         -->
 
-        <p><span class="short_header"><span style="font-weight: bold;">Current Location:</span></span>&nbsp;&nbsp;
-            {% if i.provenance %}
+            <div class="flex flex-col mb-4">
+              <label class="font-sans_bold uppercase text-xs text-gray-500">Current Location</label>
+              <p>
+                {% if i.provenance %}
                 {{ i.provenance.0 }}
-            {% else %}
+                {% else %}
                 Not Available
-            {%endif%}
-        </p>
+                {% endif %}
+              </p>
+            </div>
 
 
-        <p>
-          <span class="short_header">
-            <span style="font-weight: bold;">
-              Note:
-            </span>
-          </span>
-          &nbsp;&nbsp;
-          {%if i.description%}
-          {{i.description}}
-          {% else %}
-          Not Available
-          {%endif%}
-        </p>
+            <div class="flex flex-col mb-4">
+              <label class="font-sans_bold uppercase text-xs text-gray-500">Figures</label>
+              <p>
+                {% if i.figure %}{% for f in i.figure %}{{f}}<br />{% endfor %}{% else %}Not Available{% endif %}</p>
+              </p>
+            </div>
 
+            <div id="bibliography">
+              <div class="flex flex-col mb-4">
+                <label class="font-sans_bold uppercase text-xs text-gray-500">Source of
+                  Diplomatic <a href="#" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Zotero</a></label>
+                <p>
+                  {% if biblDiplomatic %}
+                  <span id="diplomatic" class="" bibl='{{biblDiplomatic.0}}' ntype='{{biblDiplomatic.1}}' n='{{biblDiplomatic.2}}'>{{biblDiplomatic}}</span>
 
-        <p><span class="short_header"><span style="font-weight: bold;">Figures:</span></span>&nbsp;&nbsp;{% if i.figure %}{%for f in i.figure%}{{f}}<br />{%endfor%}{% else %}Not Available{% endif %}</p>
-
-        <div id="short_bib">
-        <p>
-        {%if biblDiplomatic %}<span class="short_header"><span style="font-weight: bold;">Source of
-              Diplomatic:</span></span>&nbsp;&nbsp;
-
-              <span id="diplomatic" class="biblToRetrieve"
-            bibl='{{biblDiplomatic.0}}' ntype='{{biblDiplomatic.1}}' n='{{biblDiplomatic.2}}'>{{biblDiplomatic}}</span>
-
-          {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Diplomatic: </span></span><br />Not
-          Available <br />{% endif %}
-        </p>
-
-
-        <p>{%if biblTranscription %}<span class="short_header"><span style="font-weight: bold;">Source of
-              Transcription:</span></span>&nbsp;&nbsp;
-
-              <span id="transcription" class="biblToRetrieve"
-            bibl='{{biblTranscription.0}}' ntype='{{biblTranscription.1}}'
-            n='{{biblTranscription.2}}'>{{biblTranscription}}</span>
-
-          {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Transcription:
-            </span></span><br />Not
-          Available <br />{% endif %}</p>
-
-        <p>{%if biblTranslation %}<span class="short_header"><span style="font-weight: bold;">Source of
-              Translation:</span></span>&nbsp;&nbsp;<span id="translation" class="biblToRetrieve"
-            bibl='{{biblTranslation.0}}' ntype='{{biblTranslation.1}}'
-            n='{{biblTranslation.2}}'>{{biblTranslation}}</span>
-          {% else %}<span class="short_header"><span style="font-weight: bold;">Source of Translation: </span></span><br />Not
-          Available <br />{% endif %}</p>
-
-          </div>
-        <p style="{% if not biblioFull %}display: none;{% endif %}"><span class="short_header"><span
-              style="font-weight: bold;">Bibliography:</span></span>&nbsp;&nbsp;
-          <ol id="bibllist" class='bibllist' style="{% if not biblioFull %}display: none;{% endif %}">
-
-
-
-            {% for bib_id, reference in z_ids.items %}
-
-            <div class="biblToRetrieve" style="position:relative; left:-2em; padding-bottom:10px;">
-              <div>
-
-                <span style="display:inline; " class='z_id' bibl='{{bib_id}}'>{{bib_id}}</span>
-                <span class='ref' style="display:inline; white-space:nowrap; position:relative;">(
-                  {% for ntype, n in reference %}
-
-                    {% if ntype == 'insc' %}
-                    insc.
-                    {% elif ntype == 'page' %}
-                    p.
-                    {% else %}
-                    {{ntype}}
-                    {% endif %}
-                   {%if n == reference|last|last %}
-                    {{n}}
-                    {% else %}
-                     {{n}};
-                    {% endif %}
-                    {%endfor%}
-                )
-              </span>
-
+                  {% else %}
+                  Not available
+                  {% endif %}
+                </p>
               </div>
 
-            </div>
-            {%endfor%}
+
+              <div class="flex flex-col mb-4">
+                <label class="font-sans_bold uppercase text-xs text-gray-500">Source of Transcription <a href="#" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Zotero</a></label>
+                <p>
+                  {% if biblTranscription %}
+                  <span id="" class="" bibl='{{biblTranscription.0}}' ntype='{{biblTranscription.1}}' n='{{biblTranscription.2}}'>{{biblTranscription}}</span>
+
+                  {% else %}
+                  Not Available
+                  {% endif %}
+                </p>
+              </div>
+
+              <div class="flex flex-col mb-4">
+                <label class="font-sans_bold uppercase text-xs text-gray-500">Source of Translation <a href="#" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Zotero</a></label>
+                <p>
+                  {% if biblTranslation %}<span id="" class="" bibl='{{biblTranslation.0}}' ntype='{{biblTranslation.1}}' n='{{biblTranslation.2}}'>{{biblTranslation}}</span>
+                  {% else %}
+                  Not Available
+                  {% endif %}
+                </p>
+              </div>
+
+              <div class="flex flex-col mb-4" style="{% if not biblioFull %}display: none;{% endif %}">
+                <label class="font-sans_bold uppercase text-xs text-gray-500">Bibliography <a href="#" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Zotero</a></label>
+                <p>
+                  <ol id="" class='' style="{% if not biblioFull %}display: none;{% endif %}">
 
 
 
-          </ol>
-        </p>
-        <!--           {% if biblioFull %}
+                    {% for bib_id, reference in z_ids.items %}
+
+                    <div class="" style="">
+                      <div>
+
+                        <span style="" class='z_id' bibl='{{bib_id}}'>{{bib_id}}</span>
+                        <span class='ref' style="display:inline; white-space:nowrap; position:relative;">
+                          {% for ntype, n in reference %}
+
+                          {% if ntype == 'insc' %}
+                          insc.
+                          {% elif ntype == 'page' %}
+                          p.
+                          {% else %}
+                          {{ntype}}
+                          {% endif %}
+                          {% if n == reference|last|last %}
+                          {{n}}
+                          {% else %}
+                          {{n}};
+                          {% endif %}
+                          {% endfor %}
+                          )
+                        </span>
+
+                      </div>
+
+                    </div>
+                    {% endfor %}
+
+
+
+                  </ol>
+                </p>
+                <!--           {% if biblioFull %}
             <p><span class="short_header"><span style="font-weight: bold;">Bibliography: </span></span>Not Available</p>
           {% endif %} -->
-      </div>  <!-- end of div class="insMetadata" -->
+              </div> <!-- end of div class="insMetadata" -->
 
-      <div style="clear:both"></div>
+              <div style="clear:both"></div>
 
-      {%if not biblioFull %}<div id="permalink"><a href="../viewinscr/{{i.inscription_id}}/">Link to this inscription</a></div>{%endif%}
+              {% if not biblioFull %}<div id="permalink"><a href="../viewinscr/{{i.inscription_id}}/">Link to this inscription</a></div>{% endif %}
 
-      <div id="viewXml"><a href="{{ view_xml_url }}">View XML</a></div>
+              <div class="font-sans uppercase underline hover:no-underline text-sm my-4 text-theme-700"><a href="{{ view_xml_url }}">View XML</a></div>
+            </div>
 
-    </div>  <!-- end div id="details" -->
-    {% endautoescape %}
+            {% endautoescape %}
 
 
-    {%if biblioFull %}
-    <script type="text/javascript" src='{% static "iip_search_app/js/zotero.js" %}'></script>
-    <script type="text/javascript">
-      //do what you need here
-      let promises = [];
-      let done = false;
-      const delay = ms => new Promise(res => setTimeout(res, ms));
+            {% if biblioFull %}
+            <script type="text/javascript" src='{% static "iip_search_app/js/zotero.js" %}'></script>
+            <script type="text/javascript">
+              //do what you need here
+              let promises = [];
+              let done = false;
+              const delay = ms => new Promise(res => setTimeout(res, ms));
 
-      async function add_cita() {
-        $(".z_id").each(function(i, item) {
-          add_citation($(item).attr("bibl"))
-        });
-        await delay(5000);
-        add_cita_bibl();
-    }
-    $("[bibl=ms]").html("Supplied by Michael Satlow.");
-    add_cita();
-    // do_add_cita_bibl();
-    </script>
-    <!-- <script></script> -->
-    <!-- <script type="text/javascript">
+              async function add_cita() {
+                $(".z_id").each(function(i, item) {
+                  add_citation($(item).attr("bibl"))
+                });
+                await delay(5000);
+                add_cita_bibl();
+              }
+              $("[bibl=ms]").html("Supplied by Michael Satlow.");
+              add_cita();
+              // do_add_cita_bibl();
+            </script>
+            <!-- <script></script> -->
+            <!-- <script type="text/javascript">
       $(document).ready(render_bibliography);
     </script> -->
-    {%endif%}
+            {% endif %}
 
 
 
-    <br><br>
+            <br><br>
 
-    <div>
-      <h3 class="widget-title">Share on Social Media</h3>
-      <ul class="social-nav">
+            <!--div>
+      <h3 class="">Share on Social Media</h3>
+      <ul class="">
 
         <li><a
-            href="http://twitter.com/share?text={{i.inscription_id|upper}} - {{i.short_description}}.%0AURL: &url={{current_url}}&hashtags=IIP"
+            href="http://twitter.com/share?text={{i.inscription_id|upper}} - {{i.short_description}}.% 0AURL: &url={{current_url}}&hashtags=IIP"
             target="_blank" title="Twitter" rel="nofollow" class="twitter"><i class="fa fa-twitter"></i></a></li>
         <li><a
             href="http://www.facebook.com/sharer/sharer.php?u={{ current_url }}&quote={{i.inscription_id|upper}} - {{i.short_description}}."
@@ -382,12 +413,11 @@ function ImgError(source){
             href="https://pinterest.com/pin/create/button/?url={{ current_url }}&description={{i.inscription_id|upper}} - {{i.short_description}}"
             target="_blank" title="Pinterest" rel="nofollow" class="pinterest"><i class="fa fa-pinterest"></i></a></li>
       </ul>
-    </div>
+    </div-->
 
 
-    {%endfor%}  {% comment %} end of '''for i in inscription''' {% endcomment %}
-    <br><br><br><br>
-    <!-- <div class="comment-box">
+            {% endfor %} {% comment %} end of '''for i in inscription''' {% endcomment %}
+            <!-- <div class="comment-box">
       <h2>Write a Comment</h2>
       <form>
           <div class="form-group">
@@ -406,137 +436,189 @@ function ImgError(source){
       </form>
   </div> -->
 
+            <h2>
+            Cite This Inscription
+            </h2>
+
+            <p class="pb-2">
+            IIP is committed to the idea that the public good is best served by keeping our data free for use and reuse.  You can cite and use this inscription under the terms of the  Creative Commons Attribution-NonCommercial 4.0 International License.   Note also that all images are either in the public domain or used with permission, and unless noted we do not hold copyright to them. For permission to reuse the images, please contact the copyright holder, noted in the illustration credit.
+            </p>
+
+            <p class="pb-2">
+            The project can be cited as:
+            Satlow, Michael L., ed.  2002 - . “Inscriptions of Israel/Palestine.” Brown University. <a href="https://doi.org/10.26300/PZ1D-ST89">https://doi.org/10.26300/PZ1D-ST89</a>
+            </p>
+
+            <p class="pb-2">
+            This inscription can be cited as:
+            "Inscriptions of Israel/Palestine," [inscription id],[today's date]. https:doi.org/10.26300/pz1d-st89/[inscription id].
+            </p>
 
 
-  </div> <!-- end div id="single_inscription" -->
+            <!--div class="w-full px-16 mt-4 mx-0">
+              <div id="disqus_thread"></div>
+              <script>
+                /**
+                 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                  var d = document,
+                    s = d.createElement('script');
+                  s.src = 'https://ancient-inscriptions-from-israel-palestine.disqus.com/embed.js';
+                  s.setAttribute('data-timestamp', +new Date());
+                  (d.head || d.body).appendChild(s);
+                })();
+              </script>
+              <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+          </div-->
+
+        </div>
+      </div>
+      <!--
+      {% include 'common/list-horizontal.twig' with list_title="Related Inscriptions" items="xxxx" label="Inscriptions" more_link="/mapsearch/" %}
+      {% include 'common/list-horizontal.twig' with list_title="Stories that mention this Inscription" items="xx" label="Stories" more_link="/mapsearch/" %}
+      -->``
+    </div>
+  </div>
 </div>
-
-{%endblock%}
+{% endblock %}
 
 {% block extra_js %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
   // $("#transcription > div > div > i:nth-child(1)").css("background","blue");
-  $( ".translation" ).css("background","blue");
-
+  $(".translation").css("background", "blue");
 </script>
 <script>
-function isEven(value) {
-    if (value%2 == 0)
-    return true;
-else
-    return false;
-}
-$(window).load(function(){
+  function isEven(value) {
+    if (value % 2 == 0)
+      return true;
+    else
+      return false;
+  }
+  $(window).load(function() {
 
-   $(function() {
-  var $textNodes = $("#diplomatic > div > div").contents().filter(function() {
-return this.nodeType === Node.TEXT_NODE;
-  });
+    $(function() {
+      var $textNodes = $("#diplomatic > div > div").contents().filter(function() {
+        return this.nodeType === Node.TEXT_NODE;
+      });
 
-  var counter = 0;
-  $textNodes.each(function() {
-    counter = counter + 1;
-    var $this = $(this);
-    if(counter > 1){
-    if(this.nodeType == 3){
-           $this.remove(); // Remove it
-          } else if(this.nodeType == 1){ // If its an element node
+      var counter = 0;
+      $textNodes.each(function() {
+        counter = counter + 1;
+        var $this = $(this);
+        if (counter > 1) {
+          if (this.nodeType == 3) {
+            $this.remove(); // Remove it
+          } else if (this.nodeType == 1) { // If its an element node
             $this.removeText(); //Recurse
           }
         } else {
           var regex = /(^[^\(]+\(\d+\))(.+)$/;
-         var str = $this.text().replace(regex, "$1");
+          var str = $this.text().replace(regex, "$1");
           $this.replaceWith(str);
         }
 
-  });
+      });
 
 
-});
+    });
 
 
-   $(function() {
-  var $textNodes = $("#transcription > div > div").contents().filter(function() {
-return this.nodeType === Node.TEXT_NODE;
-  });
+    $(function() {
+      var $textNodes = $("#transcription > div > div").contents().filter(function() {
+        return this.nodeType === Node.TEXT_NODE;
+      });
 
-  var counter = 0;
-  $textNodes.each(function() {
-    counter = counter + 1;
-    var $this = $(this);
-    if(counter > 1){
-    if(this.nodeType == 3){
-           $this.remove(); // Remove it
-          } else if(this.nodeType == 1){ // If its an element node
+      var counter = 0;
+      $textNodes.each(function() {
+        counter = counter + 1;
+        var $this = $(this);
+        if (counter > 1) {
+          if (this.nodeType == 3) {
+            $this.remove(); // Remove it
+          } else if (this.nodeType == 1) { // If its an element node
             $this.removeText(); //Recurse
           }
         } else {
           var regex = /(^[^\(]+\(\d+\))(.+)$/;
-         var str = $this.text().replace(regex, "$1");
+          var str = $this.text().replace(regex, "$1");
           $this.replaceWith(str);
         }
 
-  });
+      });
 
-});
+    });
 
-   $(function() {
-  var $textNodes = $("#translation > div > div").contents().filter(function() {
-    return this.nodeType === Node.TEXT_NODE;
-  });
+    $(function() {
+      var $textNodes = $("#translation > div > div").contents().filter(function() {
+        return this.nodeType === Node.TEXT_NODE;
+      });
 
-  var counter = 0;
-  $textNodes.each(function() {
-    counter = counter + 1;
-    var $this = $(this);
-    if(counter > 1){
-    if(this.nodeType == 3){
-           $this.remove(); // Remove it
-          } else if(this.nodeType == 1){ // If its an element node
+      var counter = 0;
+      $textNodes.each(function() {
+        counter = counter + 1;
+        var $this = $(this);
+        if (counter > 1) {
+          if (this.nodeType == 3) {
+            $this.remove(); // Remove it
+          } else if (this.nodeType == 1) { // If its an element node
             $this.removeText(); //Recurse
           }
         } else {
           var regex = /(^[^\(]+\(\d+\))(.+)$/;
-         var str = $this.text().replace(regex, "$1");
+          var str = $this.text().replace(regex, "$1");
           $this.replaceWith(str);
         }
 
+      });
+
+    });
+
+    $("#diplomatic > div > div > i").css("display", "none");
+
+    $("#diplomatic > div").css("text-indent", "-2em");
+    $("#translation > div > div > i:nth-child(2)").css("display", "none");
+    $("#diplomatic> div > div > i:nth-child(2)").css("display", "none");
+    $("#transcription > div > div > i:nth-child(2)").css("display", "none");
+
+    $("#short_bib > p > span > div > div > i:nth-child(1)").css("display", "none");
   });
-
-});
-
-     $("#diplomatic > div > div > i").css("display","none");
-
-     $("#diplomatic > div").css("text-indent","-2em");
-      $("#translation > div > div > i:nth-child(2)").css("display", "none");
-            $("#diplomatic> div > div > i:nth-child(2)").css("display", "none");
-                  $("#transcription > div > div > i:nth-child(2)").css("display", "none");
-
-     $("#short_bib > p > span > div > div > i:nth-child(1)").css("display","none");
- });
 </script>
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src='{% static "iip_search_app/js/jquery.livequery.js" %}' type="text/javascript"></script>
-<script src='{% static "iip_search_app/js/CETEI.js" %}'type="text/javascript"></script>
+<script src='{% static "iip_search_app/js/CETEI.js" %}' type="text/javascript"></script>
 <script type="text/javascript" src='{% static "iip_search_app/highslide/highslide-with-gallery.packed.js" %}'></script>
 <script type="text/javascript">
-
   hs.graphicsDir = '{% static "iip_search_app/highslide/graphics/" %}'
-  
+
   hs.align = 'center';
   hs.captionEval = 'this.a.title';
   hs.captionOverlay.position = 'below';
 </script>
 <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  (function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
   ga('create', 'UA-3203647-22', 'auto');
   ga('send', 'pageview');
-
 </script>
 
 <script type="text/javascript" src='{% static "iip_search_app/js/result_display.js" %}'></script>

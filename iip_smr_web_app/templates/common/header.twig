@@ -1,0 +1,31 @@
+{% load static %}
+
+<header class="absolute bg-theme-700 z-50 w-full">
+  <div class="px-6 ">
+    <div class="flex justify-between items-center py-4 md:justify-start md:space-x-10">
+      <div class="font-sans_bold {% if on_light_bg %}text-gray-800 hover:text-black{% else %}text-gray-300 hover:text-gray-100{% endif %}  flex justify-start lg:w-0 lg:flex-1">
+        <a href="https://inscriptionsisraelpalestine.org/">
+          <img src="{% static 'common/images/iip_logo.png' %}" style="width:3rem"/>
+        </a>
+      </div>
+      <nav class="md:flex space-x-10 ">
+        <a href="https://inscriptionsisraelpalestine.org/about" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
+          About
+        </a>
+      <a href="https://search.inscriptionsisraelpalestine.org/mapsearch" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
+          Search
+        </a>
+        <a href="https://inscriptionsisraelpalestine.org/story" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
+          Stories
+        </a>
+      <a href="https://inscriptionsisraelpalestine.org/resources-2" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
+          Resources
+        </a>
+        <a href="https://inscriptionsisraelpalestine.org/contact" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
+          Contact
+        </a>
+      </nav>
+    </div>
+  </div>
+
+</header>

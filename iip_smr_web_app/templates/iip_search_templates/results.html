@@ -1,4 +1,4 @@
-{% extends 'about/base.html' %}
+{% extends 'common/base.twig' %}
 {% load staticfiles %}
 {% load iipCustomFilters %}
 
@@ -58,19 +58,11 @@
                 <!-- <span class="search_results_header">Your search for {{dispQstring}} yielded {{pages.count}} results</span> -->
                 <span class="search_results_header">Your search for `{{dispQstring}}` yielded {{ results_count }} result{{ results_count|pluralize }}</span>
 
-                <div class="page_list">
-                    Results pages:
-                    {% for pg in pages %}
-                    <a href='./?q={{ initial_qstring|urlencode }}&resultsPage={{pg}}' {%ifequal pg resultsPage%}style="font-size: 1.3em"{%endifequal%}>{{pg}}</a>&nbsp;
-                    {% endfor %}
-                </div>
 
                 <table id="search_results">
 
-                    <br>
-
-                    <div class="col-md-11" style="border:solid #333333 5px; font-size: 15px;">The texts of the inscriptions are displayed using a modified form of what is known as the Leiden convention.  We have modified it in line with display limitations.  Note that the actual underlying text in the XML files are tagged according to the TEI/Epidoc conventions which are then translated into the typography displayed here. <br><br>Please refer to the <a href="{% url 'conventional_transcription_symbols_url' %}">Conventional Transcription Symbols</a> to view popular symbols and tags used.
-                    </div>
+                    <!--div class="col-md-11" style="border:solid #333333 5px; font-size: 15px;">The texts of the inscriptions are displayed using a modified form of what is known as the Leiden convention.  We have modified it in line with display limitations.  Note that the actual underlying text in the XML files are tagged according to the TEI/Epidoc conventions which are then translated into the typography displayed here. <br><br>Please refer to the <a href="/TODO-link-to-page">Conventional Transcription Symbols</a> to view popular symbols and tags used.
+                    </div-->
 
                     <script type="text/javascript">
                         var inscription_list = [];
@@ -141,8 +133,9 @@
                                 Not available
                                 {%endif%}<br>
 
+                                <!-- NOTE if notBefore == notAfter don't display -->
                                 <span style="font-weight: bold;">Date:</span>
-                                {%if inscription.notBefore%}
+                                {% if inscription.notBefore and inscription.notBefore != inscription.notAfter %}
                                     {{inscription.notBefore|cleanDates}} to {{inscription.notAfter|cleanDates}}
                                 {% else %}
                                 Not Available
@@ -191,7 +184,7 @@
 
             {% block facets %}
 
-                <div id="narrow_results" class='col-md-3'>
+                <!--div id="narrow_results" class='col-md-3'>
                     <h4><a href="{% url 'mapsearch_url' %}">New search</a></h4>
                     <h4>Narrow results</h4>
                         <ul class="narrow_results_list">
@@ -206,7 +199,7 @@
                             </ul>
                             {%endfor%}
                         </ul>
-                </div>
+                </div-->
 
             {% endblock %}
 
@@ -214,6 +207,9 @@
         </div>  <!-- end of <div id="paginated_results"> -->
 
     </div>  <!-- end of <div class="container story-wrapper"> -->
+
+
+{% include 'common/search_sidebar.twig' %}
 
 {% endblock %} {# end of `content` block #}
 

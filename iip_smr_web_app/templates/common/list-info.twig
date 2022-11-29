@@ -1,0 +1,18 @@
+{% if list_title %}
+  <h2 class="font-serif text-theme-700 text-4xl font-thin px-8 lg:px-16">{{list_title}}</h2>
+  <div class="w-100 flex items-center justify-between py-2 px-8 lg:px-16">
+    <span class="text-gray-600 ">
+      {% if items and items|length %}
+        {{items|length}}
+      {% endif %}
+      {% if label %}
+        {{label}}
+      {% endif %}
+    </span>
+    {% if more_link %}
+      <a class="uppercase text-xs font-sans_bold font-extrabold tracking-widest text-theme-700" href="{{link}}">
+        View All
+      </a>
+    {% endif %}
+  </div>
+{% endif %}
