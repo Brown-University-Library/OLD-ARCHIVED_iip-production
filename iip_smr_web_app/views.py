@@ -105,7 +105,6 @@ def proxy_doubletree( request ):
 
 
 ## search and results ##
-
 def results( request ):
     """ Handles /results/ GET, POST, and ajax-GET. """
     def _get_results_context( request, log_id ):
@@ -137,24 +136,39 @@ def results( request ):
             context[u'session_authz_info'] = request.session[u'authz_info']
             context[u'admin_links'] = common.make_admin_links( session_authz_dict=request.session[u'authz_info'], url_host=request.get_host(), log_id=log_id )
             context[u'initial_qstring'] = initial_qstring
+
+            print(initial_qstring)
+            query_dict = {}
+            i_qstring = initial_qstring.split(" AND ")
+            for param in i_qstring:
+                param = param.replace("(", "").replace(")", "")
+                param = param.split(":")
+                query_dict[param[0]] = param[1]
+
+            print(query_dict)
+
+            initial_state = initial_qstring.replace("(", "").replace(")", "")
+
+            context['form'] = forms.SearchForm(query_dict)
         log.debug( 'context.keys(), ```%s```' % pprint.pformat(sorted(context.keys())) )
         log.debug( 'type(context), `%s`' % type(context) )
 
         return context
 
-    def _get_ajax_unistring( request ):
-        """ Returns unicode string based on ajax update.
-            Called by results() """
-        log_id = common.get_log_identifier(request.session)
-        log.info( 'id, `%s`; starting' % log_id )
-        initial_qstring = request.GET.get( u'qstring', u'*:*' )
-        updated_qstring = common.updateQstring( initial_qstring, request.session[u'authz_info'], log_id )[u'modified_qstring']
-        resultsPage = int( request.GET[u'resultsPage'] )
-        context = common.paginateRequest(
-            qstring=updated_qstring, resultsPage=resultsPage, log_id=log_id )
+    ## TODO: delete after 2022-June-14
+    # def _get_ajax_unistring( request ):
+    #     """ Returns unicode string based on ajax update.
+    #         Called by results() """
+    #     log_id = common.get_log_identifier(request.session)
+    #     log.info( 'id, `%s`; starting' % log_id )
+    #     initial_qstring = request.GET.get( u'qstring', u'*:*' )
+    #     updated_qstring = common.updateQstring( initial_qstring, request.session[u'authz_info'], log_id )[u'modified_qstring']
+    #     resultsPage = int( request.GET[u'resultsPage'] )
+    #     context = common.paginateRequest(
+    #         qstring=updated_qstring, resultsPage=resultsPage, log_id=log_id )
 
-        return_str = ajax_snippet.render_block_to_string(u'iip_search_templates/results.html', u'content', context)
-        return unicode( return_str )
+    #     return_str = ajax_snippet.render_block_to_string(u'iip_search_templates/results.html', u'content', context)
+    #     return unicode( return_str )
 
     def _get_searchform_context( request, log_id ):
         """ Returns correct context for GET.
@@ -224,37 +238,12 @@ def results( request ):
         else:
             resp = render( request, 'iip_search_templates/results_dev.html', context_dct )
         return resp
-    elif request.is_ajax():  # user has requested another page, a facet, etc.
-        log.debug( 'request.is_axax() is True' )
-        return HttpResponse( _get_ajax_unistring(request) )
-    else:  # regular GET, no params
-        log.debug( 'GET, no params, show search form' )
-        return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
-
-    # if request.method == 'GET' and request.GET.get('q', None) != None:
-    #     log.debug( 'GET, with params, hit solr and show results' )
-    #     context_dct = _get_results_context(request, log_id)
-
-    #     # log.debug( f'context_dct-iipResult, ```{context_dct["iipResult"]}```' )  # solr.paginator.SolrPage -- <https://github.com/search5/solrpy/>
-    #     iipResult_dct = context_dct['iipResult'].result
-    #     iipResult_page_lst = context_dct["iipResult"].paginator.page_range
-    #     iipResult_count = context_dct["iipResult"].paginator.count
-    #     context_dct['iipResult'] = iipResult_dct
-    #     context_dct['pages'] = iipResult_page_lst
-    #     context_dct['results_count'] = iipResult_count
-
-    #     if request.GET.get('format', '') == 'json':
-    #         log.debug( 'returning json' )
-    #         resp = HttpResponse( json.dumps(context_dct, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
-    #     else:
-    #         resp = render( request, 'iip_search_templates/results_dev.html', context_dct )
-    #     return resp
     # elif request.is_ajax():  # user has requested another page, a facet, etc.
     #     log.debug( 'request.is_axax() is True' )
     #     return HttpResponse( _get_ajax_unistring(request) )
-    # else:  # regular GET, no params
-    #     log.debug( 'GET, no params, show search form' )
-    #     return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
+    else:  # regular GET, no params
+        log.debug( 'GET, no params, show search form' )
+        return render( request, u'mapsearch/mapsearch.html', _get_searchform_context(request, log_id) )
 
     ## end def results()
 
