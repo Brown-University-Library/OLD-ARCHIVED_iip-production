@@ -40,7 +40,6 @@ const initSite = () => {
     let $target = $(e.target);
     let parent;
     e.preventDefault();
-    console.log('f');
 
     if (!$target.hasClass('accordionMenuToggle')) {
       $target = $target.parent('.accordionMenuToggle');

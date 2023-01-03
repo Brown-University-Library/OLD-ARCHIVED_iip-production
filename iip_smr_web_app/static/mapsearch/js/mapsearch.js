@@ -686,6 +686,60 @@ function toggleOverlay(overlay) {
   }
 }
 
+function setCheckboxes(obj) {
+  // Iterate over the object's properties
+  for (let key in obj) {
+    if (["location", "type", "physical_type", "language", "religion", "material"].includes(key)) {
+      // Get the checkbox elements for the key
+      for (let i = 0; i < obj[key].length; i++) {
+        let checkboxes = document.querySelectorAll(`[value="${obj[key][i]}"]`);
+
+        // Set the checked property to true for each checkbox
+        checkboxes.forEach(function(checkbox) {
+          checkbox.checked = true;
+        });
+      }
+    }
+  }
+}
+
+// initializes the state of the checkboxes based on the query params
+const initCheckboxesFromQueryParams = () => {  // Parse the query string
+  var queryString = window.location.search;
+  const query_dict = {}
+
+  if (queryString && queryString.length) {
+    queryString = queryString.replace("?q=", "");
+  }
+  let i_qstring = queryString.split(" AND ");
+  for (let param of i_qstring) {
+    try {
+      param = param.replace("(", "").replace(")", "");
+      param = param.split(":");
+      if (["location", "type", "physical_type", "language", "religion", "material"].includes(param[0])) {
+        query_dict[param[0]] = param[1].split(",");
+      } else {
+        query_dict[param[0]] = param[1];
+      }
+    } catch (error) {
+      // Ignore errors
+    }
+  }
+  console.log("#############################")
+  console.log("#############################")
+  console.log("#############################")
+  console.log("#############################")
+  console.log(query_dict);
+  console.log(query_dict);
+  console.log(query_dict);
+  console.log(query_dict);
+  console.log(query_dict);
+  console.log("#############################")
+  console.log("#############################")
+  console.log("#############################")
+  console.log("#############################")
+  setCheckboxes(query_dict);
+};
 
 // OVERLAYS
 
@@ -935,5 +989,6 @@ $(':checkbox').each(function () {
 });
 
 createLocationsDict();
+initCheckboxesFromQueryParams();
 
 var FACET_NUMBER_QUERY_API = '';
