@@ -90,7 +90,7 @@
                 <div id="search_results" class="border-t border-theme-200 border-solid pt-8 mt-4 pb-16">
 
                     <script type="text/javascript">
-                        var inscription_list = [];
+                        window.inscription_list = [];
                     </script>
 
                     <!--
@@ -167,14 +167,6 @@
 {% include 'common/search_sidebar.twig' %}
 
 
-{% endblock %} {# end of `content` block #}
-{% block 'footer' %}
-{% endblock %}
-
-
-
-{% block extra_js %}
-
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src='{% static "iip_search_app/js/jquery.livequery.js" %}' type="text/javascript"></script>
     <script src='{% static "iip_search_app/js/CETEI.js" %}' type="text/javascript"></script>
@@ -195,4 +187,21 @@
 
     </script>
     <script type="text/javascript" src='{% static "iip_search_app/js/result_display.js" %}'></script>
+
+		<!-- must include mapsearch for search tools to function properly -->
+		<div style="display:none">
+			{% include 'mapsearch/_mapsearch_content.html' %}
+			<!-- placeholder maplet -->
+			<div id="maplet" ></div>
+		</div>
+
+
+{% endblock %} {# end of `content` block #}
+{% block 'footer' %}
+{% endblock %}
+
+
+
+{% block extra_js %}
+
 {% endblock %}

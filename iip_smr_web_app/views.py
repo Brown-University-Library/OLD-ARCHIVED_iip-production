@@ -138,12 +138,43 @@ def results( request ):
             context[u'initial_qstring'] = initial_qstring
 
             print(initial_qstring)
-            query_dict = {}
+            query_dict = {
+                    'text': '',
+                    'metadata': '',
+                    'figure': '',
+                    'notBefore': '',
+                    'date': '',
+                    'search': '',
+                    'notAfter': '',
+                    'link': '',
+                    'reference': '',
+                    'afterDateEra': 'bce',
+                    'beforeDateEra': 'bce',
+                    'type_': 'or',
+                    'physical_type_': 'or',
+                    'language_': 'or',
+                    'religion_': 'or',
+                    'material_': 'or',
+                    'place': [],
+                    'type': [],
+                    'physical_type': [],
+                    'language': [],
+                    'religion': [],
+                    'material': [],
+
+                }
+
             i_qstring = initial_qstring.split(" AND ")
             for param in i_qstring:
-                param = param.replace("(", "").replace(")", "")
-                param = param.split(":")
-                query_dict[param[0]] = param[1]
+                try:
+                    param = param.replace("(", "").replace(")", "")
+                    param = param.split(":")
+                    if param[0] in ["location", "type", "physical_type", "language", "religion", "material"]:
+                        query_dict[param[0]] = param[1].split(",")
+                    else:
+                        query_dict[param[0]] = param[1]
+                except:
+                    pass
 
             print(query_dict)
 
@@ -178,7 +209,15 @@ def results( request ):
             request.session[u'authz_info'] = { u'authorized': False }
         # form = SearchForm()  # an unbound form
         # form = forms.SearchForm()  # an unbound form
-        form = forms.SearchForm({'type_':'or', 'physical_type_':'or', 'language_':'or', 'religion_':'or', 'material_':'or'})  # an unbound form
+        form = forms.SearchForm({
+                'afterDateEra': 'bce',
+                'beforeDateEra': 'bce',
+                'type_': 'or',
+                'physical_type_': 'or',
+                'language_': 'or',
+                'religion_': 'or',
+                'material_': 'or',
+            })  # an unbound form
         log.debug( 'form, `%s`' % repr(form) )
         # place_field_object = form.fields['place']
         # place_field_object.choices = [(item, item) for item in sorted( common.facetResults('placeMenu').keys()) if item]
@@ -218,13 +257,14 @@ def results( request ):
 
     if request.method == 'GET' and request.GET.get('q', None) != None:
         log.debug( 'GET, with params, hit solr and show results' )
-        context_dct = _get_results_context(request, log_id)
+        context_dct =  _get_searchform_context(request, log_id)
+        context_dct.update(_get_results_context(request, log_id))
 
         # log.debug( f'context_dct-iipResult, ```{context_dct["iipResult"]}```' )  # solr.paginator.SolrPage -- <https://github.com/search5/solrpy/>
         iipResult_dct = {}
         iipResult_page_lst = []
         iipResult_count = 0
-        if context_dct['iipResult']:  # will be '' if no results are found
+        if 'iipResult' in context_dct and context_dct['iipResult']:  # will be '' if no results are found
             iipResult_dct = context_dct['iipResult'].result
             iipResult_page_lst = context_dct["iipResult"].paginator.page_range
             iipResult_count = context_dct["iipResult"].paginator.count

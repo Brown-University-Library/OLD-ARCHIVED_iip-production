@@ -35,7 +35,7 @@ function eraseCookie(name) {
   document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
-const init = () => {
+const initSite = () => {
   $(document).on("click", ".accordionMenuToggle", (e) => {
     let $target = $(e.target);
     let parent;
@@ -57,6 +57,6 @@ const init = () => {
   $(window).load(function() {
     $("body").addClass("is-loaded");
     $("body").removeClass("loading");
-    init();
+    initSite();
   });
 })(jQuery);
