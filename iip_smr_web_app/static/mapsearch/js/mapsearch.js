@@ -709,35 +709,30 @@ const initCheckboxesFromQueryParams = () => {  // Parse the query string
   const query_dict = {}
 
   if (queryString && queryString.length) {
-    queryString = queryString.replace("?q=", "");
+    queryString = queryString.replace("?q=", "").replace(/[()]/g, '');
   }
-  let i_qstring = queryString.split(" AND ");
-  for (let param of i_qstring) {
-    try {
-      param = param.replace("(", "").replace(")", "");
-      param = param.split(":");
-      if (["location", "type", "physical_type", "language", "religion", "material"].includes(param[0])) {
-        query_dict[param[0]] = param[1].split(",");
-      } else {
-        query_dict[param[0]] = param[1];
+  let query_params = []
+  for (let param of queryString.split("%20OR%20")) {
+    query_params = query_params.concat(param.split("%20AND%20"));
+  }
+
+  for (let param of query_params) {
+    param = param.split(":");
+    let is_in_query_dict = false;
+    if (["location", "type", "physical_type", "language", "religion", "material"].includes(param[0])) {
+
+      for (let key in query_dict) {
+        if (key === param[0]) {
+          is_in_query_dict = true;
+          query_dict[param[0]].push(param[1]);
+        }
       }
-    } catch (error) {
-      // Ignore errors
+
+      if (!is_in_query_dict) {
+        query_dict[param[0]] = [param[1]];
+      }
     }
   }
-  console.log("#############################")
-  console.log("#############################")
-  console.log("#############################")
-  console.log("#############################")
-  console.log(query_dict);
-  console.log(query_dict);
-  console.log(query_dict);
-  console.log(query_dict);
-  console.log(query_dict);
-  console.log("#############################")
-  console.log("#############################")
-  console.log("#############################")
-  console.log("#############################")
   setCheckboxes(query_dict);
 };
 
