@@ -119,18 +119,15 @@ function add_cita_bibl() {
     }
 }
 
-$(document).ready(function(){
-
+const initZotero = () => {
     console.log("ZOTERO");
 
-    $('.facetHeaderText').livequery(function(){
-        $(this).click(function(event){
+    $('.facetHeaderText').on("click", function(){
             $(this).toggleClass('facetMenuOpened');
             $(this).next('ul').toggle('30');
-            });
     });
 
-    $('#narrow_results a.showHideFacets').livequery(function(){
+    $('#narrow_results a.showHideFacets').on("click", function(){
         $(this).click(function(event){
          event.preventDefault();
         $('.facetHeaderText').each(function(){
@@ -140,8 +137,7 @@ $(document).ready(function(){
         });
     });
 
-    $('.facetLink').livequery(function(){
-        $(this).click(function(event){
+    $('.facetLink').on("click", function(){
                 event.preventDefault();
 
                 console.log( "in facetLink-livequery(); `this`, ", this );  // logs `a#Coastal Plain.facetLink`
@@ -187,9 +183,8 @@ $(document).ready(function(){
                 //Load the new results page
                 // window.location.search = "?q="+newQStringParts.join(" AND ") + "&resultsPage=1";
                 window.location.search = q_url;
-        });
     });
-});
+};
 
 // //Collection U2J49649 is also called IIP
 // var collection = "U2J49649";
@@ -428,3 +423,9 @@ $(document).ready(function(){
 //   });
 // });
 
+
+(function($) {
+  $(window).load(function() {
+    initZotero();
+  });
+})(jQuery);

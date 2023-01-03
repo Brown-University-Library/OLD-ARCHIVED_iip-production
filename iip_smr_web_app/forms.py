@@ -134,14 +134,14 @@ class SearchForm( forms.Form ):
     #
     notBefore = forms.CharField(required=False, max_length=5)
     notAfter = forms.CharField(required=False, max_length=5)
-    afterDateEra = forms.ChoiceField(required=False, choices=(('bce','BCE'),('ce','CE')), widget=forms.RadioSelect)
-    beforeDateEra = forms.ChoiceField(required=False, choices=(('bce','BCE'),('ce','CE')), widget=forms.RadioSelect)
+    afterDateEra = forms.ChoiceField(required=False, choices=(('bce','BCE'),('ce','CE')), widget=forms.RadioSelect, initial='bce')
+    beforeDateEra = forms.ChoiceField(required=False, choices=(('bce','BCE'),('ce','CE')), widget=forms.RadioSelect, initial='bce')
     # select_multiple = dict.fromkeys(['type', 'physical_type', 'language', 'religion', 'material'], "on")
-    type_ = forms.ChoiceField(required=True, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}), label="select")
-    physical_type_ = forms.ChoiceField(required=True, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}))
-    language_ = forms.ChoiceField(required=True, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}))
-    religion_ = forms.ChoiceField(required=True, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}))
-    material_ = forms.ChoiceField(required=True, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}))
+    type_ = forms.ChoiceField(required=False, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}), label="select", initial='or' )
+    physical_type_ = forms.ChoiceField(required=False, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}), initial='or' )
+    language_ = forms.ChoiceField(required=False, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}), initial='or' )
+    religion_ = forms.ChoiceField(required=False, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}), initial='or' )
+    material_ = forms.ChoiceField(required=False, choices=(('or', 'OR'), ('and', 'AND')), widget = forms.RadioSelect(attrs={'class': 'select-multiple-toggle'}), initial='or' )
 
     # url = 'https://127.0.0.1/test/dev/django_choices.json'
     # r = requests.get( url )

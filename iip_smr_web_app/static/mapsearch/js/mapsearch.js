@@ -686,6 +686,55 @@ function toggleOverlay(overlay) {
   }
 }
 
+function setCheckboxes(obj) {
+  // Iterate over the object's properties
+  for (let key in obj) {
+    if (["location", "type", "physical_type", "language", "religion", "material"].includes(key)) {
+      // Get the checkbox elements for the key
+      for (let i = 0; i < obj[key].length; i++) {
+        let checkboxes = document.querySelectorAll(`[value="${obj[key][i]}"]`);
+
+        // Set the checked property to true for each checkbox
+        checkboxes.forEach(function(checkbox) {
+          checkbox.checked = true;
+        });
+      }
+    }
+  }
+}
+
+// initializes the state of the checkboxes based on the query params
+const initCheckboxesFromQueryParams = () => {  // Parse the query string
+  var queryString = window.location.search;
+  const query_dict = {}
+
+  if (queryString && queryString.length) {
+    queryString = queryString.replace("?q=", "").replace(/[()]/g, '');
+  }
+  let query_params = []
+  for (let param of queryString.split("%20OR%20")) {
+    query_params = query_params.concat(param.split("%20AND%20"));
+  }
+
+  for (let param of query_params) {
+    param = param.split(":");
+    let is_in_query_dict = false;
+    if (["location", "type", "physical_type", "language", "religion", "material"].includes(param[0])) {
+
+      for (let key in query_dict) {
+        if (key === param[0]) {
+          is_in_query_dict = true;
+          query_dict[param[0]].push(param[1]);
+        }
+      }
+
+      if (!is_in_query_dict) {
+        query_dict[param[0]] = [param[1]];
+      }
+    }
+  }
+  setCheckboxes(query_dict);
+};
 
 // OVERLAYS
 
@@ -935,5 +984,6 @@ $(':checkbox').each(function () {
 });
 
 createLocationsDict();
+initCheckboxesFromQueryParams();
 
 var FACET_NUMBER_QUERY_API = '';
