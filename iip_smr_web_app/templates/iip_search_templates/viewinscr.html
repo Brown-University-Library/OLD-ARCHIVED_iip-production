@@ -1,8 +1,12 @@
 {% extends 'common/base.twig' %}
 {% load iipCustomFilters %}
 
+{% block title %}
+  {{i.inscription_id|upper}} - Inscriptions of Israel/Palestine 
+{% endblock %}
 
 {% block extra_css %}
+
 
 {% load staticfiles %}
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -127,7 +131,7 @@
               {{caption}}
             </a>
             {% empty %}
-            <img src='https://github.com/Brown-University-Library/iip_smr_web_project/raw/zak/iip_smr_web_app/static/resources/img/noimg.png' style="width: 150px;">
+            <img src='{% static "/resources/img/noimg.png" %}' style="width: 150px;">
             {% endfor %}
 
             {% if image_caption %}
@@ -479,7 +483,7 @@
       <!--
       {% include 'common/list-horizontal.twig' with list_title="Related Inscriptions" items="xxxx" label="Inscriptions" more_link="/mapsearch/" %}
       {% include 'common/list-horizontal.twig' with list_title="Stories that mention this Inscription" items="xx" label="Stories" more_link="/mapsearch/" %}
-      -->``
+      -->
     </div>
   </div>
 </div>
