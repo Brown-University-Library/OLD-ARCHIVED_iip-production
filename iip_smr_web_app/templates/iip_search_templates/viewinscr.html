@@ -2,7 +2,9 @@
 {% load iipCustomFilters %}
 
 {% block title %}
-  {{i.inscription_id|upper}} - Inscriptions of Israel/Palestine 
+  {% for i in inscription %}
+    {{i.inscription_id|upper}} - Inscriptions of Israel/Palestine 
+  {% endfor %}
 {% endblock %}
 
 {% block extra_css %}
