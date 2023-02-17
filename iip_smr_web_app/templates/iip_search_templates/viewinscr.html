@@ -224,7 +224,11 @@
                 var API_URL = "{% url 'api_wrapper' %}";
               </script> <!-- used by maplet.js -->
               <script type="text/javascript" src='{% static "iip_search_app/js/maplet.js" %}'></script>
-              <div id="maplet{{i.inscription_id}}" class=""></div>
+              <div id="maplet{{i.inscription_id}}" class="" style="    width: 100%;
+                  height: 70px;
+                  display: block;
+                  background: #aaa;
+                  margin-bottom: 10px;"></div>
 
 
               <label class="font-sans_bold uppercase text-xs text-gray-500">Place Found</label>
