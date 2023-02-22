@@ -78,7 +78,7 @@
     <!--Inscription: {{i}}-->
     {% autoescape off %}
     <div class="">
-      <p><span class="">{{i.inscription_id|upper}} - {{i.short_description}}</span>
+      <p><span class="">{{i.inscription_id|upper}} {{i.short_description}}</span>
     </div>
 
     {% if session_authz_info.authorized %}
@@ -106,7 +106,7 @@
         <div class="w-full flex flex-nowrap">
           <div class="flex flex-col w-2/3 px-16">
             <h1 class="font-sans text-2xl mb-4">
-              {{i.inscription_id|upper}} - {{inscription.short_description}}
+              {{i.inscription_id|upper}} {{inscription.short_description}}
             </h1>
 
             <div class="pb-8">
@@ -450,7 +450,7 @@
 
             <p class="pb-2">
             The project can be cited as:
-            Satlow, Michael L., ed.  2002 - . “Inscriptions of Israel/Palestine.” Brown University. <a href="https://doi.org/10.26300/PZ1D-ST89">https://doi.org/10.26300/PZ1D-ST89</a>
+              Satlow, Michael L., ed.  2002 - . “Inscriptions of Israel/Palestine.” Brown University. <a href="https://doi.org/10.26300/PZ1D-ST89">https://doi.org/10.26300/PZ1D-ST89</a>
             </p>
 
             <p class="pb-2">
