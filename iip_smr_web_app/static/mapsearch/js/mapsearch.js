@@ -86,6 +86,8 @@ async function requestFacetNums(ops_request, request_url) {
     }
   });
 
+  console.log("DEBUG@requestFacetNums content_array", content_array)
+
   return content_array;
 }
 
@@ -130,6 +132,22 @@ async function initializeFacetNums(request_url, date_query) {
 async function createLocationsDict() {
   facet_nums_request = await initializeFacetNums('default');
   console.log('DEBUG@createLocationsDict facet_nums_request', facet_nums_request);
+
+  // loop through each checkbox
+  const checkboxes = document.querySelectorAll('input[name="place"]');
+  checkboxes.forEach(checkbox => {
+    // get the label text and remove the whitespace
+    const labelText = checkbox.nextElementSibling.textContent.trim();
+
+    // find the corresponding count in the object
+    const count = facet_nums_request[labelText];
+
+    // if a count was found, append it to the label
+    if (count !== undefined) {
+      checkbox.nextElementSibling.textContent = `${labelText} (${count})`;
+    }
+  });
+
   var promises = [];
   console.log( "LOCATIONS_URL, " + LOCATIONS_URL );
   console.log( "BASE_URL, " + BASE_URL );
