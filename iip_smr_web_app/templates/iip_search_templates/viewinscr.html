@@ -111,17 +111,17 @@
 
             <div class="pb-8">
               <label class="font-sans_bold uppercase text-xs text-gray-500">Diplomatic <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
-            <p class="font-serif text-3xl diplomatic">{% if i.diplomatic and i.diplomatic.strip|length %}{{i.diplomatic|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No diplomatic</span>{% endif %}</p>
+            <div class="font-serif text-3xl diplomatic">{% if i.diplomatic and i.diplomatic.strip|length %}{{i.diplomatic|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No diplomatic</span>{% endif %}</div>
             </div>
 
             <div class="pb-8">
               <label class="font-sans_bold uppercase text-xs text-gray-500">Transcription <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
-            <p class="font-serif text-4xl transcription">{% if i.transcription and i.transcription.strip|length %}{{i.transcription|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No transcription</span>{% endif %}</p>
+            <div class="font-serif text-4xl transcription">{% if i.transcription and i.transcription.strip|length %}{{i.transcription|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No transcription</span>{% endif %}</div>
             </div>
 
             <div class="pb-8">
               <label class="font-sans_bold uppercase text-xs text-gray-500">Translation <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
-            <p class="font-serif text-3xl translation">{% if i.translation and i.translation.strip|length %}{{i.translation|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No translation</span>{% endif %}</p>
+            <div class="font-serif text-3xl translation">{% if i.translation and i.translation.strip|length %}{{i.translation|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No translation</span>{% endif %}</div>
             </div>
 
           </div>
