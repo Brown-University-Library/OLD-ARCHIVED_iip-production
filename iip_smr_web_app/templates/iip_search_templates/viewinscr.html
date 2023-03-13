@@ -103,7 +103,7 @@
 
     <div id="single_inscription" class="my-32">
       <div class="w-full px-16 max-w-7xl mx-auto" id="{{ i.inscription_id }}">
-        <div class="w-full flex flex-nowrap">
+        <div class="w-full flex flex-nowrap insText">
           <div class="flex flex-col w-2/3 px-16">
             <h1 class="font-sans text-2xl mb-4">
               {{i.inscription_id|upper}} {{inscription.short_description}}
@@ -111,17 +111,17 @@
 
             <div class="pb-8">
               <label class="font-sans_bold uppercase text-xs text-gray-500">Diplomatic <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
-            <p class="font-serif text-3xl">{% if i.diplomatic and i.diplomatic.strip|length %}{{i.diplomatic|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No diplomatic</span>{% endif %}</p>
+            <p class="font-serif text-3xl diplomatic">{% if i.diplomatic and i.diplomatic.strip|length %}{{i.diplomatic|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No diplomatic</span>{% endif %}</p>
             </div>
 
             <div class="pb-8">
               <label class="font-sans_bold uppercase text-xs text-gray-500">Transcription <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
-            <p class="font-serif text-4xl">{% if i.transcription and i.transcription.strip|length %}{{i.transcription|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No transcription</span>{% endif %}</p>
+            <p class="font-serif text-4xl transcription">{% if i.transcription and i.transcription.strip|length %}{{i.transcription|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No transcription</span>{% endif %}</p>
             </div>
 
             <div class="pb-8">
               <label class="font-sans_bold uppercase text-xs text-gray-500">Translation <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
-            <p class="font-serif text-3xl">{% if i.translation and i.translation.strip|length %}{{i.translation|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No translation</span>{% endif %}</p>
+            <p class="font-serif text-3xl translation">{% if i.translation and i.translation.strip|length %}{{i.translation|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No translation</span>{% endif %}</p>
             </div>
 
           </div>
@@ -362,7 +362,7 @@
 
               {% if not biblioFull %}<div id="permalink"><a href="../viewinscr/{{i.inscription_id}}/">Link to this inscription</a></div>{% endif %}
 
-              <div class="font-sans uppercase underline hover:no-underline text-sm my-4 text-theme-700"><a href="{{ view_xml_url }}">View XML</a></div>
+              <div class="font-sans uppercase underline hover:no-underline text-sm my-4 text-theme-700" id="viewXml"><a href="{{ view_xml_url }}">View XML</a></div>
             </div>
 
             {% endautoescape %}

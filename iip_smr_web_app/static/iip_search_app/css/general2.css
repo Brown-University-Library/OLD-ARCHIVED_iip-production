@@ -609,19 +609,12 @@ div#details{
 }
 
 .insText, .insMetadata{
-    float: left;
-    width: 50%;
-    margin-bottom: 15px;
 }
 
 .insText p, .insMetadata p{
-padding-left: 10px;
-padding-right: 5px;
-padding-top: 5px;
 }
 
 .insText p {
-    width: 60%
 }
 
 .short_header {

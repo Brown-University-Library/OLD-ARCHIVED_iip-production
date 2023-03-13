@@ -135,6 +135,11 @@ $(".single_inscription_data_row").each( function() {
 });
 
 $("#single_inscription .insText").each(function() {
+	console.log("DEBUG", 'longDisplay', this);
+	console.log("DEBUG", 'longDisplay', this);
+	console.log("DEBUG", 'longDisplay', this);
+	console.log("DEBUG", 'longDisplay', this);
+	console.log("DEBUG", 'longDisplay', this);
     longDisplay(this);
 });
 
