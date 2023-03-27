@@ -1,3 +1,4 @@
+/* 2023-03-22 CR editing multiple elements */
 /* 2020-02-11 EM editing gap CSS */
 
 tei-expan > tei-ex::before {
@@ -46,12 +47,46 @@ so as to be contained in p elements with class attributes "transcription", etc *
     display: none;
 }
 
+/* Have choice sic and orig tags in transcription div appear on mouseover */
+.transcription tei-choice > tei-sic {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 2px 5px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+}
+.transcription tei-choice:hover > tei-sic {
+  visibility: visible;
+}
 .transcription tei-choice > tei-orig {
-    display: none;
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 2px 5px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+}
+.transcription tei-choice:hover > tei-orig {
+  visibility: visible;
 }
 
-.transcription tei-choice > tei-sic {
-    display: none;
+/*⌜
+TOP LEFT CORNER
+Unicode: U+231C, UTF-8: E2 8C 9C*/
+.transcription tei-choice > tei-corr::before {
+  content: "⌜"
+}
+
+/*⌝
+TOP RIGHT CORNER
+Unicode: U+231D, UTF-8: E2 8C 9D*/
+.transcription tei-choice > tei-corr::after {
+  content: "⌝"
 }
 
 .transcription tei-choice > tei-reg::before {
@@ -79,17 +114,17 @@ tei-choice > tei-unclear:first-child::after {
 tei-damage {
 
 }
-/*〚
-LEFT WHITE SQUARE BRACKET
-Unicode: U+301A, UTF-8: E3 80 9A*/
+/*⟦
+MATHEMATICAL LEFT WHITE SQUARE BRACKET
+Unicode: U+27E6, UTF-8: E2 9F A6*/
 tei-del[rend='erasure']::before {
-    content: "\301a";
+    content: "⟦";
 }
-/*〛
-RIGHT WHITE SQUARE BRACKET
-Unicode: U+301B, UTF-8: E3 80 9B*/
+/*⟧
+MATHEMATICAL RIGHT WHITE SQUARE BRACKET
+Unicode: U+27E7, UTF-8: E2 9F A7*/
 tei-del[rend='erasure']::after {
-    content: "\301b";
+    content: "⟧";
 }
 
 tei-del[rend='corrected'] {
@@ -99,11 +134,11 @@ tei-del[rend='corrected'] {
 /* This is for del with no attributes. although this should probably not
 occur */
 tei-del::before {
-    content: "\301a";
+    content: "⟦";
 }
 
 tei-del::after {
-    content: "\301b";
+    content: "⟧";
 }
 
 tei-g::before {
@@ -152,21 +187,21 @@ has to be before the rules with specified @units. Otherwise it is the rule
 that selects. */
 
 tei-gap[reason="illegible"][unit="character"][quantity]::before {
-    content: "[. " attr(quantity) " char. .]";
+    content: "[+" attr(quantity) "+]";
     unicode-bidi: bidi-override;
     direction: ltr;
 }
 
 tei-gap[reason="illegible"][unit="character"][quantity="1"]::before {
-  content: ".";
+  content: "+";
 }
 
 tei-gap[reason="illegible"][unit="character"][quantity="2"]::before {
-  content: "..";
+  content: "++";
 }
 
 tei-gap[reason="lost"][unit="character"][quantity]::before {
-    content: "[- " attr(quantity) " char. -]";
+    content: "[-" attr(quantity) "-]";
     unicode-bidi: bidi-override;
     direction: ltr;
   }
@@ -181,7 +216,7 @@ tei-gap[reason="lost"][unit="character"][quantity]::before {
 
 
 tei-gap[reason="lost"][unit="character"][quantity][precision="low"]::before {
-        content: "[?- ca. " attr(quantity) " char. -]";
+        content: "[?-" attr(quantity) "-]";
         unicode-bidi: bidi-override;
         direction: ltr;
       }
@@ -202,13 +237,19 @@ tei-gap[reason="lost"][unit="line"][quantity="2"]::before {
 
 
 tei-gap[reason="illegible"][unit="character"][atLeast]::before {
-  content: "[. " attr(atLeast) "-" attr(atMost) " chars. .]";
+  content: "[+" attr(atLeast) "-" attr(atMost) "+]";
   unicode-bidi: bidi-override;
   direction: ltr;
 }
 
+tei-gap[reason="illegible"][unit="character"][quantity][precision="low"]::before {
+        content: "[?+" attr(quantity) "+]";
+        unicode-bidi: bidi-override;
+        direction: ltr;
+      }
+
 tei-gap[reason="lost"][unit="character"][atLeast]::before {
-  content: "[- " attr(atLeast) "-" attr(atMost) " chars. -]";
+  content: "[-" attr(atLeast) "-" attr(atMost) "-]";
   unicode-bidi: bidi-override;
   direction: ltr;
 }
@@ -232,13 +273,11 @@ tei-lb[break='no']::before {
 
 tei-unclear {
     text-decoration: underline;
-    /*text-decoration-style: dotted;*/
-    /* text-emphasis-style: dot;
-    text-emphasis-position: under; */
+    text-decoration-style: dashed;
 }
 
 tei-unclear[cert='low']::after {
-    content" "(?)";
+    content: "(?)";
     unicode-bidi: bidi-override;
     direction: ltr;
 }
@@ -249,12 +288,13 @@ tei-hi[rend='superscript'] {
     vertical-align: super;
     font-size: smaller;
 }
-/*¯
-MACRON
-Unicode: U+00AF, UTF-8: C2 AF
-*/
-tei-hi[rend='supraline']::before, tei-hi[rend='supraline']::after {
-    content: "\00AF";
+
+tei-hi[rend='supraline'] {
+    text-decoration: overline;
+}
+
+tei-hi[rend='underline'] {
+    text-decoration: underline;
 }
 
 tei-hi[rend='subscript'] {
@@ -267,13 +307,13 @@ tei-hi[rend='ligature'] {
 }
 
 tei-space[quantity][unit='character']::before {
-    content: " (vac. " attr(quantity) ") ";
+    content: " (vac." attr(quantity) ") ";
     unicode-bidi: bidi-override;
     direction: ltr;
 }
 
 tei-space[extent='unknown']::before {
-    content: " (vac. ?) ";
+    content: " (vac.?) ";
     unicode-bidi: bidi-override;
     direction: ltr;
 }
@@ -300,7 +340,7 @@ tei-supplied[reason="lost"]::after {
     content: "]";
 }
 
-tei-supplied[reason="lost"][cert='low']::after {
+tei-supplied[reason="lost"][cert="low"]::after {
     content: "?]";
 }
 
