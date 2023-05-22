@@ -10,4 +10,4 @@ Django==1.11.29
 git+https://github.com/birkin/shellvars-py.git
 git+https://github.com/agpar/solrpy.git
 PyMySQL==0.8.0
-requests==2.21.0
+requests==2.31.0
