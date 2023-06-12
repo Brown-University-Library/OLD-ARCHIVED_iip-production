@@ -1,8 +1,14 @@
 {% extends 'common/base.twig' %}
 {% load iipCustomFilters %}
 
+{% block title %}
+  {% for i in inscription %}
+    {{i.inscription_id|upper}} - Inscriptions of Israel/Palestine 
+  {% endfor %}
+{% endblock %}
 
 {% block extra_css %}
+
 
 {% load staticfiles %}
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -72,7 +78,7 @@
     <!--Inscription: {{i}}-->
     {% autoescape off %}
     <div class="">
-      <p><span class="">{{i.inscription_id|upper}} - {{i.short_description}}</span>
+      <p><span class="">{{i.inscription_id|upper}} {{i.short_description}}</span>
     </div>
 
     {% if session_authz_info.authorized %}
@@ -95,27 +101,27 @@
 
     <br><br>
 
-    <div id="" class="my-32">
+    <div id="single_inscription" class="my-32">
       <div class="w-full px-16 max-w-7xl mx-auto" id="{{ i.inscription_id }}">
         <div class="w-full flex flex-nowrap">
           <div class="flex flex-col w-2/3 px-16">
             <h1 class="font-sans text-2xl mb-4">
-              {{i.inscription_id|upper}} - {{inscription.short_description}}
+              {{i.inscription_id|upper}} {{inscription.short_description}}
             </h1>
 
             <div class="pb-8">
               <label class="font-sans_bold uppercase text-xs text-gray-500">Diplomatic <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
-            <p class="font-serif text-3xl">{% if i.diplomatic and i.diplomatic.strip|length %}{{i.diplomatic}}{% else %}<span class="font-sans text-lg text-gray-500">No diplomatic</span>{% endif %}</p>
+            <p class="font-serif text-3xl">{% if i.diplomatic and i.diplomatic.strip|length %}{{i.diplomatic|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No diplomatic</span>{% endif %}</p>
             </div>
 
             <div class="pb-8">
               <label class="font-sans_bold uppercase text-xs text-gray-500">Transcription <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
-            <p class="font-serif text-4xl">{% if i.transcription and i.transcription.strip|length %}{{i.transcription}}{% else %}<span class="font-sans text-lg text-gray-500">No transcription</span>{% endif %}</p>
+            <p class="font-serif text-4xl">{% if i.transcription and i.transcription.strip|length %}{{i.transcription|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No transcription</span>{% endif %}</p>
             </div>
 
             <div class="pb-8">
               <label class="font-sans_bold uppercase text-xs text-gray-500">Translation <a href="#bibliography" class="underline hover:no-underline text-xs capitalize text-gray-400 ml-1 font-sans">Source</a></label>
-            <p class="font-serif text-3xl">{% if i.translation and i.translation.strip|length %}{{i.translation}}{% else %}<span class="font-sans text-lg text-gray-500">No translation</span>{% endif %}</p>
+            <p class="font-serif text-3xl">{% if i.translation and i.translation.strip|length %}{{i.translation|safe}}{% else %}<span class="font-sans text-lg text-gray-500">No translation</span>{% endif %}</p>
             </div>
 
           </div>
@@ -127,7 +133,7 @@
               {{caption}}
             </a>
             {% empty %}
-            <img src='https://github.com/Brown-University-Library/iip_smr_web_project/raw/zak/iip_smr_web_app/static/resources/img/noimg.png' style="width: 150px;">
+            <img src='{% static "/resources/img/noimg.png" %}' style="width: 150px;">
             {% endfor %}
 
             {% if image_caption %}
@@ -218,13 +224,11 @@
                 var API_URL = "{% url 'api_wrapper' %}";
               </script> <!-- used by maplet.js -->
               <script type="text/javascript" src='{% static "iip_search_app/js/maplet.js" %}'></script>
-
-
-              <div id="maplet{{i.inscription_id}}" class="hidden"></div>
-
-              NOTE
-
-              Add back in maplet
+              <div id="maplet{{i.inscription_id}}" class="" style="    width: 100%;
+                  height: 120px;
+                  display: block;
+                  border: 1px solid #aaa;
+                  margin-bottom: 10px;"></div>
 
 
               <label class="font-sans_bold uppercase text-xs text-gray-500">Place Found</label>
@@ -446,12 +450,11 @@
 
             <p class="pb-2">
             The project can be cited as:
-            Satlow, Michael L., ed.  2002 - . “Inscriptions of Israel/Palestine.” Brown University. <a href="https://doi.org/10.26300/PZ1D-ST89">https://doi.org/10.26300/PZ1D-ST89</a>
+              Satlow, Michael L., ed.  2002 - . “Inscriptions of Israel/Palestine.” Brown University. <a href="https://doi.org/10.26300/PZ1D-ST89">https://doi.org/10.26300/PZ1D-ST89</a>
             </p>
 
             <p class="pb-2">
-            This inscription can be cited as:
-            "Inscriptions of Israel/Palestine," [inscription id],[today's date]. https:doi.org/10.26300/pz1d-st89/[inscription id].
+              This inscription can be cited as: "Inscriptions of Israel/Palestine," [inscription id],[today's date]. https:doi.org/10.26300/pz1d-st89
             </p>
 
 
@@ -485,7 +488,7 @@
       <!--
       {% include 'common/list-horizontal.twig' with list_title="Related Inscriptions" items="xxxx" label="Inscriptions" more_link="/mapsearch/" %}
       {% include 'common/list-horizontal.twig' with list_title="Stories that mention this Inscription" items="xx" label="Stories" more_link="/mapsearch/" %}
-      -->``
+      -->
     </div>
   </div>
 </div>

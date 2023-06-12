@@ -59,13 +59,21 @@ var base_tile = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.pn
 }).addTo(mymap);
 
 async function requestFacetNums(ops_request, request_url) {
+  //console.log('requestFacetNums', ops_request, request_url)
   content_array = new Array();
-  for (let field in ops_request) {
-    await $.ajax({
-      url: request_url + field,
-      dataType: 'json',
-      success: function (data) {
-        // console.log("DEGUG@Yang@3\t", field, JSON.stringify(data.facet_counts.facet_fields[field]));
+
+  //Make sure we're not asking for item-level data here.
+  //TODO: Refactor this script and use a less hacky way to do this.
+  request_url = request_url.replace(/rows=\d+&/, 'rows=0&');
+  request_url += Object.keys(ops_request).join('&facet.field=');
+
+  await $.ajax({
+    url: request_url,
+    dataType: 'json',
+    success: function (data) {
+      // console.log("DEGUG@Yang@3\t", field, JSON.stringify(data.facet_counts.facet_fields[field]));
+
+      for (field in ops_request) {
         let raw_array = data.facet_counts.facet_fields[field];
         let key_value_dict = {};
         // console.log(raw_array);
@@ -73,13 +81,18 @@ async function requestFacetNums(ops_request, request_url) {
           key_value_dict[raw_array[i]] = raw_array[i + 1];
         }
         content_array.push(key_value_dict);
+        //console.log('requestFacetNums output:', raw_array, key_value_dict);
       }
-    });
-  }
+    }
+  });
+
+  console.log("DEBUG@requestFacetNums content_array", content_array)
+
   return content_array;
 }
 
 async function initializeFacetNums(request_url, date_query) {
+  console.log('debug', 'initializeFacetNums', request_url, date_query);
   let ops_request = {
     // place: ' OR ',
     type: ' OR ',
@@ -108,7 +121,7 @@ async function initializeFacetNums(request_url, date_query) {
     }
   }
   let content_array = await requestFacetNums(ops_request, request_url);
-  // console.log("DEBUG@initializeFacetNums request_url", request_url);
+  console.log("DEBUG@initializeFacetNums request_url", request_url);
   // console.log("DEBUG@initializeFacetNums", content_array);
   facet_nums_request = Object.assign({}, content_array[0], content_array[1],
     content_array[2], content_array[3], content_array[4], content_array[5]);
@@ -119,9 +132,29 @@ async function initializeFacetNums(request_url, date_query) {
 async function createLocationsDict() {
   facet_nums_request = await initializeFacetNums('default');
   console.log('DEBUG@createLocationsDict facet_nums_request', facet_nums_request);
+
+  // loop through each checkbox
+  const checkboxes = document.querySelectorAll('input[name="place"]');
+  checkboxes.forEach(checkbox => {
+    // get the label text and remove the whitespace
+    const labelText = checkbox.nextElementSibling.textContent.trim();
+
+    // find the corresponding count in the object
+    const count = facet_nums_request[labelText];
+
+    // if a count was found, append it to the label
+    if (count !== undefined) {
+      checkbox.nextElementSibling.textContent = `${labelText} (${count})`;
+    }
+  });
+
   var promises = [];
+  console.log( "LOCATIONS_URL, " + LOCATIONS_URL );
+  console.log( "BASE_URL, " + BASE_URL );
   $.getJSON(LOCATIONS_URL, function (data) {
     $.each(data.facet_counts.facet_fields.city_pleiades, function (index, value) {
+      console.log( "index, " + index );
+      console.log( "value, " + value );
       if (index % 2 === 0) {
         if (value.slice(-6) === "380758") {
           console.log("The 9-digit pleiades ID still has not been corrected.");
@@ -180,6 +213,7 @@ async function addFiltersToUrl() {
 // creates the points layer that shows up on the map
 // url: the url to get the point data from
 async function createPointsLayer(url) {
+  console.log( "starting createPointsLayer() with url, " + url );
   $('input:checkbox').attr('disabled', true)
   points_layer.clearLayers();
   date_query = filterByDateRangeNumbers();
@@ -187,7 +221,6 @@ async function createPointsLayer(url) {
   console.log('DEBUG@createPointsLayer: url', url);
   console.log('DEBUG@createPointsLayer: date_query', date_query);
   facet_nums_request = await initializeFacetNums(url, date_query);
-  console.log(facet_nums_request)
 
   $.getJSON(url, function (data) {
     console.log(data['grouped']['city_pleiades']['matches']);
@@ -305,7 +338,7 @@ async function createPointsLayer(url) {
         });
       }
     });
-    
+
     filterByDateRange();
     points_layer.addTo(mymap);
     $('input:checkbox').removeAttr('disabled')
@@ -419,27 +452,55 @@ function updateDateFieldValue(slider_value, checkbox_id) {
 }
 
 
+// function parseDateYear(year) {
+//   if (year.includes('BCE')) {
+//     result = -1 * parseInt(year.slice(0, -4));
+//   } else if (year.includes('CE')) {
+//     result = parseInt(year.slice(0, -3));
+//   }
+//   console.log( "year, " + year );
+//   return result;
+// }
+
+
 function parseDateYear(year) {
-  var result;
   if (year.includes('BCE')) {
     result = -1 * parseInt(year.slice(0, -4));
   } else if (year.includes('CE')) {
     result = parseInt(year.slice(0, -3));
+  } else {
+    result = null;
   }
+  console.log( "year, " + year );
   return result;
 }
+
+
+// function filterByDateRangeNumbers() {
+//   var date1 = $('#slider-range > #custom-handle-low').text();
+//   var date2 = $('#slider-range > #custom-handle-high').text();
+//   date1 = parseDateYear(date1);
+//   date2 = parseDateYear(date2);
+//   date_query = `(notBefore:[${date1} TO 10000]) AND (notAfter:[-10000 TO ${date2}])`;
+//   return date_query;
+// }
+
 
 function filterByDateRangeNumbers() {
   var date1 = $('#slider-range > #custom-handle-low').text();
   var date2 = $('#slider-range > #custom-handle-high').text();
   date1 = parseDateYear(date1);
-  date2 = parseDateYear(date2);
-  var date_query = '(notBefore:[-600 TO 10000]) AND (notAfter:[-10000 TO 650])';
-  if (date1 && date2) {
-    date_query = `(notBefore:[${date1} TO 10000]) AND (notAfter:[-10000 TO ${date2}])`;
+  if (date1 == null) {
+    date1 = -600;
   }
+  date2 = parseDateYear(date2);
+  if (date2 == null) {
+    date2 = 650;
+  }
+  date_query = `(notBefore:[${date1} TO 10000]) AND (notAfter:[-10000 TO ${date2}])`;
   return date_query;
 }
+
 
 function filterByDateRange() {
   var low = $('#slider-range').slider("option", "values")[0];
@@ -477,10 +538,10 @@ function filterByDateRange() {
       //   console.log( "num_in_range, " + num_in_range );
       // }
 
-      if ((inscr['notBefore'] >= low && inscr['notBefore'] <= high)
-        || (inscr['notAfter'] <= high && inscr['notAfter'] >= low)) {
-        num_in_range += 1;
-      }
+      // if ((inscr['notBefore'] >= low && inscr['notBefore'] <= high)
+      //   || (inscr['notAfter'] <= high && inscr['notAfter'] >= low)) {
+      num_in_range += 1;
+      // }
     }
 
     if (num_in_range === 0) {
@@ -643,6 +704,55 @@ function toggleOverlay(overlay) {
   }
 }
 
+function setCheckboxes(obj) {
+  // Iterate over the object's properties
+  for (let key in obj) {
+    if (["location", "type", "physical_type", "language", "religion", "material"].includes(key)) {
+      // Get the checkbox elements for the key
+      for (let i = 0; i < obj[key].length; i++) {
+        let checkboxes = document.querySelectorAll(`[value="${obj[key][i]}"]`);
+
+        // Set the checked property to true for each checkbox
+        checkboxes.forEach(function(checkbox) {
+          checkbox.checked = true;
+        });
+      }
+    }
+  }
+}
+
+// initializes the state of the checkboxes based on the query params
+const initCheckboxesFromQueryParams = () => {  // Parse the query string
+  var queryString = window.location.search;
+  const query_dict = {}
+
+  if (queryString && queryString.length) {
+    queryString = queryString.replace("?q=", "").replace(/[()]/g, '');
+  }
+  let query_params = []
+  for (let param of queryString.split("%20OR%20")) {
+    query_params = query_params.concat(param.split("%20AND%20"));
+  }
+
+  for (let param of query_params) {
+    param = param.split(":");
+    let is_in_query_dict = false;
+    if (["location", "type", "physical_type", "language", "religion", "material"].includes(param[0])) {
+
+      for (let key in query_dict) {
+        if (key === param[0]) {
+          is_in_query_dict = true;
+          query_dict[param[0]].push(param[1]);
+        }
+      }
+
+      if (!is_in_query_dict) {
+        query_dict[param[0]] = [param[1]];
+      }
+    }
+  }
+  setCheckboxes(query_dict);
+};
 
 // OVERLAYS
 
@@ -863,11 +973,17 @@ $('#reset').click(function () {
     religion: ' OR ',
     material: ' OR ',
   }
+  $("#id_notBefore").val("");
+  $("#id_notAfter").val("");
+  $("#id_text").val("");
+  $("#id_metadata").val("");
+  $("#id_figure").val("");
   $('#map-inscriptions-box ul').empty();
   $("#slider-range").slider('values', 0, -600);
   handle1.text("600 BCE");
   $("#slider-range").slider('values', 1, 650);
   handle2.text("650 CE");
+
   createPointsLayer(BASE_URL);
 });
 
@@ -886,5 +1002,6 @@ $(':checkbox').each(function () {
 });
 
 createLocationsDict();
+initCheckboxesFromQueryParams();
 
-var FACET_NUMBER_QUERY_API = ''
+var FACET_NUMBER_QUERY_API = '';

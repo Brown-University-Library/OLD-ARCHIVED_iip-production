@@ -4,26 +4,81 @@
   <div class="px-6 ">
     <div class="flex justify-between items-center py-4 md:justify-start md:space-x-10">
       <div class="font-sans_bold {% if on_light_bg %}text-gray-800 hover:text-black{% else %}text-gray-300 hover:text-gray-100{% endif %}  flex justify-start lg:w-0 lg:flex-1">
-        <a href="/" class="w-24">
-          <img src="{% static 'common/images/iip_logo.png' %}"/>
+        <a href="https://inscriptionsisraelpalestine.org/">
+          <img src="{% static 'common/images/iip_logo.png' %}" style="width:3rem"/>
         </a>
       </div>
-      <nav class="md:flex space-x-10 ">
-        <a href="/about" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
-          About
-        </a>
-        <a href="/mapsearch" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
-          Search
-        </a>
-        <a href="/stories" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
-          Stories
-        </a>
-        <a href="/resources" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
-          Resources
-        </a>
-        <a href="/contact" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
-          Contact
-        </a>
+      <nav >
+        <ul class="md:flex space-x-10 " style="list-style: none">
+          <li class="relative headerMenuItem headerMenuToggleButton ">
+            <a href="https://inscriptionsisraelpalestine.org/about" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
+              About
+            </a>
+            <div class="dropdownHeaderMenu" role="tooltip">
+              <div
+                class="jss88 jss92 jss89"
+                id="menu-list-grow"
+                style="opacity: 1; transform: scale(1, 1) translateZ(0px); transform-origin: center top; transition: opacity 253ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 168ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;">
+                <ul class="jss115 jss116 headerExternalSecondaryNav" role="menu">
+                  <li >
+                    <a role="menuitem" href="https://www.inscriptionsisraelpalestine.org/team/">
+                      Team
+                    </a>
+                  </li>
+                  <li >
+                    <a role="menuitem" href="https://www.inscriptionsisraelpalestine.org/copyright/">
+                      Copyright
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class=" headerMenuItem ">
+            <a href="https://search.inscriptionsisraelpalestine.org/mapsearch" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
+                Search
+            </a>
+          </li>
+          <li class=" headerMenuItem ">
+            <a href="https://inscriptionsisraelpalestine.org/story" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
+              Stories
+            </a>
+          </li>
+          <li class="relative headerMenuItem headerMenuToggleButton">
+            <a href="https://inscriptionsisraelpalestine.org/resources-2" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
+                Resources
+            </a>
+            <div class="dropdownHeaderMenu" role="tooltip">
+              <div
+                class="jss88 jss92 jss89"
+                id="menu-list-grow"
+                style="opacity: 1; transform: scale(1, 1) translateZ(0px); transform-origin: center top; transition: opacity 253ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 168ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;">
+                <ul class="jss115 jss116 headerExternalSecondaryNav" role="menu">
+                  <li >
+                    <a role="menuitem" href="https://www.inscriptionsisraelpalestine.org/bibliography/">
+                      Bibliography
+                    </a>
+                  </li>
+                  <li >
+                    <a role="menuitem" href="https://www.inscriptionsisraelpalestine.org/research/">
+                      Research
+                    </a>
+                  </li>
+                  <li >
+                    <a role="menuitem" href="https://search.inscriptionsisraelpalestine.org/wordlist/">
+                      Wordlist
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class=" headerMenuItem ">
+            <a href="https://inscriptionsisraelpalestine.org/contact" class="text-base font-medium {% if on_light_bg %}text-gray-700 hover:text-gray-800{% else %}text-white hover:text-gray-100{% endif %}">
+              Contact
+            </a>
+          </li>
+        </ul>
       </nav>
     </div>
   </div>

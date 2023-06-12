@@ -90,7 +90,7 @@
                 <div id="search_results" class="border-t border-theme-200 border-solid pt-8 mt-4 pb-16">
 
                     <script type="text/javascript">
-                        var inscription_list = [];
+                        window.inscription_list = [];
                     </script>
 
                     <!--
@@ -167,14 +167,6 @@
 {% include 'common/search_sidebar.twig' %}
 
 
-{% endblock %} {# end of `content` block #}
-{% block 'footer' %}
-{% endblock %}
-
-
-
-{% block extra_js %}
-
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src='{% static "iip_search_app/js/jquery.livequery.js" %}' type="text/javascript"></script>
     <script src='{% static "iip_search_app/js/CETEI.js" %}' type="text/javascript"></script>
@@ -195,4 +187,56 @@
 
     </script>
     <script type="text/javascript" src='{% static "iip_search_app/js/result_display.js" %}'></script>
+
+		<!-- must include mapsearch for search tools to function properly -->
+		<div style="display:none">
+			{% include 'mapsearch/_mapsearch_content.html' %}
+			<!-- placeholder maplet -->
+			<div id="maplet" ></div>
+		</div>
+
+
+{% endblock %} {# end of `content` block #}
+{% block footer %}
+{% endblock %}
+
+
+
+{% block extra_js %}
+
+<!-- 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js"></script> -->
+<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js" integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg==" crossorigin=""></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
+
+{% load staticfiles %}
+<script type="text/javascript">
+	var API_URL = "{% url 'api_wrapper' %}";
+</script> <!-- used by mapsearch.js -->
+<script src='{% static 'mapsearch/js/mapsearch.js' %}'></script>
+<script src='{% static 'mapsearch/js/jquery.livequery.js' %}'></script>
+<script src='{% static 'mapsearch/highslide/highslide-with-gallery.packed.js' %}'></script>
+
+
+
+<script type="text/javascript">
+	hs.graphicsDir = '{% static "iip_search_app/highslide/graphics/" %}'
+</script>
+<script>
+	(function(i, s, o, g, r, a, m) {
+		i['GoogleAnalyticsObject'] = r;
+		i[r] = i[r] || function() {
+			(i[r].q = i[r].q || []).push(arguments)
+		}, i[r].l = 1 * new Date();
+		a = s.createElement(o),
+			m = s.getElementsByTagName(o)[0];
+		a.async = 1;
+		a.src = g;
+		m.parentNode.insertBefore(a, m)
+	})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+	ga('create', 'UA-3203647-22', 'auto');
+	ga('send', 'pageview');
+</script>
 {% endblock %}

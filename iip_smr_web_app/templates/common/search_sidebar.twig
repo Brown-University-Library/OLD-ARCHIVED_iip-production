@@ -1,10 +1,10 @@
 <div id="filter-menu" class="fixed top-0 left-0 w-72 h-full pt-16 py-12 px-0 bg-theme-200 z-40">
 
-	<form action="../results/" method="post" class="overflow-y-scroll w-100 h-full pb-20">
+	<form action="/mapsearch/" method="post" class="overflow-y-scroll w-100 h-full pb-20">
 		{% csrf_token %}
 
 		<div id="search_tips" class="px-6 my-2">
-			<a class="text-theme-700 uppercase underline hover:no-underline font-sans text-xs font-thin tracking-widest " href="/guide-to-searching">Guide to Searching</a>
+			<a class="text-theme-700 uppercase underline hover:no-underline font-sans text-xs font-thin tracking-widest " href="https://inscriptionsisraelpalestine.org/guide-to-searching">Guide to Searching</a>
 		</div>
 
 		<div class="px-6">
@@ -125,10 +125,10 @@
 				</svg>
 			</div>
 			<div class="accordionMenu hidden flex flex-col p-6">
-				<div class="select-multiple">
+				<!--div class="select-multiple">
 					<p>select multiple: </p>
 					{{ form.type_ }}
-				</div>
+				</div-->
 				<div id="type-filter" class="filter-container">
 					{% for field in form.type %}
 					<div class="checkbox checkbox-default">
@@ -197,10 +197,10 @@
 				</svg>
 			</div>
 			<div class="accordionMenu hidden flex flex-col p-6">
-				<div class="select-multiple">
+				<!--div class="select-multiple">
 					<p>select multiple: </p>
 					{{ form.religion_ }}
-				</div>
+				</div-->
 				<div id="religion-filter" class="filter-container">
 					{% for field in form.religion %}
 					<div class="checkbox checkbox-default">
@@ -243,10 +243,10 @@
 			</div>
 		</div>
 
-		<div class="flex flex-wrap items-start justify-start  fixed left-0 bottom-0 py-4 px-6 w-72 bg-theme-200">
+		<div class="flex flex-wrap items-center justify-start  fixed left-0 bottom-0 py-4 px-6 w-72 bg-theme-200">
 			<input type="submit" class="text-white uppercase font-sans text-xs font-thin tracking-widest rounded-sm bg-theme-700 border-theme-700 text-center m-0.5 w-24" value="Search"></input>
 			<!--input class="text-theme-700 uppercase font-sans text-xs font-thin tracking-widest rounded-sm bg-theme-200 border-theme-700 m-0.5 w-32" type="button" value="Text Search" id="advanced_detail"></input-->
-			<input type="button" class="text-theme-700 uppercase font-sans text-xs font-thin tracking-widest rounded-sm bg-theme-200 border-theme-700 m-0.5 w-24" value="Reset" id="reset"></input>
+			<a href="/mapsearch/" class="text-theme-700 uppercase font-sans text-xs font-thin tracking-widest rounded-sm bg-theme-200 border flex items-center justify-center border-theme-700 m-0.5 w-24" id="reset">Reset</a>
 		</div>
 	</form>
 
