@@ -143,20 +143,17 @@ tei-del::after {
 
 tei-g::before {
   content: "((";
-  unicode-bidi: bidi-override;
-  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 tei-g::after {
   content: "))";
-  unicode-bidi: bidi-override;
-  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 tei-g:empty::before {
   content: "((" attr(ref);
-  unicode-bidi: bidi-override;
-  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 tei-gap[reason="illegible"][unit="character"][extent="unknown"]::before {
