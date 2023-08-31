@@ -311,10 +311,11 @@ async function createPointsLayer(url) {
           console.log("DEBUG, coordinates_no_pleiades", coordinates_no_pleiades);
           if (key == 'undefined') {
             console.log("Inscriptions no coordinates: ");
-            console.log(value['inscriptions']);
+            // console.log(value['inscriptions']);
             for (k in value['inscriptions']) {
+              console.log( "k", k);
               if (value['inscriptions'][k]['type']['0'] === 'prayer')
-                console.log('Inscriptions no coordinates:', Object.keys(value['inscriptions'][k]['type']));
+                console.log('prayer-type -- inscriptions no coordinates:', Object.keys(value['inscriptions'][k]['type']));
             }
             return;
           }
