@@ -77,6 +77,7 @@ STATIC_ROOT = os.environ['IIP_SMR__STATIC_ROOT']  # needed for collectstatic com
 
 EMAIL_HOST = os.environ['IIP_SMR__EMAIL_HOST']
 EMAIL_PORT = int( os.environ['IIP_SMR__EMAIL_PORT'] )
+SERVER_EMAIL = os.environ['IIP_SMR__SERVER_EMAIL']
 
 # <https://docs.djangoproject.com/en/1.11/ref/settings/#std:setting-SESSION_SAVE_EVERY_REQUEST>
 # Thinking: not that many concurrent users, and no pages where session info isn't required, so overhead is reasonable.
